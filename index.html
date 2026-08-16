@@ -1771,6 +1771,9 @@
                         <tr><td>8/26 (三)</td><td>白金漢宮皇家衛兵交接儀式</td><td><span class="tag-badge badge-red">10:15 卡位觀賞</span></td><td><a href="https://www.rct.uk/visit/buckingham-palace" target="_blank" class="btn-link btn-official">🌐 官方免費交接</a></td></tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+
         <!-- VIEW 4: TRAVEL TIPS & NOTES -->
         <div id="view-travel-tips" class="tab-panel">
             <h3 class="section-title"><i class="fa-solid fa-lightbulb"></i> 💡 倫敦行前注意事項與實用旅遊指南 (Essential London Travel Tips)</h3>
@@ -1796,10 +1799,10 @@
 
             <div class="day-quick-summary-box" style="grid-template-columns: 1fr 1fr; margin-bottom: 20px;">
                 <div class="summary-block">
-                    <h4 style="color: #fde047;"><i class="fa-solid fa-bottle-water"></i> 🚰 飲水與美食消費 (Water & Dining)</h4>
+                    <h4 style="color: #fde047;"><i class="fa-solid fa-bottle-water"></i> 🚰 飲水、美食與小費 (Water & Dining)</h4>
                     <ul>
                         <li><strong>Tap Water 可直接生飲</strong>：倫敦自來水可生飲！餐廳用餐坐下時，直接跟服務生要「Tap Water」即為免費生飲水。建議隨身攜帶保溫瓶或水壺，博物館內均設有免費飲水機。</li>
-                        <li><strong>12.5% 自行小費說明</strong>：多數倫敦餐廳結帳時已在發票自動計入 12.5% 的「選擇性服務費 (Optional Service Charge)」，不需額外在桌上放現金小費。</li>
+                        <li><strong>12.5% 選擇性小費說明</strong>：多數倫敦餐廳結帳時已在發票自動計入 12.5% 的「選擇性服務費 (Optional Service Charge)」，不需額外在桌上放現金小費。</li>
                         <li><strong>99% 無現金城市 (Cashless)</strong>：倫敦幾乎所有商店、市集與公車都接受 Contactless 感應支付，僅需備用少量 £20-50 現金即可。</li>
                     </ul>
                 </div>
@@ -1809,6 +1812,25 @@
                         <li><strong>注意手機防扒防搶</strong>：在人潮密集區（牛津街、Leicester Square、科芬園）拍照時，請握緊手機並注意身旁騎單車快速經過的人，貴重物品隨身靠前存放。</li>
                         <li><strong>英國緊急報警電話</strong>：緊急情況（救護車/警察/消防）請撥打 <strong>999</strong>；非緊急報案請撥打 <strong>101</strong>。</li>
                         <li><strong>駐英國台北代表處緊急電話</strong>：+44 (0) 7768-938-765。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="day-quick-summary-box" style="grid-template-columns: 1fr 1fr; margin-bottom: 20px;">
+                <div class="summary-block">
+                    <h4 style="color: #c084fc;"><i class="fa-solid fa-plug"></i> 🔌 電壓、插座與實用 App</h4>
+                    <ul>
+                        <li><strong>英規三腳插座 (Type G)</strong>：英國電壓為 230V、50Hz，插座為英規三孔方形插頭，請備妥 2-3 個英規轉接頭或多孔充電器。</li>
+                        <li><strong>實用導航 App 推薦</strong>：除了本網頁地圖，推薦在手機下載 <strong>Citymapper</strong>（倫敦最強地鐵公車轉乘 App）與 <strong>Google Maps</strong>。</li>
+                        <li><strong>找免費公廁 App</strong>：推薦下載 <strong>Toilets4London</strong> 或使用大英博物館、國家美術館、大型商場 (John Lewis, Marks & Spencer) 內的免費乾淨洗手間。</li>
+                    </ul>
+                </div>
+                <div class="summary-block">
+                    <h4 style="color: #38bdf8;"><i class="fa-solid fa-basket-shopping"></i> 🛒 超市補給與伴手禮推薦</h4>
+                    <ul>
+                        <li><strong>優質平價超市</strong>：<strong>M&S Simply Food (馬莎超市)</strong> 與 <strong>Waitrose</strong> 的水果、現烤可頌、果汁品質極佳；<strong>Sainsbury's / Tesco</strong> 平價便利，Earl's Court 站出站即有。</li>
+                        <li><strong>藥妝補給</strong>：<strong>Boots</strong> 隨處可見，防曬乳、保濕乳霜、暈車藥與小朋友常備保健品均可快速採買。</li>
+                        <li><strong>經典伴手禮</strong>：Fortnum & Mason 茶葉、Whittard 熱巧克力粉、Hamleys 倫敦限定泰迪熊、哈利波特紀念周邊。</li>
                     </ul>
                 </div>
             </div>
@@ -2083,14 +2105,20 @@
             }
         }
 
-        function switchMainView(viewName) {
+        function switchMainView(viewName, element) {
             document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
             document.querySelectorAll('.filter-chip').forEach(chip => chip.classList.remove('active'));
             const targetView = document.getElementById(`view-${viewName}`);
             if (targetView) targetView.classList.add('active');
-            if (event && event.target && event.target.classList.contains('filter-chip')) {
-                event.target.classList.add('active');
+            
+            const activeChip = element || (window.event && window.event.target && window.event.target.closest('.filter-chip'));
+            if (activeChip) {
+                activeChip.classList.add('active');
+            } else {
+                const matchedChip = document.querySelector(`.filter-chip[onclick*="${viewName}"]`);
+                if (matchedChip) matchedChip.classList.add('active');
             }
+
             if (viewName === 'itinerary') {
                 setTimeout(() => {
                     Object.values(mapInstances).forEach(m => m.invalidateSize());
