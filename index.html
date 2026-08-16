@@ -370,13 +370,42 @@
 
         footer { background: rgba(11, 15, 23, 0.95); border-top: 1px solid var(--border-color); padding: 24px; text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 40px; }
 
-        /* BACK TO TOP FLOATING BUTTON */
-        .back-to-top-btn {
+        /* FLOATING ACTION CONTROLS STACK (BOTTOM RIGHT) */
+        .floating-controls-stack {
             position: fixed !important;
-            bottom: 28px !important;
-            right: 28px !important;
-            padding: 10px 18px !important;
-            border-radius: 50px !important;
+            bottom: 24px !important;
+            right: 24px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-end !important;
+            gap: 10px !important;
+            z-index: 999999 !important;
+        }
+
+        .floating-mode-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
+            color: #ffffff !important;
+            border: 2px solid #818cf8 !important;
+            border-radius: 30px !important;
+            padding: 8px 16px !important;
+            font-size: 0.88rem !important;
+            font-weight: 800 !important;
+            cursor: pointer !important;
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.55) !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            transition: all 0.25s ease !important;
+        }
+        .floating-mode-btn:hover {
+            transform: translateY(-3px) scale(1.05) !important;
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.75) !important;
+        }
+
+        .back-to-top-btn {
+            position: static !important;
+            padding: 9px 18px !important;
+            border-radius: 30px !important;
             background: linear-gradient(135deg, #0284c7 0%, #1e3a8a 100%) !important;
             color: #ffffff !important;
             border: 2px solid #38bdf8 !important;
@@ -387,13 +416,12 @@
             gap: 8px !important;
             font-size: 0.92rem !important;
             font-weight: 800 !important;
-            z-index: 999999 !important;
             transition: all 0.25s ease !important;
         }
         .back-to-top-btn:hover {
             background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%) !important;
             box-shadow: 0 8px 30px rgba(56, 189, 248, 0.85) !important;
-            transform: translateY(-4px) scale(1.06) !important;
+            transform: translateY(-3px) scale(1.05) !important;
         }
 
         @media (max-width: 768px) {
@@ -3095,7 +3123,8 @@
             const isMobile = document.body.classList.toggle('mobile-device-mode');
             const toggleBtns = [
                 document.getElementById('deviceModeToggleBtn'),
-                document.getElementById('deviceModeFilterChip')
+                document.getElementById('deviceModeFilterChip'),
+                document.getElementById('floatingDeviceModeBtn')
             ];
             
             toggleBtns.forEach(btn => {
@@ -3177,9 +3206,14 @@
         </button>
     </div>
 
-    <!-- BACK TO TOP FLOATING BUTTON -->
-    <button id="backToTopBtn" class="back-to-top-btn" onclick="scrollToTop()" title="滑到最頂端" aria-label="回到最頂端">
-        <i class="fa-solid fa-circle-arrow-up" style="font-size: 1.15rem; color: #38bdf8;"></i> 回到頂端 TOP
-    </button>
+    <!-- FLOATING ACTION CONTROLS STACK (BOTTOM RIGHT: MODE TOGGLE DIRECTLY ABOVE TOP BUTTON) -->
+    <div class="floating-controls-stack">
+        <button id="floatingDeviceModeBtn" class="floating-mode-btn" onclick="toggleDeviceMode()" title="切換手機/電腦版本">
+            <i class="fa-solid fa-mobile-screen-button"></i> 📱 手機版本
+        </button>
+        <button id="backToTopBtn" class="back-to-top-btn" onclick="scrollToTop()" title="滑到最頂端" aria-label="回到最頂端">
+            <i class="fa-solid fa-circle-arrow-up" style="font-size: 1.15rem; color: #38bdf8;"></i> 回到頂端 TOP
+        </button>
+    </div>
 </body>
 </html>
