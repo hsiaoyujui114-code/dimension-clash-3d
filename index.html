@@ -464,6 +464,7 @@
                     <div class="filter-chip" onclick="switchMainView('overview-table')"><i class="fa-solid fa-table-list"></i> 📊 9天總覽表格</div>
                     <div class="filter-chip" onclick="switchMainView('tickets')"><i class="fa-solid fa-ticket"></i> 🎫 門票預約總表</div>
                     <div class="filter-chip" onclick="switchMainView('travel-tips')"><i class="fa-solid fa-lightbulb"></i> 💡 倫敦行前注意事項與實用指南</div>
+                    <div class="filter-chip" onclick="switchMainView('full-script')"><i class="fa-solid fa-file-lines"></i> 📖 超細節文稿 (全文隨身版)</div>
                 </div>
             </div>
             <div id="searchFeedback" style="display: none; font-size: 0.88rem; padding: 10px 16px; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease;"></div>
@@ -1849,6 +1850,137 @@
                 </ul>
             </div>
         </div>
+
+        <!-- VIEW 5: FULL DETAILED MANUSCRIPT / NARRATIVE SCRIPT -->
+        <div id="view-full-script" class="tab-panel">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+                <h3 class="section-title" style="margin: 0;"><i class="fa-solid fa-file-lines"></i> 📖 倫敦 9 天 8 夜超細節全行程企劃文稿 (隨身閱讀版)</h3>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button onclick="copyFullScriptText()" class="btn btn-primary" style="background: #0284c7; padding: 8px 16px; font-size: 0.88rem; font-weight: 700; border-radius: 8px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-copy"></i> 一鍵複製全文稿
+                    </button>
+                    <a href="a4_printable_itinerary.html" target="_blank" class="btn btn-warning" style="background: #f59e0b; color: #0f172a; padding: 8px 16px; font-size: 0.88rem; font-weight: 800; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-print"></i> 📄 開啟 A4 列印檔 ↗
+                    </a>
+                </div>
+            </div>
+
+            <!-- JUMP SHORTCUTS FOR SCRIPT -->
+            <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 20px;">
+                <a href="#script-d1" style="background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.82rem; font-weight: 700; white-space: nowrap;">Day 1 抵達入住</a>
+                <a href="#script-d2" style="background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.82rem; font-weight: 700; white-space: nowrap;">Day 2 劍橋撐船</a>
+                <a href="#script-d3" style="background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.82rem; font-weight: 700; white-space: nowrap;">Day 3 大英+Hamleys</a>
+                <a href="#script-d4" style="background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.82rem; font-weight: 700; white-space: nowrap;">Day 4 國家美術館+樂高</a>
+                <a href="#script-d5" style="background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.82rem; font-weight: 700; white-space: nowrap;">Day 5 雙館+Sky Garden</a>
+                <a href="#script-d6" style="background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.82rem; font-weight: 700; white-space: nowrap;">Day 6 格林威治快艇</a>
+                <a href="#script-d7" style="background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.82rem; font-weight: 700; white-space: nowrap;">Day 7 溫莎城堡(已訂)</a>
+                <a href="#script-d8" style="background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.82rem; font-weight: 700; white-space: nowrap;">Day 8 西敏寺+影城</a>
+                <a href="#script-d9" style="background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.82rem; font-weight: 700; white-space: nowrap;">Day 9 衛兵壓軸返台</a>
+            </div>
+
+            <div id="fullScriptContent" style="display: flex; flex-direction: column; gap: 24px; font-size: 0.95rem; line-height: 1.75; color: #e2e8f0;">
+                
+                <!-- Day 1 Script Card -->
+                <div id="script-d1" class="card" style="border-left: 4px solid #38bdf8;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 12px;">
+                        <h4 style="font-size: 1.2rem; color: #38bdf8; margin: 0;"><span class="tag-badge badge-blue">Day 1</span> 8 月 18 日 (二) ｜ 🛫 抵達倫敦 ➔ 🏨 K Hotel Kensington 入住</h4>
+                        <span style="font-size: 0.82rem; color: #94a3b8;"><i class="fa-solid fa-location-dot"></i> GPS: 51.4700° N, -0.4543° W ➔ 51.4935° N, -0.1945° W</span>
+                    </div>
+                    <p><strong>【當日核心節奏】</strong> 17:00 班機降落倫敦希斯洛機場 (LHR) ➔ 通過電子護照快速通關 ➔ 領取行李 ➔ 搭乘地鐵 <strong>Piccadilly Line (深藍線) 僅 38 分鐘直達 Earl's Court 站</strong>（免換車、站內設有無障礙 Lift 電梯）➔ 步行 3 分鐘抵達 <strong>K Hotel Kensington</strong> Check-in 入住。</p>
+                    <p><strong>【晚餐與生活補給】</strong> 於 Earl's Court 出站旁的 <strong>M&S Simply Food (馬莎超市)</strong> 採買新鮮水果、果汁、麵包，或品嚐英式經典炸魚薯條，全家早點休息調適時差。</p>
+                </div>
+
+                <!-- Day 2 Script Card -->
+                <div id="script-d2" class="card" style="border-left: 4px solid #10b981;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 12px;">
+                        <h4 style="font-size: 1.2rem; color: #6ee7b7; margin: 0;"><span class="tag-badge badge-emerald">Day 2</span> 8 月 19 日 (三) ｜ 🎓 劍橋大學城學院深度遊 ＆ 康河撐船放鬆</h4>
+                        <span style="font-size: 0.82rem; color: #94a3b8;"><i class="fa-solid fa-location-dot"></i> 倫敦國王十字 ➔ 劍橋 (Cambridge) 往返 48 分鐘</span>
+                    </div>
+                    <p><strong>【上午：國鐵直奔康橋】</strong> 08:45 從 Earl's Court 搭地鐵至 King's Cross ➔ 搭乘 09:42 國鐵快車 (Great Northern/Thameslink) 僅 48 分鐘抵達劍橋車站 ➔ 轉乘公車 8 分鐘至大學城市中心。</p>
+                    <p><strong>【核心亮點：康河撐船 (Punting)】</strong> 11:00 體驗 45 分鐘共享撐船，由專業學長撐篙導覽，沿途穿過<strong>國王學院禮拜堂 (King's College Chapel)</strong>、<strong>數學橋 (Mathematical Bridge)</strong> 與<strong>嘆息橋 (Bridge of Sighs)</strong>，親身體會徐志摩筆下「再別康橋」的柔波金柳。</p>
+                    <p><strong>【下午：學院漫步 ＆ 備選放電】</strong> 漫步三一學院 (尋找牛頓蘋果樹) ➔ 16:30 搭國鐵返回國王十字車站。如小朋友體力充沛，可至車站旁 <strong>Coal Drops Yard</strong> 欣賞運河景致與地面跳躍噴泉水舞！</p>
+                </div>
+
+                <!-- Day 3 Script Card -->
+                <div id="script-d3" class="card" style="border-left: 4px solid #f59e0b;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 12px;">
+                        <h4 style="font-size: 1.2rem; color: #fde047; margin: 0;"><span class="tag-badge badge-blue">Day 3</span> 8 月 20 日 (四) ｜ 🏛️ 大英博物館 (預約11:20) ➔ 🥩 Flat Iron 牛排 ➔ 🧸 Hamleys 7層樓玩具店</h4>
+                        <span style="font-size: 0.82rem; color: #94a3b8;"><i class="fa-solid fa-location-dot"></i> 大英博物館 ➔ 蘇活區 ➔ 攝政街 Hamleys ➔ 泰晤士河南岸</span>
+                    </div>
+                    <p><strong>【上午：世界文明殿堂】</strong> 10:45 抵達大英博物館，憑 <strong>11:20 預約免費快速通關入場</strong>。重點鎖定三大鎮館之寶：<strong>羅塞塔石碑 (Rosetta Stone, Room 4)</strong>、<strong>帕德嫩神廟雕塑 (Parthenon Sculptures, Room 18)</strong> 與 <strong>埃及木乃伊 (Room 62-63)</strong>，並於壯麗的中央大中庭玻璃穹頂合影。</p>
+                    <p><strong>【午餐：超高人氣平價牛排】</strong> 13:30 步行至 <strong>Flat Iron 牛排 (Soho/Covent Garden 店)</strong>，享用招牌 £14 平價嫩煎羽下牛排配爆米花與免費濃郁巧克力冰淇淋。</p>
+                    <p><strong>【下午：Hamleys 7 層樓百年玩具店放電】</strong> 15:30 抵達攝政街 <strong>Hamleys 旗艦店</strong>，讓小朋友盡情體驗現場魔術道具展示、樂高巨型雕像、帕丁頓熊專區與遙控車試玩！</p>
+                    <p><strong>【傍晚：泰晤士河南岸散步】</strong> 18:00 漫步至泰晤士河南岸步道，欣賞對岸大本鐘與國會大廈倒影，晚風徐徐極為舒心。</p>
+                </div>
+
+                <!-- Day 4 Script Card -->
+                <div id="script-d4" class="card" style="border-left: 4px solid #10b981;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 12px;">
+                        <h4 style="font-size: 1.2rem; color: #6ee7b7; margin: 0;"><span class="tag-badge badge-emerald">Day 4</span> 8 月 21 日 (五) ｜ 🎨 國家美術館 (10:00確定) ➔ 🥟 Soho 金滿樓 ➔ 🧱 樂高旗艦店 ➔ 🎭 科芬園</h4>
+                        <span style="font-size: 0.82rem; color: #94a3b8;"><i class="fa-solid fa-location-dot"></i> 特拉法加廣場 ➔ 中國城 ➔ 萊斯特廣場 ➔ 科芬園</span>
+                    </div>
+                    <p><strong>【上午：文藝復興藝術巡禮】</strong> 09:45 抵達特拉法加廣場，<strong>10:00 準時進入倫敦國家美術館 (National Gallery)</strong>。重點欣賞：梵谷《向日葵》、達文西《岩間聖母》、莫內《睡蓮池》與揚·范·艾克《阿諾菲尼的婚禮》。</p>
+                    <p><strong>【午餐：中國城家鄉味】</strong> 12:30 步行 5 分鐘至中國城 <strong>金滿樓 (Gerrard's Corner)</strong> 享用道地港式熱騰騰點心（蝦餃、燒賣、叉燒包），撫慰東方胃。</p>
+                    <p><strong>【下午：樂高旗艦店 ＆ 科芬園市集】</strong> 14:00 參觀 <strong>LEGO 樂高旗艦店</strong>（打卡 1:1 樂高雙層巴士與阿斯頓馬丁跑車）與對面 <strong>M&M's World</strong> 巧克力豆彩虹牆 ➔ 15:30 前往 <strong>科芬園 (Covent Garden)</strong> 觀賞世界級街頭魔術雜耍表演、逛古董市集與品嚐 Venchi 義大利冰淇淋。</p>
+                </div>
+
+                <!-- Day 5 Script Card -->
+                <div id="script-d5" class="card" style="border-left: 4px solid #f59e0b;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 12px;">
+                        <h4 style="font-size: 1.2rem; color: #fde047; margin: 0;"><span class="tag-badge badge-gold">Day 5</span> 8 月 22 日 (六) ｜ 🔬 科學博物館 (10:00) ➔ 🦕 自然史博物館 (14:15已預約) ➔ 🌅 Sky Garden 空中花園 (18:00)</h4>
+                        <span style="font-size: 0.82rem; color: #94a3b8;"><i class="fa-solid fa-location-dot"></i> 南肯辛頓博物館街（地鐵僅1站極省體力）➔ 金融城 Sky Garden</span>
+                    </div>
+                    <p><strong>【上午：科學探索互動】</strong> 從飯店搭地鐵僅 1 站（3分鐘）至 South Kensington 站 ➔ 10:00 進入 <strong>科學博物館 (Science Museum)</strong>，探索阿波羅登月艙、蒸汽機火車與 Wonderlab 物理互動實驗室。</p>
+                    <p><strong>【下午：恐龍骨骼與地球奧秘】</strong> 14:15 憑<strong>已預訂成功的 14:15 門票</strong>無縫進入隔壁 <strong>自然史博物館 (Natural History Museum)</strong>，朝聖「欣普 (Hope)」巨型藍鯨骨骼標本、震撼的機械霸王龍與寶石礦物展。</p>
+                    <p><strong>【傍晚：倫敦頂級天際線景觀】</strong> 17:30 搭乘 District Line 20 分鐘直達 Monument 站 ➔ <strong>18:00 登上 Sky Garden (空中花園觀景台)</strong>，俯瞰泰晤士河夕陽餘暉、倫敦塔橋與碎片大廈全景！</p>
+                </div>
+
+                <!-- Day 6 Script Card -->
+                <div id="script-d6" class="card" style="border-left: 4px solid #38bdf8;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 12px;">
+                        <h4 style="font-size: 1.2rem; color: #38bdf8; margin: 0;"><span class="tag-badge badge-blue">Day 6</span> 8 月 23 日 (日) ｜ 🚢 Uber Boat 泰晤士觀光快艇 ➔ ⛰️ 登格林威治山丘 ➔ 🚝 DLR 無人駕駛輕軌</h4>
+                        <span style="font-size: 0.82rem; color: #94a3b8;"><i class="fa-solid fa-location-dot"></i> 西敏碼頭 ➔ 泰晤士河水上航行 ➔ 格林威治碼頭 ➔ 金融城</span>
+                    </div>
+                    <p><strong>【上午：泰晤士河巡航】</strong> 09:30 至 Westminster Pier 碼頭，搭乘 <strong>Uber Boat by Thames Clippers 觀光快艇</strong>，坐在寬敞甲板上一路沿河飽覽倫敦眼、聖保羅大教堂與倫敦塔橋，穿過橋洞直達格林威治。</p>
+                    <p><strong>【中午：登頂俯瞰 ＆ 市集美食】</strong> 漫步穿過格林威治公園，<strong>登上格林威治皇家天文台山丘 (Greenwich Park Hill)</strong>，此處為倫敦最壯麗的免費觀景點，能將千禧穹頂與金絲雀碼頭摩天大樓盡收眼底！隨後於 <strong>格林威治市集 (Greenwich Market)</strong> 享用手工肉餡餅與甜甜圈。</p>
+                    <p><strong>【下午：小朋友最愛無人駕駛輕軌】</strong> 從 Cutty Sark 站搭乘 <strong>DLR 輕軌 (無人駕駛)</strong>，特意搶坐第一排「虛擬小司機座」，穿梭於金絲雀碼頭高架軌道之間，趣味滿分！</p>
+                </div>
+
+                <!-- Day 7 Script Card -->
+                <div id="script-d7" class="card" style="border-left: 4px solid #f59e0b;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 12px;">
+                        <h4 style="font-size: 1.2rem; color: #fde047; margin: 0;"><span class="tag-badge badge-gold">Day 7</span> 8 月 24 日 (一) ｜ 🏰 溫莎城堡 (已成功預訂 11:30) ➔ 📚 大英圖書館國寶展</h4>
+                        <span style="font-size: 0.82rem; color: #94a3b8;"><i class="fa-solid fa-location-dot"></i> 倫敦 ➔ 溫莎 (Windsor) ➔ 聖潘克拉斯大英圖書館 (開至20:00)</span>
+                    </div>
+                    <p><strong>【上午：免早起優雅出發】</strong> 09:40 從飯店出發搭地鐵至 Paddington 站 ➔ 搭國鐵至 Slough 轉車 ➔ 10:45 抵達 Windsor & Eton Central 站，出站即是皇家大道。</p>
+                    <p><strong>【核心亮點：溫莎城堡 (Windsor Castle)】</strong> 憑<strong>已成功預訂的 11:30 門票入場</strong>！參觀世界上最古老且現有人居住的城堡，探索奢華的<strong>皇家國事廳 (State Apartments)</strong>、巧奪天工的<strong>瑪麗皇后玩偶屋 (Queen Mary's Dolls' House)</strong> 與哈利王子舉辦婚禮的<strong>聖喬治禮拜堂 (St George's Chapel)</strong>。</p>
+                    <p><strong>【傍晚：大英圖書館國寶寶藏展】</strong> 16:30 搭國鐵返抵倫敦 ➔ 前往國王十字旁的 <strong>大英圖書館 (British Library)</strong>，免費參觀「Treasures of the British Library」，親睹達文西手稿、約翰藍儂手寫披頭四歌詞與 1215 年《大憲章 (Magna Carta)》！</p>
+                </div>
+
+                <!-- Day 8 Script Card -->
+                <div id="script-d8" class="card" style="border-left: 4px solid #a855f7;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 12px;">
+                        <h4 style="font-size: 1.2rem; color: #c084fc; margin: 0;"><span class="tag-badge badge-purple">Day 8</span> 8 月 25 日 (二) ｜ 🏛️ 西敏寺與大本鐘 (!外觀合照) ➔ ⚡ 華納哈利波特影城 (預約13:30) ➔ 🧙‍♂️ 9 ¾ 月台</h4>
+                        <span style="font-size: 0.82rem; color: #94a3b8;"><i class="fa-solid fa-location-dot"></i> 西敏寺大本鐘外觀打卡 ➔ 尤斯頓國鐵 ➔ 華納兄弟影城 ➔ 國王十字</span>
+                    </div>
+                    <p><strong>【上午：西敏外觀經典打卡（免門票省時策略）】</strong> 09:30 抵達 Westminster 站，出站即是大本鐘 (Big Ben)！於國會廣場與<strong>西敏寺 (Westminster Abbey) 哥德式宏偉外觀</strong>、紅色電話亭合影，完全省下每人 £29 門票與 2.5 小時排隊體力！</p>
+                    <p><strong>【下午：走入霍格華茲魔法世界】</strong> 11:30 從 Euston 搭國鐵快車 20 分鐘直達 Watford Junction ➔ 搭乘影城接駁專車 ➔ <strong>13:30 進入華納兄弟哈利波特影城 (Warner Bros. Studio Tour)</strong>！親歷霍格華茲大禮堂、斜角巷、禁忌森林與古靈閣巫師銀行，於 Backlot Cafe 品嚐泡沫綿密的<strong>奶油啤酒 (Butterbeer)</strong>！</p>
+                    <p><strong>【傍晚：國王十字 9 ¾ 月台】</strong> 18:00 返抵 King's Cross 站，推著穿牆行李手推車合影打卡，選購葛來分多圍巾與魔杖紀念品。</p>
+                </div>
+
+                <!-- Day 9 Script Card -->
+                <div id="script-d9" class="card" style="border-left: 4px solid #ef4444;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 12px;">
+                        <h4 style="font-size: 1.2rem; color: #fca5a5; margin: 0;"><span class="tag-badge badge-red">Day 9</span> 8 月 26 日 (三) ｜ 👑 白金漢宮衛兵交接儀式 (壓軸看軍樂隊) ➔ ✈️ 38分鐘直達機場返台</h4>
+                        <span style="font-size: 0.82rem; color: #94a3b8;"><i class="fa-solid fa-location-dot"></i> 白金漢宮 ➔ 綠園 ➔ K Hotel 取行李 ➔ 希斯洛機場 LHR</span>
+                    </div>
+                    <p><strong>【上午：離境前皇家最高潮】</strong> 退房將行李寄存在飯店櫃檯 ➔ 09:30 搭 Piccadilly Line 僅 7 分鐘直達 Green Park 站 ➔ <strong>10:15 搶先登上 Victoria Memorial (維多利亞女王紀念碑) 高處階梯</strong>，10:45-11:30 近距離觀賞紅衣熊皮帽皇家衛兵、騎兵與軍樂隊交接儀式！</p>
+                    <p><strong>【中午：綠園漫步 ＆ 輕鬆午餐】</strong> 在綠園 (Green Park) 綠蔭草坪散步餵野生小松鼠 ➔ 於周邊享用輕鬆英式午餐。</p>
+                    <p><strong>【下午：全無負擔直達機場】</strong> 14:30 返回 K Hotel Kensington 取行李 ➔ 於 Earl's Court 站搭乘 <strong>Piccadilly Line 僅 38 分鐘直達希斯洛機場 (LHR T2/3)</strong>（免換車、完全不需扛行李在市區奔波）➔ 輕鬆辦理退稅、託運行李與免稅店採買，搭乘 21:30 班機圓滿平安返台！</p>
+                </div>
+
+            </div>
+        </div>
     </main>
 
     <footer>
@@ -2223,6 +2355,17 @@
                 }
                 // Open Google Maps
                 window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(rawQuery + ' London')}`, '_blank');
+            }
+        }
+
+        function copyFullScriptText() {
+            const content = document.getElementById('fullScriptContent');
+            if (content) {
+                navigator.clipboard.writeText(content.innerText).then(() => {
+                    alert('📋 超細節行程全文稿已成功複製至剪貼簿！可直接貼上至 Line、備忘錄或文件分享！');
+                }).catch(() => {
+                    alert('已選取文稿，請使用鍵盤 Ctrl+C 或 Command+C 複製！');
+                });
             }
         }
 
