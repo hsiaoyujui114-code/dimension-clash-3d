@@ -1,0 +1,2213 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🇬🇧 倫敦 9 天 8 夜親子自由行 (8/18-8/26) | 👑 白金漢宮衛兵交接(8/26最後一天) ＋ 🎨 國家美術館(10:00) ＋ 🏰 溫莎城堡(已預訂) Web App</title>
+    <meta name="description" content="專為 2 大 2 小家庭打造的倫敦 9 天 8 夜親子自由行企劃 Web App (8/18-8/26)，含當天往返軌跡與 GPS 座標互動地圖。">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Leaflet Interactive Maps CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        :root {
+            --bg-body: #0b0f17;
+            --bg-card: rgba(18, 24, 38, 0.88);
+            --bg-card-hover: rgba(28, 36, 56, 0.98);
+            --bg-header: rgba(11, 15, 23, 0.92);
+            
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --text-accent: #38bdf8;
+            
+            --london-red: #ef4444;
+            --emerald-accent: #10b981;
+            --gold-accent: #f59e0b;
+            --purple-accent: #a855f7;
+            --blue-accent: #3b82f6;
+            
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-highlight: rgba(56, 189, 248, 0.35);
+            
+            --radius-xl: 20px;
+            --radius-lg: 14px;
+            --radius-sm: 8px;
+
+            --shadow-card: 0 12px 30px -10px rgba(0, 0, 0, 0.6);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', 'Noto Sans TC', sans-serif; scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 15%, rgba(239, 68, 68, 0.07) 0%, transparent 40%),
+                radial-gradient(circle at 90% 60%, rgba(56, 189, 248, 0.08) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        header {
+            position: sticky; top: 0; z-index: 100;
+            background: var(--bg-header); backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color); padding: 14px 24px;
+        }
+
+        .nav-container { max-width: 1320px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+        .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-main); }
+        .brand-icon { width: 44px; height: 44px; border-radius: var(--radius-lg); background: linear-gradient(135deg, #ef4444, #b91c1c); display: flex; align-items: center; justify-content: center; font-size: 22px; color: white; }
+        .brand-text h1 { font-size: 1.15rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        .brand-text p { font-size: 0.78rem; color: var(--text-muted); }
+
+        .btn { padding: 8px 14px; border-radius: var(--radius-lg); font-weight: 600; font-size: 0.85rem; cursor: pointer; border: 1px solid transparent; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; transition: var(--transition); }
+        .btn-primary { background: linear-gradient(135deg, var(--blue-accent), #2563eb); color: white; }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        .container { max-width: 1320px; margin: 0 auto; padding: 24px; width: 100%; flex: 1; }
+
+        .hero {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.85), rgba(15, 23, 42, 0.95));
+            border: 1px solid var(--border-color); border-radius: var(--radius-xl); padding: 28px 32px; margin-bottom: 24px; box-shadow: var(--shadow-card);
+        }
+
+        .hero-badge-group { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+        .tag-badge { padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; border: 1px solid transparent; }
+        .badge-red { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border-color: rgba(239, 68, 68, 0.4); }
+        .badge-emerald { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border-color: rgba(16, 185, 129, 0.3); }
+        .badge-blue { background: rgba(59, 130, 246, 0.15); color: #93c5fd; border-color: rgba(59, 130, 246, 0.3); }
+        .badge-gold { background: rgba(245, 158, 11, 0.2); color: #fde047; border-color: rgba(245, 158, 11, 0.5); }
+        .badge-purple { background: rgba(168, 85, 247, 0.15); color: #d8b4fe; border-color: rgba(168, 85, 247, 0.3); }
+
+        .hero h2 { font-size: 2rem; font-weight: 900; margin-bottom: 10px; }
+        .hero p { color: var(--text-muted); font-size: 0.92rem; line-height: 1.6; }
+
+        /* DAY SHORTCUT NAV BAR */
+        .day-shortcuts-bar {
+            position: sticky;
+            top: 72px;
+            z-index: 90;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 12px;
+            margin-bottom: 24px;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            white-space: nowrap;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        .day-shortcut-btn {
+            padding: 8px 16px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+
+        .day-shortcut-btn:hover, .day-shortcut-btn.active {
+            background: linear-gradient(135deg, var(--blue-accent), #2563eb);
+            color: white;
+            border-color: var(--border-highlight);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+        }
+
+        .controls-bar { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
+        .search-and-tabs { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+        
+        .search-box { position: relative; flex: 1; min-width: 280px; display: flex; align-items: center; }
+        .search-box input { width: 100%; padding: 12px 120px 12px 42px; background: rgba(18, 24, 38, 0.85); border: 1px solid var(--border-color); border-radius: var(--radius-lg); color: var(--text-main); outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+        .search-box input:focus { border-color: var(--blue-accent); box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25); }
+        .search-box i.search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
+        .search-action-btn { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: #0284c7; color: white; border: none; padding: 7px 14px; border-radius: 8px; font-weight: 700; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.2s; }
+        .search-action-btn:hover { background: #0369a1; }
+
+        .highlight-matched-card {
+            border: 2.5px solid #38bdf8 !important;
+            animation: pulseGlow 1.2s ease-in-out infinite alternate;
+            transform: scale(1.015);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            z-index: 10;
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 10px rgba(56, 189, 248, 0.4); }
+            100% { box-shadow: 0 0 25px rgba(56, 189, 248, 0.95), 0 0 40px rgba(14, 165, 233, 0.6); }
+        }
+
+        .filter-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .filter-chip { padding: 8px 16px; border-radius: 50px; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-color); font-size: 0.85rem; font-weight: 700; color: var(--text-muted); cursor: pointer; }
+        .filter-chip.active { background: rgba(56, 189, 248, 0.15); color: var(--text-accent); border-color: var(--border-highlight); }
+
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+        .day-section { scroll-margin-top: 140px; margin-bottom: 40px; }
+
+        .day-header-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.85), rgba(15, 23, 42, 0.95));
+            border: 1px solid var(--border-color); border-radius: var(--radius-lg);
+            padding: 18px 24px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+        }
+
+        .day-title-info h3 { font-size: 1.3rem; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
+        .day-title-info p { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+
+        .day-quick-summary-box {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: var(--radius-lg);
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+        }
+        @media (max-width: 768px) {
+            .day-quick-summary-box { grid-template-columns: 1fr; }
+        }
+
+        .summary-block h4 { font-size: 0.92rem; font-weight: 800; color: var(--text-accent); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .summary-block p, .summary-block ul { font-size: 0.85rem; color: #d1d5db; line-height: 1.5; }
+        .summary-block ul { padding-left: 16px; }
+
+        .timeline-container { position: relative; padding-left: 28px; margin-bottom: 20px; }
+        .timeline-container::before { content: ''; position: absolute; left: 10px; top: 12px; bottom: 12px; width: 2px; background: linear-gradient(180deg, var(--blue-accent), var(--emerald-accent)); }
+
+        .timeline-item { position: relative; margin-bottom: 20px; }
+        .timeline-dot { position: absolute; left: -28px; top: 20px; transform: translateX(-50%); width: 20px; height: 20px; border-radius: 50%; background: var(--bg-body); border: 3px solid var(--blue-accent); z-index: 2; }
+
+        .card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 20px; transition: var(--transition); }
+        .card:hover { border-color: rgba(56, 189, 248, 0.25); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+        
+        .card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+        .time-badge { font-size: 0.78rem; font-weight: 700; padding: 4px 10px; border-radius: var(--radius-sm); background: rgba(56, 189, 248, 0.12); color: var(--text-accent); border: 1px solid rgba(56, 189, 248, 0.2); }
+        .card-title { font-size: 1.15rem; font-weight: 700; color: var(--text-main); }
+        .card-body { font-size: 0.9rem; color: #d1d5db; line-height: 1.65; }
+
+        .transit-between-card {
+            background: rgba(30, 41, 59, 0.65);
+            border: 1px dashed rgba(56, 189, 248, 0.4);
+            border-radius: var(--radius-lg);
+            padding: 12px 16px;
+            margin: 12px 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.85rem;
+            color: #93c5fd;
+        }
+
+        .btn-link { padding: 6px 12px; border-radius: var(--radius-sm); font-size: 0.78rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: var(--transition); }
+        .btn-official { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .btn-official:hover { background: var(--emerald-accent); color: white; }
+        .btn-map { background: rgba(56, 189, 248, 0.15); color: var(--text-accent); border: 1px solid rgba(56, 189, 248, 0.3); }
+        .btn-map:hover { background: var(--blue-accent); color: white; }
+        .card-links-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
+        .day-remark-box {
+            background: rgba(30, 41, 59, 0.75);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: var(--radius-lg);
+            padding: 16px 20px;
+            margin-top: 14px;
+        }
+        .day-remark-box h5 { font-size: 0.95rem; font-weight: 800; color: var(--gold-accent); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .day-remark-box p, .day-remark-box ul { font-size: 0.88rem; color: #e5e7eb; line-height: 1.6; }
+        .day-remark-box ul { padding-left: 18px; margin-top: 6px; }
+
+        /* DAY ROUTE MAP BOX AT BOTTOM OF EACH DAY */
+        .day-map-box {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-top: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .day-map-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .map-header-title { display: flex; flex-direction: column; gap: 4px; }
+        .map-header-title h4 { font-size: 1.05rem; font-weight: 800; color: var(--text-accent); display: flex; align-items: center; gap: 8px; }
+
+        .map-stats-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 10px 16px;
+            margin-bottom: 12px;
+            font-size: 0.82rem;
+        }
+        .map-stats-strip .m-stat { display: flex; align-items: center; gap: 6px; color: var(--text-muted); }
+        .map-stats-strip .m-stat strong { color: var(--text-main); }
+
+        .map-actions-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .map-btn {
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            background: rgba(56, 189, 248, 0.14);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            color: var(--text-accent);
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .map-btn:hover {
+            background: var(--blue-accent);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .btn-focus-spot {
+            background: rgba(16, 185, 129, 0.15);
+            color: #6ee7b7;
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 8px;
+        }
+        .btn-focus-spot:hover {
+            background: var(--emerald-accent);
+            color: white;
+        }
+
+        .interactive-day-map {
+            width: 100%;
+            height: 440px;
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 8px 24px rgba(0,0,0,0.5);
+            z-index: 1;
+        }
+
+        /* LEAFLET CUSTOM MARKERS & POPUPS */
+        .custom-leaflet-div { background: none; border: none; }
+        .custom-pin-marker {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            border-radius: 50%;
+            border: 2px solid #ffffff;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.7);
+            font-size: 13px;
+            transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+        }
+        .custom-pin-marker:hover { transform: scale(1.3); z-index: 9999; }
+        .pin-start { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .pin-stop { background: linear-gradient(135deg, #38bdf8, #2563eb); }
+        .pin-end { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .pin-transit { background: linear-gradient(135deg, #a855f7, #7c3aed); }
+
+        .leaflet-popup-content-wrapper {
+            background: #0f172a !important;
+            color: #f3f4f6 !important;
+            border: 1px solid rgba(56, 189, 248, 0.45) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8) !important;
+            padding: 4px !important;
+        }
+        .leaflet-popup-tip { background: #0f172a !important; }
+        .popup-spot-title { font-size: 0.98rem; font-weight: 800; color: #38bdf8; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+        .popup-gps-tag { font-size: 0.75rem; color: #9ca3af; font-family: monospace; margin-bottom: 6px; background: rgba(255,255,255,0.06); padding: 3px 6px; border-radius: 4px; display: inline-block; }
+        .popup-desc-text { font-size: 0.83rem; color: #d1d5db; margin-bottom: 8px; line-height: 1.45; }
+        .popup-nav-link { display: inline-flex; align-items: center; gap: 4px; font-size: 0.78rem; font-weight: 700; color: white; background: #2563eb; padding: 4px 10px; border-radius: 6px; text-decoration: none; transition: var(--transition); }
+        .popup-nav-link:hover { background: #3b82f6; }
+
+        .table-responsive { width: 100%; overflow-x: auto; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background: var(--bg-card); margin-bottom: 24px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; }
+        th { background: rgba(30, 41, 59, 0.9); color: var(--text-main); font-weight: 700; padding: 14px 16px; border-bottom: 1px solid var(--border-color); }
+        td { padding: 14px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: #d1d5db; line-height: 1.5; }
+
+        .section-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+
+        footer { background: rgba(11, 15, 23, 0.95); border-top: 1px solid var(--border-color); padding: 24px; text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 40px; }
+
+        /* BACK TO TOP FLOATING BUTTON */
+        .back-to-top-btn {
+            position: fixed !important;
+            bottom: 28px !important;
+            right: 28px !important;
+            padding: 10px 18px !important;
+            border-radius: 50px !important;
+            background: linear-gradient(135deg, #0284c7 0%, #1e3a8a 100%) !important;
+            color: #ffffff !important;
+            border: 2px solid #38bdf8 !important;
+            box-shadow: 0 6px 24px rgba(2, 132, 199, 0.6) !important;
+            cursor: pointer !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            font-size: 0.92rem !important;
+            font-weight: 800 !important;
+            z-index: 999999 !important;
+            transition: all 0.25s ease !important;
+        }
+        .back-to-top-btn:hover {
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%) !important;
+            box-shadow: 0 8px 30px rgba(56, 189, 248, 0.85) !important;
+            transform: translateY(-4px) scale(1.06) !important;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 10px 14px; }
+            .nav-container { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .container { padding: 12px; }
+            .day-shortcuts-bar { top: 106px; padding: 8px; }
+            .day-shortcut-btn { padding: 6px 12px; font-size: 0.76rem; }
+            .interactive-day-map { height: 320px; }
+            .map-stats-strip { flex-direction: column; gap: 6px; font-size: 0.76rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="#" class="brand">
+                <div class="brand-icon"><i class="fa-solid fa-crown"></i></div>
+                <div class="brand-text">
+                    <h1>🇬🇧 倫敦 9 天 8 夜親子自由行 Web App</h1>
+                    <p>專為 2 大 2 小打造 ‧ 含當天往返軌跡與 GPS 座標互動地圖</p>
+                </div>
+            </a>
+            <div class="nav-actions">
+                <a href="https://www.google.com/maps/search/?api=1&query=K+Hotel+Kensington+14-16+Barkston+Gardens+London+SW5+0EN" target="_blank" class="btn btn-primary"><i class="fa-solid fa-hotel"></i> K Hotel Kensington 住宿</a>
+                <a href="a4_printable_itinerary.html" target="_blank" class="btn btn-warning" style="background:#f59e0b; color:#0f172a; font-weight:bold;"><i class="fa-solid fa-print"></i> 📄 開啟 A4 列印檔</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <div class="hero-badge-group">
+                <span class="tag-badge badge-red"><i class="fa-solid fa-crown"></i> 8/26 D9 白金漢宮衛兵交接(10:15卡位)</span>
+                <span class="tag-badge badge-emerald"><i class="fa-solid fa-palette"></i> 8/21 D4 國家美術館(10:00確定)</span>
+                <span class="tag-badge badge-blue"><i class="fa-solid fa-landmark"></i> 8/20 D3 大英博物館(11:20)＋Hamleys</span>
+                <span class="tag-badge badge-gold"><i class="fa-solid fa-castle"></i> 8/24 D7 溫莎城堡(已成功預訂11:30)</span>
+                <span class="tag-badge badge-purple"><i class="fa-solid fa-wand-magic-sparkles"></i> 8/25 D8 西敏寺!外觀＋影城(13:30)</span>
+            </div>
+            <h2>🇬🇧 倫敦 9 天 8 夜親子自由行全行程企劃 Web App</h2>
+            <p>全行程點對點精準時間軸、每日當天專屬往返軌跡地圖、GPS 經緯度座標標示、劃時代外觀打卡策略與雨天放電備案！</p>
+        </section>
+
+        <!-- DAY SHORTCUT NAV BAR -->
+        <nav class="day-shortcuts-bar">
+            <button class="day-shortcut-btn active" onclick="scrollToDay('day-1')">Day 1 (8/18)</button>
+            <button class="day-shortcut-btn" onclick="scrollToDay('day-2')">Day 2 (8/19)</button>
+            <button class="day-shortcut-btn" onclick="scrollToDay('day-3')">Day 3 (8/20)</button>
+            <button class="day-shortcut-btn" onclick="scrollToDay('day-4')">Day 4 (8/21)</button>
+            <button class="day-shortcut-btn" onclick="scrollToDay('day-5')">Day 5 (8/22)</button>
+            <button class="day-shortcut-btn" onclick="scrollToDay('day-6')">Day 6 (8/23)</button>
+            <button class="day-shortcut-btn" onclick="scrollToDay('day-7')">Day 7 (8/24)</button>
+            <button class="day-shortcut-btn" onclick="scrollToDay('day-8')">Day 8 (8/25)</button>
+            <button class="day-shortcut-btn" onclick="scrollToDay('day-9')">Day 9 (8/26)</button>
+        </nav>
+
+        <div class="controls-bar">
+            <div class="search-and-tabs">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="搜尋景點、時間或地點關鍵字 (例如: 溫莎、衛兵、大英、大本鐘)..." oninput="if(!this.value.trim()){ resetSearch(); }" onkeydown="handleSearchKeyDown(event)">
+                    <button id="searchActionBtn" class="search-action-btn" onclick="executeSearchAction()">
+                        <i class="fa-solid fa-magnifying-glass"></i> 搜尋
+                    </button>
+                </div>
+                <div class="filter-tags">
+                    <div class="filter-chip active" onclick="switchMainView('itinerary')"><i class="fa-solid fa-list-check"></i> 每日詳細行程與地圖</div>
+                    <div class="filter-chip" onclick="switchMainView('overview-table')"><i class="fa-solid fa-table-list"></i> 📊 9天總覽表格</div>
+                    <div class="filter-chip" onclick="switchMainView('tickets')"><i class="fa-solid fa-ticket"></i> 🎫 門票預約總表</div>
+                    <div class="filter-chip" onclick="switchMainView('travel-tips')"><i class="fa-solid fa-lightbulb"></i> 💡 倫敦行前注意事項與實用指南</div>
+                </div>
+            </div>
+            <div id="searchFeedback" style="display: none; font-size: 0.88rem; padding: 10px 16px; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease;"></div>
+        </div>
+
+        <!-- VIEW 1: ITINERARY WITH DAILY INTERACTIVE MAPS -->
+        <div id="view-itinerary" class="tab-panel active">
+
+            <!-- Day 1 -->
+            <div id="day-1" class="day-section">
+                <div class="day-header-card">
+                    <div class="day-title-info">
+                        <h3><span class="tag-badge badge-blue">Day 1</span> 8 月 18 日 (二) ｜ 🛫 抵達倫敦希斯洛機場 ➔ 🏨 K Hotel Kensington 入住 Check-in</h3>
+                        <p>17:00 班機抵達 LHR ➔ 提取行李 ➔ 搭乘地鐵 Piccadilly Line 38 分鐘直達 Earl's Court 站 ➔ Check-in 入住休息</p>
+                    </div>
+                </div>
+                <div class="day-quick-summary-box">
+                    <div class="summary-block">
+                        <h4><i class="fa-solid fa-location-dot"></i> 📍 今天主要景點</h4>
+                        <ul>
+                            <li>🛫 希斯洛機場 (Heathrow Airport LHR) 班機入境辦理</li>
+                            <li>🏨 肯辛頓 K 酒店 (K Hotel Kensington / Earl's Court 站) Check-in 入住</li>
+                            <li>🛒 周邊 Earl's Court Road 餐廳與 Sainsbury's 超市採買補給</li>
+                        </ul>
+                    </div>
+                    <div class="summary-block">
+                        <h4><i class="fa-solid fa-bus"></i> 🚆 今天交通全攻略 (提供雙路線選擇)</h4>
+                        <p><strong>【路線 A 直達推薦】</strong> 希斯洛機場領行李後，直奔地下地鐵站搭乘 <strong>Piccadilly Line (皮卡迪利深藍線)</strong>，坐 18 站 (僅 38 分鐘直達免換乘！) 直達 <strong>Earl's Court 站</strong>，出站 Lift 電梯步行 3 分鐘即達 K Hotel。</p>
+                        <p><strong>【路線 B 特快快適】</strong> 搭乘 <strong>Elizabeth Line (伊莉莎白線)</strong> 紫線火車 (15 分鐘) 至 Paddington 站 ➔ 轉乘 District Line 地鐵 (10 分鐘) 至 Earl's Court 站。</p>
+                    </div>
+                </div>
+                <div class="timeline-container">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">17:00 - 18:30</span><h4 class="card-title">🛫 班機抵達倫敦希斯洛機場 (Heathrow LHR) ＆ 提取行李</h4></div>
+                            <div class="card-body">抵達倫敦希斯洛機場，完成海關入境與領取行李，憑 Oyster 卡或 Contactless 信用卡搭乘地鐵。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-1', 0)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位機場 GPS</button>
+                                <a href="https://maps.google.com/?q=Heathrow+Airport+London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-location-dot"></i> 機場 Google 地圖</a>
+                            </div>
+                        </div>
+                        <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                                <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：希斯洛機場 (LHR) ➔ K Hotel Kensington</strong>
+                                <a href="https://www.google.com/maps/dir/?api=1&origin=Heathrow+Airport+London&destination=K+Hotel+Kensington+London" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                    <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                                </a>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                                <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                    <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-train-subway"></i> 路線 1：Piccadilly Line 直達 (38 分鐘)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">地下地鐵站搭乘深藍線坐 18 站免換乘直達 Earl's Court 站 (Lift 無障礙電梯)。</div>
+                                </div>
+                                <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                    <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-train"></i> 路線 2：Elizabeth Line 快適 (35 分鐘)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">搭乘紫線火車 15 分鐘至 Paddington 站 ➔ 轉乘 District Line 地鐵至 Earl's Court。</div>
+                                </div>
+                                <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                    <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-taxi"></i> 路線 3：機場專車 / Uber (40 分鐘)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">離境大廳上車沿 A4 公路直達飯店門口，適合行李過多時使用。</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">18:30 - 20:00</span><h4 class="card-title">🏨 K Hotel Kensington 辦理 Check-in ＆ 晚餐採買</h4></div>
+                            <div class="card-body">出站步行 3 分鐘抵達 K Hotel Kensington 入住放置行李，至巷口超市採買鮮奶水果。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-1', 1)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位飯店 GPS</button>
+                                <a href="https://maps.google.com/?q=K+Hotel+Kensington+London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-location-dot"></i> 飯店 Google 地圖</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-remark-box">
+                    <h5><i class="fa-solid fa-note-sticky"></i> 📝 【Day 1 備註】</h5>
+                    <p>今天重點為讓全家人適應時差與順利 Check-in。晚上可在 Barkston Gardens 社區公園散步，感受優雅街景。</p>
+                </div>
+                <div class="day-map-box">
+                    <div class="day-map-header">
+                        <div class="map-header-title">
+                            <h4><i class="fa-solid fa-map-location-dot"></i> 🗺️ Day 1 當天往返軌跡與動態路線地圖</h4>
+                            <span class="tag-badge badge-blue"><i class="fa-solid fa-route"></i> 機場 ⇄ 飯店往返動線</span>
+                        </div>
+                        <div class="map-actions-group">
+                            <button class="map-btn" onclick="resetDayMap('day-1')"><i class="fa-solid fa-expand"></i> 全覽檢視</button>
+                            <a href="https://www.google.com/maps/dir/Heathrow+Airport+London/K+Hotel+Kensington+London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-location-arrow"></i> Google 全路線導航</a>
+                        </div>
+                    </div>
+                    <div class="map-stats-strip">
+                        <div class="m-stat"><span><i class="fa-solid fa-location-dot"></i> 座標點：</span><strong>2 個主要地點</strong></div>
+                        <div class="m-stat"><span><i class="fa-solid fa-train"></i> 交通：</span><strong>Piccadilly Line 38 分鐘直達</strong></div>
+                        <div class="m-stat"><span><i class="fa-solid fa-compass"></i> GPS：</span><strong>51.4700° N, 0.4543° W ➔ 51.4935° N, 0.1932° W</strong></div>
+                    </div>
+                    <div id="leaflet-map-day-1" class="interactive-day-map"></div>
+                </div>
+            </div>
+
+            <!-- Day 2 -->
+            <div id="day-2" class="day-section">
+                <div class="day-header-card">
+                    <div class="day-title-info">
+                        <h3><span class="tag-badge badge-purple">Day 2</span> 8 月 19 日 (三) ｜ 🎓 劍橋大學城撐船日 ➔ 國王十字 ➔ 返抵飯店</h3>
+                        <p>國鐵 48 分鐘 ➔ 🎓 劍橋康河撐船 (45分鐘) ➔ 國王學院(!外觀) ➔ 市集午餐 ➔ 國王十字返飯店</p>
+                    </div>
+                </div>
+                <div class="day-quick-summary-box">
+                    <div class="summary-block">
+                        <h4><i class="fa-solid fa-location-dot"></i> 📍 今天主要景點</h4>
+                        <ul>
+                            <li>🎓 劍橋大學城學院巡禮 (!國王學院外觀打卡)</li>
+                            <li>🍞 Fitzbillies 百年麵包老店切爾西黑糖肉桂捲</li>
+                            <li>🚣 45 分鐘康河專人撐船 (Punting，看數學橋與歎息橋)</li>
+                        </ul>
+                    </div>
+                    <div class="summary-block">
+                        <h4><i class="fa-solid fa-bus"></i> 🚆 今天交通全攻略 (提供雙路線選擇)</h4>
+                        <p><strong>【路線 A 國王十字快車線 - 主推】</strong> K Hotel 出發搭 Piccadilly Line (18 分鐘) 至 King's Cross 站 ➔ 搭乘 <strong>Great Northern 國鐵直達快車 (48 分鐘)</strong> 直達 <strong>Cambridge 站</strong>。</p>
+                        <p><strong>【路線 B 利物浦街備用線】</strong> 搭地鐵至 Liverpool Street 站 ➔ 搭乘 <strong>Greater Anglia 國鐵 (65 分鐘)</strong> 直達 <strong>Cambridge 站</strong>。<br><strong>【劍橋當地公車】</strong> 出站可搭 <strong>Citi 1 / Citi 3 號公車 (10 分鐘)</strong> 直達市集廣場。</p>
+                    </div>
+                </div>
+                    <div class="timeline-container">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="card">
+                                <div class="card-header"><span class="time-badge">09:00 - 09:50</span><h4 class="card-title">🚆 國王十字車站搭國鐵快車前往劍橋 (Cambridge)</h4></div>
+                                <div class="card-body">國王十字車站搭國鐵快車 48 分鐘直達劍橋車站，沿途欣賞英格蘭鄉村風景。</div>
+                                <div class="card-links-group">
+                                    <button class="btn-focus-spot" onclick="focusDaySpot('day-2', 1)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位國王十字</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                                <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：國王十字車站 ➔ 劍橋車站與撐船碼頭</strong>
+                                <a href="https://www.google.com/maps/dir/?api=1&origin=King's+Cross+Station+London&destination=Quayside+Punting+Cambridge" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                    <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                                </a>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                                <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                    <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-train"></i> 路線 1：GWR/Great Northern 國鐵 (48 分鐘)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">國王十字車站搭乘國鐵直達快車至劍橋站，出站散步 15 分鐘至碼頭。</div>
+                                </div>
+                                <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                    <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-bus"></i> 路線 2：劍橋車站 Citi 1/3 公車 (10 分鐘)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">劍橋車站出站搭乘 Citi 1 / Citi 3 公車直達 Drummer St 總站，下車即達市集與碼頭。</div>
+                                </div>
+                                <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                    <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-train-subway"></i> 路線 3：Greater Anglia 國鐵 (65 分鐘)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">利物浦街站 (Liverpool Street) 發車備用線，直達劍橋車站。</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="card">
+                                <div class="card-header"><span class="time-badge">10:30 - 12:00</span><h4 class="card-title">🛶 劍橋康河專人撐船 (Punting) 45 分鐘體驗</h4></div>
+                                <div class="card-body">專業船夫撐船穿梭康河，觀賞數學橋、歎息橋與國王學院後花園大草坪。</div>
+                                <div class="card-links-group">
+                                    <button class="btn-focus-spot" onclick="focusDaySpot('day-2', 3)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位撐船碼頭</button>
+                                    <a href="https://www.letsgopunting.co.uk/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> 撐船官網</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                                <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：撐船碼頭 ➔ 國王學院 (!外觀) & 市集廣場</strong>
+                                <a href="https://www.google.com/maps/dir/?api=1&origin=Quayside+Punting+Cambridge&destination=King's+College+Cambridge" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                    <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                                </a>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                                <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                    <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-person-walking"></i> 路線 1：康河岸邊步道漫步 (5 分鐘)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">沿著綠樹成陰的康河岸邊向南散步 400 公尺直達國王學院大門。</div>
+                                </div>
+                                <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                    <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-person-walking"></i> 路線 2：Trinity St 古典巷弄 (6 分鐘)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">穿過三一學院 (Trinity College) 大門古色古香的石板巷弄散步至市集。</div>
+                                </div>
+                                <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                    <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-person-walking"></i> 路線 3：Market Hill 市集商圈 (5 分鐘)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">經由 Market Hill 穿過活潑熱鬧的歷史市集攤位區直達國王學院。</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="card">
+                                <div class="card-header"><span class="time-badge">12:00 - 13:00</span><h4 class="card-title">👑 國王學院 (!外觀打卡) ＆ 劍橋歷史市集散步</h4></div>
+                                <div class="card-body">散步至國王學院大教堂外觀拍照打卡，漫步於歷史市集廣場與古典大學城巷弄。</div>
+                                <div class="card-links-group">
+                                    <button class="btn-focus-spot" onclick="focusDaySpot('day-2', 4)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位國王學院</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                                <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：國王學院 ➔ Fitzbillies 百年麵包老店</strong>
+                                <a href="https://www.google.com/maps/dir/?api=1&origin=King's+College+Cambridge&destination=Fitzbillies+Trumpington+St+Cambridge" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                    <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                                </a>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                                <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                    <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-person-walking"></i> 路線 1：Trumpington St 主幹道 (4 分鐘)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">沿 Trumpington St 向南直走 350 公尺即達 Fitzbillies 總店。</div>
+                                </div>
+                                <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                    <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-person-walking"></i> 路線 2：Senate House 巷弄漫步 (5 分鐘)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">經 Senate House Passage 穿過古典學院紅磚牆步道。</div>
+                                </div>
+                                <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                    <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-person-walking"></i> 路線 3：Pembroke St 學術步道 (6 分鐘)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">繞經 Pembroke College 綠地花園側門漫步至麵包店。</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="card">
+                                <div class="card-header"><span class="time-badge">13:00 - 14:30</span><h4 class="card-title">🍞 Fitzbillies 百年老店享用切爾西黑糖肉桂捲 ＆ 溫馨早午餐</h4></div>
+                                <div class="card-body">品嚐劍橋最著名的百年 Fitzbillies 切爾西黑糖肉桂捲 (Chelsea Buns) 與傳統英式早午餐。</div>
+                                <div class="card-links-group">
+                                    <a href="https://www.fitzbillies.com/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-bread-slice"></i> Fitzbillies 官網</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="day-remark-box">
+                    <h5><i class="fa-solid fa-note-sticky"></i> 📝 【Day 2 備註】</h5>
+                    <p>下午搭火車回到國王十字車站後，可順道逛 Coal Drops Yard 卸煤場噴泉水舞與運河船上書店。</p>
+                </div>
+                <div class="day-map-box">
+                    <div class="day-map-header">
+                        <div class="map-header-title">
+                            <h4><i class="fa-solid fa-map-location-dot"></i> 🗺️ Day 2 劍橋大學城往返軌跡與動態地圖</h4>
+                            <span class="tag-badge badge-gold"><i class="fa-solid fa-route"></i> 國鐵+撐船 往返軌跡</span>
+                        </div>
+                        <div class="map-actions-group">
+                            <button class="map-btn" onclick="resetDayMap('day-2')"><i class="fa-solid fa-expand"></i> 全覽檢視</button>
+                            <a href="https://www.google.com/maps/dir/K+Hotel+Kensington+London/King's+Cross+Station+London/Cambridge+Station+UK" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-location-arrow"></i> Google 全路線導航</a>
+                        </div>
+                    </div>
+                    <div class="map-stats-strip">
+                        <div class="m-stat"><span><i class="fa-solid fa-location-dot"></i> 座標點：</span><strong>5 個核心地點</strong></div>
+                        <div class="m-stat"><span><i class="fa-solid fa-train"></i> 交通：</span><strong>地鐵 ➔ 國鐵 48分鐘 ➔ 康河撐船</strong></div>
+                        <div class="m-stat"><span><i class="fa-solid fa-compass"></i> GPS：</span><strong>51.4935° N ➔ 51.5320° N ➔ 52.1942° N ➔ 52.2043° N</strong></div>
+                    </div>
+                    <div id="leaflet-map-day-2" class="interactive-day-map"></div>
+                </div>
+            </div>
+
+            <!-- Day 3 -->
+            <div id="day-3" class="day-section">
+                <div class="day-header-card">
+                    <div class="day-title-info">
+                        <h3><span class="tag-badge badge-blue">Day 3</span> 8 月 20 日 (四) ｜ 🏛️ 大英博物館 (11:20) ➔ 🧸 Hamleys 7層樓玩具店 ➔ 🌳 南岸公園</h3>
+                        <p>🏛️ 大英博物館 (11:20免費通道預約確立) ➔ Soho 牛排午餐 ➔ 🧸 Hamleys 7層樓玩具店 (8/20下午) ➔ 泰晤士南岸</p>
+                    </div>
+                </div>
+                <div class="day-quick-summary-box">
+                    <div class="summary-block">
+                        <h4><i class="fa-solid fa-location-dot"></i> 📍 今天主要景點</h4>
+                        <ul>
+                            <li>🏛️ 大英博物館 (British Museum，免費預約 11:20 門票通道)</li>
+                            <li>🥩 Flat Iron 牛排館午餐 (憑發票免費兌換鹹焦糖冰淇淋)</li>
+                            <li>🧸 Hamleys 7層樓百年玩具城 (Regent Street，8/20 下午順暢暢逛)</li>
+                            <li>🌳 Jubilee Gardens 泰晤士南岸綠地小活動</li>
+                        </ul>
+                    </div>
+                    <div class="summary-block">
+                        <h4><i class="fa-solid fa-bus"></i> 🚆 今天交通全攻略 (提供雙路線選擇)</h4>
+                        <p><strong>【路線 A 地鐵直達線 - 主推】</strong> K Hotel 出發搭 Piccadilly Line (18 分鐘) 直達 <strong>Holborn 站</strong> 散步 5 分鐘至大英博物館！大英 ➔ Flat Iron ➔ Hamleys ➔ 南岸公園全程散步即可。</p>
+                        <p><strong>【路線 B 雙層公車觀光線】</strong> K Hotel 門口搭乘 <strong>14 號或 74 號紅雙層公車</strong> (二樓第 1 排視野)，途經騎士橋與海德公園直達大英博物館旁。</p>
+                    </div>
+                </div>
+                <div class="timeline-container">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">11:20 - 14:20</span><h4 class="card-title">🏛️ 【預約 11:20 入場】大英博物館 (British Museum) 參觀</h4></div>
+                            <div class="card-body">憑免費預約通道順暢入場！參觀埃及木乃伊館［Room 62］、羅塞塔石碑［Room 4］與路易斯木棋子［Room 40］。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-3', 1)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位大英博物館</button>
+                                <a href="https://www.britishmuseum.org/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> 博物館官網</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                            <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：大英博物館 ➔ Flat Iron 牛排館</strong>
+                            <a href="https://www.google.com/maps/dir/?api=1&origin=British+Museum+London&destination=Flat+Iron+Tottenham+Court+Road+London" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                            </a>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-person-walking"></i> 路線 1：Coptic St 靜謐散步 (3 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">博物館大門向左沿 Coptic St 散步 250 公尺即達。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-person-walking"></i> 路線 2：Museum St 商店街 (3 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">經 Museum St 文青明信片商店街散步轉彎。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-person-walking"></i> 路線 3：Great Russell St 大道 (4 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">沿著博物館大門主幹道向西散步至 Tottenham Court Rd。</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">14:30 - 15:30</span><h4 class="card-title">🥩 Flat Iron 牛排館午餐 (憑發票免費兌換鹹焦糖冰淇淋)</h4></div>
+                            <div class="card-body">博物館向左散步 3 分鐘即達！享用 £14 香煎羽下牛排與小金屬菜刀紀念品，餐後憑發票免費兌換濃郁鹹焦糖冰淇淋。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-3', 2)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位 Flat Iron</button>
+                                <a href="https://flatironsteak.co.uk/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-utensils"></i> Flat Iron 官網</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                            <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：Flat Iron 牛排館 ➔ Hamleys 7層樓玩具店</strong>
+                            <a href="https://www.google.com/maps/dir/?api=1&origin=Flat+Iron+Tottenham+Court+Road+London&destination=Hamleys+Regent+Street+London" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                            </a>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-person-walking"></i> 路線 1：Oxford St 購物街散步 (10 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">沿 Oxford St 主購物街向西散步 800m 至 Regent St 轉彎。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-train-subway"></i> 路線 2：Central Line 1 站 (5 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">Tottenham Court Rd 站搭地鐵 1 站至 Oxford Circus 站散步 3 分鐘。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-bus"></i> 路線 3：55 / 73 號公車 (8 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">搭乘紅雙層公車 2 站至 Oxford Circus 站出站即達。</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">15:30 - 17:30</span><h4 class="card-title">🧸 【指定 8/20 下午場次】Hamleys 7 層樓百年玩具店暢玩</h4></div>
+                            <div class="card-body">順暢移至 8/20 下午！暢逛全倫敦最大 7 層樓玩具城堡，體驗現場魔術展示、樂高專區與哈利波特紀念品區。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-3', 3)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位 Hamleys</button>
+                                <a href="https://www.hamleys.com/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> Hamleys 官網</a>
+                            </div>
+                        </div>
+                        <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                                <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：從 Hamleys 玩具店 ➔ 泰晤士河岸 (大本鐘與南岸公園)</strong>
+                                <a href="https://www.google.com/maps/dir/?api=1&origin=Hamleys+Regent+Street+London&destination=Jubilee+Gardens+London" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                    <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                                </a>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.88rem;">
+                                <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                    <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-train-subway"></i> 路線 1：地鐵快線 (8-10 分鐘)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">Hamleys 向南散步 3 分鐘至 Piccadilly Circus 站 ➔ 搭 <strong>Bakerloo Line (棕線)</strong> 4 分鐘直達 Waterloo 站 / 2 站至 Embankment 站。</div>
+                                </div>
+                                <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                    <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-bus"></i> 路線 2：雙層公車觀光 (12-15 分鐘)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">Hamleys 門口搭乘 <strong>12 號 / 453 號雙層紅公車</strong> (坐二樓第 1 排)，途經特拉法加廣場與白廳，直達大本鐘正門。</div>
+                                </div>
+                                <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                    <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-person-walking"></i> 路線 3：城市漫步線 (20-25 分鐘)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">向南散步經過 Piccadilly Circus ➔ 特拉法加廣場 ➔ 白廳 (首相府/騎兵衛隊) ➔ 抵達威斯敏斯特大本鐘。</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">18:00 - 19:30</span><h4 class="card-title">🌳 泰晤士南岸 Jubilee Gardens 兒童木製公園放電</h4></div>
+                            <div class="card-body">帶孩子在倫敦眼正下方的大型木製攀爬公園放電，欣賞夕陽泰晤士河全景。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-3', 4)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位南岸公園</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-remark-box">
+                    <h5><i class="fa-solid fa-note-sticky"></i> 📝 【Day 3 備註】</h5>
+                    <p>Hamleys 逛完後可順道走至 Carnaby Street 卡納比街看五彩燈光與文青冰淇淋店。</p>
+                </div>
+                <div class="day-map-box">
+                    <div class="day-map-header">
+                        <div class="map-header-title">
+                            <h4><i class="fa-solid fa-map-location-dot"></i> 🗺️ Day 3 當天往返軌跡與動態路線地圖</h4>
+                            <span class="tag-badge badge-blue"><i class="fa-solid fa-route"></i> 倫敦西區+南岸 往返軌跡</span>
+                        </div>
+                        <div class="map-actions-group">
+                            <button class="map-btn" onclick="resetDayMap('day-3')"><i class="fa-solid fa-expand"></i> 全覽檢視</button>
+                            <a href="https://www.google.com/maps/dir/K+Hotel+Kensington+London/British+Museum+London/Hamleys+Regent+Street+London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-location-arrow"></i> Google 全路線導航</a>
+                        </div>
+                    </div>
+                    <div class="map-stats-strip">
+                        <div class="m-stat"><span><i class="fa-solid fa-location-dot"></i> 座標點：</span><strong>5 個精準地點</strong></div>
+                        <div class="m-stat"><span><i class="fa-solid fa-train"></i> 交通：</span><strong>Piccadilly Line 直達 ➔ 散步 ➔ 地鐵返飯店</strong></div>
+                        <div class="m-stat"><span><i class="fa-solid fa-compass"></i> GPS：</span><strong>51.4935° N ➔ 51.5194° N ➔ 51.5127° N ➔ 51.5050° N</strong></div>
+                    </div>
+                    <div id="leaflet-map-day-3" class="interactive-day-map"></div>
+                </div>
+            </div>
+
+            <!-- Day 4 -->
+            <div id="day-4" class="day-section">
+                <div class="day-header-card">
+                    <div class="day-title-info">
+                        <h3><span class="tag-badge badge-emerald">Day 4</span> 8 月 21 日 (五) ｜ 🎨 國家美術館 (10:00) ➔ 🧱 樂高旗艦店 ➔ 🎭 科芬園</h3>
+                        <p>🎨 國家美術館 (確定 10:00 預約) ➔ 特拉法加廣場 ➔ Soho 金滿樓港飲 ➔ 🧱 樂高旗艦店 ➔ 🎭 科芬園</p>
+                    </div>
+                </div>
+                <div class="day-quick-summary-box">
+                    <div class="summary-block">
+                        <h4><i class="fa-solid fa-location-dot"></i> 📍 今天主要景點</h4>
+                        <ul>
+                            <li>🎨 倫敦國家美術館 (The National Gallery，確利預約 10:00 入場)</li>
+                            <li>🥟 Soho Chinatown 金滿樓港點午餐</li>
+                            <li>🧱 LEGO 樂高全球旗艦店 & 🎭 科芬園街頭藝人表演</li>
+                        </ul>
+                    </div>
+                    <div class="summary-block">
+                        <h4><i class="fa-solid fa-bus"></i> 🚆 今天交通全攻略 (提供雙路線選擇)</h4>
+                        <p><strong>【路線 A Piccadilly Line 快線 - 主推】</strong> K Hotel 出發搭 Piccadilly Line (14 分鐘) 直達 <strong>Leicester Square 站</strong>，景點全在 3-5 分鐘步行圈！</p>
+                        <p><strong>【路線 B District Line 河畔線】</strong> 搭 District Line (12 分鐘) 至 <strong>Embankment 站</strong> ➔ 向北漫步穿越特拉法加廣場至國家美術館。</p>
+                    </div>
+                </div>
+                <div class="timeline-container">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">10:00 - 12:00</span><h4 class="card-title">🎨 【預約 10:00 入場確立】倫敦國家美術館 (National Gallery) 參觀</h4></div>
+                            <div class="card-body">參觀梵谷《向日葵》、達文西《岩間聖母》與莫內印象派大師名畫展區。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-4', 1)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位國家美術館</button>
+                                <a href="https://www.nationalgallery.org.uk/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> 美術館官網</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                            <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：國家美術館 ➔ Soho Chinatown 金滿樓 (Gold Mine)</strong>
+                            <a href="https://www.google.com/maps/dir/?api=1&origin=National+Gallery+London&destination=Chinatown+London" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                            </a>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-person-walking"></i> 路線 1：Whitcomb St 靜謐散步 (3 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">美術館向北沿 Whitcomb St 散步 250m 即達中華街。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-person-walking"></i> 路線 2：Leicester Square 廣場漫步 (4 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">穿越 Leicester Square 廣場噴泉散步至金滿樓。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-person-walking"></i> 路線 3：Charing Cross Rd (4 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">沿 Charing Cross Rd 主幹道向北散步切入港點街。</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">12:00 - 13:30</span><h4 class="card-title">🥟 Soho Chinatown 金滿樓 (Gold Mine) 港式飲茶午餐</h4></div>
+                            <div class="card-body">美術館向北散步 3 分鐘即達 Soho 中華街！享用現蒸蝦餃、奶黃包、燒賣與招牌明爐燒鴨。</div>
+                            <div class="card-links-group">
+                                <a href="https://maps.google.com/?q=Chinatown+London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-utensils"></i> 金滿樓地圖導航</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                            <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：Soho Chinatown ➔ LEGO 樂高旗艦店 & M&M'S World</strong>
+                            <a href="https://www.google.com/maps/dir/?api=1&origin=Chinatown+London&destination=Lego+Store+Leicester+Square+London" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                            </a>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-person-walking"></i> 路線 1：Wardour St 直走 (2 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">向東沿 Wardour St 散步 150m 直達樂高旗艦店門口。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-person-walking"></i> 路線 2：Leicester Sq 廣場 (3 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">穿越 Leicester Square 廣場中心電影雕像區散步。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-person-walking"></i> 路線 3：Coventry St (3 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">經 Coventry St 散步至 M&M'S World 巧克力城堡大門。</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">13:30 - 15:30</span><h4 class="card-title">🧱 樂高旗艦店 (Leicester Sq) ＆ M&M'S World 巧克力城堡</h4></div>
+                            <div class="card-body">體驗 1:1 樂高地鐵車廂與 3D 大本鐘模型，逛全倫敦最大 M&M 4 層樓巧克力牆。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-4', 2)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位樂高旗艦店</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                            <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：LEGO 旗艦店 ➔ Covent Garden (科芬園街頭藝人)</strong>
+                            <a href="https://www.google.com/maps/dir/?api=1&origin=Lego+Store+Leicester+Square+London&destination=Covent+Garden+London" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                            </a>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-person-walking"></i> 路線 1：Cranbourn St 漫步 (5 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">向東沿 Cranbourn St & Long Acre 散步 450m 直達科芬園。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-person-walking"></i> 路線 2：Garrick St 劇院街 (6 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">經 Garrick St 穿過西區劇院古典建築群散步至廣場。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-train-subway"></i> 路線 3：Piccadilly Line 1 站 (3 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">Leicester Square 站搭地鐵 1 站至 Covent Garden 站。</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">15:30 - 18:00</span><h4 class="card-title">🎭 科芬園 (Covent Garden) 古典拱廊街頭藝人表演</h4></div>
+                            <div class="card-body">觀賞古典拱廊喜劇雜耍與音樂表演，享用甜點下午茶後搭 Piccadilly Line 返飯店。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-4', 3)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位科芬園</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-remark-box">
+                    <h5><i class="fa-solid fa-note-sticky"></i> 📝 【Day 4 備註】</h5>
+                    <p>科芬園旁可順道逛 Seven Dials 圓環文青小鎮與 Neal's Yard 繽紛五彩小巷。</p>
+                </div>
+                <div class="day-map-box">
+                    <div class="day-map-header">
+                        <div class="map-header-title">
+                            <h4><i class="fa-solid fa-map-location-dot"></i> 🗺️ Day 4 當天往返軌跡與動態路線地圖</h4>
+                            <span class="tag-badge badge-emerald"><i class="fa-solid fa-route"></i> 藝術+市集 往返軌跡</span>
+                        </div>
+                        <div class="map-actions-group">
+                            <button class="map-btn" onclick="resetDayMap('day-4')"><i class="fa-solid fa-expand"></i> 全覽檢視</button>
+                            <a href="https://www.google.com/maps/dir/K+Hotel+Kensington+London/The+National+Gallery+London/Covent+Garden+London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-location-arrow"></i> Google 全路線導航</a>
+                        </div>
+                    </div>
+                    <div class="map-stats-strip">
+                        <div class="m-stat"><span><i class="fa-solid fa-location-dot"></i> 座標點：</span><strong>4 個精確地點</strong></div>
+                        <div class="m-stat"><span><i class="fa-solid fa-train"></i> 交通：</span><strong>Piccadilly Line 7 分鐘直達 ➔ 全程步行圈</strong></div>
+                        <div class="m-stat"><span><i class="fa-solid fa-compass"></i> GPS：</span><strong>51.4935° N ➔ 51.5089° N ➔ 51.5107° N ➔ 51.5117° N</strong></div>
+                    </div>
+                    <div id="leaflet-map-day-4" class="interactive-day-map"></div>
+                </div>
+            </div>
+
+            <!-- Day 5 -->
+            <div id="day-5" class="day-section">
+                <div class="day-header-card">
+                    <div class="day-title-info">
+                        <h3><span class="tag-badge badge-emerald">Day 5</span> 8 月 22 日 (六) ｜ 🔬 科學博物館 (10:00) ➔ 🦕 自然史博物館 (14:15 已預約) ➔ 🌅 Sky Garden</h3>
+                        <p>🔬 科學博物館 (地鐵僅1站 10:00預約) ➔ 🍔 美食午餐 ➔ 🦕 自然史博物館 (🎉已預約 14:15 成功) ➔ 🌅 Sky Garden (18:00)</p>
+                    </div>
+                </div>
+                <div class="day-quick-summary-box">
+                    <div class="summary-block">
+                        <h4><i class="fa-solid fa-location-dot"></i> 📍 今天主要景點</h4>
+                        <ul>
+                            <li>🔬 倫敦科學博物館 (Science Museum，確利預約 10:00 入場)</li>
+                            <li>🦕 自然史博物館 (Natural History Museum，🎉【已成功預約 14:15 入場！】隔壁 1 分鐘)</li>
+                            <li>🌅 Sky Garden 空中花園 (預約 18:00 入場看夕陽全景)</li>
+                        </ul>
+                    </div>
+                    <div class="summary-block">
+                        <h4><i class="fa-solid fa-bus"></i> 🚆 今天交通全攻略 (提供雙路線選擇)</h4>
+                        <p><strong>【路線 A 地鐵 1 站直達 - 主推】</strong> K Hotel 出發搭 District Line <strong>僅 1 站 (2 分鐘)</strong> 直達 South Kensington 站！雙館在隔壁 1 分鐘。傍晚搭 District Line 16 分鐘至 Monument 站登 Sky Garden。</p>
+                        <p><strong>【路線 B 海德公園綠帶散步線】</strong> K Hotel 飯店出發向北散步 12 分鐘穿過 Kensington Gardens 綠意步道直達雙館。</p>
+                    </div>
+                </div>
+                <div class="timeline-container">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">10:00 - 13:00</span><h4 class="card-title">🔬 【預約 10:00 入場】倫敦科學博物館 (Science Museum) 暢玩</h4></div>
+                            <div class="card-body">參觀阿波羅 10 號太空船指令艙與 Wonderlab 兒童科學互動樂園。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-5', 1)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位科學館</button>
+                                <a href="https://www.sciencemuseum.org.uk/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> 科學館官網</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                            <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：科學博物館 ➔ Honest Burgers / 美食街</strong>
+                            <a href="https://www.google.com/maps/dir/?api=1&origin=Science+Museum+London&destination=Honest+Burgers+South+Kensington+London" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                            </a>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-person-walking"></i> 路線 1：Exhibition Rd 美食街散步 (2 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">科學館門口向南散步 150m 即達美食商圈。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-person-walking"></i> 路線 2：Thurloe Place 綠蔭道 (3 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">經由 Thurloe Place 轉角散步至漢堡名店。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-person-walking"></i> 路線 3：Brough Place (3 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">繞經南肯辛頓地鐵拱廊商圈漫步。</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">13:00 - 14:00</span><h4 class="card-title">🍔 Honest Burgers / 南肯辛頓美食街午餐</h4></div>
+                            <div class="card-body">享用著名的迷迭香鹽薯條 (Rosemary Salt Fries) 與高品質英式牛肉漢堡。</div>
+                            <div class="card-links-group">
+                                <a href="https://www.honestburgers.co.uk/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-burger"></i> Honest Burgers 官網</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                            <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：Honest Burgers ➔ 自然史博物館 (14:15 已預約)</strong>
+                            <a href="https://www.google.com/maps/dir/?api=1&origin=Honest+Burgers+South+Kensington+London&destination=Natural+History+Museum+London" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                            </a>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-person-walking"></i> 路線 1：隔壁散步 1 分鐘 (100m)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">就在科學館正隔壁！散步 1 分鐘直接驗票入場。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-person-walking"></i> 路線 2：Cromwell Rd 大門 (2 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">經 Cromwell Rd 宏偉哥德式大門入場。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-person-walking"></i> 路線 3：Exhibition Rd 側門 (2 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">經 Exhibition Rd 靜謐無障礙側門入場。</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">14:15 - 16:30</span><h4 class="card-title">🦕 🎉 【已預約 14:15 入場成功】自然史博物館 (Natural History Museum) 參觀</h4></div>
+                            <div class="card-body">憑免費預約門票 (14:15 場次) 順暢驗票入場！觀賞大廳巨型藍鯨骨架與會動的霸王龍 (T-Rex)。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-5', 2)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位自然史館</button>
+                                <a href="https://www.nhm.ac.uk/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-circle-check"></i> 8/22 14:15 門票已預約</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                            <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：自然史博物館 ➔ Sky Garden 空中花園 (18:00 已預約)</strong>
+                            <a href="https://www.google.com/maps/dir/?api=1&origin=Natural+History+Museum+London&destination=Sky+Garden+London" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                            </a>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-train-subway"></i> 路線 1：District Line 直達 (16 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">South Kensington 站搭綠線 16 分鐘直達 Monument 站，出站散步 3 分鐘。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-train-subway"></i> 路線 2：Piccadilly 轉 Central Line (20 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">搭深藍線至 Holborn 轉紅線至 Bank 站出站。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-taxi"></i> 路線 3：計程車 / Uber 沿河觀光 (22 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">沿泰晤士河堤水岸公路直達金融城 Walkie Talkie 大樓。</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">18:00 - 19:00</span><h4 class="card-title">🌅 Sky Garden 空中花園 (預約 18:00 入場 / 19:00 出)</h4></div>
+                            <div class="card-body">俯瞰倫敦塔橋全景與泰晤士河夕陽夜景，離開搭 District Line 直達 Earl's Court。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-5', 3)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位 Sky Garden</button>
+                                <a href="https://skygarden.london/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> Sky Garden 官網</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-remark-box">
+                    <h5><i class="fa-solid fa-note-sticky"></i> 📝 【Day 5 備註】</h5>
+                    <p>雙館距離海德公園/肯辛頓花園僅 5 分鐘，可帶孩子在廣闊草皮上散步看天鵝。</p>
+                </div>
+                <div class="day-map-box">
+                    <div class="day-map-header">
+                        <div class="map-header-title">
+                            <h4><i class="fa-solid fa-map-location-dot"></i> 🗺️ Day 5 當天往返軌跡與動態路線地圖</h4>
+                            <span class="tag-badge badge-emerald"><i class="fa-solid fa-route"></i> 雙館+高空觀景 往返軌跡</span>
+                        </div>
+                        <div class="map-actions-group">
+                            <button class="map-btn" onclick="resetDayMap('day-5')"><i class="fa-solid fa-expand"></i> 全覽檢視</button>
+                            <a href="https://www.google.com/maps/dir/K+Hotel+Kensington+London/Science+Museum+London/Natural+History+Museum+London/Sky+Garden+London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-location-arrow"></i> Google 全路線導航</a>
+                        </div>
+                    </div>
+                    <div class="map-stats-strip">
+                        <div class="m-stat"><span><i class="fa-solid fa-location-dot"></i> 座標點：</span><strong>4 個精確地點</strong></div>
+                        <div class="m-stat"><span><i class="fa-solid fa-train"></i> 交通：</span><strong>地鐵僅 1 站 ➔ 隔壁步行 1 分鐘 ➔ District Line 直達</strong></div>
+                        <div class="m-stat"><span><i class="fa-solid fa-compass"></i> GPS：</span><strong>51.4935° N ➔ 51.4978° N ➔ 51.4967° N ➔ 51.5113° N</strong></div>
+                    </div>
+                    <div id="leaflet-map-day-5" class="interactive-day-map"></div>
+                </div>
+            </div>
+
+            <!-- Day 6 -->
+            <div id="day-6" class="day-section">
+                <div class="day-header-card">
+                    <div class="day-title-info">
+                        <h3><span class="tag-badge badge-blue">Day 6</span> 8 月 23 日 (日) ｜ 🛥️ 泰晤士河觀光快艇 ➔ ⛰️ 登格林威治公園山丘 ➔ 🛍️ 格林威治市集 ➔ 🚝 DLR 車頭 1 排</h3>
+                        <p>早上 Earl's Court 搭地鐵 11 分鐘至威斯敏斯特碼頭 ➔ 快艇渡河 ➔ 登頂山丘 ➔ 市集午餐 ➔ DLR 車頭 1 排</p>
+                    </div>
+                </div>
+                <div class="day-quick-summary-box">
+                    <div class="summary-block">
+                        <h4><i class="fa-solid fa-location-dot"></i> 📍 今天主要景點</h4>
+                        <ul>
+                            <li>🛥️ 威斯敏斯特碼頭搭乘 Uber Boat 觀光快艇渡河 (35-40分鐘)</li>
+                            <li>⛰️ 登上格林威治公園山丘 (觀景台俯瞰全倫敦天際線)</li>
+                            <li>⏰ 皇家天文台坡頂 (!外觀) & ⚓ 卡蒂薩克號 (!外觀)</li>
+                            <li>🛍️ 格林威治美食市集 (Greenwich Market) 享用小吃午餐</li>
+                            <li>🚝 DLR 無人駕駛輕軌 (搶坐車頭第 1 排駕駛員視野視角)</li>
+                        </ul>
+                    </div>
+                    <div class="summary-block">
+                        <h4><i class="fa-solid fa-bus"></i> 🚆 今天交通全攻略 (提供雙路線選擇)</h4>
+                        <p><strong>【路線 A 快艇渡河 + DLR 車頭 - 主推】</strong> Earl's Court 搭 District Line (11 分鐘) 至 Westminster 碼頭 ➔ 搭 <strong>Uber Boat 觀光快艇 (38 分鐘)</strong> 赴格林威治！回程搭 <strong>DLR 輕軌 (搶車頭第 1 排)</strong> 返金融城轉地鐵。</p>
+                        <p><strong>【路線 B DLR 全陸路快線 / 雨天備用】</strong> Earl's Court 搭地鐵至 Monument 站 ➔ 轉乘 <strong>DLR 輕軌 (20 分鐘)</strong> 直達 Cutty Sark 站。</p>
+                    </div>
+                </div>
+                <div class="timeline-container">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">09:15 - 10:00</span><h4 class="card-title">🛥️ 【指定搭船】威斯敏斯特碼頭 (Westminster Pier) 搭觀光快艇渡河</h4></div>
+                            <div class="card-body">搭乘 Uber Boat 快艇渡河，沿途觀賞大本鐘、倫敦眼、聖保羅與倫敦塔橋全景。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-6', 1)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位碼頭</button>
+                                <a href="https://www.thamesclippers.com/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> 快艇官網</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                            <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：威斯敏斯特碼頭 ➔ 格林威治碼頭 & 卡蒂薩克號 (!外觀)</strong>
+                            <a href="https://www.google.com/maps/dir/?api=1&origin=Westminster+Pier+London&destination=Cutty+Sark+Greenwich" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                            </a>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-ship"></i> 路線 1：Uber Boat 觀光快艇 (38 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">威斯敏斯特碼頭上船，水上沿途觀賞大本鐘、倫敦眼與塔橋。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-train-subway"></i> 路線 2：地鐵 ➔ DLR 輕軌 (25 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">地鐵至 Bank 站轉乘 DLR 輕軌直達 Cutty Sark 站。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-ship"></i> 路線 3：City Cruises 導覽船 (45 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">專人英文講解觀光船直達格林威治碼頭。</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">10:45 - 12:15</span><h4 class="card-title">⛰️ 【指定登山】攀登格林威治公園山丘 ＆ 坡頂觀景台 (!外觀天文台)</h4></div>
+                            <div class="card-body">登上格林威治公園山丘坡頂觀景台，俯瞰全倫敦最壯麗天際線與本初子午線大鐘。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-6', 3)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位公園山丘</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                            <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：卡蒂薩克號 ➔ 格林威治公園山丘觀景台</strong>
+                            <a href="https://www.google.com/maps/dir/?api=1&origin=Cutty+Sark+Greenwich&destination=Royal+Observatory+Greenwich" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                            </a>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-person-walking"></i> 路線 1：公園大草坡步道 (8 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">穿過大門向上攀登公園林蔭大草坡 600m 直達坡頂觀景台。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-person-walking"></i> 路線 2：King William Walk (10 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">經 King William Walk 繞至舊皇家海軍學院林蔭道上山。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-person-walking"></i> 路線 3：Greenwich Park 緩坡步道 (9 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">走無障礙緩坡磚石步道輕鬆上山。</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">12:15 - 13:30</span><h4 class="card-title">🛍️ 格林威治古典美食市集 (Greenwich Market) 午餐</h4></div>
+                            <div class="card-body">在維多利亞風格歷史拱廊市集享用各國現做街頭美食小吃與甜點。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-6', 4)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位格林威治市集</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                            <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：山丘觀景台 ➔ 格林威治美食市集</strong>
+                            <a href="https://www.google.com/maps/dir/?api=1&origin=Royal+Observatory+Greenwich&destination=Greenwich+Market+London" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                            </a>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-person-walking"></i> 路線 1：山丘草坡輕鬆下山 (7 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">順草坡向下散步 500m 直達歷史拱廊市集入口。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-person-walking"></i> 路線 2：Nelson Rd 商店街 (8 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">經 Nelson Rd 文青小店街散步切入市集。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-person-walking"></i> 路線 3：College Approach (7 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">經 College Approach 美食街散步至市集正門。</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">14:30 - 16:30</span><h4 class="card-title">🚝 DLR 無人駕駛輕軌 (搶坐車頭第 1 排駕駛員視野視角)</h4></div>
+                            <div class="card-body">搶坐無人駕駛輕軌車頭第 1 排，享受如同過山車般穿梭於金融城摩天大樓間的體驗！</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-6', 5)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位 DLR 站</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-remark-box">
+                    <h5><i class="fa-solid fa-note-sticky"></i> 📝 【Day 6 備註】</h5>
+                    <p>在格林威治碼頭旁，可走入建造於 1902 年的 Greenwich Foot Tunnel 百年泰晤士水下人行隧道。</p>
+                </div>
+                <div class="day-map-box">
+                    <div class="day-map-header">
+                        <div class="map-header-title">
+                            <h4><i class="fa-solid fa-map-location-dot"></i> 🗺️ Day 6 當天往返軌跡與動態路線地圖</h4>
+                            <span class="tag-badge badge-blue"><i class="fa-solid fa-route"></i> 快艇+山丘+DLR 往返軌跡</span>
+                        </div>
+                        <div class="map-actions-group">
+                            <button class="map-btn" onclick="resetDayMap('day-6')"><i class="fa-solid fa-expand"></i> 全覽檢視</button>
+                            <a href="https://www.google.com/maps/dir/K+Hotel+Kensington+London/Westminster+Pier+London/Greenwich+Market+London/Royal+Observatory+Greenwich" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-location-arrow"></i> Google 全路線導航</a>
+                        </div>
+                    </div>
+                    <div class="map-stats-strip">
+                        <div class="m-stat"><span><i class="fa-solid fa-location-dot"></i> 座標點：</span><strong>6 個精確地點</strong></div>
+                        <div class="m-stat"><span><i class="fa-solid fa-ship"></i> 交通：</span><strong>地鐵 ➔ Uber Boat 快艇 ➔ DLR 車頭第1排</strong></div>
+                        <div class="m-stat"><span><i class="fa-solid fa-compass"></i> GPS：</span><strong>51.4935° N ➔ 51.5015° N ➔ 51.4828° N ➔ 51.4769° N</strong></div>
+                    </div>
+                    <div id="leaflet-map-day-6" class="interactive-day-map"></div>
+                </div>
+            </div>
+
+            <!-- Day 7 -->
+            <div id="day-7" class="day-section">
+                <div class="day-header-card">
+                    <div class="day-title-info">
+                        <h3><span class="tag-badge badge-gold">Day 7</span> 8 月 24 日 (一) ｜ 🏰 溫莎城堡 (Windsor Castle 已預訂11:30成功) ➔ 📚 大英圖書館寶藏展</h3>
+                        <p>🏰 溫莎城堡 (10:00出發/11:30已預訂成功/極致順暢) ➔ 泰晤士河畔午餐 ➔ 📚 大英圖書館寶藏展 (開到20:00)</p>
+                    </div>
+                </div>
+                <div class="day-quick-summary-box">
+                    <div class="summary-block">
+                        <h4><i class="fa-solid fa-location-dot"></i> 📍 今天主要景點</h4>
+                        <ul>
+                            <li>🏰 溫莎城堡 (Windsor Castle，🎉【已成功預訂 11:30 門票！】完全免早起)</li>
+                            <li>🛍️ 溫莎皇家火車站與泰晤士河畔漫步 & 美食午餐</li>
+                            <li>📚 大英圖書館寶藏展 (Treasures Gallery，週一延長營業至 20:00)</li>
+                        </ul>
+                    </div>
+                    <div class="summary-block">
+                        <h4><i class="fa-solid fa-bus"></i> 🚆 今天交通全攻略 (提供雙路線選擇)</h4>
+                        <p><strong>【路線 A GWR 國鐵快車 - 主推】</strong> 地鐵至 Paddington 站 ➔ 搭 GWR 國鐵快車 (15 分鐘) 至 Slough 站 ➔ 轉 Windsor 支線小火車 (6 分鐘) 抵達 <strong>Windsor & Eton Central 站</strong> (出站即城堡！)。</p>
+                        <p><strong>【路線 B Waterloo 直達免換車線】</strong> Earl's Court 搭地鐵至 Waterloo 站 ➔ 搭 SWR 國鐵 (53 分鐘直達免換車) 抵達 <strong>Windsor & Eton Riverside 站</strong> 散步上山。</p>
+                    </div>
+                </div>
+                <div class="timeline-container">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">11:30 - 14:00</span><h4 class="card-title">🏰 🎉 【已成功預訂 11:30 門票】溫莎城堡 (Windsor Castle) 參觀</h4></div>
+                            <div class="card-body">門票已正式預訂成功！參觀豪華國家套房、聖喬治禮拜堂與瑪麗王后微型木偶屋。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-7', 2)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位溫莎城堡</button>
+                                <a href="https://www.rct.uk/visit/windsor-castle" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-circle-check"></i> 官方 11:30 預訂</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                            <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：溫莎城堡大門 ➔ 溫莎火車站美食街</strong>
+                            <a href="https://www.google.com/maps/dir/?api=1&origin=Windsor+Castle&destination=Windsor+Royal+Station" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                            </a>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-person-walking"></i> 路線 1：城堡大道下坡散步 (3 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">城堡出口大門直接向下散步 200m 即達皇家火車站拱廊。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-person-walking"></i> 路線 2：High Street 精品街 (4 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">經 High Street 古典店面商圈散步至拱廊。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-person-walking"></i> 路線 3：Thames Street 泰晤士河街 (4 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">繞經泰晤士河水岸石板街道漫步。</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">14:00 - 15:30</span><h4 class="card-title">🥐 溫莎皇家火車站拱廊 (Windsor Royal Station) 漫步 ＆ 河畔英式午餐</h4></div>
+                            <div class="card-body">漫步於維多利亞時代火車站拱廊商場與泰晤士河畔，享用英式炸魚薯條 (Fish & Chips) 或英式下午茶。</div>
+                        </div>
+                    </div>
+                    <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                            <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：溫莎火車站 ➔ 大英圖書館寶藏展 (週一開到20:00)</strong>
+                            <a href="https://www.google.com/maps/dir/?api=1&origin=Windsor+Royal+Station&destination=British+Library+London" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                            </a>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-train"></i> 路線 1：Windsor ➔ Paddington ➔ 地鐵 (45 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">火車至 Paddington 轉 Circle/Hammersmith Line 8 分鐘至 King's Cross。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-train"></i> 路線 2：SWR 國鐵直達 Waterloo ➔ Northern Line (60 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">直達 Waterloo 站轉黑線地鐵至 Euston 散步。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-taxi"></i> 路線 3：計程車 / Uber (50 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">沿 M4 高速公路行駛直達 Euston Rd 圖書館門口。</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">16:00 - 17:30</span><h4 class="card-title">📚 大英圖書館 寶藏展廳 (British Library Treasures Gallery)</h4></div>
+                            <div class="card-body">週一開到晚上 20:00！免費參觀《大憲章》原件、達文西筆記本與披頭四手稿。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-7', 3)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位大英圖書館</button>
+                                <a href="https://www.bl.uk/events/treasures-of-the-british-library" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> 圖書館官網</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                            <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：大英圖書館 ➔ Dishoom King's Cross (印度名店晚餐)</strong>
+                            <a href="https://www.google.com/maps/dir/?api=1&origin=British+Library+London&destination=Dishoom+King's+Cross+London" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                            </a>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-person-walking"></i> 路線 1：Euston Rd 主大道散步 (5 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">圖書館大門向東沿 Euston Rd 散步 400m 直達。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-person-walking"></i> 路線 2：Pancras Rd 運河步道 (6 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">繞經 St Pancras 火車站紅磚哥德建築群散步。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-person-walking"></i> 路線 3：Granary Square (6 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">經 Granary Square 噴泉水舞廣場切入餐廳。</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">17:30 - 19:00</span><h4 class="card-title">🍛 Dishoom King's Cross 印度名店莫臥兒風格晚餐 (推薦備選)</h4></div>
+                            <div class="card-body">大英圖書館旁 5 分鐘！品嚐倫敦最熱門的莫臥兒古典風格印度烤餅 (Naan)、香料烤雞與特色飲品。</div>
+                            <div class="card-links-group">
+                                <a href="https://www.dishoom.com/kings-cross/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-utensils"></i> Dishoom 官網</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-remark-box">
+                    <h5><i class="fa-solid fa-note-sticky"></i> 📝 【Day 7 備註】</h5>
+                    <p>溫莎城堡出門後可漫步跨過 Windsor Bridge 去看著名皇室寄宿男校伊頓公學 (Eton College)。</p>
+                </div>
+                <div class="day-map-box">
+                    <div class="day-map-header">
+                        <div class="map-header-title">
+                            <h4><i class="fa-solid fa-map-location-dot"></i> 🗺️ Day 7 當天往返軌跡與動態路線地圖</h4>
+                            <span class="tag-badge badge-gold"><i class="fa-solid fa-route"></i> 溫莎古堡+國鐵 往返軌跡</span>
+                        </div>
+                        <div class="map-actions-group">
+                            <button class="map-btn" onclick="resetDayMap('day-7')"><i class="fa-solid fa-expand"></i> 全覽檢視</button>
+                            <a href="https://www.google.com/maps/dir/K+Hotel+Kensington+London/Windsor+Castle/British+Library+London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-location-arrow"></i> Google 全路線導航</a>
+                        </div>
+                    </div>
+                    <div class="map-stats-strip">
+                        <div class="m-stat"><span><i class="fa-solid fa-location-dot"></i> 座標點：</span><strong>4 個精確地點</strong></div>
+                        <div class="m-stat"><span><i class="fa-solid fa-train"></i> 交通：</span><strong>地鐵 ➔ GWR 國鐵 ➔ 溫莎支線火車</strong></div>
+                        <div class="m-stat"><span><i class="fa-solid fa-compass"></i> GPS：</span><strong>51.4935° N ➔ 51.4833° N ➔ 51.4839° N ➔ 51.5300° N</strong></div>
+                    </div>
+                    <div id="leaflet-map-day-7" class="interactive-day-map"></div>
+                </div>
+            </div>
+
+            <!-- Day 8 -->
+            <div id="day-8" class="day-section">
+                <div class="day-header-card">
+                    <div class="day-title-info">
+                        <h3><span class="tag-badge badge-purple">Day 8</span> 8 月 25 日 (二) ｜ 🏛️ 西敏寺、大本鐘 (!外觀拍照打卡) ➔ ⚡ 哈利波特影城 (13:30) ➔ 🧙‍♂️ 9 ¾ 月台</h3>
+                        <p>🏛️ 西敏寺 & 大本鐘 (!外觀打卡拍照) ➔ 🚆 地鐵接國鐵快車 ➔ ⚡ 影城 (13:30) ➔ 🧙‍♂️ 9 ¾ 月台打卡</p>
+                    </div>
+                </div>
+                <div class="day-quick-summary-box">
+                    <div class="summary-block">
+                        <h4><i class="fa-solid fa-location-dot"></i> 📍 今天主要景點</h4>
+                        <ul>
+                            <li>🏛️ 西敏寺 & 大本鐘 (!外觀打卡拍照，45 分鐘免排隊安檢)</li>
+                            <li>⚡ 華納兄弟哈利波特影城 (WB Studio Tour，預約 13:30 入場)</li>
+                            <li>🧙‍♂️ 國王十字車站 9 ¾ 月台 (手推車拍照打卡與旗艦店)</li>
+                        </ul>
+                    </div>
+                    <div class="summary-block">
+                        <h4><i class="fa-solid fa-bus"></i> 🚆 今天交通全攻略 (提供雙路線選擇)</h4>
+                        <p><strong>【路線 A Euston 20分鐘國鐵快車 - 主推】</strong> Earl's Court 搭 District Line 至 Westminster 站看外觀 ➔ 地鐵至 Euston 站 ➔ 搭乘 <strong>West Midlands Trains 20 分鐘快車</strong> 至 Watford Junction ➔ 轉影城免費雙層巴士。</p>
+                        <p><strong>【路線 B London Overground 慢車備用線】</strong> Euston 站搭乘 London Overground 橘線地上鐵 (45 分鐘站站停) 直達 Watford Junction 站。</p>
+                    </div>
+                </div>
+                <div class="timeline-container">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">09:30 - 10:45</span><h4 class="card-title">🏛️ 【指定!外觀打卡】西敏寺 (Westminster Abbey) ＆ 大本鐘拍照打卡</h4></div>
+                            <div class="card-body">指定不進去內部！拍攝哥德式雙塔正門與大本鐘經典合照，免去門票與排隊安檢。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-8', 1)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位西敏寺</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                            <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：西敏寺/大本鐘 ➔ 華納哈利波特影城 (13:30 已預約)</strong>
+                            <a href="https://www.google.com/maps/dir/?api=1&origin=Westminster+Abbey+London&destination=Warner+Bros.+Studio+Tour+London" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                            </a>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-train"></i> 路線 1：地鐵至 Euston ➔ 國鐵快車 (35 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">Victoria Line 5 分鐘至 Euston ➔ 搭 20 分鐘國鐵快車至 Watford Junction 轉接駁車。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-train-subway"></i> 路線 2：Overground 慢車線 (60 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">Euston 站搭乘橘線地上鐵 (45 分鐘站站停) 至 Watford Junction。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-bus"></i> 路線 3：影城直達接駁專車 (40 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">Victoria 站直達影城巴士專車。</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">13:30 - 17:30</span><h4 class="card-title">⚡ 【預約 13:30 場次】華納兄弟哈利波特影城 ＆ 🧹 Backlot Cafe 奶油啤酒 (Butterbeer) 體驗</h4></div>
+                            <div class="card-body">霍格華茲大禮堂、斜角巷、古靈閣火龍！於 Backlot Cafe 享用特色奶油啤酒 (Butterbeer) ＆ 奶油啤酒冰淇淋，帶回紀念馬克杯！</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-8', 2)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位影城</button>
+                                <a href="https://www.wbstudiotour.co.uk/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> 影城官網</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                            <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：哈利波特影城 ➔ 國王十字車站 9 ¾ 月台</strong>
+                            <a href="https://www.google.com/maps/dir/?api=1&origin=Warner+Bros.+Studio+Tour+London&destination=King's+Cross+Station+London" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                            </a>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-train"></i> 路線 1：影城巴士 ➔ 國鐵快車 (35 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">影城巴士至 Watford Junction ➔ 國鐵快車 20 分鐘返 Euston 散步 8 分鐘。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-train-subway"></i> 路線 2：Victoria Line 地鐵 (2 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">Euston 站搭淺藍線地鐵 1 站直達 King's Cross。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-taxi"></i> 路線 3：計程車 / Uber (35 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">從影城出口叫 Uber 直達國王十字車站大門。</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">17:30 - 19:00</span><h4 class="card-title">🧙‍♂️ 返回國王十字車站 ➔ 9 ¾ 月台打卡</h4></div>
+                            <div class="card-body">推手推車拍照打卡與逛 9 ¾ 旗艦店，搭 Piccadilly Line 返飯店。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-8', 3)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位 9 ¾ 月台</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-remark-box">
+                    <h5><i class="fa-solid fa-note-sticky"></i> 📝 【Day 8 備註】</h5>
+                    <p>國王十字車站旁可順道至 Camden Market 金田復古市集逛黑膠唱片與運河步道。</p>
+                </div>
+                <div class="day-map-box">
+                    <div class="day-map-header">
+                        <div class="map-header-title">
+                            <h4><i class="fa-solid fa-map-location-dot"></i> 🗺️ Day 8 當天往返軌跡與動態路線地圖</h4>
+                            <span class="tag-badge badge-purple"><i class="fa-solid fa-route"></i> 西敏寺+魔法影城 往返軌跡</span>
+                        </div>
+                        <div class="map-actions-group">
+                            <button class="map-btn" onclick="resetDayMap('day-8')"><i class="fa-solid fa-expand"></i> 全覽檢視</button>
+                            <a href="https://www.google.com/maps/dir/K+Hotel+Kensington+London/Westminster+Abbey+London/Warner+Bros.+Studio+Tour+London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-location-arrow"></i> Google 全路線導航</a>
+                        </div>
+                    </div>
+                    <div class="map-stats-strip">
+                        <div class="m-stat"><span><i class="fa-solid fa-location-dot"></i> 座標點：</span><strong>4 個精確地點</strong></div>
+                        <div class="m-stat"><span><i class="fa-solid fa-train"></i> 交通：</span><strong>地鐵 ➔ 國鐵快車 20分鐘 ➔ 影城接駁車</strong></div>
+                        <div class="m-stat"><span><i class="fa-solid fa-compass"></i> GPS：</span><strong>51.4935° N ➔ 51.5007° N ➔ 51.6904° N ➔ 51.5322° N</strong></div>
+                    </div>
+                    <div id="leaflet-map-day-8" class="interactive-day-map"></div>
+                </div>
+            </div>
+
+            <!-- Day 9 -->
+            <div id="day-9" class="day-section">
+                <div class="day-header-card">
+                    <div class="day-title-info">
+                        <h3><span class="tag-badge badge-red">Day 9</span> 8 月 26 日 (三) ｜ 👑 白金漢宮看衛兵交接 (8/26 離境前壓軸!) ➔ 機場 38 分鐘直達返台</h3>
+                        <p>👑 白金漢宮皇家衛兵交接儀式 (10:15卡位/軍樂隊) ➔ 綠園散步看松鼠 ➔ 返飯店取行李 ➔ Piccadilly Line 38分鐘直達機場</p>
+                    </div>
+                </div>
+                <div class="day-quick-summary-box">
+                    <div class="summary-block">
+                        <h4><i class="fa-solid fa-location-dot"></i> 📍 今天主要景點</h4>
+                        <ul>
+                            <li>👑 白金漢宮皇家衛兵交接儀式 (8/26 週三官方表演日，10:15 卡位看軍樂隊)</li>
+                            <li>🌳 綠園 (Green Park) 散步看小松鼠</li>
+                            <li>✈️ 希斯洛機場 (LHR) Piccadilly Line 38 分鐘直達返台</li>
+                        </ul>
+                    </div>
+                    <div class="summary-block">
+                        <h4><i class="fa-solid fa-bus"></i> 🚆 今天交通全攻略 (提供雙路線選擇)</h4>
+                        <p><strong>【路線 A Piccadilly Line 雙向直達 - 主推】</strong> 飯店寄行李 ➔ Piccadilly Line 7 分鐘直達 <strong>Green Park 站</strong> 看衛兵 ➔ 返飯店取行李 ➔ Piccadilly Line <strong>38 分鐘直達希斯洛機場 (LHR T2/3)</strong>！</p>
+                        <p><strong>【路線 B Elizabeth Line 紫線快適線】</strong> 返飯店取行李 ➔ 搭地鐵至 Paddington 站 ➔ 轉乘 <strong>Elizabeth Line (伊莉莎白線)</strong> 15 分鐘直達機場。</p>
+                    </div>
+                </div>
+                <div class="timeline-container">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">10:15 - 11:45</span><h4 class="card-title">👑 【離境前最高潮壓軸！】白金漢宮 (Buckingham Palace) 衛兵交接儀式</h4></div>
+                            <div class="card-body">8 月 26 日週三為官方交接日！10:15 站上 Victoria Memorial 女王紀念碑階梯高處，觀賞紅衣熊皮帽衛兵與軍樂隊表演！</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-9', 1)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位白金漢宮</button>
+                                <a href="https://www.rct.uk/visit/buckingham-palace" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> 白金漢宮官網</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+                            <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：白金漢宮看衛兵 ➔ K Hotel 取行李 ➔ 希斯洛機場 (LHR)</strong>
+                            <a href="https://www.google.com/maps/dir/?api=1&origin=Buckingham+Palace+London&destination=Heathrow+Airport+London" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
+                            </a>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-train-subway"></i> 路線 1：Piccadilly Line 直達機場 (38 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">飯店取行李後，Earl's Court 站搭深藍線坐 18 站直達 LHR T2/3 (免換車)。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                                <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-train"></i> 路線 2：Elizabeth Line 紫線快適 (30 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">搭地鐵至 Paddington 站轉乘伊莉莎白線紫線火車 15 分鐘直達機場。</div>
+                            </div>
+                            <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
+                                <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-taxi"></i> 路線 3：飯店機場專車 / Uber (30 分鐘)</div>
+                                <div style="color: #cbd5e1; margin-top: 4px;">K Hotel 門口直上專車沿 A4 西向快速道路直達離境大廳。</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card">
+                            <div class="card-header"><span class="time-badge">15:30 - 21:30</span><h4 class="card-title">✈️ Piccadilly Line 直達機場 (僅 38 分鐘免換乘) 返台</h4></div>
+                            <div class="card-body">Earl's Court 搭 Piccadilly Line 直達希斯洛機場 (38 分鐘)，辦理退稅、託運與 21:30 班機起飛返台。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-9', 3)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位機場</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-remark-box">
+                    <h5><i class="fa-solid fa-note-sticky"></i> 📝 【Day 9 備註】</h5>
+                    <p>退房後行李寄存在飯店櫃檯，看交接與午餐後返回飯店取行李搭地鐵直達機場，全程完全免提行李逛街！</p>
+                </div>
+                <div class="day-map-box">
+                    <div class="day-map-header">
+                        <div class="map-header-title">
+                            <h4><i class="fa-solid fa-map-location-dot"></i> 🗺️ Day 9 當天往返軌跡與動態路線地圖</h4>
+                            <span class="tag-badge badge-red"><i class="fa-solid fa-route"></i> 衛兵壓軸+離境 往返軌跡</span>
+                        </div>
+                        <div class="map-actions-group">
+                            <button class="map-btn" onclick="resetDayMap('day-9')"><i class="fa-solid fa-expand"></i> 全覽檢視</button>
+                            <a href="https://www.google.com/maps/dir/K+Hotel+Kensington+London/Buckingham+Palace+London/Heathrow+Airport+London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-location-arrow"></i> Google 全路線導航</a>
+                        </div>
+                    </div>
+                    <div class="map-stats-strip">
+                        <div class="m-stat"><span><i class="fa-solid fa-location-dot"></i> 座標點：</span><strong>4 個精確地點</strong></div>
+                        <div class="m-stat"><span><i class="fa-solid fa-plane"></i> 交通：</span><strong>Piccadilly Line 7 分鐘 ➔ 飯店取行李 ➔ 38 分鐘直達機場</strong></div>
+                        <div class="m-stat"><span><i class="fa-solid fa-compass"></i> GPS：</span><strong>51.4935° N ➔ 51.5014° N ➔ 51.5070° N ➔ 51.4700° N</strong></div>
+                    </div>
+                    <div id="leaflet-map-day-9" class="interactive-day-map"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- VIEW 2: OVERVIEW TABLE -->
+        <div id="view-overview-table" class="tab-panel">
+            <h3 class="section-title"><i class="fa-solid fa-table-list"></i> 📊 9 天 8 夜 總覽表格 (2026/8/18 - 8/26)</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>日期</th><th>天數</th><th>日期主題</th><th>核心景點與交通說明 (🏨 K Hotel 肯辛頓)</th><th>導航連結</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>8/18 (二)</td><td>Day 1</td><td>抵達倫敦 & 入住 K Hotel</td><td>希斯洛機場入境 ➔ Piccadilly Line 38分鐘直達 Earl's Court 入住 K Hotel Kensington</td><td><a href="https://maps.google.com/?q=K+Hotel+Kensington+London" target="_blank" class="btn-link btn-map">📍 K Hotel 地圖</a></td></tr>
+                        <tr><td>8/19 (三)</td><td>Day 2</td><td>🎓 劍橋大學城撐船日</td><td>國鐵 48分鐘 ➔ 🎓 劍橋康河撐船 (45分鐘) ➔ 備選：Coal Drops Yard 噴泉水舞</td><td><a href="https://www.letsgopunting.co.uk/" target="_blank" class="btn-link btn-official">🌐 撐船官網</a></td></tr>
+                        <tr><td>8/20 (四)</td><td>Day 3</td><td>🏛️ 大英博物館 ➔ 🧸 Hamleys 玩具店</td><td>🏛️ **大英博物館 (預約11:20)** ➔ Flat Iron 牛排 ➔ 🧸 **Hamleys 7層樓玩具店 (8/20下午)** ➔ 🌳 南岸公園</td><td><a href="https://www.britishmuseum.org/visit" target="_blank" class="btn-link btn-official">🌐 博物館官網</a></td></tr>
+                        <tr><td>8/21 (五)</td><td>Day 4</td><td>🎨 國家美術館 (10:00) ➔ 樂高 ➔ 科芬園</td><td>🎨 **國家美術館 (預約 10:00)** ➔ 🥟 Soho 金滿樓 ➔ 🧱 樂高旗艦店 ➔ 🎭 科芬園街頭藝人</td><td><a href="https://www.nationalgallery.org.uk/" target="_blank" class="btn-link btn-official">🌐 美術館官網</a></td></tr>
+                        <tr><td>8/22 (六)</td><td>Day 5</td><td>雙館大滿貫 (僅1站) ➔ 🌅 Sky Garden</td><td>🔬 **科學博物館 (10:00/地鐵1站)** ➔ 🦕 **自然史博物館 (已預約 14:15 門票)** ➔ 🌅 **Sky Garden (18:00進)**</td><td><a href="https://www.sciencemuseum.org.uk/" target="_blank" class="btn-link btn-official">🌐 科學館官網</a></td></tr>
+                        <tr><td>8/23 (日)</td><td>Day 6</td><td>泰晤士快艇 ➔ 登格林威治山丘觀光</td><td>Uber Boat 觀光快艇渡河 ➔ ⛰️ **登上格林威治公園山丘 (全景觀景台)** ➔ 🛍️ 市集午餐 ➔ DLR 輕軌第1排</td><td><a href="https://www.thamesclippers.com/" target="_blank" class="btn-link btn-official">🌐 快艇官網</a></td></tr>
+                        <tr><td>8/24 (一)</td><td>Day 7</td><td>🏰 溫莎城堡(已預訂) ➔ 📚 大英圖書館寶藏展</td><td>🏰 **溫莎城堡 (已成功預訂11:30/完全免早起)** ➔ 📚 **大英圖書館寶藏展 (開到20:00)**</td><td><a href="https://www.rct.uk/visit/windsor-castle" target="_blank" class="btn-link btn-official">🌐 溫莎城堡官網</a></td></tr>
+                        <tr><td>8/25 (二)</td><td>Day 8</td><td>西敏寺(!外觀打卡) ➔ ⚡ 影城 (13:30)</td><td>🏛️ **西敏寺 & 大本鐘 (!外觀拍照打卡)** ➔ 🚆 地鐵接國鐵 ➔ ⚡ **哈利波特影城 (預約13:30)** ➔ 🧙‍♂️ 9 ¾ 月台</td><td><a href="https://www.wbstudiotour.co.uk/" target="_blank" class="btn-link btn-official">🌐 影城官網</a></td></tr>
+                        <tr><td>8/26 (三)</td><td>Day 9</td><td>👑 白金漢宮看衛兵壓軸 ➔ 機場直達返台</td><td>👑 **白金漢宮衛兵交接儀式 (10:15卡位/離境前壓軸!)** ➔ 綠園松鼠 ➔ 機場 38 分鐘直達返台</td><td><a href="https://www.rct.uk/visit/buckingham-palace" target="_blank" class="btn-link btn-official">🌐 衛兵官網</a></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- VIEW 3: TICKETS -->
+        <div id="view-tickets" class="tab-panel">
+            <h3 class="section-title"><i class="fa-solid fa-ticket"></i> 🎫 門票預約與線上訂票總表</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>日期</th><th>景點 / 體驗項目</th><th>入場類型</th><th>線上預約 / 訂票狀態連結</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>8/19 (三)</td><td>劍橋康河撐船</td><td><span class="tag-badge badge-purple">付費</span></td><td><a href="https://www.letsgopunting.co.uk/" target="_blank" class="btn-link btn-official">🌐 共享撐船預約</a></td></tr>
+                        <tr><td>8/20 (四)</td><td>大英博物館 (預約11:20)</td><td><span class="tag-badge badge-emerald">免費</span></td><td><a href="https://www.britishmuseum.org/visit" target="_blank" class="btn-link btn-official">🌐 11:20 免費通道</a></td></tr>
+                        <tr><td>8/20 (四)</td><td>Hamleys 7 層樓玩具店 (8/20 下午)</td><td><span class="tag-badge badge-emerald">免費入場</span></td><td><a href="https://www.hamleys.com/" target="_blank" class="btn-link btn-official">🌐 Hamleys 官網</a></td></tr>
+                        <tr><td>8/21 (五)</td><td>倫敦國家美術館 (確定 10:00 入場)</td><td><span class="tag-badge badge-emerald">免費預約</span></td><td><a href="https://www.nationalgallery.org.uk/" target="_blank" class="btn-link btn-official">🌐 預約 10:00 門票</a></td></tr>
+                        <tr><td>8/22 (六)</td><td>倫敦科學博物館 (預約 10:00)</td><td><span class="tag-badge badge-emerald">免費</span></td><td><a href="https://www.sciencemuseum.org.uk/" target="_blank" class="btn-link btn-official">🌐 免費預約 10:00 門票</a></td></tr>
+                        <tr><td>8/22 (六)</td><td>自然史博物館 (Natural History Museum)</td><td><span class="tag-badge badge-gold">🎉 已預約 14:15 門票！</span></td><td><a href="https://www.nhm.ac.uk/visit.html" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-circle-check"></i> 8/22 14:15 門票已預約</a></td></tr>
+                        <tr><td>8/22 (六)</td><td>Sky Garden (8/22 18:00 時段)</td><td><span class="tag-badge badge-emerald">免費</span></td><td><a href="https://skygarden.london/plan-your-visit/" target="_blank" class="btn-link btn-official">🌐 8/22 18:00 免費門票</a></td></tr>
+                        <tr><td>8/23 (日)</td><td>Uber Boat 觀光快艇赴格林威治</td><td><span class="tag-badge badge-purple">付費</span></td><td><a href="https://www.thamesclippers.com/" target="_blank" class="btn-link btn-official">🌐 快艇官網</a></td></tr>
+                        <tr><td>8/24 (一)</td><td>溫莎城堡 (Windsor Castle)</td><td><span class="tag-badge badge-gold">🎉 已成功預訂！</span></td><td><a href="https://www.rct.uk/visit/windsor-castle" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-circle-check"></i> 8/24 11:30 門票已預訂</a></td></tr>
+                        <tr><td>8/24 (一)</td><td>大英圖書館寶藏展</td><td><span class="tag-badge badge-emerald">免費</span></td><td><a href="https://www.bl.uk/events/treasures-of-the-british-library" target="_blank" class="btn-link btn-official">🌐 寶藏展官網</a></td></tr>
+                        <tr><td>8/25 (二)</td><td>西敏寺 & 大本鐘 (!外觀拍照打卡)</td><td><span class="tag-badge badge-emerald">免門票</span></td><td><a href="https://maps.google.com/?q=Westminster+Abbey+London" target="_blank" class="btn-link btn-map">📍 打卡點地圖</a></td></tr>
+                        <tr><td>8/25 (二)</td><td>華納哈利波特影城 (預約 13:30)</td><td><span class="tag-badge badge-purple">付費</span></td><td><a href="https://www.wbstudiotour.co.uk/" target="_blank" class="btn-link btn-official">🌐 13:30 門票已預購</a></td></tr>
+                        <tr><td>8/26 (三)</td><td>白金漢宮皇家衛兵交接儀式</td><td><span class="tag-badge badge-red">10:15 卡位觀賞</span></td><td><a href="https://www.rct.uk/visit/buckingham-palace" target="_blank" class="btn-link btn-official">🌐 官方免費交接</a></td></tr>
+                    </tbody>
+                </table>
+        <!-- VIEW 4: TRAVEL TIPS & NOTES -->
+        <div id="view-travel-tips" class="tab-panel">
+            <h3 class="section-title"><i class="fa-solid fa-lightbulb"></i> 💡 倫敦行前注意事項與實用旅遊指南 (Essential London Travel Tips)</h3>
+            
+            <div class="day-quick-summary-box" style="grid-template-columns: 1fr 1fr; margin-bottom: 20px;">
+                <div class="summary-block">
+                    <h4 style="color: #6ee7b7;"><i class="fa-solid fa-credit-card"></i> 💳 交通與電子支付 (Transit & Contactless)</h4>
+                    <ul>
+                        <li><strong>11歲以下兒童 100% 免費搭乘</strong>：倫敦地鐵 (Tube)、公車 (Bus) 與 DLR 輕軌，11 歲以下兒童不需購票或買 Oyster 卡，直接由大人走「寬閘門 (Wide Gate)」帶領通過即可！</li>
+                        <li><strong>全城 Contactless 免購卡</strong>：大人不需特別買實體 Oyster 卡，直接使用個人的 Contactless 信用卡或手機 Apple Pay / Google Pay 感應進出站，每日設有扣款上限 (Z1-Z2 每日約 £8.50 上限)。</li>
+                        <li><strong>Earl's Court 無障礙 Lift 升降梯</strong>：住宿 K Hotel Kensington 旁的 Earl's Court 站設有 Lift 全無障礙電梯，大行李與小朋友進出極度省體力。</li>
+                    </ul>
+                </div>
+                <div class="summary-block">
+                    <h4 style="color: #93c5fd;"><i class="fa-solid fa-cloud-sun-rain"></i> 🌦️ 8 月氣候與穿著裝備 (Weather & Clothing)</h4>
+                    <ul>
+                        <li><strong>洋蔥式穿法</strong>：8 月倫敦白天約 18°C – 24°C 涼爽宜人，但日夜溫差大且室內/地鐵冷氣偏冷。建議短袖或薄長袖為主，隨身攜帶薄外套或風衣。</li>
+                        <li><strong>隨身折疊雨具</strong>：倫敦天氣多變，隨身背包常備一把輕量折疊傘或輕便雨衣。</li>
+                        <li><strong>避震好走運動鞋</strong>：每天平均散步 10,000 – 14,000 步，請務必全家穿著最吸震舒適的運動休閒鞋。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="day-quick-summary-box" style="grid-template-columns: 1fr 1fr; margin-bottom: 20px;">
+                <div class="summary-block">
+                    <h4 style="color: #fde047;"><i class="fa-solid fa-bottle-water"></i> 🚰 飲水與美食消費 (Water & Dining)</h4>
+                    <ul>
+                        <li><strong>Tap Water 可直接生飲</strong>：倫敦自來水可生飲！餐廳用餐坐下時，直接跟服務生要「Tap Water」即為免費生飲水。建議隨身攜帶保溫瓶或水壺，博物館內均設有免費飲水機。</li>
+                        <li><strong>12.5% 自行小費說明</strong>：多數倫敦餐廳結帳時已在發票自動計入 12.5% 的「選擇性服務費 (Optional Service Charge)」，不需額外在桌上放現金小費。</li>
+                        <li><strong>99% 無現金城市 (Cashless)</strong>：倫敦幾乎所有商店、市集與公車都接受 Contactless 感應支付，僅需備用少量 £20-50 現金即可。</li>
+                    </ul>
+                </div>
+                <div class="summary-block">
+                    <h4 style="color: #fca5a5;"><i class="fa-solid fa-shield-halved"></i> 🛡️ 安全防範與緊急聯絡 (Safety & Emergency)</h4>
+                    <ul>
+                        <li><strong>注意手機防扒防搶</strong>：在人潮密集區（牛津街、Leicester Square、科芬園）拍照時，請握緊手機並注意身旁騎單車快速經過的人，貴重物品隨身靠前存放。</li>
+                        <li><strong>英國緊急報警電話</strong>：緊急情況（救護車/警察/消防）請撥打 <strong>999</strong>；非緊急報案請撥打 <strong>101</strong>。</li>
+                        <li><strong>駐英國台北代表處緊急電話</strong>：+44 (0) 7768-938-765。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="day-remark-box" style="margin-top: 0;">
+                <h5><i class="fa-solid fa-ticket"></i> 🎫 門票驗票與 QR Code 事先截圖備份</h5>
+                <p>請在出發前將以下預約門票的電子檔或 QR Code 截圖存入手機相簿，以便現場迅速驗票：</p>
+                <ul>
+                    <li>🏛️ <strong>8/20 大英博物館</strong> (預約 11:20 免費通道)</li>
+                    <li>🎨 <strong>8/21 倫敦國家美術館</strong> (預約 10:00 免費門票)</li>
+                    <li>🔬 <strong>8/22 倫敦科學博物館</strong> (預約 10:00 免費門票)</li>
+                    <li>🦕 <strong>8/22 自然史博物館</strong> (已成功預約 14:15 免費門票)</li>
+                    <li>🌅 <strong>8/22 Sky Garden 空中花園</strong> (預約 18:00 免費門票)</li>
+                    <li>🏰 <strong>8/24 溫莎城堡</strong> (已成功預訂 11:30 入場門票)</li>
+                    <li>⚡ <strong>8/25 華納哈利波特影城</strong> (已成功預購 13:30 入場門票)</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>🇬🇧 倫敦 9 天 8 夜親子自由行 Web App ‧ 專為 2 大 2 小打造 ‧ 含當天往返軌跡與 GPS 座標互動地圖</p>
+    </footer>
+
+    <!-- INTERACTIVE MAP ENGINE SCRIPT -->
+    <script>
+        const dailyMapsData = [
+            {
+                id: 'day-1',
+                centerLat: 51.4820, centerLng: -0.3235, zoomLevel: 11,
+                spots: [
+                    { name: '🛫 希斯洛機場 (Heathrow Airport LHR)', lat: 51.4700, lng: -0.4543, time: '17:00 抵達入境', type: 'start', desc: '入境提取行李，搭乘 Piccadilly Line 直達飯店。', mapUrl: 'https://maps.google.com/?q=Heathrow+Airport+London' },
+                    { name: '🏨 K Hotel Kensington (Earl\'s Court)', lat: 51.4935, lng: -0.1932, time: '18:30 Check-in', type: 'end', desc: '地鐵 38 分鐘直達！入住放置行李，晚餐超市採買。', mapUrl: 'https://maps.google.com/?q=K+Hotel+Kensington+London' }
+                ],
+                returnRoute: [ [51.4700, -0.4543], [51.4935, -0.1932] ]
+            },
+            {
+                id: 'day-2',
+                centerLat: 51.8500, centerLng: -0.0400, zoomLevel: 9,
+                spots: [
+                    { name: '🏨 起點：K Hotel Kensington', lat: 51.4935, lng: -0.1932, time: '08:30 出發', type: 'start', desc: '地鐵至國王十字車站。', mapUrl: 'https://maps.google.com/?q=K+Hotel+Kensington+London' },
+                    { name: '🚆 國王十字車站 (King\'s Cross)', lat: 51.5320, lng: -0.1240, time: '09:00 國鐵出發', type: 'transit', desc: '搭國鐵快車 (48 分鐘) 直達劍橋。', mapUrl: 'https://maps.google.com/?q=King\'s+Cross+Station+London' },
+                    { name: '🚉 劍橋車站 (Cambridge Station)', lat: 52.1942, lng: 0.1373, time: '09:50 抵達劍橋', type: 'stop', desc: '搭公車或散步至撐船碼頭。', mapUrl: 'https://maps.google.com/?q=Cambridge+Station+UK' },
+                    { name: '🛶 劍橋康河撐船 (Quayside Punting)', lat: 52.2043, lng: 0.1165, time: '10:30 - 12:00', type: 'stop', desc: '45 分鐘撐船導覽，看數學橋與歎息橋。', mapUrl: 'https://www.letsgopunting.co.uk/' },
+                    { name: '👑 國王學院 (!外觀) & 市集廣場', lat: 52.2048, lng: 0.1172, time: '12:00 - 15:30', type: 'stop', desc: '大教堂外觀拍照，市集廣場美食午餐。', mapUrl: 'https://maps.google.com/?q=King\'s+College+Cambridge' }
+                ],
+                returnRoute: [ [52.2048, 0.1172], [52.1942, 0.1373], [51.5320, -0.1240], [51.4935, -0.1932] ]
+            },
+            {
+                id: 'day-3',
+                centerLat: 51.5120, centerLng: -0.1400, zoomLevel: 13,
+                spots: [
+                    { name: '🏨 起點：K Hotel Kensington', lat: 51.4935, lng: -0.1932, time: '10:30 出發', type: 'start', desc: 'Piccadilly Line 至 Holborn 站。', mapUrl: 'https://maps.google.com/?q=K+Hotel+Kensington+London' },
+                    { name: '🏛️ 大英博物館 (British Museum)', lat: 51.5194, lng: -0.1270, time: '11:20 預約入場', type: 'stop', desc: '免費預約通道驗票，看埃及木乃伊與石碑。', mapUrl: 'https://maps.google.com/?q=British+Museum+London' },
+                    { name: '🥩 Flat Iron 牛排 / Soho區午餐', lat: 51.5135, lng: -0.1350, time: '13:30 - 15:00', type: 'stop', desc: '享用超值牛排與生奶油冰淇淋。', mapUrl: 'https://maps.google.com/?q=Flat+Iron+Soho+London' },
+                    { name: '🧸 Hamleys 7層樓玩具店', lat: 51.5127, lng: -0.1404, time: '15:00 - 17:30', type: 'stop', desc: '全倫敦最大 7 層樓玩具城堡體驗。', mapUrl: 'https://www.hamleys.com/' },
+                    { name: '🌳 泰晤士南岸 Jubilee Gardens', lat: 51.5050, lng: -0.1187, time: '18:00 - 19:30', type: 'stop', desc: '兒童木製公園遊戲區放電看倫敦眼。', mapUrl: 'https://maps.google.com/?q=Jubilee+Gardens+London' }
+                ],
+                returnRoute: [ [51.5050, -0.1187], [51.4935, -0.1932] ]
+            },
+            {
+                id: 'day-4',
+                centerLat: 51.5100, centerLng: -0.1270, zoomLevel: 14,
+                spots: [
+                    { name: '🏨 起點：K Hotel Kensington', lat: 51.4935, lng: -0.1932, time: '09:20 出發', type: 'start', desc: 'Piccadilly Line 至 Leicester Sq 站。', mapUrl: 'https://maps.google.com/?q=K+Hotel+Kensington+London' },
+                    { name: '🎨 國家美術館 (National Gallery)', lat: 51.5089, lng: -0.1283, time: '10:00 預約確立', type: 'stop', desc: '看梵谷《向日葵》與達文西名畫。', mapUrl: 'https://www.nationalgallery.org.uk/' },
+                    { name: '🧱 樂高旗艦店 & M&M\'S World', lat: 51.5107, lng: -0.1301, time: '13:30 - 15:30', type: 'stop', desc: '1:1 樂高地鐵車廂與 4 層樓巧克力牆。', mapUrl: 'https://maps.google.com/?q=Lego+Store+Leicester+Square+London' },
+                    { name: '🎭 科芬園 (Covent Garden)', lat: 51.5117, lng: -0.1240, time: '15:30 - 18:00', type: 'stop', desc: '古典拱廊街頭藝人喜劇雜耍表演。', mapUrl: 'https://maps.google.com/?q=Covent+Garden+London' }
+                ],
+                returnRoute: [ [51.5117, -0.1240], [51.4935, -0.1932] ]
+            },
+            {
+                id: 'day-5',
+                centerLat: 51.5030, centerLng: -0.1300, zoomLevel: 13,
+                spots: [
+                    { name: '🏨 起點：K Hotel Kensington', lat: 51.4935, lng: -0.1932, time: '09:40 出發', type: 'start', desc: '地鐵僅 1 站直達 South Kensington。', mapUrl: 'https://maps.google.com/?q=K+Hotel+Kensington+London' },
+                    { name: '🔬 倫敦科學博物館 (Science Museum)', lat: 51.4978, lng: -0.1745, time: '10:00 預約確立', type: 'stop', desc: '太空船指令艙與 Wonderlab 互動樂園。', mapUrl: 'https://www.sciencemuseum.org.uk/' },
+                    { name: '🦕 自然史博物館 (Natural History Museum)', lat: 51.4967, lng: -0.1764, time: '14:00 雙館續逛', type: 'stop', desc: '隔壁 1 分鐘！看藍鯨骨架與霸王龍 T-Rex。', mapUrl: 'https://www.nhm.ac.uk/' },
+                    { name: '🌅 Sky Garden 空中花園', lat: 51.5113, lng: -0.0836, time: '18:00 - 19:00', type: 'stop', desc: 'District Line 至 Monument 站，俯瞰倫敦塔橋。', mapUrl: 'https://skygarden.london/' }
+                ],
+                returnRoute: [ [51.5113, -0.0836], [51.4935, -0.1932] ]
+            },
+            {
+                id: 'day-6',
+                centerLat: 51.4920, centerLng: -0.0600, zoomLevel: 12,
+                spots: [
+                    { name: '🏨 起點：K Hotel Kensington', lat: 51.4935, lng: -0.1932, time: '08:50 出發', type: 'start', desc: 'District Line 11 分鐘直達 Westminster 碼頭。', mapUrl: 'https://maps.google.com/?q=K+Hotel+Kensington+London' },
+                    { name: '🛥️ 威斯敏斯特碼頭 (Westminster Pier)', lat: 51.5015, lng: -0.1218, time: '09:15 快艇', type: 'transit', desc: 'Uber Boat 快艇渡河，途經倫敦眼與塔橋。', mapUrl: 'https://www.thamesclippers.com/' },
+                    { name: '⚓ 格林威治碼頭 & 卡蒂薩克號 (!外觀)', lat: 51.4828, lng: -0.0096, time: '10:00 登陸', type: 'stop', desc: '懸空古帆船廣場與百年河底隧道。', mapUrl: 'https://www.rmg.co.uk/cutty-sark' },
+                    { name: '⛰️ 格林威治公園山丘觀景台 (!外觀天文台)', lat: 51.4769, lng: -0.0005, time: '10:45 - 12:15', type: 'stop', desc: '坡頂俯瞰全倫敦天際線與本初子午線大鐘。', mapUrl: 'https://www.rmg.co.uk/royal-observatory' },
+                    { name: '🛍️ 格林威治美食市集 (Greenwich Market)', lat: 51.4815, lng: -0.0090, time: '12:15 - 13:30', type: 'stop', desc: '歷史拱廊市集享用街頭美食。', mapUrl: 'https://www.greenwichmarket.london/' },
+                    { name: '🚝 Cutty Sark DLR 站 (車頭第1排)', lat: 51.4820, lng: -0.0090, time: '14:30 車頭視野', type: 'stop', desc: '無人駕駛輕軌車頭穿梭摩天大樓體驗。', mapUrl: 'https://maps.google.com/?q=Cutty+Sark+DLR+Station' }
+                ],
+                returnRoute: [ [51.4820, -0.0090], [51.5134, -0.0888], [51.4935, -0.1932] ]
+            },
+            {
+                id: 'day-7',
+                centerLat: 51.5100, centerLng: -0.3600, zoomLevel: 10,
+                spots: [
+                    { name: '🏨 起點：K Hotel Kensington', lat: 51.4935, lng: -0.1932, time: '10:00 出發', type: 'start', desc: '地鐵至 Paddington 轉 GWR 國鐵。', mapUrl: 'https://maps.google.com/?q=K+Hotel+Kensington+London' },
+                    { name: '🚆 Paddington ➔ 溫莎 Central 站', lat: 51.4833, lng: -0.6092, time: '11:05 抵達溫莎', type: 'transit', desc: '10:25 GWR 國鐵至 Slough 轉支線火車。', mapUrl: 'https://maps.google.com/?q=Windsor+%26+Eton+Central+Station' },
+                    { name: '🏰 溫莎城堡 (Windsor Castle)', lat: 51.4839, lng: -0.6044, time: '11:30 已預訂成功', type: 'stop', desc: '門票成功預訂！參觀國家套房與聖喬治禮拜堂。', mapUrl: 'https://www.rct.uk/visit/windsor-castle' },
+                    { name: '📚 大英圖書館寶藏展 (British Library)', lat: 51.5300, lng: -0.1277, time: '16:00 - 17:30', type: 'stop', desc: '週一開到 20:00！看《大憲章》與達文西筆記。', mapUrl: 'https://www.bl.uk/events/treasures-of-the-british-library' }
+                ],
+                returnRoute: [ [51.5300, -0.1277], [51.4935, -0.1932] ]
+            },
+            {
+                id: 'day-8',
+                centerLat: 51.5900, centerLng: -0.2600, zoomLevel: 10,
+                spots: [
+                    { name: '🏨 起點：K Hotel Kensington', lat: 51.4935, lng: -0.1932, time: '09:30 出發', type: 'start', desc: 'District Line 直達 Westminster 站。', mapUrl: 'https://maps.google.com/?q=K+Hotel+Kensington+London' },
+                    { name: '🏛️ 西敏寺 & 大本鐘 (!外觀打卡)', lat: 51.5007, lng: -0.1246, time: '09:45 - 10:45', type: 'stop', desc: '指定不上內部！拍攝雙塔與大本鐘經典合照。', mapUrl: 'https://maps.google.com/?q=Westminster+Abbey+London' },
+                    { name: '⚡ 華納兄弟哈利波特影城 (WB Studio Tour)', lat: 51.6904, lng: -0.4181, time: '13:30 確定入場', type: 'stop', desc: 'Euston 站搭國鐵快車 20 分鐘至 Watford Junction！', mapUrl: 'https://www.wbstudiotour.co.uk/' },
+                    { name: '🧙‍♂️ 國王十字車站 9 ¾ 月台', lat: 51.5322, lng: -0.1238, time: '17:30 - 19:00', type: 'stop', desc: '手推車拍照打卡與逛 9 ¾ 旗艦店。', mapUrl: 'https://www.harrypotterplatform934.com/' }
+                ],
+                returnRoute: [ [51.5322, -0.1238], [51.4935, -0.1932] ]
+            },
+            {
+                id: 'day-9',
+                centerLat: 51.4900, centerLng: -0.3000, zoomLevel: 11,
+                spots: [
+                    { name: '🏨 起點：K Hotel Kensington (退房寄行李)', lat: 51.4935, lng: -0.1932, time: '09:30 退房放行李', type: 'start', desc: '退房寄行李，Piccadilly Line 直達 Green Park 站。', mapUrl: 'https://maps.google.com/?q=K+Hotel+Kensington+London' },
+                    { name: '👑 白金漢宮衛兵交接儀式 (Buckingham Palace)', lat: 51.5014, lng: -0.1419, time: '10:15 卡位 / 11:00 表演', type: 'stop', desc: '8/26 週三官方交接日！10:15 站上紀念碑高處看交接與軍樂隊！', mapUrl: 'https://maps.google.com/?q=Buckingham+Palace+London' },
+                    { name: '🌳 綠園 (Green Park) 散步看小松鼠', lat: 51.5070, lng: -0.1430, time: '11:45 - 14:30', type: 'stop', desc: '綠園看小松鼠放鬆，午餐後返 K Hotel 取行李。', mapUrl: 'https://maps.google.com/?q=Green+Park+London' },
+                    { name: '✈️ 希斯洛機場 (Heathrow Airport LHR)', lat: 51.4700, lng: -0.4543, time: '16:08 抵達機場 / 21:30 起飛', type: 'end', desc: 'Piccadilly Line 38 分鐘直達機場，託運退稅搭 21:30 班機返台。', mapUrl: 'https://www.heathrow.com/' }
+                ],
+                returnRoute: [ [51.4935, -0.1932], [51.4700, -0.4543] ]
+            }
+        ];
+
+        let mapInstances = {};
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initAllDayMaps();
+        });
+
+        function initAllDayMaps() {
+            dailyMapsData.forEach(day => {
+                const containerId = `leaflet-map-${day.id}`;
+                const container = document.getElementById(containerId);
+                if (!container) return;
+
+                const map = L.map(containerId, {
+                    center: [day.centerLat, day.centerLng],
+                    zoom: day.zoomLevel || 12,
+                    scrollWheelZoom: false
+                });
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; OpenStreetMap contributors',
+                    maxZoom: 19
+                }).addTo(map);
+
+                const latLngList = [];
+
+                day.spots.forEach((spot, index) => {
+                    const latLng = [spot.lat, spot.lng];
+                    latLngList.push(latLng);
+
+                    let pinClass = 'pin-stop';
+                    let pinLabel = index + 1;
+                    if (spot.type === 'start') { pinClass = 'pin-start'; pinLabel = '🏨'; }
+                    else if (spot.type === 'end') { pinClass = 'pin-end'; pinLabel = '🏁'; }
+                    else if (spot.type === 'transit') { pinClass = 'pin-transit'; pinLabel = '🚆'; }
+
+                    const customIcon = L.divIcon({
+                        className: 'custom-leaflet-div',
+                        html: `<div class="custom-pin-marker ${pinClass}" style="width:28px; height:28px;">${pinLabel}</div>`,
+                        iconSize: [28, 28],
+                        iconAnchor: [14, 14]
+                    });
+
+                    const marker = L.marker(latLng, { icon: customIcon }).addTo(map);
+
+                    const popupHtml = `
+                        <div class="popup-spot-title">${spot.name}</div>
+                        <div class="popup-gps-tag">📍 GPS: ${spot.lat.toFixed(4)}° N, ${spot.lng.toFixed(4)}° W</div>
+                        ${spot.time ? `<div style="font-size:0.8rem; color:#f59e0b; font-weight:700; margin-bottom:4px;"><i class="fa-regular fa-clock"></i> ${spot.time}</div>` : ''}
+                        <div class="popup-desc-text">${spot.desc}</div>
+                        ${spot.mapUrl ? `<a href="${spot.mapUrl}" target="_blank" class="popup-nav-link"><i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 導航</a>` : ''}
+                    `;
+                    marker.bindPopup(popupHtml);
+                });
+
+                // Outbound Polyline with Direction Vector Arrows
+                if (latLngList.length > 1) {
+                    L.polyline(latLngList, {
+                        color: '#38bdf8',
+                        weight: 5,
+                        opacity: 0.85,
+                        lineJoin: 'round'
+                    }).addTo(map);
+
+                    for (let i = 0; i < latLngList.length - 1; i++) {
+                        const p1 = latLngList[i];
+                        const p2 = latLngList[i+1];
+                        const midLat = (p1[0] + p2[0]) / 2;
+                        const midLng = (p1[1] + p2[1]) / 2;
+                        const angle = Math.atan2(p2[0] - p1[0], p2[1] - p1[1]) * 180 / Math.PI;
+
+                        const arrowIcon = L.divIcon({
+                            className: 'arrow-icon',
+                            html: `<div style="transform: rotate(${90 - angle}deg); color: #38bdf8; font-size: 16px; text-shadow: 0 0 6px rgba(0,0,0,0.8);"><i class="fa-solid fa-circle-arrow-right"></i></div>`,
+                            iconSize: [16, 16],
+                            iconAnchor: [8, 8]
+                        });
+                        L.marker([midLat, midLng], { icon: arrowIcon, interactive: false }).addTo(map);
+                    }
+                }
+
+                // Return Loop Polyline (Dashed Purple)
+                if (day.returnRoute && day.returnRoute.length > 1) {
+                    L.polyline(day.returnRoute, {
+                        color: '#a855f7',
+                        weight: 4,
+                        opacity: 0.75,
+                        dashArray: '8, 8'
+                    }).addTo(map);
+                }
+
+                if (latLngList.length > 0) {
+                    map.fitBounds(L.latLngBounds(latLngList), { padding: [35, 35] });
+                }
+
+                mapInstances[day.id] = map;
+            });
+        }
+
+        function focusDaySpot(dayId, spotIndex) {
+            const dayData = dailyMapsData.find(d => d.id === dayId);
+            if (!dayData || !dayData.spots[spotIndex]) return;
+            const spot = dayData.spots[spotIndex];
+            const map = mapInstances[dayId];
+            if (map) {
+                map.setView([spot.lat, spot.lng], 16, { animate: true });
+                map.eachLayer(layer => {
+                    if (layer instanceof L.Marker && layer.getLatLng) {
+                        const ll = layer.getLatLng();
+                        if (Math.abs(ll.lat - spot.lat) < 0.0001 && Math.abs(ll.lng - spot.lng) < 0.0001) {
+                            layer.openPopup();
+                        }
+                    }
+                });
+                const container = document.getElementById(`leaflet-map-${dayId}`);
+                if (container) {
+                    container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+
+        function resetDayMap(dayId) {
+            const dayData = dailyMapsData.find(d => d.id === dayId);
+            const map = mapInstances[dayId];
+            if (dayData && map) {
+                const latLngList = dayData.spots.map(s => [s.lat, s.lng]);
+                map.fitBounds(L.latLngBounds(latLngList), { padding: [35, 35] });
+            }
+        }
+
+        function scrollToDay(dayId) {
+            switchMainView('itinerary');
+            document.querySelectorAll('.day-shortcut-btn').forEach(btn => btn.classList.remove('active'));
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
+            const targetElement = document.getElementById(dayId);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                setTimeout(() => {
+                    if (mapInstances[dayId]) mapInstances[dayId].invalidateSize();
+                }, 300);
+            }
+        }
+
+        function switchMainView(viewName) {
+            document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+            document.querySelectorAll('.filter-chip').forEach(chip => chip.classList.remove('active'));
+            const targetView = document.getElementById(`view-${viewName}`);
+            if (targetView) targetView.classList.add('active');
+            if (event && event.target && event.target.classList.contains('filter-chip')) {
+                event.target.classList.add('active');
+            }
+            if (viewName === 'itinerary') {
+                setTimeout(() => {
+                    Object.values(mapInstances).forEach(m => m.invalidateSize());
+                }, 300);
+            }
+        }
+
+        function resetSearch() {
+            const feedbackEl = document.getElementById('searchFeedback');
+            const searchBtn = document.getElementById('searchActionBtn');
+            if (feedbackEl) feedbackEl.style.display = 'none';
+            document.querySelectorAll('.highlight-matched-card').forEach(el => el.classList.remove('highlight-matched-card'));
+            document.querySelectorAll('.timeline-item').forEach(item => item.style.display = 'block');
+            document.querySelectorAll('.day-section').forEach(day => day.style.display = 'block');
+            if (searchBtn) {
+                searchBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> 搜尋';
+                searchBtn.style.background = '#0284c7';
+            }
+        }
+
+        function handleSearchKeyDown(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                executeSearchAction();
+            }
+        }
+
+        function executeSearchAction() {
+            const rawQuery = document.getElementById('searchInput').value;
+            const query = rawQuery.trim().toLowerCase();
+            const feedbackEl = document.getElementById('searchFeedback');
+            const searchBtn = document.getElementById('searchActionBtn');
+            
+            // Clear previous highlight
+            document.querySelectorAll('.highlight-matched-card').forEach(el => el.classList.remove('highlight-matched-card'));
+
+            if (!query) {
+                resetSearch();
+                return;
+            }
+
+            // Find all matching timeline cards and day sections in the 9-day itinerary
+            const allCards = Array.from(document.querySelectorAll('.timeline-item'));
+            const matchedCards = allCards.filter(card => {
+                const text = card.textContent.toLowerCase();
+                return text.includes(query);
+            });
+
+            if (matchedCards.length > 0) {
+                // Found in itinerary!
+                if (feedbackEl) {
+                    feedbackEl.style.display = 'block';
+                    feedbackEl.style.background = 'rgba(16, 185, 129, 0.15)';
+                    feedbackEl.style.border = '1px solid rgba(16, 185, 129, 0.4)';
+                    feedbackEl.style.color = '#6ee7b7';
+                    feedbackEl.innerHTML = `<i class="fa-solid fa-circle-check"></i> 已在本次行程中為您找到 <strong>${matchedCards.length}</strong> 個相關景點/活動，已立刻平滑定位至該處！`;
+                }
+                if (searchBtn) {
+                    searchBtn.innerHTML = '<i class="fa-solid fa-crosshairs"></i> 定位成功';
+                    searchBtn.style.background = '#059669';
+                    setTimeout(() => {
+                        searchBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> 搜尋';
+                        searchBtn.style.background = '#0284c7';
+                    }, 2000);
+                }
+
+                // Switch to itinerary view
+                switchMainView('itinerary');
+
+                // Display all cards
+                allCards.forEach(card => card.style.display = 'block');
+
+                // Smooth scroll to the first match
+                const firstMatch = matchedCards[0];
+                firstMatch.classList.add('highlight-matched-card');
+                firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // Highlight active day shortcut
+                const parentDay = firstMatch.closest('.day-section');
+                if (parentDay && parentDay.id) {
+                    document.querySelectorAll('.day-shortcut-btn').forEach(btn => {
+                        btn.classList.toggle('active', btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(parentDay.id));
+                    });
+                }
+            } else {
+                // Not found in itinerary -> Immediately open Google Maps search in a new tab!
+                allCards.forEach(card => card.style.display = 'block');
+                if (feedbackEl) {
+                    feedbackEl.style.display = 'block';
+                    feedbackEl.style.background = 'rgba(245, 158, 11, 0.18)';
+                    feedbackEl.style.border = '1px solid rgba(245, 158, 11, 0.5)';
+                    feedbackEl.style.color = '#fde047';
+                    feedbackEl.innerHTML = `<i class="fa-solid fa-circle-info"></i> 行程內無此景點「<strong>${rawQuery}</strong>」｜ 已為您開啟 Google Maps 倫敦地圖搜尋！ <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(rawQuery + ' London')}" target="_blank" style="color: #38bdf8; text-decoration: underline; font-weight: 800; margin-left: 6px;"><i class="fa-solid fa-location-arrow"></i> 再次開啟 ↗</a>`;
+                }
+                if (searchBtn) {
+                    searchBtn.innerHTML = '<i class="fa-solid fa-map-location-dot"></i> Maps 導航中';
+                    searchBtn.style.background = '#d97706';
+                    setTimeout(() => {
+                        searchBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> 搜尋';
+                        searchBtn.style.background = '#0284c7';
+                    }, 2000);
+                }
+                // Open Google Maps
+                window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(rawQuery + ' London')}`, '_blank');
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+            document.body.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
+    <!-- BACK TO TOP FLOATING BUTTON -->
+    <button id="backToTopBtn" class="back-to-top-btn" onclick="scrollToTop()" title="滑到最頂端" aria-label="回到最頂端">
+        <i class="fa-solid fa-circle-arrow-up" style="font-size: 1.15rem; color: #38bdf8;"></i> 回到頂端 TOP
+    </button>
+</body>
+</html>
