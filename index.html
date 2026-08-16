@@ -2343,7 +2343,7 @@
                 <div class="card" style="border: 2px solid #38bdf8; background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,58,138,0.3));">
                     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
                         <h4 style="color: #38bdf8; font-size: 1.15rem; margin: 0;"><i class="fa-solid fa-calculator"></i> 💱 英鎊 (GBP) ➔ 台幣 (TWD) 即時計算器</h4>
-                        <span style="font-size: 0.8rem; color: #94a3b8;">匯率基準：1 GBP ≈ <input type="number" id="customExchangeRate" value="41.5" step="0.1" style="width: 55px; background: #0f172a; border: 1px solid #38bdf8; color: #fde047; padding: 2px 4px; border-radius: 4px; font-weight: bold; text-align: center;" oninput="calculateCurrency()"> TWD</span>
+                        <span style="font-size: 0.8rem; color: #94a3b8;">匯率基準：1 GBP ≈ <input type="number" id="customExchangeRate" value="43.35" step="0.05" style="width: 62px; background: #0f172a; border: 1px solid #38bdf8; color: #fde047; padding: 2px 4px; border-radius: 4px; font-weight: bold; text-align: center;" oninput="calculateCurrency()"> TWD</span>
                     </div>
                     <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 14px;">
                         <div style="flex: 1;">
@@ -2357,7 +2357,7 @@
                         <div style="flex: 1;">
                             <label style="font-size: 0.82rem; color: #94a3b8; display: block; margin-bottom: 4px;">折合新台幣 (NTD)</label>
                             <div style="background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.4); padding: 10px 14px; border-radius: 8px; font-size: 1.15rem; font-weight: 800; color: #6ee7b7; text-align: right;">
-                                NT$ <span id="twdResult">581</span>
+                                NT$ <span id="twdResult">607</span>
                             </div>
                         </div>
                     </div>
@@ -2898,7 +2898,7 @@
         // TOOLKIT: CURRENCY CALCULATOR
         function calculateCurrency() {
             const gbp = parseFloat(document.getElementById('gbpInput').value) || 0;
-            const rate = parseFloat(document.getElementById('customExchangeRate').value) || 41.5;
+            const rate = parseFloat(document.getElementById('customExchangeRate').value) || 43.35;
             const twd = Math.round(gbp * rate);
             document.getElementById('twdResult').innerText = twd.toLocaleString();
         }
