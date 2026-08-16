@@ -464,7 +464,8 @@
                     <div class="filter-chip" onclick="switchMainView('overview-table')"><i class="fa-solid fa-table-list"></i> 📊 9天總覽表格</div>
                     <div class="filter-chip" onclick="switchMainView('tickets')"><i class="fa-solid fa-ticket"></i> 🎫 門票預約總表</div>
                     <div class="filter-chip" onclick="switchMainView('travel-tips')"><i class="fa-solid fa-lightbulb"></i> 💡 倫敦行前注意事項與實用指南</div>
-                    <div class="filter-chip" onclick="switchMainView('full-script')"><i class="fa-solid fa-file-lines"></i> 📖 超細節文稿 (全文隨身版)</div>
+                    <div class="filter-chip" onclick="switchMainView('full-script')"><i class="fa-solid fa-file-lines"></i> 📖 隨身故事文稿 (版本1)</div>
+                    <div class="filter-chip" onclick="switchMainView('master-dossier')"><i class="fa-solid fa-book-bookmark"></i> 📜 旗艦企劃全書 (版本2：含特色/表格/門票/官網)</div>
                 </div>
             </div>
             <div id="searchFeedback" style="display: none; font-size: 0.88rem; padding: 10px 16px; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease;"></div>
@@ -1981,6 +1982,178 @@
 
             </div>
         </div>
+
+        <!-- VIEW 6: MASTER DOSSIER / COMPREHENSIVE PROPOSAL (VERSION 2) -->
+        <div id="view-master-dossier" class="tab-panel">
+            <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: 2px solid #38bdf8; border-radius: var(--radius-lg); padding: 24px; margin-bottom: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin-bottom: 16px;">
+                    <div>
+                        <span class="tag-badge badge-gold" style="font-size: 0.85rem;"><i class="fa-solid fa-crown"></i> 旗艦企劃全書 ‧ 版本 2</span>
+                        <h3 style="font-size: 1.45rem; font-weight: 800; color: #ffffff; margin-top: 6px;"><i class="fa-solid fa-book-bookmark"></i> 🇬🇧 倫敦 9 天 8 夜親子自由行全方位旗艦企劃全書 (Master Dossier)</h3>
+                        <p style="font-size: 0.9rem; color: #94a3b8; margin: 4px 0 0 0;">專為 2 大 2 小打造｜含核心亮點、住宿交通戰略、總覽表格、門票預約官網、美食地圖與避坑策略！</p>
+                    </div>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button onclick="copyMasterDossierText()" class="btn btn-primary" style="background: #0284c7; padding: 10px 18px; font-size: 0.9rem; font-weight: 700; border-radius: 8px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(2,132,199,0.4);">
+                            <i class="fa-solid fa-copy"></i> 一鍵複製旗艦全書
+                        </button>
+                        <a href="a4_printable_itinerary.html" target="_blank" class="btn btn-warning" style="background: #f59e0b; color: #0f172a; padding: 10px 18px; font-size: 0.9rem; font-weight: 800; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                            <i class="fa-solid fa-print"></i> 📄 開啟 A4 列印檔 ↗
+                        </a>
+                    </div>
+                </div>
+
+                <!-- DOSSIER QUICK JUMP NAV -->
+                <div style="display: flex; gap: 8px; overflow-x: auto; padding: 10px 0 2px; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <a href="#dossier-highlights" style="background: rgba(56,189,248,0.12); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); padding: 5px 12px; border-radius: 16px; text-decoration: none; font-size: 0.8rem; font-weight: 700; white-space: nowrap;">🌟 核心特色亮點</a>
+                    <a href="#dossier-hotel" style="background: rgba(56,189,248,0.12); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); padding: 5px 12px; border-radius: 16px; text-decoration: none; font-size: 0.8rem; font-weight: 700; white-space: nowrap;">🏨 住宿交通戰略</a>
+                    <a href="#dossier-table" style="background: rgba(56,189,248,0.12); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); padding: 5px 12px; border-radius: 16px; text-decoration: none; font-size: 0.8rem; font-weight: 700; white-space: nowrap;">📊 9天總覽大表</a>
+                    <a href="#dossier-tickets" style="background: rgba(56,189,248,0.12); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); padding: 5px 12px; border-radius: 16px; text-decoration: none; font-size: 0.8rem; font-weight: 700; white-space: nowrap;">🎫 門票預約官網</a>
+                    <a href="#dossier-food" style="background: rgba(56,189,248,0.12); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); padding: 5px 12px; border-radius: 16px; text-decoration: none; font-size: 0.8rem; font-weight: 700; white-space: nowrap;">🍽️ 美食與用餐推薦</a>
+                    <a href="#dossier-strategy" style="background: rgba(56,189,248,0.12); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); padding: 5px 12px; border-radius: 16px; text-decoration: none; font-size: 0.8rem; font-weight: 700; white-space: nowrap;">🎯 避坑省時戰略</a>
+                    <a href="#dossier-tips" style="background: rgba(56,189,248,0.12); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); padding: 5px 12px; border-radius: 16px; text-decoration: none; font-size: 0.8rem; font-weight: 700; white-space: nowrap;">🛡️ 行前安全守則</a>
+                </div>
+            </div>
+
+            <div id="masterDossierContent" style="display: flex; flex-direction: column; gap: 28px; line-height: 1.75; font-size: 0.95rem; color: #e2e8f0;">
+
+                <!-- CHAPTER 1: HIGHLIGHTS -->
+                <div id="dossier-highlights" class="card" style="border-left: 4px solid #38bdf8;">
+                    <h4 style="font-size: 1.25rem; color: #38bdf8; margin-bottom: 12px;"><i class="fa-solid fa-wand-magic-sparkles"></i> 🌟 第一章：全行程 4 大親子專屬亮點與有趣體驗</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div style="background: rgba(15,23,42,0.6); padding: 14px; border-radius: 10px; border: 1px solid rgba(56,189,248,0.2);">
+                            <h5 style="color: #c084fc; font-size: 1rem; margin-bottom: 6px;"><i class="fa-solid fa-hat-wizard"></i> ⚡ 魔法與童話夢工廠</h5>
+                            <p style="font-size: 0.88rem; color: #cbd5e1; margin: 0;"><strong>哈利波特影城 (8/25 13:30 已訂)</strong>：霍格華茲大禮堂、斜角巷、古靈閣、品嚐 Backlot Cafe 奶油啤酒！<br><strong>Hamleys 7 層樓百年玩具店</strong>：現場魔術表演與試玩體驗。<br><strong>LEGO 樂高旗艦店</strong>：1:1 樂高雙層巴士與阿斯頓馬丁跑車合影。<br><strong>國王十字 9 ¾ 月台</strong>：推穿牆手推車拍照打卡。</p>
+                        </div>
+                        <div style="background: rgba(15,23,42,0.6); padding: 14px; border-radius: 10px; border: 1px solid rgba(56,189,248,0.2);">
+                            <h5 style="color: #fde047; font-size: 1rem; margin-bottom: 6px;"><i class="fa-solid fa-crown"></i> 👑 皇家尊榮與歷史傳奇</h5>
+                            <p style="font-size: 0.88rem; color: #cbd5e1; margin: 0;"><strong>溫莎城堡 (8/24 11:30 已訂)</strong>：現存最大且有人居住的皇家城堡，參觀瑪麗皇后玩偶屋。<br><strong>白金漢宮衛兵交接 (8/26 壓軸)</strong>：10:15 站上女王紀念碑階梯高處，觀賞紅衣熊皮帽衛兵與軍樂隊！<br><strong>西敏寺與大本鐘</strong>：免排隊、外觀經典合照，省下每人 £29 門票。</p>
+                        </div>
+                        <div style="background: rgba(15,23,42,0.6); padding: 14px; border-radius: 10px; border: 1px solid rgba(56,189,248,0.2);">
+                            <h5 style="color: #6ee7b7; font-size: 1rem; margin-bottom: 6px;"><i class="fa-solid fa-graduation-cap"></i> 🎓 頂尖學府與世界文明</h5>
+                            <p style="font-size: 0.88rem; color: #cbd5e1; margin: 0;"><strong>劍橋康河撐船 (8/19 撐船日)</strong>：徐志摩再別康橋、穿過數學橋與嘆息橋。<br><strong>大英博物館 (8/20 11:20 免費預約)</strong>：羅塞塔石碑、帕德嫩雕塑、埃及木乃伊三大鎮館之寶。<br><strong>國家美術館 (8/21 10:00 預約)</strong>：親睹梵谷《向日葵》與達文西名畫。<br><strong>大英圖書館國寶展</strong>：達文西手稿、披頭四手寫歌詞與《大憲章》。</p>
+                        </div>
+                        <div style="background: rgba(15,23,42,0.6); padding: 14px; border-radius: 10px; border: 1px solid rgba(56,189,248,0.2);">
+                            <h5 style="color: #38bdf8; font-size: 1rem; margin-bottom: 6px;"><i class="fa-solid fa-volcano"></i> 🦕 互動放電雙館與高空絕景</h5>
+                            <p style="font-size: 0.88rem; color: #cbd5e1; margin: 0;"><strong>自然史博物館 (8/22 14:15 已預約)</strong>：巨型藍鯨骨骼標本與機械動態霸王龍。<br><strong>科學博物館 (8/22 10:00 預約)</strong>：Wonderlab 物理實驗互動放電。<br><strong>Sky Garden 空中花園 (8/22 18:00)</strong>：360 度俯瞰倫敦泰晤士河夕陽天際線。<br><strong>Uber Boat 觀光快艇</strong>：河道巡航至格林威治山丘眺望倫敦全景。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CHAPTER 2: HOTEL & TRANSIT -->
+                <div id="dossier-hotel" class="card" style="border-left: 4px solid #10b981;">
+                    <h4 style="font-size: 1.25rem; color: #6ee7b7; margin-bottom: 12px;"><i class="fa-solid fa-hotel"></i> 🏨 第二章：住宿與交通樞紐戰略解析</h4>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <p><strong>🏨 核心住宿飯店</strong>：<strong>肯辛頓 K 酒店 (K Hotel Kensington)</strong>（地址：14-16 Barkston Gardens, London SW5 0EN）<br>
+                        👉 <a href="https://www.google.com/maps/search/?api=1&query=K+Hotel+Kensington+14-16+Barkston+Gardens+London+SW5+0EN" target="_blank" style="color: #38bdf8; text-decoration: underline; font-weight: 700;">點擊開啟 Google Maps 飯店官方地標 ↗</a></p>
+                        <ul style="padding-left: 20px;">
+                            <li><strong>🚇 38 分鐘直達機場（免換車、免扛行李）</strong>：步行 3 分鐘即達 Earl's Court 地鐵站，搭乘 <strong>Piccadilly Line (深藍線) 直達希斯洛機場 (LHR)</strong>，站內設有無障礙 Lift 升降電梯，大行李與推車極度輕鬆！</li>
+                            <li><strong>👶 11 歲以下兒童 100% 免費乘車</strong>：倫敦地鐵、公車、DLR 輕軌，11 歲以下兒童免買票或 Oyster 卡，由大人走寬閘門 (Wide Gate) 陪同通關即可。</li>
+                            <li><strong>💳 大人 Contactless 一感應即進站</strong>：大人直接使用感應信用卡或手機 Apple Pay / Google Pay，每日設有扣款上限 (Z1-Z2 每日約 £8.50 上限)。</li>
+                            <li><strong>🛒 門口生活補給極度便利</strong>：出站即有 <strong>M&S Simply Food (馬莎超市)</strong>、<strong>Sainsbury's</strong>、<strong>Boots 藥妝</strong>，採買新鮮水果、牛奶、優格與常備用品極度省心。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- CHAPTER 3: OVERVIEW TABLE -->
+                <div id="dossier-table" class="card" style="border-left: 4px solid #f59e0b;">
+                    <h4 style="font-size: 1.25rem; color: #fde047; margin-bottom: 12px;"><i class="fa-solid fa-table-list"></i> 📊 第三章：9 天 8 夜 完整行程總覽大表格</h4>
+                    <div class="table-responsive" style="margin-bottom: 0;">
+                        <table>
+                            <thead>
+                                <tr style="background: rgba(30,58,138,0.5);"><th>日期</th><th>天數</th><th>當日主題</th><th>核心景點與行程規劃</th><th>導航地圖</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>8/18 (二)</td><td>Day 1</td><td>抵達倫敦 & 入住 K Hotel</td><td>17:00 抵達 LHR ➔ Piccadilly Line 38 分鐘直達 Earl's Court ➔ 入住 K Hotel 休息</td><td><a href="https://maps.google.com/?q=K+Hotel+Kensington+London" target="_blank" class="btn-link btn-map">📍 飯店地圖</a></td></tr>
+                                <tr><td>8/19 (三)</td><td>Day 2</td><td>🎓 劍橋大學城撐船日</td><td>國鐵 48 分鐘直達 ➔ 康河共享撐船 45 分鐘 ➔ 國王學院/數學橋 ➔ 備選 Coal Drops Yard 噴泉</td><td><a href="https://www.letsgopunting.co.uk/" target="_blank" class="btn-link btn-official">🌐 撐船官網</a></td></tr>
+                                <tr><td>8/20 (四)</td><td>Day 3</td><td>大英博物館 ➔ Hamleys</td><td>大英博物館 (預約 11:20) ➔ Flat Iron £14 牛排 ➔ Hamleys 7層樓玩具店 ➔ 泰晤士河南岸</td><td><a href="https://www.britishmuseum.org/visit" target="_blank" class="btn-link btn-official">🌐 大英官網</a></td></tr>
+                                <tr><td>8/21 (五)</td><td>Day 4</td><td>國家美術館 ➔ 樂高 ➔ 科芬園</td><td>國家美術館 (10:00 確定入場) ➔ 中國城金滿樓港點 ➔ LEGO 旗艦店 ➔ 科芬園市集街頭藝人</td><td><a href="https://www.nationalgallery.org.uk/" target="_blank" class="btn-link btn-official">🌐 美術館官網</a></td></tr>
+                                <tr><td>8/22 (六)</td><td>Day 5</td><td>雙館大滿貫 ➔ Sky Garden</td><td>科學博物館 (10:00) ➔ 自然史博物館 (已預約 14:15) ➔ 傍晚 Sky Garden (18:00) 空中花園日落</td><td><a href="https://www.nhm.ac.uk/visit.html" target="_blank" class="btn-link btn-official">🌐 自然史官網</a></td></tr>
+                                <tr><td>8/23 (日)</td><td>Day 6</td><td>泰晤士快艇 ➔ 登格林威治山丘</td><td>Uber Boat 觀光快艇 ➔ 登上格林威治山丘俯瞰倫敦全景 ➔ 格林威治市集 ➔ DLR 輕軌第1排</td><td><a href="https://www.thamesclippers.com/" target="_blank" class="btn-link btn-official">🌐 快艇官網</a></td></tr>
+                                <tr><td>8/24 (一)</td><td>Day 7</td><td>溫莎城堡(已訂) ➔ 大英圖書館</td><td>溫莎城堡 (已成功預訂 11:30) 皇家國事廳 ➔ 大英圖書館國寶展 (達文西/披頭四手稿，開至20:00)</td><td><a href="https://www.rct.uk/visit/windsor-castle" target="_blank" class="btn-link btn-official">🌐 溫莎官網</a></td></tr>
+                                <tr><td>8/25 (二)</td><td>Day 8</td><td>西敏寺(!外觀) ➔ 哈利波特影城</td><td>西敏寺 & 大本鐘 (!外觀拍照打卡) ➔ 國鐵直達 ➔ 哈利波特影城 (預約 13:30) ➔ 9 ¾ 月台</td><td><a href="https://www.wbstudiotour.co.uk/" target="_blank" class="btn-link btn-official">🌐 影城官網</a></td></tr>
+                                <tr><td>8/26 (三)</td><td>Day 9</td><td>白金漢宮看衛兵 ➔ 機場返台</td><td>白金漢宮衛兵交接 (10:15 女王紀念碑卡位) ➔ 綠園松鼠 ➔ 飯店取行李 ➔ 38分鐘直達機場返台</td><td><a href="https://www.rct.uk/visit/buckingham-palace" target="_blank" class="btn-link btn-official">🌐 衛兵官網</a></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- CHAPTER 4: TICKETS & OFFICIAL LINKS -->
+                <div id="dossier-tickets" class="card" style="border-left: 4px solid #a855f7;">
+                    <h4 style="font-size: 1.25rem; color: #c084fc; margin-bottom: 12px;"><i class="fa-solid fa-ticket"></i> 🎫 第四章：門票預約、付費票價與官方通道資訊總表</h4>
+                    <div class="table-responsive" style="margin-bottom: 0;">
+                        <table>
+                            <thead>
+                                <tr style="background: rgba(124,58,237,0.3);"><th>日期</th><th>景點 / 預約項目</th><th>門票類型</th><th>入場時間</th><th>官方網站與預約通道</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>8/19 (三)</td><td>劍橋康河共享撐船</td><td><span class="tag-badge badge-purple">付費</span></td><td>11:00</td><td><a href="https://www.letsgopunting.co.uk/" target="_blank" class="btn-link btn-official">🌐 共享撐船預約官網</a></td></tr>
+                                <tr><td>8/20 (四)</td><td>大英博物館 (British Museum)</td><td><span class="tag-badge badge-emerald">免費預約</span></td><td>11:20</td><td><a href="https://www.britishmuseum.org/visit" target="_blank" class="btn-link btn-official">🌐 大英博物館 11:20 預約</a></td></tr>
+                                <tr><td>8/20 (四)</td><td>Hamleys 7 層樓玩具旗艦店</td><td><span class="tag-badge badge-emerald">免費入場</span></td><td>下午時段</td><td><a href="https://www.hamleys.com/" target="_blank" class="btn-link btn-official">🌐 Hamleys 官方網站</a></td></tr>
+                                <tr><td>8/21 (五)</td><td>倫敦國家美術館 (National Gallery)</td><td><span class="tag-badge badge-emerald">免費預約</span></td><td>10:00 (確定)</td><td><a href="https://www.nationalgallery.org.uk/" target="_blank" class="btn-link btn-official">🌐 國家美術館 10:00 預約</a></td></tr>
+                                <tr><td>8/22 (六)</td><td>倫敦科學博物館 (Science Museum)</td><td><span class="tag-badge badge-emerald">免費預約</span></td><td>10:00</td><td><a href="https://www.sciencemuseum.org.uk/" target="_blank" class="btn-link btn-official">🌐 科學博物館 10:00 預約</a></td></tr>
+                                <tr><td>8/22 (六)</td><td>自然史博物館 (Natural History Museum)</td><td><span class="tag-badge badge-gold">🎉 已成功預約！</span></td><td>14:15</td><td><a href="https://www.nhm.ac.uk/visit.html" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-circle-check"></i> 8/22 14:15 門票已預約</a></td></tr>
+                                <tr><td>8/22 (六)</td><td>Sky Garden 空中花園觀景台</td><td><span class="tag-badge badge-emerald">免費預約</span></td><td>18:00</td><td><a href="https://skygarden.london/plan-your-visit/" target="_blank" class="btn-link btn-official">🌐 Sky Garden 18:00 預約</a></td></tr>
+                                <tr><td>8/23 (日)</td><td>Uber Boat 泰晤士觀光快艇</td><td><span class="tag-badge badge-purple">付費/感應</span></td><td>09:30</td><td><a href="https://www.thamesclippers.com/" target="_blank" class="btn-link btn-official">🌐 快艇時刻與票價</a></td></tr>
+                                <tr><td>8/24 (一)</td><td>溫莎城堡 (Windsor Castle)</td><td><span class="tag-badge badge-gold">🎉 已成功預訂！</span></td><td>11:30</td><td><a href="https://www.rct.uk/visit/windsor-castle" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-circle-check"></i> 8/24 11:30 門票已預訂</a></td></tr>
+                                <tr><td>8/24 (一)</td><td>大英圖書館國寶寶藏展</td><td><span class="tag-badge badge-emerald">免費入場</span></td><td>開至 20:00</td><td><a href="https://www.bl.uk/events/treasures-of-the-british-library" target="_blank" class="btn-link btn-official">🌐 寶藏展官網</a></td></tr>
+                                <tr><td>8/25 (二)</td><td>西敏寺 & 大本鐘 (!外觀拍照打卡)</td><td><span class="tag-badge badge-emerald">免門票</span></td><td>09:30</td><td><a href="https://maps.google.com/?q=Westminster+Abbey+London" target="_blank" class="btn-link btn-map">📍 打卡點地圖</a></td></tr>
+                                <tr><td>8/25 (二)</td><td>華納兄弟哈利波特影城</td><td><span class="tag-badge badge-purple">付費/已購</span></td><td>13:30</td><td><a href="https://www.wbstudiotour.co.uk/" target="_blank" class="btn-link btn-official">🌐 13:30 門票已預購</a></td></tr>
+                                <tr><td>8/26 (三)</td><td>白金漢宮皇家衛兵交接儀式</td><td><span class="tag-badge badge-red">免費觀看</span></td><td>10:15 卡位</td><td><a href="https://www.rct.uk/visit/buckingham-palace" target="_blank" class="btn-link btn-official">🌐 官方交接日曆</a></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- CHAPTER 5: DINING GUIDE -->
+                <div id="dossier-food" class="card" style="border-left: 4px solid #f59e0b;">
+                    <h4 style="font-size: 1.25rem; color: #fde047; margin-bottom: 12px;"><i class="fa-solid fa-utensils"></i> 🍽️ 第五章：全行程精選美食清單與用餐推薦</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                        <div style="background: rgba(15,23,42,0.6); padding: 12px; border-radius: 8px;">
+                            <strong style="color: #6ee7b7;"><i class="fa-solid fa-drumstick-bite"></i> Flat Iron 平價嫩煎牛排（Soho/科芬園）</strong>
+                            <p style="font-size: 0.85rem; color: #cbd5e1; margin-top: 4px;">招牌 £14 羽下嫩煎牛排，肉質軟嫩多汁，招待新鮮爆米花，餐後憑迷你小菜刀兌換免費香濃霜淇淋！</p>
+                        </div>
+                        <div style="background: rgba(15,23,42,0.6); padding: 12px; border-radius: 8px;">
+                            <strong style="color: #fca5a5;"><i class="fa-solid fa-bowl-rice"></i> 中國城 Soho 金滿樓 (Gerrard's Corner)</strong>
+                            <p style="font-size: 0.85rem; color: #cbd5e1; margin-top: 4px;">道地熱騰騰港式點心（蝦餃、燒賣、叉燒包、炒麵），撫慰亞洲胃，適合在逛完國家美術館後享用。</p>
+                        </div>
+                        <div style="background: rgba(15,23,42,0.6); padding: 12px; border-radius: 8px;">
+                            <strong style="color: #fde047;"><i class="fa-solid fa-beer-mug-empty"></i> Backlot Cafe 奶油啤酒 (Butterbeer)</strong>
+                            <p style="font-size: 0.85rem; color: #cbd5e1; margin-top: 4px;">影城中庭必喝無酒精濃郁氣泡甜飲，綿密奶蓋口感極佳，還可品嚐奶油啤酒冰淇淋並將紀念杯帶回家！</p>
+                        </div>
+                        <div style="background: rgba(15,23,42,0.6); padding: 12px; border-radius: 8px;">
+                            <strong style="color: #38bdf8;"><i class="fa-solid fa-burger"></i> 格林威治市集手工異國美食</strong>
+                            <p style="font-size: 0.85rem; color: #cbd5e1; margin-top: 4px;">登格林威治山丘後，於百年室內市集品嚐英式手工肉餡餅、熱騰騰吉拿棒、精緻手作甜點與咖啡。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CHAPTER 6: STRATEGY & PITFALLS -->
+                <div id="dossier-strategy" class="card" style="border-left: 4px solid #ef4444;">
+                    <h4 style="font-size: 1.25rem; color: #fca5a5; margin-bottom: 12px;"><i class="fa-solid fa-chess-knight"></i> 🎯 第六章：特殊外觀打卡與避坑省時戰略</h4>
+                    <ul style="padding-left: 20px; font-size: 0.9rem;">
+                        <li><strong>西敏寺與大本鐘「外觀打卡策略」</strong>：西敏寺內部參觀門票每人高達 £29（4 人共 £116），且安檢排隊耗時 2 小時。改為<strong>在國會廣場外觀、大本鐘與紅色電話亭合影打卡</strong>，省下鉅額費用與寶貴體力，全神貫注享受下午的哈利波特影城！</li>
+                        <li><strong>白金漢宮看衛兵「女王紀念碑高處卡位法」</strong>：白金漢宮大門口鐵欄杆常在 09:30 就被擠得水洩不通。<strong>最佳觀賞點為廣場正中央的 Victoria Memorial（維多利亞女王紀念碑）高處階梯</strong>，居高臨下俯瞰紅衣衛兵進出宮殿與軍樂隊演奏，視野開闊！</li>
+                        <li><strong>溫莎城堡「免早起優雅出發」</strong>：已成功預訂 11:30 場次，全家可在飯店悠閒享用早餐後，於 09:40 出發搭車，完全免去清晨趕車的疲勞。</li>
+                    </ul>
+                </div>
+
+                <!-- CHAPTER 7: SAFETY & TIPS -->
+                <div id="dossier-tips" class="card" style="border-left: 4px solid #38bdf8;">
+                    <h4 style="font-size: 1.25rem; color: #38bdf8; margin-bottom: 12px;"><i class="fa-solid fa-shield-halved"></i> 🛡️ 第七章：行前重要安全守則與緊急求助電話</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; font-size: 0.88rem;">
+                        <div>
+                            <p><strong>🚨 英國緊急報案電話</strong>：緊急情況（救護車/警察/消防）撥打 <strong>999</strong>；非緊急報案撥打 <strong>101</strong>。</p>
+                            <p><strong>🇹🇼 駐英國台北代表處</strong>：+44 (0) 7768-938-765。</p>
+                        </div>
+                        <div>
+                            <p><strong>📱 防手機搶奪</strong>：在牛津街、科芬園拍照時握緊手機，注意騎單車快速經過的人，貴重物品隨身前背。</p>
+                            <p><strong>🔌 插頭電壓</strong>：英規三腳插座 (Type G) 230V，備好轉接頭；餐廳免費提供 Tap Water 生飲水。</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </main>
 
     <footer>
@@ -2362,7 +2535,18 @@
             const content = document.getElementById('fullScriptContent');
             if (content) {
                 navigator.clipboard.writeText(content.innerText).then(() => {
-                    alert('📋 超細節行程全文稿已成功複製至剪貼簿！可直接貼上至 Line、備忘錄或文件分享！');
+                    alert('📋 【版本1：隨身故事文稿】已成功複製至剪貼簿！');
+                }).catch(() => {
+                    alert('已選取文稿，請使用鍵盤 Ctrl+C 或 Command+C 複製！');
+                });
+            }
+        }
+
+        function copyMasterDossierText() {
+            const content = document.getElementById('masterDossierContent');
+            if (content) {
+                navigator.clipboard.writeText(content.innerText).then(() => {
+                    alert('📜 【版本2：旗艦企劃全書文稿】已成功複製至剪貼簿！包含亮點、表格、門票與攻略！');
                 }).catch(() => {
                     alert('已選取文稿，請使用鍵盤 Ctrl+C 或 Command+C 複製！');
                 });
