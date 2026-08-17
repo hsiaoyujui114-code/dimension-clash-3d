@@ -227,6 +227,8 @@
         .btn-official:hover { background: var(--emerald-accent); color: white; }
         .btn-map { background: rgba(56, 189, 248, 0.15); color: var(--text-accent); border: 1px solid rgba(56, 189, 248, 0.3); }
         .btn-map:hover { background: var(--blue-accent); color: white; }
+        .btn-search { background: rgba(245, 158, 11, 0.15); color: #fde047; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .btn-search:hover { background: var(--gold-accent); color: #0f172a; }
         .card-links-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 
         .day-remark-box {
@@ -852,7 +854,8 @@
                             <div class="card-body">抵達倫敦希斯洛機場，完成海關入境與領取行李，憑 Oyster 卡或 Contactless 信用卡搭乘地鐵。</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-1', 0)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位機場 GPS</button>
-                                <a href="https://maps.google.com/?q=Heathrow+Airport+London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-location-dot"></i> 機場 Google 地圖</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Heathrow%20Airport%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Heathrow%20Airport%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                             </div>
                         </div>
                         <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
@@ -885,7 +888,8 @@
                             <div class="card-body">出站步行 3 分鐘抵達 K Hotel Kensington 入住放置行李，至巷口超市採買鮮奶水果。</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-1', 1)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位飯店 GPS</button>
-                                <a href="https://maps.google.com/?q=K+Hotel+Kensington+London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-location-dot"></i> 飯店 Google 地圖</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=K%20Hotel%20Kensington%2014-16%20Barkston%20Gardens%20London%20SW5%200EN" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=K%20Hotel%20Kensington%2014-16%20Barkston%20Gardens%20London%20SW5%200EN" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                             </div>
                         </div>
                     </div>
@@ -944,10 +948,12 @@
                             <div class="timeline-dot"></div>
                             <div class="card">
                                 <div class="card-header"><span class="time-badge">09:00 - 09:50</span><h4 class="card-title">🚆 國王十字車站搭國鐵快車前往劍橋 (Cambridge)</h4></div>
-                                <div class="card-body">國王十字車站搭國鐵快車 48 分鐘直達劍橋車站，沿途欣賞英格蘭鄉村風景。</div>
-                                <div class="card-links-group">
-                                    <button class="btn-focus-spot" onclick="focusDaySpot('day-2', 1)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位國王十字</button>
-                                </div>
+                            <div class="card-body">國王十字車站搭國鐵快車 48 分鐘直達劍橋車站，沿途欣賞英格蘭鄉村風景。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-2', 1)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位國王十字</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Kings%20Cross%20Station%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Kings%20Cross%20Station%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
+                            </div>
                             </div>
                         </div>
                         <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
@@ -976,10 +982,12 @@
                             <div class="timeline-dot"></div>
                             <div class="card">
                                 <div class="card-header"><span class="time-badge">10:00 - 11:30</span><h4 class="card-title">🎓 【直達大學核心區】劍橋歷史學院區漫步 ＆ 國王學院 (!外觀打卡)</h4></div>
-                                <div class="card-body">一下車即身處劍橋大學最核心的 King's Parade！在國王學院大教堂宏偉哥德式外觀前打卡拍照，漫步至三一學院尋找牛頓蘋果樹與歷史市集廣場。</div>
-                                <div class="card-links-group">
-                                    <button class="btn-focus-spot" onclick="focusDaySpot('day-2', 4)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位國王學院</button>
-                                </div>
+                            <div class="card-body">一下車即身處劍橋大學最核心的 King's Parade！在國王學院大教堂宏偉哥德式外觀前打卡拍照，漫步至三一學院尋找牛頓蘋果樹與歷史市集廣場。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-2', 4)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位國王學院</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Kings%20College%20Chapel%20Kings%20Parade%20Cambridge" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Kings%20College%20Chapel%20Kings%20Parade%20Cambridge" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
+                            </div>
                             </div>
                         </div>
                         <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
@@ -1008,22 +1016,25 @@
                             <div class="timeline-dot"></div>
                             <div class="card">
                                 <div class="card-header"><span class="time-badge">11:30 - 13:00</span><h4 class="card-title">🛶 劍橋康河專人撐船 (Punting) 45 分鐘悠閒巡航</h4></div>
-                                <div class="card-body">專業船伕撐篙導覽，沿途穿過數學橋、歎息橋與國王學院後花園大草坪，體會徐志摩「再別康橋」的浪漫意境。</div>
-                                <div class="card-links-group">
-                                    <button class="btn-focus-spot" onclick="focusDaySpot('day-2', 3)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位撐船碼頭</button>
-                                    <a href="https://www.letsgopunting.co.uk/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> 撐船官網</a>
-                                </div>
+                            <div class="card-body">專業船伕撐篙導覽，沿途穿過數學橋、歎息橋與國王學院後花園大草坪，體會徐志摩「再別康橋」的浪漫意境。</div>
+                            <div class="card-links-group">
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-2', 3)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位撐船碼頭</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Scudamores%20Punting%20Mill%20Lane%20Cambridge" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Scudamores%20Punting%20Mill%20Lane%20Cambridge" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
+                                <a href="https://www.letsgopunting.co.uk/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> 撐船官網</a>
+                            </div>
                             </div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-dot"></div>
                             <div class="card">
                                 <div class="card-header"><span class="time-badge">13:00 - 15:30</span><h4 class="card-title">🍽️ 自由用餐時段 ＆ 劍橋大學城自由探索（免排隊，自由選配）</h4></div>
-                                <div class="card-body">全家自由安排午餐與放鬆時間！可至百年 Fitzbillies 總店選購黑糖肉桂捲、在歷史市集品嚐各國熱食，或自由逛書店、費茲威廉博物館。無需預約排隊，輕鬆無負擔！</div>
-                                <div class="card-links-group">
-                                    <a href="https://www.fitzbillies.com/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-bread-slice"></i> Fitzbillies 甜點</a>
-                                    <a href="https://maps.google.com/?q=Cambridge+Market+Square" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-location-dot"></i> 劍橋市集地圖</a>
-                                </div>
+                            <div class="card-body">全家自由安排午餐與放鬆時間！可至百年 Fitzbillies 總店選購黑糖肉桂捲、在歷史市集品嚐各國熱食，或自由逛書店、費茲威廉博物館。無需預約排隊，輕鬆無負擔！</div>
+                            <div class="card-links-group">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Market%20Square%20Cambridge" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Market%20Square%20Cambridge" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
+                                <a href="https://www.fitzbillies.com/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-bread-slice"></i> Fitzbillies 甜點</a>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -1084,6 +1095,8 @@
                             <div class="card-body">憑免費預約通道順暢入場！參觀埃及木乃伊館［Room 62］、羅塞塔石碑［Room 4］與路易斯木棋子［Room 40］。</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-3', 1)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位大英博物館</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=The%20British%20Museum%20Great%20Russell%20St%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=The%20British%20Museum%20Great%20Russell%20St%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                                 <a href="https://www.britishmuseum.org/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> 博物館官網</a>
                             </div>
                         </div>
@@ -1117,6 +1130,8 @@
                             <div class="card-body">大英博物館大門步行 2-3 分鐘即可抵達多間餐廳！推薦步行 3 分鐘之 Flat Iron 牛排館（£14 香煎牛排＋送冰淇淋）、Pret A Manger 輕食三明治、Shake Shack 漢堡或義式披薩。全家自由隨興決定，無任何排隊壓力！</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-3', 2)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位周邊美食</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Flat%20Iron%20Museum%20Street%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Flat%20Iron%20Museum%20Street%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                                 <a href="https://flatironsteak.co.uk/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-utensils"></i> Flat Iron 牛排參考</a>
                             </div>
                         </div>
@@ -1150,6 +1165,8 @@
                             <div class="card-body">順暢移至 8/20 下午！暢逛全倫敦最大 7 層樓玩具城堡，體驗現場魔術展示、樂高專區與哈利波特紀念品區。</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-3', 3)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位 Hamleys</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Hamleys%20Regent%20Street%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Hamleys%20Regent%20Street%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                                 <a href="https://www.hamleys.com/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> Hamleys 官網</a>
                             </div>
                         </div>
@@ -1183,6 +1200,8 @@
                             <div class="card-body">帶孩子在倫敦眼正下方的大型木製攀爬公園放電，欣賞夕陽泰晤士河全景。</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-3', 4)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位南岸公園</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Jubilee%20Gardens%20South%20Bank%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Jubilee%20Gardens%20South%20Bank%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                             </div>
                         </div>
                     </div>
@@ -1243,6 +1262,8 @@
                             <div class="card-body">參觀梵谷《向日葵》、達文西《岩間聖母》與莫內印象派大師名畫展區。</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-4', 1)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位國家美術館</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=The%20National%20Gallery%20Trafalgar%20Square%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=The%20National%20Gallery%20Trafalgar%20Square%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                                 <a href="https://www.nationalgallery.org.uk/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> 美術館官網</a>
                             </div>
                         </div>
@@ -1275,7 +1296,8 @@
                             <div class="card-header"><span class="time-badge">12:00 - 13:30</span><h4 class="card-title">🍽️ 自由用餐與 Soho 商圈漫步（免排隊，自由選配）</h4></div>
                             <div class="card-body">鄰近 Soho 中華街與 Leicester Square 廣場！推薦可選金滿樓港式飲茶（蝦餃、叉燒包）、Shake Shack 漢堡、或周邊義式麵食與輕食餐廳。全家隨興自由選擇，無需特定排隊！</div>
                             <div class="card-links-group">
-                                <a href="https://maps.google.com/?q=Chinatown+London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-utensils"></i> Soho 美食商圈地圖</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Chinatown%20London%20Gerrard%20Street" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Chinatown%20London%20Gerrard%20Street" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                             </div>
                         </div>
                     </div>
@@ -1308,6 +1330,8 @@
                             <div class="card-body">體驗 1:1 樂高地鐵車廂與 3D 大本鐘模型，逛全倫敦最大 M&M 4 層樓巧克力牆。</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-4', 2)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位樂高旗艦店</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=LEGO%20Store%20Leicester%20Square%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=LEGO%20Store%20Leicester%20Square%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                             </div>
                         </div>
                     </div>
@@ -1340,6 +1364,8 @@
                             <div class="card-body">觀賞古典拱廊喜劇雜耍與音樂表演，享用甜點下午茶後搭 Piccadilly Line 返飯店。</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-4', 3)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位科芬園</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Covent%20Garden%20Market%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Covent%20Garden%20Market%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                             </div>
                         </div>
                     </div>
@@ -1400,6 +1426,8 @@
                             <div class="card-body">參觀阿波羅 10 號太空船指令艙與 Wonderlab 兒童科學互動樂園。</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-5', 1)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位科學館</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Science%20Museum%20Exhibition%20Rd%20South%20Kensington%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Science%20Museum%20Exhibition%20Rd%20South%20Kensington%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                                 <a href="https://www.sciencemuseum.org.uk/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> 科學館官網</a>
                             </div>
                         </div>
@@ -1432,6 +1460,8 @@
                             <div class="card-header"><span class="time-badge">13:00 - 14:00</span><h4 class="card-title">🍔 Honest Burgers / 南肯辛頓美食街午餐</h4></div>
                             <div class="card-body">享用著名的迷迭香鹽薯條 (Rosemary Salt Fries) 與高品質英式牛肉漢堡。</div>
                             <div class="card-links-group">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Honest%20Burgers%20South%20Kensington%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Honest%20Burgers%20South%20Kensington%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                                 <a href="https://www.honestburgers.co.uk/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-burger"></i> Honest Burgers 官網</a>
                             </div>
                         </div>
@@ -1465,6 +1495,8 @@
                             <div class="card-body">憑免費預約門票 (14:15 場次) 順暢驗票入場！觀賞大廳巨型藍鯨骨架與會動的霸王龍 (T-Rex)。</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-5', 2)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位自然史館</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Natural%20History%20Museum%20Cromwell%20Rd%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Natural%20History%20Museum%20Cromwell%20Rd%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                                 <a href="https://www.nhm.ac.uk/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-circle-check"></i> 8/22 14:15 門票已預約</a>
                             </div>
                         </div>
@@ -1498,6 +1530,8 @@
                             <div class="card-body">俯瞰倫敦塔橋全景與泰晤士河夕陽夜景，離開搭 District Line 直達 Earl's Court。</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-5', 3)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位 Sky Garden</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Sky%20Garden%2020%20Fenchurch%20St%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Sky%20Garden%2020%20Fenchurch%20St%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                                 <a href="https://skygarden.london/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> Sky Garden 官網</a>
                             </div>
                         </div>
@@ -1561,6 +1595,8 @@
                             <div class="card-body">搭乘 Uber Boat 快艇渡河，沿途觀賞大本鐘、倫敦眼、聖保羅與倫敦塔橋全景。</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-6', 1)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位碼頭</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Westminster%20Millennium%20Pier%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Westminster%20Millennium%20Pier%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                                 <a href="https://www.thamesclippers.com/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> 快艇官網</a>
                             </div>
                         </div>
@@ -1594,6 +1630,8 @@
                             <div class="card-body">登上格林威治公園山丘坡頂觀景台，俯瞰全倫敦最壯麗天際線與本初子午線大鐘。</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-6', 3)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位公園山丘</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Royal%20Observatory%20Greenwich%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Royal%20Observatory%20Greenwich%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                             </div>
                         </div>
                     </div>
@@ -1626,6 +1664,8 @@
                             <div class="card-body">在維多利亞風格歷史拱廊市集享用各國現做街頭美食小吃與甜點。</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-6', 4)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位格林威治市集</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Greenwich%20Market%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Greenwich%20Market%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                             </div>
                         </div>
                     </div>
@@ -1658,6 +1698,8 @@
                             <div class="card-body">搶坐無人駕駛輕軌車頭第 1 排，享受如同過山車般穿梭於金融城摩天大樓間的體驗！</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-6', 5)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位 DLR 站</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Cutty%20Sark%20for%20Maritime%20Greenwich%20DLR%20Station" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Cutty%20Sark%20for%20Maritime%20Greenwich%20DLR%20Station" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                             </div>
                         </div>
                     </div>
@@ -1718,6 +1760,8 @@
                             <div class="card-body">門票已正式預訂成功！參觀豪華國家套房、聖喬治禮拜堂與瑪麗王后微型木偶屋。</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-7', 2)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位溫莎城堡</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Windsor%20Castle%20Windsor%20UK" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Windsor%20Castle%20Windsor%20UK" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                                 <a href="https://www.rct.uk/visit/windsor-castle" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-circle-check"></i> 官方 11:30 預訂</a>
                             </div>
                         </div>
@@ -1780,6 +1824,8 @@
                             <div class="card-body">週一開到晚上 20:00！免費參觀《大憲章》原件、達文西筆記本與披頭四手稿。</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-7', 3)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位大英圖書館</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Windsor%20Royal%20Station%20Windsor%20UK" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Windsor%20Royal%20Station%20Windsor%20UK" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                                 <a href="https://www.bl.uk/events/treasures-of-the-british-library" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> 圖書館官網</a>
                             </div>
                         </div>
@@ -1812,6 +1858,8 @@
                             <div class="card-header"><span class="time-badge">17:30 - 19:00</span><h4 class="card-title">🍛 Dishoom King's Cross 印度名店莫臥兒風格晚餐 (推薦備選)</h4></div>
                             <div class="card-body">大英圖書館旁 5 分鐘！品嚐倫敦最熱門的莫臥兒古典風格印度烤餅 (Naan)、香料烤雞與特色飲品。</div>
                             <div class="card-links-group">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Dishoom%20Kings%20Cross%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Dishoom%20Kings%20Cross%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                                 <a href="https://www.dishoom.com/kings-cross/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-utensils"></i> Dishoom 官網</a>
                             </div>
                         </div>
@@ -1873,6 +1921,8 @@
                             <div class="card-body">指定不進去內部！拍攝哥德式雙塔正門與大本鐘經典合照，免去門票與排隊安檢。</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-8', 1)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位西敏寺</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Westminster%20Abbey%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Westminster%20Abbey%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                             </div>
                         </div>
                     </div>
@@ -1905,6 +1955,8 @@
                             <div class="card-body">霍格華茲大禮堂、斜角巷、古靈閣火龍！於 Backlot Cafe 享用特色奶油啤酒 (Butterbeer) ＆ 奶油啤酒冰淇淋，帶回紀念馬克杯！</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-8', 2)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位影城</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Warner%20Bros%20Studio%20Tour%20London%20Leavesden" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Warner%20Bros%20Studio%20Tour%20London%20Leavesden" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                                 <a href="https://www.wbstudiotour.co.uk/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> 影城官網</a>
                             </div>
                         </div>
@@ -1938,6 +1990,8 @@
                             <div class="card-body">搭車返抵國王十字車站！若 9 ¾ 月台戶外推車排隊人潮眾多，可直接走進旁邊 9 ¾ 官方旗艦店內合影選購魔法杖、巧克力蛙與圍巾（免排長隊！），隨後搭 Piccadilly Line 直達回飯店。</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-8', 3)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位 9 ¾ 月台</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=The%20Harry%20Potter%20Shop%20at%20Platform%209%203/4%20Kings%20Cross%20Station%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=The%20Harry%20Potter%20Shop%20at%20Platform%209%203/4%20Kings%20Cross%20Station%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                             </div>
                         </div>
                     </div>
@@ -1998,6 +2052,8 @@
                             <div class="card-body">8 月 26 日週三為官方交接日！10:15 站上 Victoria Memorial 女王紀念碑階梯高處，觀賞紅衣熊皮帽衛兵與軍樂隊表演！</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-9', 1)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位白金漢宮</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Buckingham%20Palace%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Buckingham%20Palace%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                                 <a href="https://www.rct.uk/visit/buckingham-palace" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> 白金漢宮官網</a>
                             </div>
                         </div>
@@ -2031,6 +2087,8 @@
                             <div class="card-body">Earl's Court 搭 Piccadilly Line 直達希斯洛機場 (38 分鐘)，辦理退稅、託運與 21:30 班機起飛返台。</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-9', 3)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位機場</button>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Heathrow%20Airport%20Terminal%202%20and%203%20London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a>
+                                <a href="https://www.google.com/search?q=Heathrow%20Airport%20Terminal%202%20and%203%20London" target="_blank" class="btn-link btn-search"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a>
                             </div>
                         </div>
                     </div>
@@ -2129,15 +2187,15 @@
                     <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem;">
                         <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #6ee7b7;">
                             <strong style="color: #ffffff;">🦢 肯辛頓花園 (Kensington Gardens)</strong><br>
-                            <span style="color: #94a3b8;">離飯店僅 15 分鐘！看黛安娜王妃紀念噴泉、圓形池塘 (Round Pond) 餵大天鵝，尋找彼得潘青銅雕像。</span>
+                            <span style="color: #94a3b8;">離飯店僅 15 分鐘！看黛安娜王妃紀念噴泉、圓形池塘 (Round Pond) 餵大天鵝，尋找彼得潘青銅雕像。</span><div style="display: flex; gap: 6px; margin-top: 8px;"><a href="https://www.google.com/maps/search/?api=1&query=Kensington+Gardens+London" target="_blank" class="btn-link btn-map" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a><a href="https://www.google.com/search?q=Kensington+Gardens+London" target="_blank" class="btn-link btn-search" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a></div>
                         </li>
                         <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #6ee7b7;">
                             <strong style="color: #ffffff;">🦆 聖詹姆士公園 (St. James's Park)</strong><br>
-                            <span style="color: #94a3b8;">白金漢宮正前方！每天 14:30 有鵜鶘餵食秀 (Pelican Feeding)，湖畔眺望倫敦眼與皇家宮殿倒影極美。</span>
+                            <span style="color: #94a3b8;">白金漢宮正前方！每天 14:30 有鵜鶘餵食秀 (Pelican Feeding)，湖畔眺望倫敦眼與皇家宮殿倒影極美。</span><div style="display: flex; gap: 6px; margin-top: 8px;"><a href="https://www.google.com/maps/search/?api=1&query=St+Jamess+Park+London" target="_blank" class="btn-link btn-map" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a><a href="https://www.google.com/search?q=St+Jamess+Park+London" target="_blank" class="btn-link btn-search" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a></div>
                         </li>
                         <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #6ee7b7;">
                             <strong style="color: #ffffff;">🌹 攝政公園 (The Regent's Park)</strong><br>
-                            <span style="color: #94a3b8;">瑪麗皇后玫瑰園 (Queen Mary's Gardens) 盛開萬朵玫瑰，旁邊緊鄰 Primrose Hill 櫻草丘俯瞰全倫敦全景。</span>
+                            <span style="color: #94a3b8;">瑪麗皇后玫瑰園 (Queen Mary's Gardens) 盛開萬朵玫瑰，旁邊緊鄰 Primrose Hill 櫻草丘俯瞰全倫敦全景。</span><div style="display: flex; gap: 6px; margin-top: 8px;"><a href="https://www.google.com/maps/search/?api=1&query=The+Regents+Park+London" target="_blank" class="btn-link btn-map" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a><a href="https://www.google.com/search?q=The+Regents+Park+London" target="_blank" class="btn-link btn-search" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a></div>
                         </li>
                     </ul>
                 </div>
@@ -2150,15 +2208,15 @@
                     <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem;">
                         <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #38bdf8;">
                             <strong style="color: #ffffff;">🧀 波羅市集 (Borough Market)</strong><br>
-                            <span style="color: #94a3b8;">千年中世紀美食市集！品嚐現切生蠔、西班牙燉飯、松露起司烤三明治與熱騰騰肉批。</span>
+                            <span style="color: #94a3b8;">千年中世紀美食市集！品嚐現切生蠔、西班牙燉飯、松露起司烤三明治與熱騰騰肉批。</span><div style="display: flex; gap: 6px; margin-top: 8px;"><a href="https://www.google.com/maps/search/?api=1&query=Borough+Market+London" target="_blank" class="btn-link btn-map" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a><a href="https://www.google.com/search?q=Borough+Market+London" target="_blank" class="btn-link btn-search" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a></div>
                         </li>
                         <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #38bdf8;">
                             <strong style="color: #ffffff;">🎨 諾丁丘波特貝羅市集 (Portobello Road Market)</strong><br>
-                            <span style="color: #94a3b8;">《新娘百分百》電影拍攝地！整排馬卡龍粉彩色洋房、復古古董攤位與手作銀飾。</span>
+                            <span style="color: #94a3b8;">《新娘百分百》電影拍攝地！整排馬卡龍粉彩色洋房、復古古董攤位與手作銀飾。</span><div style="display: flex; gap: 6px; margin-top: 8px;"><a href="https://www.google.com/maps/search/?api=1&query=Portobello+Road+Market+London" target="_blank" class="btn-link btn-map" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a><a href="https://www.google.com/search?q=Portobello+Road+Market+London" target="_blank" class="btn-link btn-search" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a></div>
                         </li>
                         <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #38bdf8;">
                             <strong style="color: #ffffff;">🌈 Neal's Yard 隱密彩色童話小巷</strong><br>
-                            <span style="color: #94a3b8;">科芬園步行 2 分鐘的秘密角落！鮮豔童話色彩外牆、有機香氛保養店與露天木椅咖啡。</span>
+                            <span style="color: #94a3b8;">科芬園步行 2 分鐘的秘密角落！鮮豔童話色彩外牆、有機香氛保養店與露天木椅咖啡。</span><div style="display: flex; gap: 6px; margin-top: 8px;"><a href="https://www.google.com/maps/search/?api=1&query=Neals+Yard+Covent+Garden+London" target="_blank" class="btn-link btn-map" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a><a href="https://www.google.com/search?q=Neals+Yard+London" target="_blank" class="btn-link btn-search" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a></div>
                         </li>
                     </ul>
                 </div>
@@ -2171,15 +2229,15 @@
                     <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem;">
                         <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #fde047;">
                             <strong style="color: #ffffff;">🚌 倫敦交通博物館 (London Transport Museum)</strong><br>
-                            <span style="color: #94a3b8;">科芬園旁！小朋友可親自登上實體紅色雙層巴士與蒸汽火車駕駛座操控操縱桿。</span>
+                            <span style="color: #94a3b8;">科芬園旁！小朋友可親自登上實體紅色雙層巴士與蒸汽火車駕駛座操控操縱桿。</span><div style="display: flex; gap: 6px; margin-top: 8px;"><a href="https://www.google.com/maps/search/?api=1&query=London+Transport+Museum+Covent+Garden" target="_blank" class="btn-link btn-map" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a><a href="https://www.google.com/search?q=London+Transport+Museum" target="_blank" class="btn-link btn-search" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a></div>
                         </li>
                         <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #fde047;">
                             <strong style="color: #ffffff;">🧸 哈洛德百貨 4 樓玩具王國 (Harrods Toy Kingdom)</strong><br>
-                            <span style="color: #94a3b8;">Knightsbridge 奢華百貨 4 樓！超巨型絨毛熊城堡、哈利波特專區與互動模型區。</span>
+                            <span style="color: #94a3b8;">Knightsbridge 奢華百貨 4 樓！超巨型絨毛熊城堡、哈利波特專區與互動模型區。</span><div style="display: flex; gap: 6px; margin-top: 8px;"><a href="https://www.google.com/maps/search/?api=1&query=Harrods+Toy+Kingdom+Knightsbridge+London" target="_blank" class="btn-link btn-map" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a><a href="https://www.google.com/search?q=Harrods+Toy+Kingdom+London" target="_blank" class="btn-link btn-search" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a></div>
                         </li>
                         <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #fde047;">
                             <strong style="color: #ffffff;">🌊 泰晤士河南岸滑板公園 ＆ 街頭藝人</strong><br>
-                            <span style="color: #94a3b8;">Southbank Centre 塗鴉滑板場觀賞酷炫技巧，沿著河岸散步吹微風看泡泡秀。</span>
+                            <span style="color: #94a3b8;">Southbank Centre 塗鴉滑板場觀賞酷炫技巧，沿著河岸散步吹微風看泡泡秀。</span><div style="display: flex; gap: 6px; margin-top: 8px;"><a href="https://www.google.com/maps/search/?api=1&query=Southbank+Centre+Skate+Space+London" target="_blank" class="btn-link btn-map" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a><a href="https://www.google.com/search?q=Southbank+Centre+London" target="_blank" class="btn-link btn-search" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a></div>
                         </li>
                     </ul>
                 </div>
@@ -2192,15 +2250,15 @@
                     <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem;">
                         <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #c084fc;">
                             <strong style="color: #ffffff;">🫖 Fortnum & Mason 百年皇家茶葉總店</strong><br>
-                            <span style="color: #94a3b8;">Piccadilly 街上 300 年英國皇室認證茶葉！綠色經典茶罐、手工奶油酥餅 (Shortbread) 最佳伴手禮。</span>
+                            <span style="color: #94a3b8;">Piccadilly 街上 300 年英國皇室認證茶葉！綠色經典茶罐、手工奶油酥餅 (Shortbread) 最佳伴手禮。</span><div style="display: flex; gap: 6px; margin-top: 8px;"><a href="https://www.google.com/maps/search/?api=1&query=Fortnum+and+Mason+Piccadilly+London" target="_blank" class="btn-link btn-map" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a><a href="https://www.google.com/search?q=Fortnum+and+Mason+London" target="_blank" class="btn-link btn-search" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a></div>
                         </li>
                         <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #c084fc;">
                             <strong style="color: #ffffff;">🚢 Words on the Water 運河船上書店</strong><br>
-                            <span style="color: #94a3b8;">國王十字 Regent's Canal 運河上由 1920 年代老駁船改裝的獨立漂浮書店，拍照極具文藝氣息。</span>
+                            <span style="color: #94a3b8;">國王十字 Regent's Canal 運河上由 1920 年代老駁船改裝的獨立漂浮書店，拍照極具文藝氣息。</span><div style="display: flex; gap: 6px; margin-top: 8px;"><a href="https://www.google.com/maps/search/?api=1&query=Words+on+the+Water+Kings+Cross+London" target="_blank" class="btn-link btn-map" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a><a href="https://www.google.com/search?q=Words+on+the+Water+London" target="_blank" class="btn-link btn-search" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a></div>
                         </li>
                         <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #c084fc;">
                             <strong style="color: #ffffff;">🏛️ 大英圖書館階梯中庭 ＆ 國王圖書館書塔</strong><br>
-                            <span style="color: #94a3b8;">享受全倫敦最安靜的 6 層樓全玻璃古籍書塔 (King's Library)，在室內咖啡座小憩喝熱可可。</span>
+                            <span style="color: #94a3b8;">享受全倫敦最安靜的 6 層樓全玻璃古籍書塔 (King's Library)，在室內咖啡座小憩喝熱可可。</span><div style="display: flex; gap: 6px; margin-top: 8px;"><a href="https://www.google.com/maps/search/?api=1&query=The+Kings+Library+British+Library+London" target="_blank" class="btn-link btn-map" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-map-location-dot"></i> Google 地圖 ↗</a><a href="https://www.google.com/search?q=The+Kings+Library+British+Library+London" target="_blank" class="btn-link btn-search" style="padding: 3px 8px; font-size: 0.75rem;"><i class="fa-solid fa-magnifying-glass"></i> Google 搜尋 ↗</a></div>
                         </li>
                     </ul>
                 </div>
