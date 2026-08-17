@@ -761,9 +761,6 @@
                 </div>
             </a>
             <div class="nav-actions">
-                <button id="deviceModeToggleBtn" class="btn" onclick="toggleDeviceMode()" title="切換至手機專屬排版" style="background: #6366f1; color: #ffffff; font-weight: 800; border: 1px solid #818cf8; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(99,102,241,0.35);">
-                    <i class="fa-solid fa-mobile-screen-button"></i> 📱 手機版本
-                </button>
                 <a href="https://www.google.com/maps/search/?api=1&query=K+Hotel+Kensington+14-16+Barkston+Gardens+London+SW5+0EN" target="_blank" class="btn btn-primary"><i class="fa-solid fa-hotel"></i> K Hotel Kensington 住宿</a>
                 <a href="a4_printable_itinerary.html" target="_blank" class="btn btn-warning" style="background:#f59e0b; color:#0f172a; font-weight:bold;"><i class="fa-solid fa-print"></i> 📄 開啟 A4 列印檔</a>
             </div>
@@ -813,7 +810,6 @@
                     <div class="filter-chip" onclick="switchMainView('full-script')"><i class="fa-solid fa-file-lines"></i> 📖 隨身故事文稿 (版本1)</div>
                     <div class="filter-chip" onclick="switchMainView('master-dossier')"><i class="fa-solid fa-book-bookmark"></i> 📜 旗艦企劃全書 (版本2：含特色/表格/門票/官網)</div>
                     <div class="filter-chip" onclick="switchMainView('travel-toolkit')"><i class="fa-solid fa-toolbox"></i> 🧰 實用工具箱 (匯率換算/時鐘/行李清單/會話/備忘錄)</div>
-                    <div id="deviceModeFilterChip" class="filter-chip" onclick="toggleDeviceMode()" style="background: rgba(99,102,241,0.2); border: 1px solid #818cf8; color: #c7d2fe; font-weight: 800;"><i class="fa-solid fa-mobile-screen-button"></i> 📱 手機版本</div>
                 </div>
             </div>
             <div id="searchFeedback" style="display: none; font-size: 0.88rem; padding: 10px 16px; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease;"></div>
@@ -3184,28 +3180,23 @@
         // MOBILE DEVICE MODE TOGGLE LOGIC
         function toggleDeviceMode() {
             const isMobile = document.body.classList.toggle('mobile-device-mode');
-            const toggleBtns = [
-                document.getElementById('deviceModeToggleBtn'),
-                document.getElementById('deviceModeFilterChip'),
-                document.getElementById('floatingDeviceModeBtn')
-            ];
+            const floatingBtn = document.getElementById('floatingDeviceModeBtn');
             
-            toggleBtns.forEach(btn => {
-                if (!btn) return;
+            if (floatingBtn) {
                 if (isMobile) {
-                    btn.innerHTML = '<i class="fa-solid fa-desktop"></i> 💻 電腦版本';
-                    btn.style.background = '#f59e0b';
-                    btn.style.color = '#0f172a';
-                    btn.style.borderColor = '#fbbf24';
-                    btn.title = '點擊切換回電腦版寬螢幕排版';
+                    floatingBtn.innerHTML = '<i class="fa-solid fa-desktop"></i> 💻 電腦版本';
+                    floatingBtn.style.background = 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)';
+                    floatingBtn.style.color = '#0f172a';
+                    floatingBtn.style.borderColor = '#fbbf24';
+                    floatingBtn.title = '點擊切換回電腦版寬螢幕排版';
                 } else {
-                    btn.innerHTML = '<i class="fa-solid fa-mobile-screen-button"></i> 📱 手機版本';
-                    btn.style.background = '#6366f1';
-                    btn.style.color = '#ffffff';
-                    btn.style.borderColor = '#818cf8';
-                    btn.title = '點擊切換至手機專屬精簡排版';
+                    floatingBtn.innerHTML = '<i class="fa-solid fa-mobile-screen-button"></i> 📱 手機版本';
+                    floatingBtn.style.background = 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)';
+                    floatingBtn.style.color = '#ffffff';
+                    floatingBtn.style.borderColor = '#818cf8';
+                    floatingBtn.title = '點擊切換至手機專屬精簡排版';
                 }
-            });
+            }
 
             try {
                 localStorage.setItem('preferred_device_mode', isMobile ? 'mobile' : 'desktop');
@@ -3263,13 +3254,9 @@
             <i class="fa-solid fa-toolbox"></i>
             <span>工具箱</span>
         </button>
-        <button class="mobile-nav-item mode-btn" onclick="toggleDeviceMode()" title="切換回電腦版">
-            <i class="fa-solid fa-desktop"></i>
-            <span>電腦版</span>
-        </button>
     </div>
 
-    <!-- FLOATING ACTION CONTROLS STACK (BOTTOM RIGHT: MODE TOGGLE DIRECTLY ABOVE TOP BUTTON) -->
+    <!-- FLOATING ACTION CONTROLS STACK (BOTTOM RIGHT: ONLY MODE TOGGLE & TOP BUTTON) -->
     <div class="floating-controls-stack">
         <button id="floatingDeviceModeBtn" class="floating-mode-btn" onclick="toggleDeviceMode()" title="切換手機/電腦版本">
             <i class="fa-solid fa-mobile-screen-button"></i> 📱 手機版本
