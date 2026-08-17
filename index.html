@@ -3304,12 +3304,12 @@
                 switchMainView('itinerary');
 
                 if (searchBtn) {
-                    searchBtn.innerHTML = '<i class="fa-solid fa-crosshairs"></i> 定位成功';
+                    searchBtn.innerHTML = '<i class="fa-solid fa-crosshairs"></i> 找到 ' + currentSearchMatches.length + ' 處';
                     searchBtn.style.background = '#059669';
                     setTimeout(() => {
                         searchBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> 搜尋';
                         searchBtn.style.background = '#0284c7';
-                    }, 2000);
+                    }, 2500);
                 }
 
                 if (feedbackEl) {
@@ -3319,36 +3319,36 @@
                     feedbackEl.style.color = '#ffffff';
 
                     if (currentSearchMatches.length === 1) {
+                        // EXACTLY 1 MATCH: Directly jump and show confirmation!
                         const m = currentSearchMatches[0];
                         feedbackEl.innerHTML = '<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">' +
                             '<div style="display: flex; align-items: center; gap: 8px;">' +
                                 '<i class="fa-solid fa-circle-check" style="color: #34d399; font-size: 1.1rem;"></i>' +
-                                '<span>找到 1 個相符景點：<strong>' + m.dayText + ' ‧ ' + m.title + (m.time ? ' (' + m.time + ')' : '') + '</strong>，已自動為您滑動定位！</span>' +
+                                '<span>找到 1 個相符景點：<strong>' + m.dayText + ' ‧ ' + m.title + (m.time ? ' (' + m.time + ')' : '') + '</strong>，已直接為您滑動跳轉！</span>' +
                             '</div>' +
                             '<button onclick="jumpToMatch(0)" style="background: #0284c7; color: white; border: none; padding: 4px 12px; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">' +
                                 '<i class="fa-solid fa-crosshairs"></i> 重新聚焦' +
                             '</button>' +
                         '</div>';
+                        
+                        jumpToMatch(0);
                     } else {
+                        // MULTIPLE MATCHES: DO NOT jump automatically. Show selection chips for the user to choose!
                         let chipsHtml = '';
                         currentSearchMatches.forEach((m, idx) => {
-                            chipsHtml += '<button id="search-chip-' + idx + '" onclick="jumpToMatch(' + idx + ')" class="search-match-chip ' + (idx === 0 ? 'active' : '') + '" style="background: ' + (idx === 0 ? '#0284c7' : '#1e293b') + '; color: #ffffff; border: 1px solid ' + (idx === 0 ? '#38bdf8' : '#475569') + '; padding: 6px 12px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;">' +
-                                '<i class="fa-solid fa-location-dot" style="color: ' + (idx === 0 ? '#fde047' : '#38bdf8') + ';"></i>' +
+                            chipsHtml += '<button id="search-chip-' + idx + '" onclick="jumpToMatch(' + idx + ')" class="search-match-chip" style="background: #1e293b; color: #ffffff; border: 1.5px solid #38bdf8; padding: 7px 14px; border-radius: 8px; font-size: 0.84rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">' +
+                                '<i class="fa-solid fa-location-dot" style="color: #38bdf8;"></i>' +
                                 '<span>' + m.dayText + ' ‧ ' + m.title + '</span>' +
                                 (m.time ? '<span style="opacity: 0.75; font-size: 0.75rem; font-weight: normal;">(' + m.time + ')</span>' : '') +
                             '</button>';
                         });
 
-                        feedbackEl.innerHTML = '<div style="margin-bottom: 8px; color: #6ee7b7; font-weight: 800; font-size: 0.92rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">' +
-                            '<span><i class="fa-solid fa-layer-group"></i> 找到 <strong>' + currentSearchMatches.length + '</strong> 個相關景點/行程，點擊任一按鈕即可立即跳轉定位：</span>' +
-                            '<span style="font-size: 0.78rem; color: #94a3b8;">（已預設定位第 1 個）</span>' +
+                        feedbackEl.innerHTML = '<div style="margin-bottom: 10px; color: #6ee7b7; font-weight: 800; font-size: 0.92rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">' +
+                            '<span><i class="fa-solid fa-hand-pointer"></i> 找到 <strong>' + currentSearchMatches.length + '</strong> 個相關地點，請點選您想查看的行程直接前往：</span>' +
                         '</div>' +
                         '<div style="display: flex; flex-wrap: wrap; gap: 8px;">' + chipsHtml + '</div>';
                     }
                 }
-
-                // Automatically jump to the 1st match
-                jumpToMatch(0);
 
             } else {
                 // Not found in itinerary -> Offer Google Maps search
@@ -3393,11 +3393,13 @@
                     if (idx === index) {
                         chip.style.background = '#0284c7';
                         chip.style.borderColor = '#38bdf8';
+                        chip.style.transform = 'scale(1.03)';
                         const icon = chip.querySelector('.fa-location-dot');
                         if (icon) icon.style.color = '#fde047';
                     } else {
                         chip.style.background = '#1e293b';
                         chip.style.borderColor = '#475569';
+                        chip.style.transform = 'scale(1)';
                         const icon = chip.querySelector('.fa-location-dot');
                         if (icon) icon.style.color = '#38bdf8';
                     }
@@ -3418,7 +3420,7 @@
                 });
             }
         }
-
+        
         function switchA4Preview(version) {
             const frame = document.getElementById('a4PreviewIframe');
             const colorBtn = document.getElementById('previewBtnColor');
