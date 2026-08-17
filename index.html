@@ -2279,6 +2279,35 @@
                     </div>
                 </div>
 
+                
+                <!-- LIVE INTERACTIVE EMBEDDED PREVIEW -->
+                <div style="background: rgba(15,23,42,0.85); border: 1.5px solid #38bdf8; border-radius: 12px; padding: 20px; margin-top: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.4);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="background: #0284c7; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 700;">即時預覽</span>
+                            <strong style="color: #ffffff; font-size: 1.05rem;"><i class="fa-solid fa-eye"></i> 📄 A4 企劃手冊線上完整內容直接看</strong>
+                        </div>
+                        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                            <button id="previewBtnColor" onclick="switchA4Preview('color')" style="background: #0284c7; color: #ffffff; border: 1px solid #38bdf8; padding: 6px 14px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;">
+                                <i class="fa-solid fa-palette"></i> 預覽彩色版
+                            </button>
+                            <button id="previewBtnBw" onclick="switchA4Preview('bw')" style="background: transparent; color: #94a3b8; border: 1px solid #64748b; padding: 6px 14px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;">
+                                <i class="fa-solid fa-print"></i> 預覽黑白省墨版
+                            </button>
+                            <button onclick="printCurrentA4Preview()" style="background: #d97706; color: #ffffff; border: none; padding: 6px 14px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;">
+                                <i class="fa-solid fa-print"></i> 立即列印預覽檔
+                            </button>
+                            <a id="previewDownloadBtn" href="a4_printable_itinerary.html" download="倫敦9天8夜親子自由行企劃書_A4彩色版.html" style="background: #10b981; color: #ffffff; text-decoration: none; padding: 6px 14px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; display: inline-flex; align-items: center; gap: 5px;">
+                                <i class="fa-solid fa-download"></i> 下載彩色版 HTML
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div style="width: 100%; border-radius: 8px; overflow: hidden; background: #ffffff; box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);">
+                        <iframe id="a4PreviewIframe" src="a4_printable_itinerary.html" style="width: 100%; height: 950px; border: none; display: block;" title="A4 企劃手冊完整預覽"></iframe>
+                    </div>
+                </div>
+
                 <!-- Print & PDF Instructions Card -->
                 <div style="background: rgba(15,23,42,0.7); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 16px; font-size: 0.88rem; color: #cbd5e1;">
                     <h5 style="color: #fde047; font-size: 0.95rem; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
@@ -3274,14 +3303,51 @@
         }
 
         
+        
+        function switchA4Preview(version) {
+            const frame = document.getElementById('a4PreviewIframe');
+            const colorBtn = document.getElementById('previewBtnColor');
+            const bwBtn = document.getElementById('previewBtnBw');
+            const downloadBtn = document.getElementById('previewDownloadBtn');
+            
+            if (version === 'bw') {
+                if (frame) frame.src = 'a4_printable_itinerary_bw.html';
+                if (colorBtn) { colorBtn.style.background = 'transparent'; colorBtn.style.color = '#94a3b8'; }
+                if (bwBtn) { bwBtn.style.background = '#334155'; bwBtn.style.color = '#ffffff'; }
+                if (downloadBtn) {
+                    downloadBtn.href = 'a4_printable_itinerary_bw.html';
+                    downloadBtn.download = '倫敦9天8夜親子自由行企劃書_A4黑白省墨版.html';
+                    downloadBtn.innerHTML = '<i class="fa-solid fa-download"></i> 下載黑白版 HTML';
+                }
+            } else {
+                if (frame) frame.src = 'a4_printable_itinerary.html';
+                if (colorBtn) { colorBtn.style.background = '#0284c7'; colorBtn.style.color = '#ffffff'; }
+                if (bwBtn) { bwBtn.style.background = 'transparent'; bwBtn.style.color = '#94a3b8'; }
+                if (downloadBtn) {
+                    downloadBtn.href = 'a4_printable_itinerary.html';
+                    downloadBtn.download = '倫敦9天8夜親子自由行企劃書_A4彩色版.html';
+                    downloadBtn.innerHTML = '<i class="fa-solid fa-download"></i> 下載彩色版 HTML';
+                }
+            }
+        }
+
+        function printCurrentA4Preview() {
+            const frame = document.getElementById('a4PreviewIframe');
+            if (frame && frame.contentWindow) {
+                frame.contentWindow.focus();
+                frame.contentWindow.print();
+            } else {
+                window.open('a4_printable_itinerary.html', '_blank');
+            }
+        }
+
         function copyA4Url(type) {
             const origin = window.location.origin;
             const pathname = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
             const file = type === 'bw' ? 'a4_printable_itinerary_bw.html' : 'a4_printable_itinerary.html';
             const fullUrl = origin.includes('http') ? (origin + pathname + file) : ('https://hsiaoyujui114-code.github.io/london/' + file);
             navigator.clipboard.writeText(fullUrl).then(() => {
-                alert('📋 已成功複製【' + (type === 'bw' ? 'A4 黑白省墨版' : 'A4 彩色精裝版') + '】網址：
-' + fullUrl);
+                alert('📋 已成功複製【' + (type === 'bw' ? 'A4 黑白省墨版' : 'A4 彩色精裝版') + '】網址：\n' + fullUrl);
             }).catch(() => {
                 prompt('請複製以下網址：', fullUrl);
             });
