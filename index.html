@@ -809,6 +809,7 @@
                     <div class="filter-chip" onclick="switchMainView('travel-tips')"><i class="fa-solid fa-lightbulb"></i> 💡 倫敦行前注意事項與實用指南</div>
                     <div class="filter-chip" onclick="switchMainView('full-script')"><i class="fa-solid fa-file-lines"></i> 📖 隨身故事文稿 (版本1)</div>
                     <div class="filter-chip" onclick="switchMainView('master-dossier')"><i class="fa-solid fa-book-bookmark"></i> 📜 旗艦企劃全書 (版本2：含特色/表格/門票/官網)</div>
+                    <div class="filter-chip" onclick="switchMainView('flex-attractions')"><i class="fa-solid fa-compass"></i> 🌟 自由彈性推薦去處庫 (自由選配)</div>
                     <div class="filter-chip" onclick="switchMainView('travel-toolkit')"><i class="fa-solid fa-toolbox"></i> 🧰 實用工具箱 (匯率換算/時鐘/行李清單/會話/備忘錄)</div>
                 </div>
             </div>
@@ -916,23 +917,24 @@
             <div id="day-2" class="day-section">
                 <div class="day-header-card">
                     <div class="day-title-info">
-                        <h3><span class="tag-badge badge-purple">Day 2</span> 8 月 19 日 (三) ｜ 🎓 劍橋大學城撐船日 ➔ 國王十字 ➔ 返抵飯店</h3>
-                        <p>國鐵 48 分鐘 ➔ 🎓 劍橋康河撐船 (45分鐘) ➔ 國王學院(!外觀) ➔ 市集午餐 ➔ 國王十字返飯店</p>
+                        <h3><span class="tag-badge badge-emerald">Day 2</span> 8 月 19 日 (三) ｜ 🎓 劍橋大學城撐船日 ➔ 國鐵 48 分鐘直達大學歷史核心區</h3>
+                        <p>國鐵 48 分鐘 ➔ 🎓 直達劍橋大學歷史核心區 (King's Parade / 國王學院外觀) ➔ 🚣 康河專人撐船 ➔ 自由漫步與美食選品 ➔ 返回國王十字</p>
                     </div>
                 </div>
                 <div class="day-quick-summary-box">
                     <div class="summary-block">
                         <h4><i class="fa-solid fa-location-dot"></i> 📍 今天主要景點</h4>
                         <ul>
-                            <li>🎓 劍橋大學城學院巡禮 (!國王學院外觀打卡)</li>
-                            <li>🍞 Fitzbillies 百年麵包老店切爾西黑糖肉桂捲</li>
-                            <li>🚣 45 分鐘康河專人撐船 (Punting，看數學橋與歎息橋)</li>
+                            <li>🎓 直達劍橋大學歷史核心區 (King's Parade 學院街、三一學院、市集廣場)</li>
+                            <li>👑 國王學院禮拜堂 (!外觀經典打卡)</li>
+                            <li>🚣 45 分鐘康河專人撐船 (Punting，欣賞數學橋與歎息橋)</li>
+                            <li>🍞 自由用餐與探索 (可品嚐 Fitzbillies 百年黑糖肉桂捲或市集小吃)</li>
                         </ul>
                     </div>
                     <div class="summary-block">
-                        <h4><i class="fa-solid fa-bus"></i> 🚆 今天交通全攻略 (提供雙路線選擇)</h4>
+                        <h4><i class="fa-solid fa-bus"></i> 🚆 今天交通全攻略 (直達大學核心區)</h4>
                         <p><strong>【路線 A 國王十字快車線 - 主推】</strong> K Hotel 出發搭 Piccadilly Line (18 分鐘) 至 King's Cross 站 ➔ 搭乘 <strong>Great Northern 國鐵直達快車 (48 分鐘)</strong> 直達 <strong>Cambridge 站</strong>。</p>
-                        <p><strong>【路線 B 利物浦街備用線】</strong> 搭地鐵至 Liverpool Street 站 ➔ 搭乘 <strong>Greater Anglia 國鐵 (65 分鐘)</strong> 直達 <strong>Cambridge 站</strong>。<br><strong>【劍橋當地公車】</strong> 出站可搭 <strong>Citi 1 / Citi 3 號公車 (10 分鐘)</strong> 直達市集廣場。</p>
+                        <p><strong>【直達大學核心區交通】</strong> 劍橋車站出站搭乘 <strong>Citi 1 / Citi 3 號公車 (8 分鐘) 或計程車</strong>，直接抵達 <strong>大學歷史核心區 (King's Parade / Market Hill)</strong>，下車即在國王學院正門口！</p>
                     </div>
                 </div>
                     <div class="timeline-container">
@@ -948,64 +950,31 @@
                         </div>
                         <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
                             <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
-                                <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：國王十字車站 ➔ 劍橋車站與撐船碼頭</strong>
-                                <a href="https://www.google.com/maps/dir/?api=1&origin=King's+Cross+Station+London&destination=Quayside+Punting+Cambridge" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：劍橋車站 ➔ 直達劍橋大學歷史核心區</strong>
+                                <a href="https://www.google.com/maps/dir/?api=1&origin=Cambridge+Station+UK&destination=King's+Parade+Cambridge" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
                                     <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
                                 </a>
                             </div>
                             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
                                 <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
-                                    <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-train"></i> 路線 1：GWR/Great Northern 國鐵 (48 分鐘)</div>
-                                    <div style="color: #cbd5e1; margin-top: 4px;">國王十字車站搭乘國鐵直達快車至劍橋站，出站散步 15 分鐘至碼頭。</div>
+                                    <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-bus"></i> 路線 1：Citi 1 / Citi 3 公車 (8 分鐘 - 主推)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">車站門口搭 Citi 1/3 直達 Drummer St 總站，下車即抵達大學核心區與市集。</div>
                                 </div>
                                 <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
-                                    <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-bus"></i> 路線 2：劍橋車站 Citi 1/3 公車 (10 分鐘)</div>
-                                    <div style="color: #cbd5e1; margin-top: 4px;">劍橋車站出站搭乘 Citi 1 / Citi 3 公車直達 Drummer St 總站，下車即達市集與碼頭。</div>
+                                    <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-taxi"></i> 路線 2：車站排班計程車 / Uber (6 分鐘)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">全家 4 人直上計程車約 £7-9，直達 King's Parade 國王學院大門。</div>
                                 </div>
                                 <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
-                                    <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-train-subway"></i> 路線 3：Greater Anglia 國鐵 (65 分鐘)</div>
-                                    <div style="color: #cbd5e1; margin-top: 4px;">利物浦街站 (Liverpool Street) 發車備用線，直達劍橋車站。</div>
+                                    <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-person-walking"></i> 路線 3：林蔭學術大道漫步 (20 分鐘)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">沿 Station Rd 轉 Hills Rd 漫步欣賞劍橋維多利亞古典洋房。</div>
                                 </div>
                             </div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-dot"></div>
                             <div class="card">
-                                <div class="card-header"><span class="time-badge">10:30 - 12:00</span><h4 class="card-title">🛶 劍橋康河專人撐船 (Punting) 45 分鐘體驗</h4></div>
-                                <div class="card-body">專業船夫撐船穿梭康河，觀賞數學橋、歎息橋與國王學院後花園大草坪。</div>
-                                <div class="card-links-group">
-                                    <button class="btn-focus-spot" onclick="focusDaySpot('day-2', 3)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位撐船碼頭</button>
-                                    <a href="https://www.letsgopunting.co.uk/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> 撐船官網</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
-                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
-                                <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：撐船碼頭 ➔ 國王學院 (!外觀) & 市集廣場</strong>
-                                <a href="https://www.google.com/maps/dir/?api=1&origin=Quayside+Punting+Cambridge&destination=King's+College+Cambridge" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
-                                    <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
-                                </a>
-                            </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
-                                <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
-                                    <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-person-walking"></i> 路線 1：康河岸邊步道漫步 (5 分鐘)</div>
-                                    <div style="color: #cbd5e1; margin-top: 4px;">沿著綠樹成陰的康河岸邊向南散步 400 公尺直達國王學院大門。</div>
-                                </div>
-                                <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
-                                    <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-person-walking"></i> 路線 2：Trinity St 古典巷弄 (6 分鐘)</div>
-                                    <div style="color: #cbd5e1; margin-top: 4px;">穿過三一學院 (Trinity College) 大門古色古香的石板巷弄散步至市集。</div>
-                                </div>
-                                <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
-                                    <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-person-walking"></i> 路線 3：Market Hill 市集商圈 (5 分鐘)</div>
-                                    <div style="color: #cbd5e1; margin-top: 4px;">經由 Market Hill 穿過活潑熱鬧的歷史市集攤位區直達國王學院。</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="card">
-                                <div class="card-header"><span class="time-badge">12:00 - 13:00</span><h4 class="card-title">👑 國王學院 (!外觀打卡) ＆ 劍橋歷史市集散步</h4></div>
-                                <div class="card-body">散步至國王學院大教堂外觀拍照打卡，漫步於歷史市集廣場與古典大學城巷弄。</div>
+                                <div class="card-header"><span class="time-badge">10:00 - 11:30</span><h4 class="card-title">🎓 【直達大學核心區】劍橋歷史學院區漫步 ＆ 國王學院 (!外觀打卡)</h4></div>
+                                <div class="card-body">一下車即身處劍橋大學最核心的 King's Parade！在國王學院大教堂宏偉哥德式外觀前打卡拍照，漫步至三一學院尋找牛頓蘋果樹與歷史市集廣場。</div>
                                 <div class="card-links-group">
                                     <button class="btn-focus-spot" onclick="focusDaySpot('day-2', 4)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位國王學院</button>
                                 </div>
@@ -1013,33 +982,45 @@
                         </div>
                         <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
                             <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
-                                <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：國王學院 ➔ Fitzbillies 百年麵包老店</strong>
-                                <a href="https://www.google.com/maps/dir/?api=1&origin=King's+College+Cambridge&destination=Fitzbillies+Trumpington+St+Cambridge" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：大學核心區 ➔ 康河撐船碼頭 (步行 3 分鐘)</strong>
+                                <a href="https://www.google.com/maps/dir/?api=1&origin=King's+College+Cambridge&destination=Scudamore's+Mill+Lane+Punting+Cambridge" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
                                     <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
                                 </a>
                             </div>
                             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
                                 <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
-                                    <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-person-walking"></i> 路線 1：Trumpington St 主幹道 (4 分鐘)</div>
-                                    <div style="color: #cbd5e1; margin-top: 4px;">沿 Trumpington St 向南直走 350 公尺即達 Fitzbillies 總店。</div>
+                                    <div style="font-weight: 700; color: #6ee7b7;"><i class="fa-solid fa-person-walking"></i> 路線 1：Mill Lane 碼頭步道 (3 分鐘)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">從國王學院向南散步 250 公尺直達 Mill Lane 撐船碼頭。</div>
                                 </div>
                                 <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
-                                    <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-person-walking"></i> 路線 2：Senate House 巷弄漫步 (5 分鐘)</div>
-                                    <div style="color: #cbd5e1; margin-top: 4px;">經 Senate House Passage 穿過古典學院紅磚牆步道。</div>
+                                    <div style="font-weight: 700; color: #fde047;"><i class="fa-solid fa-person-walking"></i> 路線 2：Quayside 碼頭步道 (8 分鐘)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">經 Trinity St 向北漫步穿過三一學院至 Quayside 碼頭。</div>
                                 </div>
                                 <div style="background: rgba(15,23,42,0.6); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #a855f7;">
-                                    <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-person-walking"></i> 路線 3：Pembroke St 學術步道 (6 分鐘)</div>
-                                    <div style="color: #cbd5e1; margin-top: 4px;">繞經 Pembroke College 綠地花園側門漫步至麵包店。</div>
+                                    <div style="font-weight: 700; color: #c084fc;"><i class="fa-solid fa-person-walking"></i> 路線 3：康河綠蔭小徑 (5 分鐘)</div>
+                                    <div style="color: #cbd5e1; margin-top: 4px;">沿 Queen's Green 草坪步道漫步欣賞康河後花園全景。</div>
                                 </div>
                             </div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-dot"></div>
                             <div class="card">
-                                <div class="card-header"><span class="time-badge">13:00 - 14:30</span><h4 class="card-title">🍞 Fitzbillies 百年老店享用切爾西黑糖肉桂捲 ＆ 溫馨早午餐</h4></div>
-                                <div class="card-body">品嚐劍橋最著名的百年 Fitzbillies 切爾西黑糖肉桂捲 (Chelsea Buns) 與傳統英式早午餐。</div>
+                                <div class="card-header"><span class="time-badge">11:30 - 13:00</span><h4 class="card-title">🛶 劍橋康河專人撐船 (Punting) 45 分鐘悠閒巡航</h4></div>
+                                <div class="card-body">專業船伕撐篙導覽，沿途穿過數學橋、歎息橋與國王學院後花園大草坪，體會徐志摩「再別康橋」的浪漫意境。</div>
                                 <div class="card-links-group">
-                                    <a href="https://www.fitzbillies.com/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-bread-slice"></i> Fitzbillies 官網</a>
+                                    <button class="btn-focus-spot" onclick="focusDaySpot('day-2', 3)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位撐船碼頭</button>
+                                    <a href="https://www.letsgopunting.co.uk/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-globe"></i> 撐船官網</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="card">
+                                <div class="card-header"><span class="time-badge">13:00 - 15:30</span><h4 class="card-title">🍽️ 自由用餐時段 ＆ 劍橋大學城自由探索（免排隊，自由選配）</h4></div>
+                                <div class="card-body">全家自由安排午餐與放鬆時間！可至百年 Fitzbillies 總店選購黑糖肉桂捲、在歷史市集品嚐各國熱食，或自由逛書店、費茲威廉博物館。無需預約排隊，輕鬆無負擔！</div>
+                                <div class="card-links-group">
+                                    <a href="https://www.fitzbillies.com/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-bread-slice"></i> Fitzbillies 甜點</a>
+                                    <a href="https://maps.google.com/?q=Cambridge+Market+Square" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-location-dot"></i> 劍橋市集地圖</a>
                                 </div>
                             </div>
                         </div>
@@ -1130,17 +1111,17 @@
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
                         <div class="card">
-                            <div class="card-header"><span class="time-badge">14:30 - 15:30</span><h4 class="card-title">🥩 Flat Iron 牛排館午餐 (憑發票免費兌換鹹焦糖冰淇淋)</h4></div>
-                            <div class="card-body">博物館向左散步 3 分鐘即達！享用 £14 香煎羽下牛排與小金屬菜刀紀念品，餐後憑發票免費兌換濃郁鹹焦糖冰淇淋。</div>
+                            <div class="card-header"><span class="time-badge">14:30 - 15:30</span><h4 class="card-title">🍽️ 自由用餐與休閒時段 ＆ 大英周邊美食推薦（免排隊，自由選配）</h4></div>
+                            <div class="card-body">大英博物館大門步行 2-3 分鐘即可抵達多間餐廳！推薦步行 3 分鐘之 Flat Iron 牛排館（£14 香煎牛排＋送冰淇淋）、Pret A Manger 輕食三明治、Shake Shack 漢堡或義式披薩。全家自由隨興決定，無任何排隊壓力！</div>
                             <div class="card-links-group">
-                                <button class="btn-focus-spot" onclick="focusDaySpot('day-3', 2)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位 Flat Iron</button>
-                                <a href="https://flatironsteak.co.uk/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-utensils"></i> Flat Iron 官網</a>
+                                <button class="btn-focus-spot" onclick="focusDaySpot('day-3', 2)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位周邊美食</button>
+                                <a href="https://flatironsteak.co.uk/" target="_blank" class="btn-link btn-official"><i class="fa-solid fa-utensils"></i> Flat Iron 牛排參考</a>
                             </div>
                         </div>
                     </div>
                     <div class="transit-between-card" style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(2,132,199,0.2) 100%); border: 1.5px dashed #38bdf8; border-radius: 12px; padding: 14px 18px; margin: 15px 0;">
                         <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
-                            <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：Flat Iron 牛排館 ➔ Hamleys 7層樓玩具店</strong>
+                            <strong style="font-size: 1rem; color: #38bdf8;"><i class="fa-solid fa-route"></i> 🚶 交通移動引導：大英博物館周邊 ➔ Hamleys 7層樓玩具店</strong>
                             <a href="https://www.google.com/maps/dir/?api=1&origin=Flat+Iron+Tottenham+Court+Road+London&destination=Hamleys+Regent+Street+London" target="_blank" style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
                                 <i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 點對點導航 ↗
                             </a>
@@ -1289,10 +1270,10 @@
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
                         <div class="card">
-                            <div class="card-header"><span class="time-badge">12:00 - 13:30</span><h4 class="card-title">🥟 Soho Chinatown 金滿樓 (Gold Mine) 港式飲茶午餐</h4></div>
-                            <div class="card-body">美術館向北散步 3 分鐘即達 Soho 中華街！享用現蒸蝦餃、奶黃包、燒賣與招牌明爐燒鴨。</div>
+                            <div class="card-header"><span class="time-badge">12:00 - 13:30</span><h4 class="card-title">🍽️ 自由用餐與 Soho 商圈漫步（免排隊，自由選配）</h4></div>
+                            <div class="card-body">鄰近 Soho 中華街與 Leicester Square 廣場！推薦可選金滿樓港式飲茶（蝦餃、叉燒包）、Shake Shack 漢堡、或周邊義式麵食與輕食餐廳。全家隨興自由選擇，無需特定排隊！</div>
                             <div class="card-links-group">
-                                <a href="https://maps.google.com/?q=Chinatown+London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-utensils"></i> 金滿樓地圖導航</a>
+                                <a href="https://maps.google.com/?q=Chinatown+London" target="_blank" class="btn-link btn-map"><i class="fa-solid fa-utensils"></i> Soho 美食商圈地圖</a>
                             </div>
                         </div>
                     </div>
@@ -1951,8 +1932,8 @@
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
                         <div class="card">
-                            <div class="card-header"><span class="time-badge">17:30 - 19:00</span><h4 class="card-title">🧙‍♂️ 返回國王十字車站 ➔ 9 ¾ 月台打卡</h4></div>
-                            <div class="card-body">推手推車拍照打卡與逛 9 ¾ 旗艦店，搭 Piccadilly Line 返飯店。</div>
+                            <div class="card-header"><span class="time-badge">17:30 - 19:00</span><h4 class="card-title">🧙‍♂️ 返回國王十字車站 ➔ 9 ¾ 月台自由探索 ＆ 官方周邊旗艦店（免排隊自由選）</h4></div>
+                            <div class="card-body">搭車返抵國王十字車站！若 9 ¾ 月台戶外推車排隊人潮眾多，可直接走進旁邊 9 ¾ 官方旗艦店內合影選購魔法杖、巧克力蛙與圍巾（免排長隊！），隨後搭 Piccadilly Line 直達回飯店。</div>
                             <div class="card-links-group">
                                 <button class="btn-focus-spot" onclick="focusDaySpot('day-8', 3)"><i class="fa-solid fa-crosshairs"></i> 在地圖定位 9 ¾ 月台</button>
                             </div>
@@ -2129,6 +2110,101 @@
             </div>
         </div>
 
+
+        <!-- VIEW: FLEXIBLE ATTRACTIONS & FREE-TIME IDEAS (自由彈性推薦去處庫) -->
+        <div id="view-flex-attractions" class="tab-panel">
+            <h3 class="section-title"><i class="fa-solid fa-compass"></i> 🌟 全行程自由活動 ＆ 深度好去處推薦庫 (Family Free-Time Ideas)</h3>
+            <p style="color: #cbd5e1; margin-bottom: 20px; font-size: 0.95rem;">
+                💡 <strong>自由彈性專屬設計</strong>：此區塊專為家庭預留的自由時間量身打造！無需預約、不強迫排隊，全家人可依照當天體力、天氣與心情隨選前往：
+            </p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 25px;">
+                <!-- Category 1: Royal Parks & Green Spaces -->
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px;">
+                    <h4 style="color: #6ee7b7; margin-bottom: 12px; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-tree"></i> 🌳 皇家公園放電 ＆ 戶外散步
+                    </h4>
+                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem;">
+                        <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #6ee7b7;">
+                            <strong style="color: #ffffff;">🦢 肯辛頓花園 (Kensington Gardens)</strong><br>
+                            <span style="color: #94a3b8;">離飯店僅 15 分鐘！看黛安娜王妃紀念噴泉、圓形池塘 (Round Pond) 餵大天鵝，尋找彼得潘青銅雕像。</span>
+                        </li>
+                        <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #6ee7b7;">
+                            <strong style="color: #ffffff;">🦆 聖詹姆士公園 (St. James's Park)</strong><br>
+                            <span style="color: #94a3b8;">白金漢宮正前方！每天 14:30 有鵜鶘餵食秀 (Pelican Feeding)，湖畔眺望倫敦眼與皇家宮殿倒影極美。</span>
+                        </li>
+                        <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #6ee7b7;">
+                            <strong style="color: #ffffff;">🌹 攝政公園 (The Regent's Park)</strong><br>
+                            <span style="color: #94a3b8;">瑪麗皇后玫瑰園 (Queen Mary's Gardens) 盛開萬朵玫瑰，旁邊緊鄰 Primrose Hill 櫻草丘俯瞰全倫敦全景。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Category 2: Charming Markets & Neighborhoods -->
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px;">
+                    <h4 style="color: #38bdf8; margin-bottom: 12px; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-store"></i> 🛍️ 特色市集 ＆ 風情街區漫步
+                    </h4>
+                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem;">
+                        <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                            <strong style="color: #ffffff;">🧀 波羅市集 (Borough Market)</strong><br>
+                            <span style="color: #94a3b8;">千年中世紀美食市集！品嚐現切生蠔、西班牙燉飯、松露起司烤三明治與熱騰騰肉批。</span>
+                        </li>
+                        <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                            <strong style="color: #ffffff;">🎨 諾丁丘波特貝羅市集 (Portobello Road Market)</strong><br>
+                            <span style="color: #94a3b8;">《新娘百分百》電影拍攝地！整排馬卡龍粉彩色洋房、復古古董攤位與手作銀飾。</span>
+                        </li>
+                        <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                            <strong style="color: #ffffff;">🌈 Neal's Yard 隱密彩色童話小巷</strong><br>
+                            <span style="color: #94a3b8;">科芬園步行 2 分鐘的秘密角落！鮮豔童話色彩外牆、有機香氛保養店與露天木椅咖啡。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Category 3: Kids & Family Fun -->
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px;">
+                    <h4 style="color: #fde047; margin-bottom: 12px; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-gamepad"></i> 🧒 寓教於樂 ＆ 兒童特色體驗
+                    </h4>
+                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem;">
+                        <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #fde047;">
+                            <strong style="color: #ffffff;">🚌 倫敦交通博物館 (London Transport Museum)</strong><br>
+                            <span style="color: #94a3b8;">科芬園旁！小朋友可親自登上實體紅色雙層巴士與蒸汽火車駕駛座操控操縱桿。</span>
+                        </li>
+                        <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #fde047;">
+                            <strong style="color: #ffffff;">🧸 哈洛德百貨 4 樓玩具王國 (Harrods Toy Kingdom)</strong><br>
+                            <span style="color: #94a3b8;">Knightsbridge 奢華百貨 4 樓！超巨型絨毛熊城堡、哈利波特專區與互動模型區。</span>
+                        </li>
+                        <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #fde047;">
+                            <strong style="color: #ffffff;">🌊 泰晤士河南岸滑板公園 ＆ 街頭藝人</strong><br>
+                            <span style="color: #94a3b8;">Southbank Centre 塗鴉滑板場觀賞酷炫技巧，沿著河岸散步吹微風看泡泡秀。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Category 4: British Lifestyle & Souvenirs -->
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px;">
+                    <h4 style="color: #c084fc; margin-bottom: 12px; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-mug-hot"></i> ☕ 皇家選品、午茶 ＆ 書香時光
+                    </h4>
+                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem;">
+                        <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #c084fc;">
+                            <strong style="color: #ffffff;">🫖 Fortnum & Mason 百年皇家茶葉總店</strong><br>
+                            <span style="color: #94a3b8;">Piccadilly 街上 300 年英國皇室認證茶葉！綠色經典茶罐、手工奶油酥餅 (Shortbread) 最佳伴手禮。</span>
+                        </li>
+                        <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #c084fc;">
+                            <strong style="color: #ffffff;">🚢 Words on the Water 運河船上書店</strong><br>
+                            <span style="color: #94a3b8;">國王十字 Regent's Canal 運河上由 1920 年代老駁船改裝的獨立漂浮書店，拍照極具文藝氣息。</span>
+                        </li>
+                        <li style="background: rgba(15,23,42,0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #c084fc;">
+                            <strong style="color: #ffffff;">🏛️ 大英圖書館階梯中庭 ＆ 國王圖書館書塔</strong><br>
+                            <span style="color: #94a3b8;">享受全倫敦最安靜的 6 層樓全玻璃古籍書塔 (King's Library)，在室內咖啡座小憩喝熱可可。</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <!-- VIEW 4: TRAVEL TIPS & NOTES -->
         <div id="view-travel-tips" class="tab-panel">
             <h3 class="section-title"><i class="fa-solid fa-lightbulb"></i> 💡 倫敦行前注意事項與實用旅遊指南 (Essential London Travel Tips)</h3>
@@ -2251,9 +2327,9 @@
                         <h4 style="font-size: 1.2rem; color: #6ee7b7; margin: 0;"><span class="tag-badge badge-emerald">Day 2</span> 8 月 19 日 (三) ｜ 🎓 劍橋大學城學院深度遊 ＆ 康河撐船放鬆</h4>
                         <span style="font-size: 0.82rem; color: #94a3b8;"><i class="fa-solid fa-location-dot"></i> 倫敦國王十字 ➔ 劍橋 (Cambridge) 往返 48 分鐘</span>
                     </div>
-                    <p><strong>【上午：國鐵直奔康橋】</strong> 08:45 從 Earl's Court 搭地鐵至 King's Cross ➔ 搭乘 09:42 國鐵快車 (Great Northern/Thameslink) 僅 48 分鐘抵達劍橋車站 ➔ 轉乘公車 8 分鐘至大學城市中心。</p>
-                    <p><strong>【核心亮點：康河撐船 (Punting)】</strong> 11:00 體驗 45 分鐘共享撐船，由專業學長撐篙導覽，沿途穿過<strong>國王學院禮拜堂 (King's College Chapel)</strong>、<strong>數學橋 (Mathematical Bridge)</strong> 與<strong>嘆息橋 (Bridge of Sighs)</strong>，親身體會徐志摩筆下「再別康橋」的柔波金柳。</p>
-                    <p><strong>【下午：學院漫步 ＆ 備選放電】</strong> 漫步三一學院 (尋找牛頓蘋果樹) ➔ 16:30 搭國鐵返回國王十字車站。如小朋友體力充沛，可至車站旁 <strong>Coal Drops Yard</strong> 欣賞運河景致與地面跳躍噴泉水舞！</p>
+                    <p><strong>【上午：直達大學歷史核心區】</strong> 08:45 從 Earl's Court 搭地鐵至 King's Cross ➔ 搭乘 09:42 國鐵快車僅 48 分鐘抵達劍橋車站 ➔ <strong>出站搭 Citi 1/3 公車 8 分鐘直接抵達大學核心區 (King's Parade / 國王學院正門)</strong> ➔ 漫步歷史學院區與國王學院外觀打卡。</p>
+                    <p><strong>【核心亮點：康河撐船 (Punting)】</strong> 11:30 步行 3 分鐘至康河碼頭體驗 45 分鐘共享撐船，由專業船伕撐篙導覽，沿途穿過<strong>國王學院後花園</strong>、<strong>數學橋 (Mathematical Bridge)</strong> 與<strong>嘆息橋 (Bridge of Sighs)</strong>，體會徐志摩「再別康橋」浪漫意境。</p>
+                    <p><strong>【下午：自由用餐 ＆ 大學城探索】</strong> 全家自由安排午餐與放鬆時間（可品嚐 Fitzbillies 黑糖肉桂捲或市集美食，免排隊！）➔ 15:30-16:30 搭國鐵返回國王十字車站。如小朋友想放電，可逛車站旁 <strong>Coal Drops Yard</strong> 運河與噴泉水舞！</p>
                     <p style="margin-top: 8px; color: #93c5fd;"><strong style="color: #38bdf8;"><i class="fa-solid fa-cloud-showers-heavy"></i> ☔ 雨天備案：</strong>若在劍橋遇雨撐船不便，可改參觀<strong>劍橋費茲威廉博物館 (The Fitzwilliam Museum)</strong> 免費室內展廳（古埃及木乃伊與名畫特展），或進入<strong>國王學院禮拜堂</strong>室內避雨聆聽唱詩班；回到倫敦後可逛國王十字車站遮頂商場 (Canopy Market)。</p>
                 </div>
 
@@ -2326,7 +2402,7 @@
                     </div>
                     <p><strong>【上午：西敏外觀經典打卡（免門票省時策略）】</strong> 09:30 抵達 Westminster 站，出站即是大本鐘 (Big Ben)！於國會廣場與<strong>西敏寺 (Westminster Abbey) 哥德式宏偉外觀</strong>、紅色電話亭合影，完全省下每人 £29 門票與 2.5 小時排隊體力！</p>
                     <p><strong>【下午：走入霍格華茲魔法世界】</strong> 11:30 從 Euston 搭國鐵快車 20 分鐘直達 Watford Junction ➔ 搭乘影城接駁專車 ➔ <strong>13:30 進入華納兄弟哈利波特影城 (Warner Bros. Studio Tour)</strong>！親歷霍格華茲大禮堂、斜角巷、禁忌森林與古靈閣巫師銀行，於 Backlot Cafe 品嚐泡沫綿密的<strong>奶油啤酒 (Butterbeer)</strong>！</p>
-                    <p><strong>【傍晚：國王十字 9 ¾ 月台】</strong> 18:00 返抵 King's Cross 站，推著穿牆行李手推車合影打卡，選購葛來分多圍巾與魔杖紀念品。</p>
+                    <p><strong>【傍晚：國王十字 9 ¾ 月台自由探索】</strong> 18:00 返抵 King's Cross 站，若戶外推車排隊人多，可直接走進旁邊 9 ¾ 官方旗艦店內合影選購魔法杖、巧克力蛙與圍巾（免排長隊！），隨後輕鬆搭地鐵回飯店。</p>
                     <p style="margin-top: 8px; color: #93c5fd;"><strong style="color: #38bdf8;"><i class="fa-solid fa-cloud-showers-heavy"></i> ☔ 雨天備案：</strong>早上西敏寺與大本鐘為 30-40 分鐘快速外觀拍照打卡（備摺疊傘快拍即可）；下午華納兄弟哈利波特影城為<strong>超巨型全室內奇幻攝影棚（大禮堂、斜角巷、禁忌森林與特效區全在室內）</strong>，傍晚國王十字車站 9 ¾ 月台亦在室內火車站大廳，幾乎不受任何天候雨勢影響。</p>
                 </div>
 
