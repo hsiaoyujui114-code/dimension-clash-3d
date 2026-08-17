@@ -3215,6 +3215,8 @@
             }
         }
 
+        let currentSearchMatches = [];
+
         function handleSearchKeyDown(event) {
             if (event.key === 'Enter') {
                 event.preventDefault();
@@ -3222,8 +3224,20 @@
             }
         }
 
+        function resetSearch() {
+            const feedbackEl = document.getElementById('searchFeedback');
+            if (feedbackEl) {
+                feedbackEl.style.display = 'none';
+                feedbackEl.innerHTML = '';
+            }
+            document.querySelectorAll('.highlight-matched-card').forEach(el => el.classList.remove('highlight-matched-card'));
+            document.querySelectorAll('.timeline-item').forEach(card => card.style.display = 'block');
+            currentSearchMatches = [];
+        }
+
         function executeSearchAction() {
-            const rawQuery = document.getElementById('searchInput').value;
+            const searchInput = document.getElementById('searchInput');
+            const rawQuery = searchInput ? searchInput.value : '';
             const query = rawQuery.trim().toLowerCase();
             const feedbackEl = document.getElementById('searchFeedback');
             const searchBtn = document.getElementById('searchActionBtn');
@@ -3236,22 +3250,59 @@
                 return;
             }
 
-            // Find all matching timeline cards and day sections in the 9-day itinerary
+            // Collect all matching items from timeline cards and day sections
+            currentSearchMatches = [];
+            
+            // 1. Check timeline cards
             const allCards = Array.from(document.querySelectorAll('.timeline-item'));
-            const matchedCards = allCards.filter(card => {
+            allCards.forEach((card, idx) => {
                 const text = card.textContent.toLowerCase();
-                return text.includes(query);
+                if (text.includes(query)) {
+                    const parentDay = card.closest('.day-section');
+                    const dayTag = parentDay ? (parentDay.querySelector('.tag-badge')?.textContent || parentDay.id.toUpperCase()) : '行程';
+                    const titleEl = card.querySelector('.card-title');
+                    const title = titleEl ? titleEl.textContent.trim() : '行程景點';
+                    const timeBadge = card.querySelector('.time-badge');
+                    const time = timeBadge ? timeBadge.textContent.trim() : '';
+                    
+                    if (!card.id) card.id = 'timeline-spot-' + idx;
+                    
+                    currentSearchMatches.push({
+                        type: 'card',
+                        id: card.id,
+                        element: card,
+                        dayId: parentDay ? parentDay.id : 'day-1',
+                        dayText: dayTag,
+                        title: title,
+                        time: time
+                    });
+                }
             });
 
-            if (matchedCards.length > 0) {
-                // Found in itinerary!
-                if (feedbackEl) {
-                    feedbackEl.style.display = 'block';
-                    feedbackEl.style.background = 'rgba(16, 185, 129, 0.15)';
-                    feedbackEl.style.border = '1px solid rgba(16, 185, 129, 0.4)';
-                    feedbackEl.style.color = '#6ee7b7';
-                    feedbackEl.innerHTML = `<i class="fa-solid fa-circle-check"></i> 已在本次行程中為您找到 <strong>${matchedCards.length}</strong> 個相關景點/活動，已立刻平滑定位至該處！`;
+            // 2. Check day remarks / summary if not caught in timeline cards
+            document.querySelectorAll('.day-section').forEach(daySec => {
+                const remarkBox = daySec.querySelector('.day-remark-box');
+                if (remarkBox && remarkBox.textContent.toLowerCase().includes(query)) {
+                    const alreadyFound = currentSearchMatches.some(m => m.dayId === daySec.id);
+                    if (!alreadyFound) {
+                        const dayTag = daySec.querySelector('.tag-badge')?.textContent || daySec.id.toUpperCase();
+                        currentSearchMatches.push({
+                            type: 'remark',
+                            id: daySec.id,
+                            element: remarkBox,
+                            dayId: daySec.id,
+                            dayText: dayTag,
+                            title: '📝 ' + dayTag + ' 備註與景點',
+                            time: ''
+                        });
+                    }
                 }
+            });
+
+            if (currentSearchMatches.length > 0) {
+                // Switch to itinerary view first
+                switchMainView('itinerary');
+
                 if (searchBtn) {
                     searchBtn.innerHTML = '<i class="fa-solid fa-crosshairs"></i> 定位成功';
                     searchBtn.style.background = '#059669';
@@ -3261,49 +3312,113 @@
                     }, 2000);
                 }
 
-                // Switch to itinerary view
-                switchMainView('itinerary');
-
-                // Display all cards
-                allCards.forEach(card => card.style.display = 'block');
-
-                // Smooth scroll to the first match
-                const firstMatch = matchedCards[0];
-                firstMatch.classList.add('highlight-matched-card');
-                firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                // Highlight active day shortcut
-                const parentDay = firstMatch.closest('.day-section');
-                if (parentDay && parentDay.id) {
-                    document.querySelectorAll('.day-shortcut-btn').forEach(btn => {
-                        btn.classList.toggle('active', btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(parentDay.id));
-                    });
-                }
-            } else {
-                // Not found in itinerary -> Immediately open Google Maps search in a new tab!
-                allCards.forEach(card => card.style.display = 'block');
                 if (feedbackEl) {
                     feedbackEl.style.display = 'block';
-                    feedbackEl.style.background = 'rgba(245, 158, 11, 0.18)';
-                    feedbackEl.style.border = '1px solid rgba(245, 158, 11, 0.5)';
-                    feedbackEl.style.color = '#fde047';
-                    feedbackEl.innerHTML = `<i class="fa-solid fa-circle-info"></i> 行程內無此景點「<strong>${rawQuery}</strong>」｜ 已為您開啟 Google Maps 倫敦地圖搜尋！ <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(rawQuery + ' London')}" target="_blank" style="color: #38bdf8; text-decoration: underline; font-weight: 800; margin-left: 6px;"><i class="fa-solid fa-location-arrow"></i> 再次開啟 ↗</a>`;
+                    feedbackEl.style.background = 'rgba(15, 23, 42, 0.95)';
+                    feedbackEl.style.border = '1.5px solid #38bdf8';
+                    feedbackEl.style.color = '#ffffff';
+
+                    if (currentSearchMatches.length === 1) {
+                        const m = currentSearchMatches[0];
+                        feedbackEl.innerHTML = '<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">' +
+                            '<div style="display: flex; align-items: center; gap: 8px;">' +
+                                '<i class="fa-solid fa-circle-check" style="color: #34d399; font-size: 1.1rem;"></i>' +
+                                '<span>找到 1 個相符景點：<strong>' + m.dayText + ' ‧ ' + m.title + (m.time ? ' (' + m.time + ')' : '') + '</strong>，已自動為您滑動定位！</span>' +
+                            '</div>' +
+                            '<button onclick="jumpToMatch(0)" style="background: #0284c7; color: white; border: none; padding: 4px 12px; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">' +
+                                '<i class="fa-solid fa-crosshairs"></i> 重新聚焦' +
+                            '</button>' +
+                        '</div>';
+                    } else {
+                        let chipsHtml = '';
+                        currentSearchMatches.forEach((m, idx) => {
+                            chipsHtml += '<button id="search-chip-' + idx + '" onclick="jumpToMatch(' + idx + ')" class="search-match-chip ' + (idx === 0 ? 'active' : '') + '" style="background: ' + (idx === 0 ? '#0284c7' : '#1e293b') + '; color: #ffffff; border: 1px solid ' + (idx === 0 ? '#38bdf8' : '#475569') + '; padding: 6px 12px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;">' +
+                                '<i class="fa-solid fa-location-dot" style="color: ' + (idx === 0 ? '#fde047' : '#38bdf8') + ';"></i>' +
+                                '<span>' + m.dayText + ' ‧ ' + m.title + '</span>' +
+                                (m.time ? '<span style="opacity: 0.75; font-size: 0.75rem; font-weight: normal;">(' + m.time + ')</span>' : '') +
+                            '</button>';
+                        });
+
+                        feedbackEl.innerHTML = '<div style="margin-bottom: 8px; color: #6ee7b7; font-weight: 800; font-size: 0.92rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">' +
+                            '<span><i class="fa-solid fa-layer-group"></i> 找到 <strong>' + currentSearchMatches.length + '</strong> 個相關景點/行程，點擊任一按鈕即可立即跳轉定位：</span>' +
+                            '<span style="font-size: 0.78rem; color: #94a3b8;">（已預設定位第 1 個）</span>' +
+                        '</div>' +
+                        '<div style="display: flex; flex-wrap: wrap; gap: 8px;">' + chipsHtml + '</div>';
+                    }
+                }
+
+                // Automatically jump to the 1st match
+                jumpToMatch(0);
+
+            } else {
+                // Not found in itinerary -> Offer Google Maps search
+                if (feedbackEl) {
+                    feedbackEl.style.display = 'block';
+                    feedbackEl.style.background = 'rgba(239, 68, 68, 0.15)';
+                    feedbackEl.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+                    feedbackEl.style.color = '#fca5a5';
+                    feedbackEl.innerHTML = '<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">' +
+                        '<span><i class="fa-solid fa-circle-exclamation"></i> 在 9 天預定行程中未找到「<strong>' + rawQuery + '</strong>」</span>' +
+                        '<a href="https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(rawQuery + ' London') + '" target="_blank" style="background: #ef4444; color: white; padding: 4px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">' +
+                            '<i class="fa-solid fa-location-arrow"></i> 開啟 Google Maps 搜尋 ↗' +
+                        '</a>' +
+                    '</div>';
                 }
                 if (searchBtn) {
-                    searchBtn.innerHTML = '<i class="fa-solid fa-map-location-dot"></i> Maps 導航中';
-                    searchBtn.style.background = '#d97706';
+                    searchBtn.innerHTML = '<i class="fa-solid fa-map-location-dot"></i> Maps 搜尋';
+                    searchBtn.style.background = '#dc2626';
                     setTimeout(() => {
                         searchBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> 搜尋';
                         searchBtn.style.background = '#0284c7';
                     }, 2000);
                 }
-                // Open Google Maps
-                window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(rawQuery + ' London')}`, '_blank');
             }
         }
 
-        
-        
+        function jumpToMatch(index) {
+            if (!currentSearchMatches || !currentSearchMatches[index]) return;
+            
+            // Switch to itinerary view
+            switchMainView('itinerary');
+
+            const match = currentSearchMatches[index];
+            
+            // Remove previous highlight
+            document.querySelectorAll('.highlight-matched-card').forEach(el => el.classList.remove('highlight-matched-card'));
+            
+            // Update active state on search chips
+            currentSearchMatches.forEach((m, idx) => {
+                const chip = document.getElementById('search-chip-' + idx);
+                if (chip) {
+                    if (idx === index) {
+                        chip.style.background = '#0284c7';
+                        chip.style.borderColor = '#38bdf8';
+                        const icon = chip.querySelector('.fa-location-dot');
+                        if (icon) icon.style.color = '#fde047';
+                    } else {
+                        chip.style.background = '#1e293b';
+                        chip.style.borderColor = '#475569';
+                        const icon = chip.querySelector('.fa-location-dot');
+                        if (icon) icon.style.color = '#38bdf8';
+                    }
+                }
+            });
+
+            // Highlight target element
+            if (match.element) {
+                match.element.classList.add('highlight-matched-card');
+                match.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            // Highlight corresponding Day Shortcut Button
+            if (match.dayId) {
+                document.querySelectorAll('.day-shortcut-btn').forEach(btn => {
+                    const onclickAttr = btn.getAttribute('onclick') || '';
+                    btn.classList.toggle('active', onclickAttr.includes(match.dayId));
+                });
+            }
+        }
+
         function switchA4Preview(version) {
             const frame = document.getElementById('a4PreviewIframe');
             const colorBtn = document.getElementById('previewBtnColor');
