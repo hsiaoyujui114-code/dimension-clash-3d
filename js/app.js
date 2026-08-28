@@ -1,29 +1,22 @@
 /**
- * 跨次元大亂鬥 (Dimension Clash Online) - 3D 主應用協調器
- * (Main Application Coordinator & 3D WebGL Controller)
+ * 跨次元大亂鬥 3D (Dimension Clash Online 3D) - 主應用協調器
+ * (Google Login Gateway, Roster Team Selection, Daily Rewards & 3D Combat Input Handler)
  */
 
 class App3D {
   constructor() {
     this.sceneManager = null;
     this.cameraController = null;
-    this.activeTab = "battle";
+    this.activeTab = "roster"; // 登入後預設導向角色名冊
 
-    // Team selection (1 to 5 KOF format)
     this.teamSize = 3;
-    this.p1Team = ["goku_kid", "cap_america", "gm_rgm79"];
+    this.p1Team = window.saveSystem.user.selectedTeam || ["goku_kid", "cap_america", "gm_rgm79"];
     this.p2Team = ["spiderman_classic", "krillin", "rx78_2"];
     this.pickingSlotIndex = 0;
     this.pickingForTeam = 1;
 
-    // Continuous 3D movement input keys
     this.keys = {};
-    this.jKeyHeld = false;
-    this.jKeyHoldTime = 0;
-
-    // Mobile Virtual Joystick state (360 degrees)
     this.joystick = { active: false, startX: 0, startY: 0, moveX: 0, moveY: 0 };
-
     this.lastFrameTime = performance.now();
     this.isRunning = true;
   }
@@ -48,10 +41,14 @@ class App3D {
     this.renderAllViews();
     this.updateUserStatusBar();
 
-    // Start 3D default battle
-    this.startSelectedBattle("kof");
+    // ── 檢查 Google 登入狀態 (未登入則彈出 Google 登入介面) ──
+    if (!window.saveSystem.user.isLoggedIn) {
+      this.openGoogleLoginModal();
+    } else {
+      this.switchTab("roster");
+    }
 
-    // Start 60 FPS 3D Game Loop
+    // 啟動 60 FPS 渲染迴圈
     requestAnimationFrame((t) => this.gameLoop(t));
   }
 
@@ -63,6 +60,19 @@ class App3D {
     if (goldElem) goldElem.textContent = window.saveSystem.user.gold.toLocaleString();
     if (trophyElem) trophyElem.textContent = window.saveSystem.user.trophies.toLocaleString();
     if (nameElem) nameElem.textContent = window.saveSystem.user.nickname;
+  }
+
+  openGoogleLoginModal() {
+    const modal = document.getElementById("googleLoginModal");
+    if (modal) modal.classList.add("active");
+  }
+
+  performGoogleLogin(email, nickname) {
+    window.saveSystem.loginWithGoogle(email, nickname);
+    this.updateUserStatusBar();
+    this.closeModal();
+    this.switchTab("roster"); // 登入後立即導向自己的角色頁面
+    alert(`🎉 Google 登入成功！歡迎【${nickname}】，已自動進入英雄陣容庫！`);
   }
 
   switchTab(tabId) {
@@ -81,29 +91,44 @@ class App3D {
   }
 
   bindEvents() {
-    // Tab switching
     document.querySelectorAll(".tab-btn").forEach(btn => {
       btn.addEventListener("click", () => this.switchTab(btn.dataset.tab));
     });
 
-    // Start battle button
-    const startBattleBtn = document.getElementById("startBattleBtn");
-    if (startBattleBtn) {
-      startBattleBtn.addEventListener("click", () => this.startSelectedBattle("kof"));
+    // 每日獎勵按鈕
+    const dailyRewardBtn = document.getElementById("dailyRewardBtn");
+    if (dailyRewardBtn) {
+      dailyRewardBtn.addEventListener("click", () => this.openDailyRewardModal());
     }
 
-    // Camera Switcher Button (3rd Person / 1st Person / Top-Down)
+    // Google 登入按鈕
+    const googleLoginBtn = document.getElementById("googleLoginBtn");
+    if (googleLoginBtn) {
+      googleLoginBtn.addEventListener("click", () => this.openGoogleLoginModal());
+    }
+
+    // Google Login Form
+    const googleSubmitBtn = document.getElementById("confirmGoogleLoginBtn");
+    if (googleSubmitBtn) {
+      googleSubmitBtn.addEventListener("click", () => {
+        const email = document.getElementById("googleEmailInput").value || "player@gmail.com";
+        const nick = document.getElementById("googleNickInput").value || "次元格鬥大師";
+        this.performGoogleLogin(email, nick);
+      });
+    }
+
+    // 視角切換按鈕 [V]
     const cameraBtn = document.getElementById("cameraViewBtn");
     if (cameraBtn) {
       cameraBtn.addEventListener("click", () => {
         if (this.cameraController) {
-          const newMode = this.cameraController.cycleViewMode();
+          this.cameraController.cycleViewMode();
           cameraBtn.innerHTML = `<i class="fa-solid fa-video"></i> ${this.cameraController.getViewModeLabel()}`;
         }
       });
     }
 
-    // Team Size Selectors
+    // 隊伍大小選擇 (1v1 ~ 5v5)
     document.querySelectorAll(".team-size-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         document.querySelectorAll(".team-size-btn").forEach(b => b.classList.remove("active"));
@@ -111,10 +136,11 @@ class App3D {
         this.teamSize = parseInt(btn.dataset.size);
         this.adjustTeamSize();
         this.renderTeamSelectors();
+        this.renderRosterView();
       });
     });
 
-    // Mute toggle
+    // 音效開關
     const muteBtn = document.getElementById("muteToggleBtn");
     if (muteBtn) {
       muteBtn.addEventListener("click", () => {
@@ -123,28 +149,68 @@ class App3D {
       });
     }
 
-    // Google Login simulation
-    const googleLoginBtn = document.getElementById("googleLoginBtn");
-    if (googleLoginBtn) {
-      googleLoginBtn.addEventListener("click", () => {
-        const newNick = prompt("輸入您的 Google 玩家暱稱：", window.saveSystem.user.nickname);
-        if (newNick) {
-          window.saveSystem.loginWithGoogle(newNick);
-          this.updateUserStatusBar();
-          alert(`🎉 歡迎！Google 帳號 [${newNick}] 存檔已同步！`);
-        }
-      });
-    }
-
-    // Modal close buttons
+    // 模態關閉
     document.querySelectorAll(".modal-close-btn").forEach(btn => {
       btn.addEventListener("click", () => this.closeModal());
     });
   }
 
+  // ─── 🎁 每日簽到獎勵彈窗 ───
+  openDailyRewardModal() {
+    const modal = document.getElementById("dailyRewardModal");
+    const container = document.getElementById("dailyRewardContent");
+    if (!modal || !container) return;
+
+    const streak = window.saveSystem.user.dailyReward.streakDay || 1;
+    const isClaimed = window.saveSystem.user.dailyReward.claimedToday;
+
+    const rewards = [
+      { day: 1, gold: 500, gift: "仙豆補給包" },
+      { day: 2, gold: 1000, gift: "綠階召募券" },
+      { day: 3, gold: 1500, gift: "振金編織內襯" },
+      { day: 4, gold: 2000, gift: "初鋼改裝零件" },
+      { day: 5, gold: 3000, gift: "感應骨架結晶" },
+      { day: 6, gold: 4000, gift: "特南克斯碎片" },
+      { day: 7, gold: 10000, gift: "史詩自選箱！" }
+    ];
+
+    container.innerHTML = `
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px; margin-bottom: 20px;">
+        ${rewards.map(r => `
+          <div style="background: ${r.day === streak ? 'rgba(56, 189, 248, 0.25)' : 'rgba(15, 23, 42, 0.6)'}; border: 1px solid ${r.day === streak ? '#38bdf8' : 'rgba(255,255,255,0.1)'}; border-radius: 8px; padding: 10px 6px; text-align: center;">
+            <div style="font-size: 11px; font-weight: 800; color: #94a3b8;">第 ${r.day} 天</div>
+            <div style="font-size: 18px; margin: 4px 0;">🎁</div>
+            <div style="font-size: 12px; font-weight: 800; color: #facc15;">+${r.gold} 金幣</div>
+            <div style="font-size: 10px; color: #cbd5e1; margin-top: 2px;">${r.gift}</div>
+            ${r.day < streak ? `<div style="font-size: 10px; color: #4ade80; margin-top: 4px;">✅ 已領</div>` : (r.day === streak && isClaimed ? `<div style="font-size: 10px; color: #4ade80; margin-top: 4px;">✅ 今日已領</div>` : '')}
+          </div>
+        `).join("")}
+      </div>
+
+      <button class="btn-primary" style="width: 100%; padding: 12px; font-size: 16px; justify-content: center;" ${isClaimed ? 'disabled' : ''} onclick="window.app.claimDailyReward()">
+        ${isClaimed ? '✅ 今日獎勵已領取 (明天再來！)' : '🎁 立即領取今日登入獎勵！'}
+      </button>
+    `;
+
+    modal.classList.add("active");
+  }
+
+  claimDailyReward() {
+    const res = window.saveSystem.claimDailyReward();
+    if (res.success) {
+      if (window.soundEngine) window.soundEngine.playLevelUp();
+      this.updateUserStatusBar();
+      this.openDailyRewardModal();
+      alert(`🎉 成功領取第 ${res.reward.day} 天獎勵：\n${res.reward.desc} (+${res.reward.gold} 金幣)！`);
+    } else {
+      alert(res.reason);
+    }
+  }
+
   adjustTeamSize() {
-    while (this.p1Team.length < this.teamSize) this.p1Team.push("goku_kid");
+    while (this.p1Team.length < this.teamSize) this.p1Team.push(window.saveSystem.user.unlockedCharacters[0] || "goku_kid");
     while (this.p1Team.length > this.teamSize) this.p1Team.pop();
+    window.saveSystem.setTeam(this.p1Team);
 
     const enemies = ["rx78_2", "spiderman_classic", "krillin", "char_zaku2", "hulk", "vegeta", "thor"];
     while (this.p2Team.length < this.teamSize) {
@@ -153,18 +219,26 @@ class App3D {
     while (this.p2Team.length > this.teamSize) this.p2Team.pop();
   }
 
-  // ─── 3D 鍵盤四面八方移動與技能控制 ───
+  // ─── 專屬獨立按鍵監聽 (支援 Enter 開始/換人，J/K/O/U/I/L/B/Q/E) ───
   setupKeyboard() {
     window.addEventListener("keydown", (e) => {
       if (e.repeat) return;
       this.keys[e.key.toLowerCase()] = true;
       this.keys[e.code] = true;
 
+      // ── [Enter] 鍵：開始比賽 / 下一隻角色登場 ──
+      if (e.key === "Enter" || e.code === "Enter") {
+        if (window.matchEngine3D) {
+          window.matchEngine3D.confirmStartMatch();
+        }
+        return;
+      }
+
       const p1 = window.matchEngine3D.p1Current;
       if (!p1 || window.matchEngine3D.matchState !== "fighting") return;
       const p2 = window.matchEngine3D.p2Current;
 
-      // Camera Switcher Key [V]
+      // [V]: 3D 視角切換
       if (e.key.toLowerCase() === "v") {
         if (this.cameraController) {
           this.cameraController.cycleViewMode();
@@ -175,50 +249,60 @@ class App3D {
         }
       }
 
-      // Space / Spacebar: 3D Jump & Double Jump
+      // [Space]: 3D 跳躍 / 空中二段跳
       if (e.code === "Space") {
         p1.jump();
       }
 
-      // Shift: 3D Dodge / Roll
+      // [Shift]: 3D 翻滾閃避
       if (e.key === "Shift" || e.code === "ShiftLeft") {
         p1.dodge();
       }
 
-      // J: Attack / Charge Heavy Break
+      // [S]: 格擋 (按下即防)
+      if (e.key.toLowerCase() === "s") {
+        p1.guard(true);
+      }
+
+      // [J]: 普通輕攻擊
       if (e.key.toLowerCase() === "j") {
-        this.jKeyHeld = true;
-        this.jKeyHoldTime = performance.now();
+        p1.lightAttack(p2);
+      }
+
+      // [K]: 蓄力破防重擊
+      if (e.key.toLowerCase() === "k") {
         p1.startHeavyCharge();
+        setTimeout(() => {
+          if (p1 && p1.isCharging) p1.releaseHeavyCharge(p2);
+        }, 700);
       }
 
-      // S + J: Grab / Throw
-      if (this.keys["s"] && e.key.toLowerCase() === "j") {
+      // [O]: 近身摔投 / 抓技
+      if (e.key.toLowerCase() === "o") {
         p1.grab(p2);
-        return;
       }
 
-      // U: Skill 1
+      // [U]: 戰術小招 1
       if (e.key.toLowerCase() === "u") {
         p1.useSkill1(p2);
       }
 
-      // I: Skill 2
+      // [I]: 戰術小招 2
       if (e.key.toLowerCase() === "i") {
         p1.useSkill2(p2);
       }
 
-      // K: Ultimate (100% Rage)
-      if (e.key.toLowerCase() === "k") {
+      // [L]: 終極奧義大招 (滿 100% 怒氣)
+      if (e.key.toLowerCase() === "l") {
         p1.useUlt(p2);
       }
 
-      // Q or E: Bench Assist
+      // [Q] / [E]: 呼叫隊友援護攻擊
       if (e.key.toLowerCase() === "q" || e.key.toLowerCase() === "e") {
         window.matchEngine3D.callAssist();
       }
 
-      // B: Burst Combo Breaker
+      // [B]: 極限爆發脫身
       if (e.key.toLowerCase() === "b") {
         p1.useBurst(p2);
       }
@@ -229,20 +313,8 @@ class App3D {
       this.keys[e.code] = false;
 
       const p1 = window.matchEngine3D.p1Current;
-      if (!p1) return;
-      const p2 = window.matchEngine3D.p2Current;
-
-      if (e.key.toLowerCase() === "j") {
-        this.jKeyHeld = false;
-        const holdTime = (performance.now() - this.jKeyHoldTime) / 1000;
-        if (p1.isCharging) {
-          if (holdTime < 0.3) {
-            p1.isCharging = false;
-            p1.lightAttack(p2);
-          } else {
-            p1.releaseHeavyCharge(p2);
-          }
-        }
+      if (p1 && e.key.toLowerCase() === "s") {
+        p1.guard(false);
       }
     });
   }
@@ -307,7 +379,7 @@ class App3D {
     bindTouch("touchBtnRoll", () => { if (p1()) p1().dodge(); });
     bindTouch("touchBtnGuard", () => { if (p1()) p1().guard(true); }, () => { if (p1()) p1().guard(false); });
     bindTouch("touchBtnAtk", () => { if (p1()) p1().lightAttack(p2()); });
-    bindTouch("touchBtnHeavy", () => { if (p1()) { p1().startHeavyCharge(); setTimeout(() => p1().releaseHeavyCharge(p2()), 800); } });
+    bindTouch("touchBtnHeavy", () => { if (p1()) { p1().startHeavyCharge(); setTimeout(() => p1().releaseHeavyCharge(p2()), 700); } });
     bindTouch("touchBtnGrab", () => { if (p1()) p1().grab(p2()); });
     bindTouch("touchBtnSkill1", () => { if (p1()) p1().useSkill1(p2()); });
     bindTouch("touchBtnSkill2", () => { if (p1()) p1().useSkill2(p2()); });
@@ -335,7 +407,6 @@ class App3D {
 
     window.matchEngine3D.startMatch(p1RosterData, p2RosterData, mode, isRanked);
 
-    // Link camera target to player fighter
     if (this.cameraController && window.matchEngine3D.p1Current) {
       this.cameraController.target = window.matchEngine3D.p1Current.model.group;
       this.cameraController.opponent = window.matchEngine3D.p2Current.model.group;
@@ -415,37 +486,97 @@ class App3D {
   selectHeroForSlot(charId) {
     if (this.pickingForTeam === 1) {
       this.p1Team[this.pickingSlotIndex] = charId;
+      window.saveSystem.setTeam(this.p1Team);
     } else {
       this.p2Team[this.pickingSlotIndex] = charId;
     }
     this.closeModal();
     this.renderTeamSelectors();
+    this.renderRosterView();
+  }
+
+  setHeroToTeamSlot(charId, slotIndex = 0) {
+    if (slotIndex < this.p1Team.length) {
+      this.p1Team[slotIndex] = charId;
+    } else if (this.p1Team.length < 5) {
+      this.p1Team.push(charId);
+    }
+    window.saveSystem.setTeam(this.p1Team);
+    this.renderTeamSelectors();
+    this.renderRosterView();
+    alert(`✅ 已將【${window.CHARACTERS_DATA.find(c => c.id === charId).name}】設為出場陣容！`);
   }
 
   closeModal() {
     document.querySelectorAll(".modal-backdrop").forEach(m => m.classList.remove("active"));
   }
 
+  // ─── 👥 所有角色頁面 (含 1~5 陣容快速配置、升級與屬性成長) ───
   renderRosterView() {
     const grid = document.getElementById("rosterGrid");
+    const currentTeamBanner = document.getElementById("rosterTeamBanner");
+
+    if (currentTeamBanner) {
+      currentTeamBanner.innerHTML = `
+        <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid #38bdf8; border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div>
+              <h3 style="font-size: 16px; font-weight: 900; color: #38bdf8;">⚔️ 當前出賽隊伍 (${this.p1Team.length} 隻參賽英雄)</h3>
+              <p style="font-size: 12px; color: #94a3b8;">在下方角色卡片點擊「設為先鋒 / 入隊」即可替換順序！</p>
+            </div>
+            <button class="btn-primary" style="font-size: 15px; padding: 10px 22px;" onclick="window.app.startSelectedBattle('kof')">
+              👉 前往 3D 戰鬥 [Enter]
+            </button>
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            ${this.p1Team.map((id, idx) => {
+              const char = window.CHARACTERS_DATA.find(c => c.id === id);
+              const lvl = window.saveSystem.user.characterLevels[id] || 1;
+              const slotLabels = ["先鋒", "次鋒", "中堅", "副將", "大將"];
+              return `
+                <div style="background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 12px; min-width: 130px;">
+                  <div style="font-size: 11px; font-weight: 800; color: #facc15;">${slotLabels[idx]}</div>
+                  <div style="font-weight: 800; color: ${char.themeColor}; font-size: 14px;">${char.name}</div>
+                  <div style="font-size: 11px; color: #94a3b8;">Lv.${lvl} / 100</div>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        </div>
+      `;
+    }
+
     if (!grid) return;
 
     grid.innerHTML = window.CHARACTERS_DATA.map(c => {
       const isUnlocked = window.saveSystem.user.unlockedCharacters.includes(c.id);
       const lvl = window.saveSystem.user.characterLevels[c.id] || 1;
       const rarity = window.RARITY_TIERS[c.rarity];
+      const isInTeam = this.p1Team.includes(c.id);
+      const teamSlotIdx = this.p1Team.indexOf(c.id);
 
       return `
-        <div class="character-card ${isUnlocked ? '' : 'locked'}" onclick="window.app.openCharacterDetail('${c.id}')" style="border-top: 3px solid ${rarity.color}">
+        <div class="character-card ${isUnlocked ? '' : 'locked'}" style="border-top: 3px solid ${rarity.color}">
           <div class="rarity-ribbon" style="background: ${rarity.bg}; color: ${rarity.border}; border: 1px solid ${rarity.border}">${rarity.label}</div>
           <div class="card-avatar-box" style="border-color: ${c.themeColor}">
             ${c.series === 'gundam' ? '🤖' : (c.series === 'dragonball' ? '⚡' : '🦸')}
           </div>
           <div class="card-char-name">${c.name}</div>
-          <div class="card-char-title">${c.title} · ${c.role}</div>
+          <div class="card-char-title">${c.seriesName} · ${c.role}</div>
           <div class="card-stats-row">
             <span>${isUnlocked ? `Lv.${lvl} / 100` : '🔒 未解鎖'}</span>
             <span style="color: ${c.themeColor}">ATK ${Math.round(c.baseAtk * (1 + (lvl - 1) * 0.02))}</span>
+          </div>
+
+          <div style="margin-top: 10px; display: flex; gap: 6px;">
+            <button class="btn-secondary" style="flex: 1; font-size: 11px; padding: 5px;" onclick="window.app.openCharacterDetail('${c.id}')">
+              🔍 詳情/升級
+            </button>
+            ${isUnlocked ? `
+              <button class="btn-primary" style="flex: 1; font-size: 11px; padding: 5px; background: ${isInTeam ? 'linear-gradient(135deg, #10b981, #059669)' : ''}" onclick="window.app.setHeroToTeamSlot('${c.id}', 0)">
+                ${isInTeam ? `✅ 先鋒(第${teamSlotIdx+1}位)` : '⚔️ 設為先鋒'}
+              </button>
+            ` : ''}
           </div>
         </div>
       `;
@@ -485,11 +616,14 @@ class App3D {
         </div>
       </div>
 
-      <h4 style="font-size: 15px; margin-bottom: 8px; color: #38bdf8;">3D 招式配置</h4>
+      <h4 style="font-size: 15px; margin-bottom: 8px; color: #38bdf8;">🎮 專屬 3D 招式指令</h4>
       <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px; margin-bottom: 16px;">
-        <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>小招 1【${char.skills.skill1.name}】</b> (CD ${char.skills.skill1.cd}s)：${char.skills.skill1.desc}</div>
-        <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>小招 2【${char.skills.skill2.name}】</b> (CD ${char.skills.skill2.cd}s)：${char.skills.skill2.desc}</div>
-        <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px; border-left: 3px solid #facc15;"><b>奧義大招【${char.skills.ult.name}】</b> (CD ${char.skills.ult.cd}s + 100% 怒氣)：${char.skills.ult.desc}</div>
+        <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[J] 普攻連擊</b>：連續 3~4 段體術打擊</div>
+        <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[K] 破防重擊</b>：單次霸體，強力破除格擋</div>
+        <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[O] 近身抓技</b>：無視防禦直接抓摔</div>
+        <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[U] 小招 1【${char.skills.skill1.name}】</b> (CD ${char.skills.skill1.cd}s)：${char.skills.skill1.desc}</div>
+        <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[I] 小招 2【${char.skills.skill2.name}】</b> (CD ${char.skills.skill2.cd}s)：${char.skills.skill2.desc}</div>
+        <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px; border-left: 3px solid #facc15;"><b>[L] 奧義大招【${char.skills.ult.name}】</b> (CD ${char.skills.ult.cd}s + 100% 怒氣)：${char.skills.ult.desc}</div>
       </div>
 
       <div style="display: flex; gap: 12px; justify-content: flex-end;">
@@ -652,6 +786,7 @@ class App3D {
       if (window.soundEngine) window.soundEngine.playLevelUp();
       this.updateUserStatusBar();
       this.renderShopView();
+      this.renderRosterView();
       alert(`🎉 恭喜招募成功！`);
     } else {
       alert(`金幣不足！`);
@@ -662,6 +797,7 @@ class App3D {
     window.saveSystem.unlockCharacter(charId);
     if (window.soundEngine) window.soundEngine.playVictory();
     this.renderShopView();
+    this.renderRosterView();
     alert(`👑 恭喜達成極限神級成就！創世級【${charId}】已成功降臨！`);
   }
 
@@ -697,24 +833,21 @@ class App3D {
     this.renderBossRushView();
   }
 
-  // ─── 3D 60 FPS 主戰鬥迴圈 (Main 3D Game Loop) ───
+  // ─── 3D 60 FPS 主戰鬥迴圈 ───
   gameLoop(currentTime) {
     const dt = Math.min(0.1, (currentTime - this.lastFrameTime) / 1000);
     this.lastFrameTime = currentTime;
 
-    // 1. Process 3D Omnidirectional Movement (四面八方走位)
     if (window.matchEngine3D && window.matchEngine3D.p1Current && window.matchEngine3D.matchState === "fighting") {
       const p1 = window.matchEngine3D.p1Current;
       let moveX = 0;
       let moveZ = 0;
 
-      // Keyboard WASD / Arrow keys
       if (this.keys["w"] || this.keys["arrowup"]) moveZ -= 1;
       if (this.keys["s"] || this.keys["arrowdown"]) moveZ += 1;
       if (this.keys["a"] || this.keys["arrowleft"]) moveX -= 1;
       if (this.keys["d"] || this.keys["arrowright"]) moveX += 1;
 
-      // Mobile Touch Joystick
       if (this.joystick.active) {
         moveX = this.joystick.moveX;
         moveZ = this.joystick.moveY;
@@ -724,17 +857,14 @@ class App3D {
       p1.move3D(moveX, moveZ, camYaw);
     }
 
-    // 2. 3D AI update
-    if (window.matchEngine3D && window.matchEngine3D.p2Current && window.fighterAI3D) {
+    if (window.matchEngine3D && window.matchEngine3D.p2Current && window.fighterAI3D && window.matchEngine3D.matchState === "fighting") {
       window.fighterAI3D.update(dt, window.matchEngine3D.p2Current, window.matchEngine3D.p1Current);
     }
 
-    // 3. 3D Match Engine update
     if (window.matchEngine3D) {
       window.matchEngine3D.update(dt);
     }
 
-    // 4. 3D Camera Controller update (1st Person / 3rd Person / Top-Down)
     if (this.cameraController) {
       if (window.matchEngine3D.p1Current && window.matchEngine3D.p1Current.model) {
         this.cameraController.target = window.matchEngine3D.p1Current.model.group;
@@ -745,12 +875,10 @@ class App3D {
       this.cameraController.update(dt);
     }
 
-    // 5. 3D WebGL Scene Render
     if (this.sceneManager) {
       this.sceneManager.render();
     }
 
-    // 6. Update 3D HUD
     this.updateHUD();
 
     if (this.isRunning) {

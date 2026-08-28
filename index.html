@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>跨次元大亂鬥 3D (Dimension Clash Online 3D) | 全向動作格鬥大亂鬥</title>
-  <meta name="description" content="《跨次元大亂鬥 3D (Dimension Clash Online 3D)》跨平台 3D 動作格鬥大亂鬥網頁遊戲。支援第一人稱、第三人稱、上方俯瞰視角切換，360 度四面八方走位與跳躍！">
+  <meta name="description" content="《跨次元大亂鬥 3D (Dimension Clash Online 3D)》跨平台 3D 動作格鬥大亂鬥網頁遊戲。支援 Google 登入、角色養成、每日獎勵、第一人稱/第三人稱/上方俯瞰視角切換、360 度走位與跳躍！">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,6 +36,9 @@
     </div>
 
     <div class="user-status-bar">
+      <button class="btn-header" id="dailyRewardBtn" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+        <i class="fa-solid fa-gift"></i> 每日獎勵
+      </button>
       <div class="stat-chip gold">
         <i class="fa-solid fa-coins"></i>
         <span id="userGoldDisplay">1,500</span>
@@ -49,7 +52,7 @@
       </button>
       <button class="btn-header" id="googleLoginBtn">
         <i class="fa-brands fa-google"></i>
-        <span id="userNicknameDisplay">Google 登入</span>
+        <span id="userNicknameDisplay">Google 帳號</span>
       </button>
       <button class="btn-secondary" id="muteToggleBtn" style="padding: 6px 12px; font-size: 13px;">
         <i class="fa-solid fa-volume-high"></i> 音效
@@ -59,30 +62,46 @@
 
   <!-- ── 主導航分頁 (Navigation Tabs) ── -->
   <nav class="nav-tabs">
-    <button class="tab-btn active" data-tab="battle"><i class="fa-solid fa-gamepad"></i> 3D 戰鬥大廳</button>
-    <button class="tab-btn" data-tab="ranked"><i class="fa-solid fa-medal"></i> 天梯公平競技</button>
-    <button class="tab-btn" data-tab="boss_rush"><i class="fa-solid fa-dungeon"></i> 3D 次元挑戰塔</button>
-    <button class="tab-btn" data-tab="roster"><i class="fa-solid fa-users"></i> 45 英雄名冊 & 養成</button>
-    <button class="tab-btn" data-tab="workshop"><i class="fa-solid fa-screwdriver-wrench"></i> 機體改裝工坊</button>
-    <button class="tab-btn" data-tab="shop"><i class="fa-solid fa-cart-shopping"></i> 招募商店 & 創世挑戰</button>
-    <button class="tab-btn" data-tab="guide"><i class="fa-solid fa-book-open"></i> 免責聲明 & 3D 操作手冊</button>
+    <button class="tab-btn active" data-tab="roster"><i class="fa-solid fa-users"></i> 👥 我的角色 & 陣容編組</button>
+    <button class="tab-btn" data-tab="battle"><i class="fa-solid fa-gamepad"></i> ⚔️ 3D 戰鬥大廳</button>
+    <button class="tab-btn" data-tab="ranked"><i class="fa-solid fa-medal"></i> 🏆 天梯公平競技</button>
+    <button class="tab-btn" data-tab="boss_rush"><i class="fa-solid fa-dungeon"></i> 🗼 3D 次元挑戰塔</button>
+    <button class="tab-btn" data-tab="workshop"><i class="fa-solid fa-screwdriver-wrench"></i> ⚙️ 機體改裝工坊</button>
+    <button class="tab-btn" data-tab="shop"><i class="fa-solid fa-cart-shopping"></i> 🛒 招募商店 & 創世挑戰</button>
+    <button class="tab-btn" data-tab="guide"><i class="fa-solid fa-book-open"></i> 📜 免責聲明 & 操作手冊</button>
   </nav>
 
   <!-- ── 主要內容區域 ── -->
   <main class="main-container">
 
-    <!-- ── 1. 3D 戰鬥大廳 (3D Battle Hub View) ── -->
-    <section id="view_battle" class="view-section active">
+    <!-- ── 1. 我的角色名冊與出賽陣容選擇 (Roster View) ── -->
+    <section id="view_roster" class="view-section active">
+      <div id="rosterTeamBanner"></div>
+
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">👥 所有英雄名冊與養成 (45 位跨次元角色)</h2>
+          <p style="color: #94a3b8; font-size: 13px;">點擊角色可進行 Level 1~100 屬性升級、解鎖專屬配件，並自由配置 1~5 隻上場出賽陣容！</p>
+        </div>
+      </div>
+      <div id="rosterGrid" class="character-grid"></div>
+    </section>
+
+    <!-- ── 2. 3D 戰鬥大廳 (3D Battle View) ── -->
+    <section id="view_battle" class="view-section">
       <div class="battle-wrapper" style="position: relative; min-height: 580px;">
         <!-- 3D Three.js WebGL Viewport -->
         <div id="battle3DContainer" style="width: 100%; height: 580px; background: #000; overflow: hidden; border-radius: 14px;"></div>
+
+        <!-- 3D 戰鬥準備與換人彈窗 Overlay (調整 1, 4, 5) -->
+        <div id="battleOverlay" class="battle-overlay"></div>
 
         <!-- 3D 戰鬥頂部 HUD -->
         <div class="battle-hud">
           <!-- P1 Status -->
           <div class="hud-fighter p1">
             <div class="hud-fighter-info">
-              <span class="hud-name" id="p1NameDisplay" style="color: #38bdf8;">玩家隊伍</span>
+              <span class="hud-name" id="p1NameDisplay" style="color: #38bdf8;">我方角色</span>
               <span class="hud-level-badge" id="p1LvlDisplay">Lv.25</span>
             </div>
             <div class="hp-bar-bg"><div class="hp-bar-fill" id="p1HpFill"></div></div>
@@ -92,13 +111,13 @@
           <!-- Center Mode Indicator -->
           <div class="hud-center">
             <div class="hud-vs-badge">3D BATTLE</div>
-            <div style="font-size: 11px; color: #38bdf8; font-weight: 800;">[V] 鍵切換 3D 視角</div>
+            <div style="font-size: 11px; color: #38bdf8; font-weight: 800;">[Enter] 開始 / 換人</div>
           </div>
 
           <!-- P2 Status -->
           <div class="hud-fighter p2">
             <div class="hud-fighter-info">
-              <span class="hud-name" id="p2NameDisplay" style="color: #ef4444;">對手隊伍</span>
+              <span class="hud-name" id="p2NameDisplay" style="color: #ef4444;">對手角色</span>
               <span class="hud-level-badge" id="p2LvlDisplay">Lv.20</span>
             </div>
             <div class="hp-bar-bg"><div class="hp-bar-fill" id="p2HpFill"></div></div>
@@ -114,17 +133,18 @@
           </div>
 
           <!-- Right Action Controls -->
-          <div class="touch-group" style="flex-wrap: wrap; justify-content: flex-end; max-width: 320px;">
-            <button class="touch-btn btn-assist" id="touchBtnAssist"><i class="fa-solid fa-handshake"></i><span class="label">援護</span></button>
-            <button class="touch-btn btn-burst" id="touchBtnBurst"><i class="fa-solid fa-sun"></i><span class="label">爆發</span></button>
-            <button class="touch-btn" id="touchBtnSkill1"><i class="fa-solid fa-bolt"></i><span class="label">技 1</span></button>
-            <button class="touch-btn" id="touchBtnSkill2"><i class="fa-solid fa-meteor"></i><span class="label">技 2</span></button>
+          <div class="touch-group" style="flex-wrap: wrap; justify-content: flex-end; max-width: 330px;">
+            <button class="touch-btn btn-assist" id="touchBtnAssist"><i class="fa-solid fa-handshake"></i><span class="label">援護[Q]</span></button>
+            <button class="touch-btn btn-burst" id="touchBtnBurst"><i class="fa-solid fa-sun"></i><span class="label">爆發[B]</span></button>
+            <button class="touch-btn" id="touchBtnSkill1"><i class="fa-solid fa-bolt"></i><span class="label">技1[U]</span></button>
+            <button class="touch-btn" id="touchBtnSkill2"><i class="fa-solid fa-meteor"></i><span class="label">技2[I]</span></button>
             <button class="touch-btn" id="touchBtnJump"><i class="fa-solid fa-arrow-up"></i><span class="label">跳躍</span></button>
-            <button class="touch-btn" id="touchBtnGuard"><i class="fa-solid fa-shield"></i><span class="label">格擋</span></button>
-            <button class="touch-btn" id="touchBtnRoll"><i class="fa-solid fa-person-running"></i><span class="label">翻滾</span></button>
-            <button class="touch-btn" id="touchBtnGrab"><i class="fa-solid fa-hand"></i><span class="label">抓技</span></button>
-            <button class="touch-btn btn-atk" id="touchBtnAtk"><i class="fa-solid fa-hand-fist"></i><span class="label">普攻</span></button>
-            <button class="touch-btn btn-ult" id="touchBtnUlt"><i class="fa-solid fa-dragon"></i><span class="label">奧義</span></button>
+            <button class="touch-btn" id="touchBtnGuard"><i class="fa-solid fa-shield"></i><span class="label">格擋[S]</span></button>
+            <button class="touch-btn" id="touchBtnRoll"><i class="fa-solid fa-person-running"></i><span class="label">閃避</span></button>
+            <button class="touch-btn" id="touchBtnGrab"><i class="fa-solid fa-hand"></i><span class="label">抓技[O]</span></button>
+            <button class="touch-btn" id="touchBtnHeavy"><i class="fa-solid fa-hammer"></i><span class="label">破防[K]</span></button>
+            <button class="touch-btn btn-atk" id="touchBtnAtk"><i class="fa-solid fa-hand-fist"></i><span class="label">普攻[J]</span></button>
+            <button class="touch-btn btn-ult" id="touchBtnUlt"><i class="fa-solid fa-dragon"></i><span class="label">奧義[L]</span></button>
           </div>
         </div>
       </div>
@@ -133,8 +153,8 @@
       <div style="background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 20px; margin-top: 24px;">
         <div class="section-header">
           <div>
-            <h3 style="font-size: 18px; font-weight: 900; color: #38bdf8;">3D KOF 式輪替淘汰賽 (1v1 ~ 5v5 自訂編組)</h3>
-            <p style="font-size: 12px; color: #94a3b8; margin-top: 2px;">四面八方全向走位 + 3D 跳躍滯空，支援第一人稱/第三人稱/俯瞰視角切換！</p>
+            <h3 style="font-size: 18px; font-weight: 900; color: #38bdf8;">KOF 輪替賽制出場順序 (1v1 ~ 5v5 自訂編組)</h3>
+            <p style="font-size: 12px; color: #94a3b8; margin-top: 2px;">點擊角色卡片可自由替換出場陣容（勝者留場、殘血接戰、陣亡按 Enter 換下一隻英雄登場）</p>
           </div>
           <div style="display: flex; gap: 8px;">
             <button class="btn-secondary team-size-btn" data-size="1">1v1 單挑</button>
@@ -159,7 +179,7 @@
       </div>
     </section>
 
-    <!-- ── 2. 天梯公平排位 (Ranked View) ── -->
+    <!-- ── 3. 天梯公平排位 (Ranked View) ── -->
     <section id="view_ranked" class="view-section">
       <div class="section-header">
         <div>
@@ -185,7 +205,7 @@
       </div>
     </section>
 
-    <!-- ── 3. 次元裂縫魔王塔 (Boss Rush View) ── -->
+    <!-- ── 4. 次元裂縫魔王塔 (Boss Rush View) ── -->
     <section id="view_boss_rush" class="view-section">
       <div class="section-header">
         <div>
@@ -194,17 +214,6 @@
         </div>
       </div>
       <div id="bossRushFloorList"></div>
-    </section>
-
-    <!-- ── 4. 45 英雄圖鑑與養成 (Roster View) ── -->
-    <section id="view_roster" class="view-section">
-      <div class="section-header">
-        <div>
-          <h2 class="section-title">👥 45 位跨次元角色完整陣容 (九大稀有度)</h2>
-          <p style="color: #94a3b8; font-size: 13px;">Level 1 到 Level 100 深度升級，每升 1 級基礎屬性 +2%，解鎖戰術配件、星徽被動、超頻極限與極境神力光環！</p>
-        </div>
-      </div>
-      <div id="rosterGrid" class="character-grid"></div>
     </section>
 
     <!-- ── 5. 機體改裝工坊 (Workshop View) ── -->
@@ -236,7 +245,7 @@
       <div id="shopHeroGrid" class="character-grid"></div>
     </section>
 
-    <!-- ── 7. 免責聲明與 3D 操作指南 (Guide View) ── -->
+    <!-- ── 7. 免責聲明與操作指南 (Guide View) ── -->
     <section id="view_guide" class="view-section">
       <div style="background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 24px; max-width: 900px; margin: 0 auto;">
         <h2 style="font-size: 20px; font-weight: 900; color: #facc15; margin-bottom: 12px;">📜 非營利同人二創學習免責聲明 (Disclaimer)</h2>
@@ -246,35 +255,79 @@
 
         <hr style="border-color: rgba(255,255,255,0.08); margin: 20px 0;">
 
-        <h3 style="font-size: 16px; font-weight: 800; color: #38bdf8; margin-bottom: 12px;">🎮 3D 戰鬥操作與多視角對照表</h3>
+        <h3 style="font-size: 16px; font-weight: 800; color: #38bdf8; margin-bottom: 12px;">🎮 專屬 3D 戰鬥操作指令全覽表</h3>
         <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #f8fafc;">
           <thead>
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.15); text-align: left; color: #94a3b8;">
               <th style="padding: 8px;">動作種類</th>
-              <th style="padding: 8px;">PC 鍵盤 / 滑鼠預設按鍵</th>
+              <th style="padding: 8px;">PC 鍵盤預設按鍵</th>
               <th style="padding: 8px;">手機螢幕觸控操作</th>
               <th style="padding: 8px;">效果說明</th>
             </tr>
           </thead>
           <tbody>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;"><b>3D 視角切換</b></td><td style="padding: 8px; color: #facc15;">V 鍵</td><td style="padding: 8px; color: #facc15;">頂部「🎥 視角切換」</td><td style="padding: 8px;"><b>第三人稱 ⇄ 第一人稱 ⇄ 上方俯瞰</b> 循環切換</td></tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;"><b>四面八方走位</b></td><td style="padding: 8px; color: #38bdf8;">W / S / A / D 鍵</td><td style="padding: 8px;">左側 360° 虛擬搖桿</td><td style="padding: 8px;">八向與 360 度自由移動</td></tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;"><b>3D 跳躍 / 二段跳</b></td><td style="padding: 8px; color: #38bdf8;">Space 空白鍵</td><td style="padding: 8px;">右側「跳躍」按鈕</td><td style="padding: 8px;">空中二段跳與滯空打擊</td></tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;">3D 防禦 / 翻滾</td><td style="padding: 8px; color: #38bdf8;">S (格擋) / Shift (閃避)</td><td style="padding: 8px;">「盾防 / 翻滾」</td><td style="padding: 8px;">格擋減免 80% 傷害；翻滾具 0.3s 無敵幀</td></tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;">普通攻擊 (輕擊)</td><td style="padding: 8px; color: #38bdf8;">J 鍵</td><td style="padding: 8px;">「普攻」紅色大按鈕</td><td style="padding: 8px;">3~4 段連續體術打擊</td></tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;">蓄力重擊 (破防)</td><td style="padding: 8px; color: #38bdf8;">長按 J 鍵 (0.8s)</td><td style="padding: 8px;">長按「普攻」或「破防」</td><td style="padding: 8px;">帶單次霸體，可強制擊碎對手防禦</td></tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;">摔投 / 抓技</td><td style="padding: 8px; color: #38bdf8;">近身按 S + J 鍵</td><td style="padding: 8px;">「抓技」按鈕</td><td style="padding: 8px;">無視格擋，直接將近身對手抓起重摔</td></tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;">戰術小招 1</td><td style="padding: 8px; color: #38bdf8;">U 鍵</td><td style="padding: 8px;">「技能 1」按鈕</td><td style="padding: 8px;">短 CD (2~4s) 突進或射擊起手</td></tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;">戰術小招 2</td><td style="padding: 8px; color: #38bdf8;">I 鍵</td><td style="padding: 8px;">「技能 2」按鈕</td><td style="padding: 8px;">短 CD (5~8s) 控場、擊飛或防守反擊</td></tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;">終極奧義大招</td><td style="padding: 8px; color: #38bdf8;">K 鍵</td><td style="padding: 8px;">「大招」金色按鈕</td><td style="padding: 8px;">需蓄滿 100% 怒氣，全螢幕特寫高額傷害</td></tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;">備戰援護攻擊</td><td style="padding: 8px; color: #38bdf8;">Q 或 E 鍵</td><td style="padding: 8px;">「援護」按鈕</td><td style="padding: 8px;">CD 20s，呼叫下一位隊友進場協同攻擊</td></tr>
-            <tr><td style="padding: 8px;">極限爆發脫身</td><td style="padding: 8px; color: #38bdf8;">B 鍵</td><td style="padding: 8px;">「爆發」紫色按鈕</td><td style="padding: 8px;">受擊時消耗 50% 怒氣震退對手終止被連招</td></tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;"><b>開始對決 / 換人</b></td><td style="padding: 8px; color: #facc15;"><b>Enter 鍵</b></td><td style="padding: 8px; color: #facc15;">畫面中央按鈕</td><td style="padding: 8px;"><b>開局前確認開戰 / 陣亡換人時派遣下一位角色登場</b></td></tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;"><b>四面八方走位</b></td><td style="padding: 8px; color: #38bdf8;">W / S / A / D 鍵</td><td style="padding: 8px;">左側 360° 虛擬搖桿</td><td style="padding: 8px;">360 度與八向自由立體移動</td></tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;"><b>3D 視角切換</b></td><td style="padding: 8px; color: #38bdf8;">V 鍵</td><td style="padding: 8px;">頂部「🎥 視角切換」</td><td style="padding: 8px;">第三人稱 ⇄ 第一人稱 ⇄ 上方俯瞰 循環切換</td></tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;"><b>普通攻擊 (輕擊)</b></td><td style="padding: 8px; color: #38bdf8;"><b>J 鍵</b></td><td style="padding: 8px;">「普攻[J]」按鈕</td><td style="padding: 8px;">3~4 段連續體術打擊 (具備磁性貼身追擊)</td></tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;"><b>蓄力破防重擊</b></td><td style="padding: 8px; color: #38bdf8;"><b>K 鍵</b></td><td style="padding: 8px;">「破防[K]」按鈕</td><td style="padding: 8px;">聚氣單次霸體，強制擊碎對手格擋</td></tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;"><b>摔投 / 抓技</b></td><td style="padding: 8px; color: #38bdf8;"><b>O 鍵</b></td><td style="padding: 8px;">「抓技[O]」按鈕</td><td style="padding: 8px;">無視格擋，近身抓起對手重摔</td></tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;"><b>戰術小招 1</b></td><td style="padding: 8px; color: #38bdf8;"><b>U 鍵</b></td><td style="padding: 8px;">「技1[U]」按鈕</td><td style="padding: 8px;">短 CD (2~4s) 3D 突進或遠程牽制</td></tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;"><b>戰術小招 2</b></td><td style="padding: 8px; color: #38bdf8;"><b>I 鍵</b></td><td style="padding: 8px;">「技2[I]」按鈕</td><td style="padding: 8px;">短 CD (5~8s) 3D 擊飛或防守反擊</td></tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;"><b>終極奧義大招</b></td><td style="padding: 8px; color: #38bdf8;"><b>L 鍵</b></td><td style="padding: 8px;">「奧義[L]」金色按鈕</td><td style="padding: 8px;">需蓄滿 100% 怒氣，全螢幕特寫高額傷害</td></tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;"><b>3D 跳躍 / 二段跳</b></td><td style="padding: 8px; color: #38bdf8;"><b>Space 空白鍵</b></td><td style="padding: 8px;">「跳躍」按鈕</td><td style="padding: 8px;">垂直起跳、空中二段跳與滯空操作</td></tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;"><b>3D 防禦 / 翻滾</b></td><td style="padding: 8px; color: #38bdf8;"><b>S (格擋) / Shift (閃避)</b></td><td style="padding: 8px;">「格擋 / 閃避」</td><td style="padding: 8px;">格擋減免 80% 傷害；翻滾具 0.3s 無敵幀</td></tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);"><td style="padding: 8px;"><b>備戰援護攻擊</b></td><td style="padding: 8px; color: #38bdf8;"><b>Q 或 E 鍵</b></td><td style="padding: 8px;">「援護[Q]」按鈕</td><td style="padding: 8px;">CD 20s，下一位隊友衝入戰場協同攻擊</td></tr>
+            <tr><td style="padding: 8px;"><b>極限爆發脫身</b></td><td style="padding: 8px; color: #38bdf8;"><b>B 鍵</b></td><td style="padding: 8px;">「爆發[B]」紫色按鈕</td><td style="padding: 8px;">50% 怒氣，釋放立體衝擊波防止被連招</td></tr>
           </tbody>
         </table>
       </div>
     </section>
 
   </main>
+
+  <!-- ── 模態彈窗：Google 帳號登入 (強制登入關卡) ── -->
+  <div id="googleLoginModal" class="modal-backdrop">
+    <div class="modal-content" style="max-width: 440px; text-align: center;">
+      <div style="font-size: 40px; margin-bottom: 10px; color: #4285f4;"><i class="fa-brands fa-google"></i></div>
+      <h2 style="font-size: 22px; font-weight: 900; color: #f8fafc; margin-bottom: 6px;">Google 帳號登入</h2>
+      <p style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">登入後即可同步雲端存檔、自訂出賽陣容並領取新手禮包！</p>
+
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; text-align: left;">
+        <div>
+          <label style="font-size: 12px; font-weight: 700; color: #cbd5e1;">Google 信箱 (Email)：</label>
+          <input type="email" id="googleEmailInput" value="player@gmail.com" style="width: 100%; background: #0f172a; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 14px; border-radius: 8px; font-size: 14px; margin-top: 4px;">
+        </div>
+        <div>
+          <label style="font-size: 12px; font-weight: 700; color: #cbd5e1;">自訂玩家暱稱 (Gamer Tag)：</label>
+          <input type="text" id="googleNickInput" value="次元戰神" style="width: 100%; background: #0f172a; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 14px; border-radius: 8px; font-size: 14px; margin-top: 4px;">
+        </div>
+      </div>
+
+      <div style="background: rgba(30, 41, 59, 0.6); padding: 10px; border-radius: 8px; margin-bottom: 20px; font-size: 12px; color: #38bdf8;">
+        🎁 登入即贈：1,500 金幣 + 少年悟空 + 美國隊長 + 初代吉姆！
+      </div>
+
+      <button class="btn-primary" id="confirmGoogleLoginBtn" style="width: 100%; padding: 12px; font-size: 16px; justify-content: center;">
+        <i class="fa-brands fa-google"></i> 一鍵快速登入 Google 帳號
+      </button>
+    </div>
+  </div>
+
+  <!-- ── 模態彈窗：每日簽到獎勵 ── -->
+  <div id="dailyRewardModal" class="modal-backdrop">
+    <div class="modal-content" style="max-width: 580px;">
+      <button class="modal-close-btn">&times;</button>
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+        <span style="font-size: 28px;">🎁</span>
+        <div>
+          <h3 style="font-size: 20px; font-weight: 900; color: #facc15;">每日登入補給站</h3>
+          <p style="font-size: 12px; color: #94a3b8;">連續 7 天簽到，天天送大量金幣、裝備配件與史詩英雄！</p>
+        </div>
+      </div>
+      <div id="dailyRewardContent"></div>
+    </div>
+  </div>
 
   <!-- ── 模態彈窗：英雄詳情與升級 ── -->
   <div id="charDetailModal" class="modal-backdrop">
