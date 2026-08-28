@@ -1,6 +1,6 @@
 /**
- * 跨次元大亂鬥 (Dimension Clash Online) - 3D 角色模型與骨骼動畫引擎
- * (Procedural 3D Character Mesh & Skeletal Animator for all 45 Cross-Universe Fighters)
+ * 跨次元大亂鬥 (Dimension Clash Online) - 3D 角色模型與飛行骨骼動畫引擎
+ * (Procedural 3D Character Mesh, Flight Hovering & Skeletal Animator)
  */
 
 class Character3DModel {
@@ -14,6 +14,7 @@ class Character3DModel {
     this.animTime = 0;
     this.auraMesh = null;
     this.shieldMesh = null;
+    this.flightThrusterMesh = null;
     this.weaponMesh = null;
 
     this.buildModel();
@@ -24,7 +25,6 @@ class Character3DModel {
     const char = this.charData;
     const series = char.series;
 
-    // Base materials
     const mainColor = new THREE.Color(char.themeColor || 0x38bdf8);
     const bodyMat = new THREE.MeshStandardMaterial({
       color: mainColor,
@@ -40,7 +40,7 @@ class Character3DModel {
     const darkMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.5 });
     const goldMat = new THREE.MeshStandardMaterial({ color: 0xfacc15, metalness: 0.9, roughness: 0.1 });
 
-    // 1. Torso (胸膛軀幹)
+    // 1. Torso
     const torsoGeo = new THREE.BoxGeometry(1.6, 2.2, 1.0);
     const torso = new THREE.Mesh(torsoGeo, bodyMat);
     torso.position.y = 2.4;
@@ -49,7 +49,7 @@ class Character3DModel {
     this.group.add(torso);
     this.limbs.torso = torso;
 
-    // 2. Head & Distinctive Features (頭部與專屬特徵)
+    // 2. Head
     const headGeo = new THREE.BoxGeometry(1.0, 1.1, 1.0);
     const head = new THREE.Mesh(headGeo, skinMat);
     head.position.set(0, 1.7, 0);
@@ -57,7 +57,7 @@ class Character3DModel {
     torso.add(head);
     this.limbs.head = head;
 
-    // Gundam V-Fin / Hair / Helmet details
+    // Head custom features
     if (series === "gundam") {
       const vFinGeo = new THREE.ConeGeometry(0.2, 1.2, 4);
       const vFinL = new THREE.Mesh(vFinGeo, goldMat);
@@ -72,14 +72,12 @@ class Character3DModel {
       vFinR.rotation.x = Math.PI * 0.1;
       head.add(vFinR);
 
-      // Glowing Eyes / Camera Visor
       const eyeGeo = new THREE.BoxGeometry(0.6, 0.15, 0.2);
-      const eyeMat = new THREE.MeshBasicMaterial({ color: char.id === "unicorn_crystal" ? 0x10b981 : 0x22c55e });
+      const eyeMat = new THREE.MeshBasicMaterial({ color: 0x22c55e });
       const eyes = new THREE.Mesh(eyeGeo, eyeMat);
       eyes.position.set(0, 0, 0.52);
       head.add(eyes);
     } else if (series === "dragonball") {
-      // Spiky Saiyan Hair
       const hairColor = char.id === "ssj3_goku" ? 0xfacc15 : (char.id === "goku_ultra_instinct" ? 0xe2e8f0 : (char.id.includes("blue") ? 0x06b6d4 : 0x0f172a));
       const hairMat = new THREE.MeshStandardMaterial({
         color: hairColor,
@@ -92,20 +90,9 @@ class Character3DModel {
       const hair = new THREE.Mesh(hairGeo, hairMat);
       hair.position.set(0, 0.9, -0.1);
       head.add(hair);
-    } else {
-      // Marvel specific helmet / mask
-      if (char.id === "cap_america") {
-        const shieldGeo = new THREE.CylinderGeometry(0.8, 0.8, 0.1, 24);
-        const shieldMat = new THREE.MeshStandardMaterial({ color: 0xdc2626, metalness: 0.7, roughness: 0.2 });
-        const shield = new THREE.Mesh(shieldGeo, shieldMat);
-        shield.rotation.x = Math.PI / 2;
-        shield.position.set(0.6, 0, 0);
-        this.weaponMesh = shield;
-      }
     }
 
-    // 3. Limbs (四肢)
-    // Left Arm
+    // 3. Limbs
     const armGeo = new THREE.BoxGeometry(0.5, 1.8, 0.5);
     const leftArm = new THREE.Mesh(armGeo, bodyMat);
     leftArm.position.set(-1.1, 0.2, 0);
@@ -113,18 +100,12 @@ class Character3DModel {
     torso.add(leftArm);
     this.limbs.leftArm = leftArm;
 
-    // Right Arm
     const rightArm = new THREE.Mesh(armGeo, bodyMat);
     rightArm.position.set(1.1, 0.2, 0);
     rightArm.castShadow = true;
     torso.add(rightArm);
     this.limbs.rightArm = rightArm;
 
-    if (this.weaponMesh) {
-      leftArm.add(this.weaponMesh);
-    }
-
-    // Left Leg
     const legGeo = new THREE.BoxGeometry(0.6, 2.0, 0.6);
     const leftLeg = new THREE.Mesh(legGeo, darkMat);
     leftLeg.position.set(-0.45, -2.0, 0);
@@ -132,14 +113,13 @@ class Character3DModel {
     torso.add(leftLeg);
     this.limbs.leftLeg = leftLeg;
 
-    // Right Leg
     const rightLeg = new THREE.Mesh(legGeo, darkMat);
     rightLeg.position.set(0.45, -2.0, 0);
     rightLeg.castShadow = true;
     torso.add(rightLeg);
     this.limbs.rightLeg = rightLeg;
 
-    // 4. Glowing 3D Aura Sphere (氣焰光環)
+    // 4. Aura Sphere
     const auraGeo = new THREE.SphereGeometry(2.4, 16, 16);
     const auraMat = new THREE.MeshBasicMaterial({
       color: mainColor,
@@ -151,7 +131,7 @@ class Character3DModel {
     this.auraMesh.position.set(0, 2.4, 0);
     this.group.add(this.auraMesh);
 
-    // 5. 3D Guard Barrier Sphere (格擋護盾)
+    // 5. Guard Barrier Sphere
     const shieldGeo = new THREE.SphereGeometry(2.8, 24, 24);
     const shieldMat = new THREE.MeshStandardMaterial({
       color: 0x38bdf8,
@@ -163,58 +143,85 @@ class Character3DModel {
     this.shieldMesh = new THREE.Mesh(shieldGeo, shieldMat);
     this.shieldMesh.position.set(0, 2.4, 0);
     this.group.add(this.shieldMesh);
+
+    // 6. 3D Flight Thruster Jet / Ki Ring beneath feet
+    if (char.canFly) {
+      const ringGeo = new THREE.RingGeometry(0.6, 1.8, 24);
+      const ringMat = new THREE.MeshBasicMaterial({
+        color: series === "gundam" ? 0x06b6d4 : (series === "dragonball" ? 0xfacc15 : 0xec4899),
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0
+      });
+      this.flightThrusterMesh = new THREE.Mesh(ringGeo, ringMat);
+      this.flightThrusterMesh.rotation.x = Math.PI / 2;
+      this.flightThrusterMesh.position.set(0, 0.1, 0);
+      this.group.add(this.flightThrusterMesh);
+    }
   }
 
-  updateAnimation(dt, state, isMoving, speed, isCharging) {
+  updateAnimation(dt, state, isMoving, speed, isCharging, isFlying) {
     this.animTime += dt;
     const t = this.animTime;
 
     const { torso, leftArm, rightArm, leftLeg, rightLeg, head } = this.limbs;
     if (!torso) return;
 
-    // Aura pulse
+    // Aura & Thruster pulse
     if (this.auraMesh) {
-      const pulse = 1 + Math.sin(t * 8) * 0.08;
+      const pulse = (isFlying ? 1.15 : 1) + Math.sin(t * 8) * 0.08;
       this.auraMesh.scale.set(pulse, pulse, pulse);
-      this.auraMesh.rotation.y += dt * 1.5;
+      this.auraMesh.rotation.y += dt * (isFlying ? 3.0 : 1.5);
     }
 
-    // Guard shield visibility
+    if (this.flightThrusterMesh) {
+      this.flightThrusterMesh.material.opacity = isFlying ? 0.75 : 0;
+      this.flightThrusterMesh.rotation.z += dt * 6;
+    }
+
     if (this.shieldMesh) {
-      const isGuarding = state === "guard";
-      this.shieldMesh.material.opacity = isGuarding ? 0.45 : 0;
+      this.shieldMesh.material.opacity = state === "guard" ? 0.45 : 0;
       this.shieldMesh.rotation.y += dt * 3;
     }
 
-    // ── 動作狀態骨骼姿態 (Procedural Poses) ──
+    // ── 飛行狀態下的懸浮姿態 (Flight Hover Pose) ──
+    if (isFlying) {
+      const hoverSway = Math.sin(t * 4) * 0.15;
+      torso.position.y = 2.4 + hoverSway;
+      torso.rotation.x = isMoving ? Math.PI * 0.15 : 0; // Forward tilt during flight
+      leftLeg.rotation.set(0.3, 0.15, -0.1);
+      rightLeg.rotation.set(0.4, -0.15, 0.1);
+      leftArm.rotation.set(-0.2, 0.3, -0.4);
+      rightArm.rotation.set(-0.2, -0.3, 0.4);
+      return;
+    }
+
+    // ── 一般地面與戰鬥姿態 ──
+    torso.rotation.x = 0;
+
     if (state === "guard") {
-      // Crossed arms guard pose
       leftArm.rotation.set(-Math.PI * 0.35, 0.4, -0.4);
       rightArm.rotation.set(-Math.PI * 0.35, -0.4, 0.4);
       leftLeg.rotation.set(0, 0, 0);
       rightLeg.rotation.set(0, 0, 0);
       torso.position.y = 2.2;
     } else if (isCharging) {
-      // Power charge pose: deep squat, vibrating arms
       torso.position.y = 2.0 + Math.sin(t * 30) * 0.05;
       leftArm.rotation.set(-Math.PI * 0.25, 0.5, -0.6);
       rightArm.rotation.set(-Math.PI * 0.25, -0.5, 0.6);
       leftLeg.rotation.set(-0.3, 0.3, 0);
       rightLeg.rotation.set(-0.3, -0.3, 0);
     } else if (state.startsWith("attack") || state.startsWith("skill")) {
-      // Punch / Slash thrust
       const punchPhase = Math.sin(t * 25);
       rightArm.rotation.set(punchPhase * 1.8, 0, 0);
       leftArm.rotation.set(-punchPhase * 0.5, 0, 0);
       torso.position.y = 2.4;
     } else if (state === "jump" || state === "fall") {
-      // Airborne leap pose
       leftArm.rotation.set(-Math.PI * 0.6, 0, -0.3);
       rightArm.rotation.set(-Math.PI * 0.6, 0, 0.3);
       leftLeg.rotation.set(0.6, 0, 0);
       rightLeg.rotation.set(-0.4, 0, 0);
     } else if (isMoving) {
-      // Omnidirectional Run Stride
       const legStride = Math.sin(t * 14) * 0.7;
       leftLeg.rotation.set(legStride, 0, 0);
       rightLeg.rotation.set(-legStride, 0, 0);
@@ -222,7 +229,6 @@ class Character3DModel {
       rightArm.rotation.set(legStride * 0.8, 0, 0);
       torso.position.y = 2.4 + Math.abs(Math.sin(t * 14)) * 0.15;
     } else {
-      // Idle Breathing
       const breath = Math.sin(t * 3) * 0.05;
       torso.position.y = 2.4 + breath;
       leftArm.rotation.set(breath * 0.5, 0, 0.05);

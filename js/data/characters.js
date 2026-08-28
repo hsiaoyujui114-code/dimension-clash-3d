@@ -2206,6 +2206,70 @@ const CHARACTERS_DATA = [
   }
 ];
 
+// ─── 為 45 位角色注入差異化招式設定與飛行能力 (Character Action Profiles & Flight Mode) ───
+const FLIGHT_ENABLED_HEROES = [
+  "ironman_mk50", "hulkbuster", "thor", "scarlet_witch", "dr_strange", "dr_strange_supreme",
+  "loki_god", "thanos_gauntlet", "kang",
+  "rx78_2", "char_zaku2", "wing_zero", "barbatos_lupus", "exia", "god_gundam",
+  "strike_freedom", "oo_raiser", "kshatriya", "crossbone_x1", "destiny_specii", "unicorn_crystal",
+  "piccolo", "trunks_future", "vegeta", "frieza_final", "ssj3_goku", "cell_perfect",
+  "gogeta_blue", "kid_buu", "vegito_blue", "broly_lssj", "thanos_gauntlet",
+  "goku_ultra_instinct", "jiren_fullpower", "beerus_god"
+];
+
+CHARACTERS_DATA.forEach(c => {
+  c.canFly = FLIGHT_ENABLED_HEROES.includes(c.id);
+
+  let lightName = "普通拳腳連擊";
+  let heavyName = "蓄力破防重擊";
+  let grabName = "近身抓技摔投";
+  let flightName = c.canFly ? (c.series === "gundam" ? "推進器升空飛行" : (c.series === "dragonball" ? "舞空術飛行" : "懸浮噴射飛行")) : null;
+
+  if (c.series === "gundam") {
+    lightName = "光束軍刀連續斬擊";
+    heavyName = "光束步槍高能破防";
+    grabName = "盾牌擒抱撞摔";
+  } else if (c.series === "dragonball") {
+    lightName = "龜派體術連續打擊";
+    heavyName = "氣合爆發破防";
+    grabName = "瞬間移動重摔";
+  } else if (c.id === "cap_america") {
+    lightName = "振金盾牌格鬥連擊";
+    heavyName = "盾牌迴旋投擲破防";
+    grabName = "特工擒拿抱摔";
+  } else if (c.id === "spiderman_classic") {
+    lightName = "蛛絲體術連續打擊";
+    heavyName = "高壓蛛網纏繞破防";
+    grabName = "蛛絲風車甩投";
+  } else if (c.id === "hulk" || c.id === "hulkbuster") {
+    lightName = "泰坦重拳連續轟擊";
+    heavyName = "浩克砸地衝擊破防";
+    grabName = "狂暴抓摔狂砸 (Smash)";
+  } else if (c.id === "ironman_mk50") {
+    lightName = "掌心脈衝雷射連擊";
+    heavyName = "胸口單束光砲破防";
+    grabName = "推進器火箭擒摔";
+  } else if (c.id === "thor") {
+    lightName = "妙爾尼爾雷霆重擊";
+    heavyName = "召喚九界天雷破防";
+    grabName = "雷神之握重摔";
+  } else if (c.id === "thanos_gauntlet") {
+    lightName = "無限手套泰坦連續拳";
+    heavyName = "力量寶石紫光破防";
+    grabName = "空間重力粉碎摔";
+  }
+
+  c.attackConfig = {
+    light: { name: lightName, icon: "fa-hand-fist", key: "J" },
+    heavy: { name: heavyName, icon: "fa-hammer", key: "K" },
+    grab: { name: grabName, icon: "fa-hand", key: "O" },
+    skill1: { name: c.skills.skill1.name, icon: "fa-bolt", key: "U", cd: c.skills.skill1.cd },
+    skill2: { name: c.skills.skill2.name, icon: "fa-meteor", key: "I", cd: c.skills.skill2.cd },
+    ult: { name: c.skills.ult.name, icon: "fa-dragon", key: "L", cd: c.skills.ult.cd },
+    flight: c.canFly ? { name: flightName, icon: "fa-plane-departure", key: "F" } : null
+  };
+});
+
 if (typeof window !== "undefined") {
   window.RARITY_TIERS = RARITY_TIERS;
   window.CHARACTERS_DATA = CHARACTERS_DATA;

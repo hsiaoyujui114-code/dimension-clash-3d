@@ -1,6 +1,6 @@
 /**
- * 跨次元大亂鬥 (Dimension Clash Online) - 3D 戰鬥、全向位移、磁性打擊與 KOF 賽制系統
- * (3D Combat Engine with Magnetic Hit Detection, Dedicated Key Mapping & Enter-Spawn Flow)
+ * 跨次元大亂鬥 (Dimension Clash Online) - 3D 戰鬥、飛行模式、全向位移與嚴格賽制系統
+ * (3D Combat Engine with Flight Mode [F], Magnetic Hit Homing & Strict Match Outcome Tracking)
  */
 
 class Fighter3D {
@@ -19,6 +19,11 @@ class Fighter3D {
     this.vy = 0;
     this.vz = 0;
     this.rotationY = isPlayer ? Math.PI * 0.5 : -Math.PI * 0.5;
+
+    // ── 飛行模式 (Flight & Hover Mechanics) ──
+    this.canFly = !!charData.canFly;
+    this.isFlying = false;
+    this.flightTargetY = 6.0; // 飛行浮空高度
 
     this.isGrounded = true;
     this.jumpCount = 0;
@@ -73,6 +78,20 @@ class Fighter3D {
     this.baseSpeed = (this.charData.speed || 6.5) * 2.2 * (1 + speedMod);
   }
 
+  // ── [F] 飛行模式切換 (Toggle Flight / Hover) ──
+  toggleFlight() {
+    if (!this.canFly || this.state === "hit" || this.state === "dizzy" || this.state === "ko") return;
+    this.isFlying = !this.isFlying;
+
+    if (this.isFlying) {
+      this.isGrounded = false;
+      this.vy = 0;
+      if (window.soundEngine) window.soundEngine.playDodge();
+    } else {
+      this.vy = -5; // 降落
+    }
+  }
+
   update(dt, opponent) {
     if (this.skill1Cd > 0) this.skill1Cd = Math.max(0, this.skill1Cd - dt);
     if (this.skill2Cd > 0) this.skill2Cd = Math.max(0, this.skill2Cd - dt);
@@ -102,27 +121,35 @@ class Fighter3D {
       }
     }
 
-    // Physics & Friction
+    // ── 3D 物理與重力 / 飛行浮空運算 ──
     this.vx *= 0.82;
     this.vz *= 0.82;
     this.x += this.vx * dt;
     this.z += this.vz * dt;
 
-    if (!this.isGrounded) {
-      this.vy -= 38 * dt; // Gravity
-      this.y += this.vy * dt;
-
-      if (this.y <= 0) {
-        this.y = 0;
-        this.vy = 0;
-        this.isGrounded = true;
-        this.jumpCount = 0;
-        if (this.state === "jump" || this.state === "fall") {
-          this.state = "idle";
-        }
-      }
+    if (this.isFlying) {
+      // 飛行模式：平滑升空並懸浮在空中
+      this.y += (this.flightTargetY - this.y) * 8.0 * dt;
+      this.vy = 0;
+      this.isGrounded = false;
     } else {
-      this.y = 0;
+      // 地面重力
+      if (!this.isGrounded) {
+        this.vy -= 38 * dt;
+        this.y += this.vy * dt;
+
+        if (this.y <= 0) {
+          this.y = 0;
+          this.vy = 0;
+          this.isGrounded = true;
+          this.jumpCount = 0;
+          if (this.state === "jump" || this.state === "fall") {
+            this.state = "idle";
+          }
+        }
+      } else {
+        this.y = 0;
+      }
     }
 
     // Arena boundary limits
@@ -136,7 +163,7 @@ class Fighter3D {
       this.vz = 0;
     }
 
-    // Auto-face opponent when idle or attacking
+    // Auto-face opponent
     if (opponent && (this.state === "idle" || this.state.startsWith("attack") || this.state.startsWith("skill"))) {
       const dx = opponent.x - this.x;
       const dz = opponent.z - this.z;
@@ -146,7 +173,7 @@ class Fighter3D {
     this.updatePosition();
 
     const isMoving = Math.abs(this.vx) > 0.5 || Math.abs(this.vz) > 0.5;
-    this.model.updateAnimation(dt, this.state, isMoving, this.baseSpeed, this.isCharging);
+    this.model.updateAnimation(dt, this.state, isMoving, this.baseSpeed, this.isCharging, this.isFlying);
   }
 
   updatePosition() {
@@ -166,8 +193,9 @@ class Fighter3D {
     const worldMoveX = moveX * cos + moveZ * sin;
     const worldMoveZ = -moveX * sin + moveZ * cos;
 
-    this.vx = worldMoveX * this.baseSpeed;
-    this.vz = worldMoveZ * this.baseSpeed;
+    const speedMultiplier = this.isFlying ? 1.35 : 1.0;
+    this.vx = worldMoveX * this.baseSpeed * speedMultiplier;
+    this.vz = worldMoveZ * this.baseSpeed * speedMultiplier;
 
     if (Math.abs(moveX) > 0.1 || Math.abs(moveZ) > 0.1) {
       this.rotationY = Math.atan2(worldMoveX, worldMoveZ);
@@ -181,6 +209,10 @@ class Fighter3D {
 
   jump() {
     if (this.state === "hit" || this.state === "dizzy" || this.state === "ko" || this.isCharging) return;
+    if (this.isFlying) {
+      this.isFlying = false; // 飛行中跳躍鍵可切換降落
+      return;
+    }
     if (this.isGrounded) {
       this.vy = 18;
       this.isGrounded = false;
@@ -195,7 +227,7 @@ class Fighter3D {
 
   guard(active) {
     if (this.state === "hit" || this.state === "dizzy" || this.state === "ko" || this.isCharging) return;
-    if (active && this.isGrounded && this.guardMeter > 10) {
+    if (active && this.guardMeter > 10) {
       this.state = "guard";
       this.vx = 0;
       this.vz = 0;
@@ -218,23 +250,21 @@ class Fighter3D {
     if (window.soundEngine) window.soundEngine.playDodge();
   }
 
-  // ─── [J] 普通攻擊 (具備磁性追擊與擴大打擊判定) ───
+  // ─── [J] 普通攻擊 (磁性貼身突進) ───
   lightAttack(opponent) {
     if (this.state === "hit" || this.state === "dizzy" || this.state === "ko" || this.isCharging) return;
 
     this.state = "attack_1";
     this.stateTimer = 0.3;
 
-    // 磁性貼身突進 (Magnetic Step)
     if (opponent) {
       const dx = opponent.x - this.x;
       const dz = opponent.z - this.z;
       const dist = Math.sqrt(dx * dx + dz * dz);
       this.rotationY = Math.atan2(dx, dz);
 
-      if (dist < 14.0) {
-        // 向目標滑行突進
-        const stepDist = Math.min(dist * 0.4, 6.0);
+      if (dist < 14.0 && !this.isFlying) {
+        const stepDist = Math.min(dist * 0.45, 6.5);
         this.vx = (dx / (dist || 1)) * stepDist * 4.0;
         this.vz = (dz / (dist || 1)) * stepDist * 4.0;
       }
@@ -242,10 +272,9 @@ class Fighter3D {
 
     if (window.soundEngine) window.soundEngine.playHit("light");
 
-    // 擴大命中距離至 8.5 單位
     if (opponent) {
       const dist = this.getDist3D(opponent);
-      if (dist <= 8.5) {
+      if (dist <= (this.isFlying ? 12.0 : 8.5)) {
         opponent.takeDamage(Math.round(this.atk * 0.55), this, false, false);
         this.gainRage(10);
       }
@@ -254,7 +283,7 @@ class Fighter3D {
 
   // ─── [K] 蓄力破防重擊 ───
   startHeavyCharge() {
-    if (this.state === "hit" || this.state === "dizzy" || this.state === "ko" || !this.isGrounded) return;
+    if (this.state === "hit" || this.state === "dizzy" || this.state === "ko") return;
     this.isCharging = true;
     this.chargeTime = 0;
     this.state = "heavy_charge";
@@ -280,16 +309,16 @@ class Fighter3D {
 
     if (opponent) {
       const dist = this.getDist3D(opponent);
-      if (dist <= 11.0) {
+      if (dist <= 11.5) {
         opponent.takeDamage(Math.round(this.atk * (isFull ? 1.6 : 1.0)), this, isFull, true);
         this.gainRage(20);
       }
     }
   }
 
-  // ─── [O] 近身摔投 / 抓技 ───
+  // ─── [O] 近身抓技摔投 ───
   grab(opponent) {
-    if (this.state === "hit" || this.state === "dizzy" || this.state === "ko" || !this.isGrounded) return;
+    if (this.state === "hit" || this.state === "dizzy" || this.state === "ko") return;
     this.state = "grab";
     this.stateTimer = 0.45;
 
@@ -299,7 +328,7 @@ class Fighter3D {
       this.rotationY = Math.atan2(dx, dz);
       const dist = this.getDist3D(opponent);
 
-      if (dist <= 6.5) {
+      if (dist <= 7.0) {
         opponent.takeDamage(Math.round(this.atk * 1.1), this, true, true);
         opponent.vy = 14;
         const fwdX = Math.sin(this.rotationY);
@@ -356,7 +385,7 @@ class Fighter3D {
     }
   }
 
-  // ─── [L] 終極奧義大招 (需 100% 怒氣) ───
+  // ─── [L] 終極奧義大招 ───
   useUlt(opponent) {
     if (this.rage < 100 || this.ultCd > 0 || this.state === "hit" || this.state === "dizzy" || this.state === "ko") return;
     const ult = this.charData.skills.ult;
@@ -379,7 +408,7 @@ class Fighter3D {
     }
   }
 
-  // ─── [B] 極限爆發脫身 (消耗 50% 怒氣) ───
+  // ─── [B] 極限爆發脫身 ───
   useBurst(opponent) {
     if (this.rage < 50 || this.state === "ko") return;
     this.rage -= 50;
@@ -452,7 +481,7 @@ class Fighter3D {
   }
 }
 
-// ── 3D KOF 式輪替賽制管理器 (含 Enter 開賽與 Enter 換人流) ──
+// ── 3D KOF 式輪替賽制管理器 ──
 class MatchEngine3D {
   constructor() {
     this.scene = null;
@@ -463,25 +492,25 @@ class MatchEngine3D {
     this.p1Index = 0;
     this.p2Index = 0;
 
-    // Match States: "pre_match", "fighting", "waiting_spawn_p1", "waiting_spawn_p2", "match_over"
     this.matchState = "standby";
     this.mode = "kof";
     this.isRanked = false;
+    this.currentBossFloor = 0;
     this.assistCooldown = 0;
     this.onMatchEnd = null;
-    this.pendingNextHeroName = "";
   }
 
   init(scene) {
     this.scene = scene;
   }
 
-  startMatch(p1RosterData, p2RosterData, mode = "kof", isRanked = false) {
+  startMatch(p1RosterData, p2RosterData, mode = "kof", isRanked = false, bossFloor = 0) {
     if (this.p1Current) this.p1Current.destroy();
     if (this.p2Current) this.p2Current.destroy();
 
     this.mode = mode;
     this.isRanked = isRanked;
+    this.currentBossFloor = bossFloor;
     this.p1Index = 0;
     this.p2Index = 0;
     this.team1Roster = p1RosterData;
@@ -490,7 +519,6 @@ class MatchEngine3D {
     this.spawnFighters();
     this.assistCooldown = 0;
 
-    // ── 進入開戰前 Enter 準備狀態 (調整 1 & 5) ──
     this.matchState = "pre_match";
     this.showPreMatchOverlay();
 
@@ -505,9 +533,13 @@ class MatchEngine3D {
 
     this.p1Current = new Fighter3D(p1Data, this.scene, this.isRanked ? 100 : (p1Data.userLevel || 1), p1Data.equippedGear, true);
     this.p2Current = new Fighter3D(p2Data, this.scene, this.isRanked ? 100 : (p2Data.rarity * 10), [], false);
+
+    // 每次角色更換時，動態更新右下角專屬按鍵介面
+    if (window.app) {
+      window.app.updateActionButtonsForFighter(p1Data);
+    }
   }
 
-  // ── [Enter] 開始對決 ──
   confirmStartMatch() {
     if (this.matchState === "pre_match") {
       this.matchState = "fighting";
@@ -518,7 +550,6 @@ class MatchEngine3D {
     }
   }
 
-  // ── [Enter] 陣亡換人時派遣下一位角色 ──
   confirmNextFighterSpawn() {
     if (this.matchState === "waiting_spawn_p1") {
       this.p1Index++;
@@ -529,6 +560,7 @@ class MatchEngine3D {
         this.p2Current.invulnerableTimer = 2.0;
         this.matchState = "fighting";
         this.hideOverlay();
+        if (window.app) window.app.updateActionButtonsForFighter(nextP1);
       } else {
         this.finishMatch(false);
       }
@@ -551,16 +583,22 @@ class MatchEngine3D {
     const overlay = document.getElementById("battleOverlay");
     if (!overlay) return;
 
+    const p1 = this.team1Roster[this.p1Index];
+    const canFly = !!p1.canFly;
+
     overlay.innerHTML = `
       <div class="battle-overlay-card">
-        <h2 style="font-size: 26px; font-weight: 900; color: #facc15; margin-bottom: 12px;">⚔️ 跨次元 3D 對決準備就緒</h2>
+        <h2 style="font-size: 24px; font-weight: 900; color: #facc15; margin-bottom: 12px;">⚔️ 3D 對決準備就緒</h2>
         <div style="font-size: 13px; color: #cbd5e1; line-height: 1.8; margin-bottom: 16px;">
-          <b>🎮 操作指南：</b><br>
-          • <b>[ W / A / S / D ]</b>：四面八方 360 度全向走位<br>
-          • <b>[ Space ]</b>：3D 跳躍 / 空中二段跳 ｜ <b>[ Shift ]</b>：翻滾閃避 ｜ <b>[ S ]</b>：防禦格擋<br>
-          • <b>[ J ]</b>：普通輕攻擊 ｜ <b>[ K ]</b>：蓄力破防重擊 ｜ <b>[ O ]</b>：近身摔投抓技<br>
-          • <b>[ U ]</b>：戰術小招 1 ｜ <b>[ I ]</b>：戰術小招 2 ｜ <b>[ L ]</b>：終極奧義大招 (滿怒氣)<br>
-          • <b>[ Q / E ]</b>：呼叫隊友援護 ｜ <b>[ B ]</b>：極限爆發脫身 (50%怒氣) ｜ <b>[ V ]</b>：切換視角
+          <b>🎮 首發英雄【${p1.name}】專屬指令：</b><br>
+          • <b>[ W / A / S / D ]</b>：四面八方 360 度走位<br>
+          • <b>[ Space ]</b>：3D 跳躍 ｜ <b>[ Shift ]</b>：翻滾閃避 ｜ <b>[ S ]</b>：防禦格擋<br>
+          ${canFly ? '• <b style="color:#38bdf8;">[ F 鍵 ]</b>：<b>起飛升空 / 舞空術懸浮飛行 (可空中全向作戰)</b><br>' : ''}
+          • <b>[ J ]</b>：${p1.attackConfig.light.name}<br>
+          • <b>[ K ]</b>：${p1.attackConfig.heavy.name}<br>
+          • <b>[ O ]</b>：${p1.attackConfig.grab.name}<br>
+          • <b>[ U ]</b>：小招1【${p1.skills.skill1.name}】 ｜ <b>[ I ]</b>：小招2【${p1.skills.skill2.name}】<br>
+          • <b>[ L ]</b>：奧義【${p1.skills.ult.name}】 ｜ <b>[ Q/E ]</b>：隊友援護 ｜ <b>[ B ]</b>：極限爆發
         </div>
         <button class="btn-primary" style="font-size: 18px; padding: 12px 32px; width: 100%; justify-content: center;" onclick="window.matchEngine3D.confirmStartMatch()">
           👉 按 [Enter] 鍵 開始戰鬥！
@@ -619,7 +657,6 @@ class MatchEngine3D {
       this.p1Current.update(dt, this.p2Current);
       this.p2Current.update(dt, this.p1Current);
 
-      // P1 Defeated -> Wait for Enter to spawn next P1 fighter (調整 4)
       if (this.p1Current.hp <= 0) {
         if (this.p1Index + 1 < this.team1Roster.length) {
           const nextName = this.team1Roster[this.p1Index + 1].name;
@@ -628,9 +665,7 @@ class MatchEngine3D {
         } else {
           this.finishMatch(false);
         }
-      }
-      // P2 Defeated -> Wait for Enter to spawn next P2 opponent
-      else if (this.p2Current.hp <= 0) {
+      } else if (this.p2Current.hp <= 0) {
         if (this.p2Index + 1 < this.team2Roster.length) {
           const nextName = this.team2Roster[this.p2Index + 1].name;
           this.matchState = "waiting_spawn_p2";
@@ -650,6 +685,8 @@ class MatchEngine3D {
     }
 
     const isSweep = this.p1Index === 0 && this.team2Roster.length >= 3;
+    const isSweep1v5 = isPlayerWinner && this.p1Index === 0 && this.team2Roster.length >= 5;
+
     let rewardGold = isPlayerWinner ? (this.mode === "boss_rush" ? 1500 : 800) : 200;
     if (isSweep) rewardGold *= 2;
 
@@ -657,6 +694,9 @@ class MatchEngine3D {
       this.onMatchEnd({
         winner: isPlayerWinner ? "player" : "opponent",
         isSweep,
+        isSweep1v5,
+        bossFloor: this.currentBossFloor,
+        mode: this.mode,
         gold: rewardGold,
         p1DefeatedCount: this.p2Index,
         p2DefeatedCount: this.p1Index

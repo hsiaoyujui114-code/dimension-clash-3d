@@ -1,13 +1,13 @@
 /**
  * 跨次元大亂鬥 3D (Dimension Clash Online 3D) - 主應用協調器
- * (Google Login Gateway, Roster Team Selection, Daily Rewards & 3D Combat Input Handler)
+ * (Dynamic Action Configurations, Flight Controller, Strict Genesis Unlocks & Daily Rewards)
  */
 
 class App3D {
   constructor() {
     this.sceneManager = null;
     this.cameraController = null;
-    this.activeTab = "roster"; // 登入後預設導向角色名冊
+    this.activeTab = "roster";
 
     this.teamSize = 3;
     this.p1Team = window.saveSystem.user.selectedTeam || ["goku_kid", "cap_america", "gm_rgm79"];
@@ -41,14 +41,12 @@ class App3D {
     this.renderAllViews();
     this.updateUserStatusBar();
 
-    // ── 檢查 Google 登入狀態 (未登入則彈出 Google 登入介面) ──
     if (!window.saveSystem.user.isLoggedIn) {
       this.openGoogleLoginModal();
     } else {
       this.switchTab("roster");
     }
 
-    // 啟動 60 FPS 渲染迴圈
     requestAnimationFrame((t) => this.gameLoop(t));
   }
 
@@ -71,8 +69,8 @@ class App3D {
     window.saveSystem.loginWithGoogle(email, nickname);
     this.updateUserStatusBar();
     this.closeModal();
-    this.switchTab("roster"); // 登入後立即導向自己的角色頁面
-    alert(`🎉 Google 登入成功！歡迎【${nickname}】，已自動進入英雄陣容庫！`);
+    this.switchTab("roster");
+    alert(`🎉 Google 登入成功！歡迎【${nickname}】，已為您加載專屬 3D 角色庫！`);
   }
 
   switchTab(tabId) {
@@ -95,19 +93,16 @@ class App3D {
       btn.addEventListener("click", () => this.switchTab(btn.dataset.tab));
     });
 
-    // 每日獎勵按鈕
     const dailyRewardBtn = document.getElementById("dailyRewardBtn");
     if (dailyRewardBtn) {
       dailyRewardBtn.addEventListener("click", () => this.openDailyRewardModal());
     }
 
-    // Google 登入按鈕
     const googleLoginBtn = document.getElementById("googleLoginBtn");
     if (googleLoginBtn) {
       googleLoginBtn.addEventListener("click", () => this.openGoogleLoginModal());
     }
 
-    // Google Login Form
     const googleSubmitBtn = document.getElementById("confirmGoogleLoginBtn");
     if (googleSubmitBtn) {
       googleSubmitBtn.addEventListener("click", () => {
@@ -117,7 +112,6 @@ class App3D {
       });
     }
 
-    // 視角切換按鈕 [V]
     const cameraBtn = document.getElementById("cameraViewBtn");
     if (cameraBtn) {
       cameraBtn.addEventListener("click", () => {
@@ -128,7 +122,6 @@ class App3D {
       });
     }
 
-    // 隊伍大小選擇 (1v1 ~ 5v5)
     document.querySelectorAll(".team-size-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         document.querySelectorAll(".team-size-btn").forEach(b => b.classList.remove("active"));
@@ -140,7 +133,6 @@ class App3D {
       });
     });
 
-    // 音效開關
     const muteBtn = document.getElementById("muteToggleBtn");
     if (muteBtn) {
       muteBtn.addEventListener("click", () => {
@@ -149,10 +141,41 @@ class App3D {
       });
     }
 
-    // 模態關閉
     document.querySelectorAll(".modal-close-btn").forEach(btn => {
       btn.addEventListener("click", () => this.closeModal());
     });
+  }
+
+  // ─── 每個角色的專屬戰鬥按鍵與招式名稱即時更新 (調整 3) ───
+  updateActionButtonsForFighter(charData) {
+    if (!charData || !charData.attackConfig) return;
+    const cfg = charData.attackConfig;
+
+    const setBtn = (id, labelText) => {
+      const elem = document.getElementById(id);
+      if (elem) {
+        const labelElem = elem.querySelector(".label");
+        if (labelElem) labelElem.textContent = labelText;
+      }
+    };
+
+    setBtn("touchBtnAtk", `普攻[J]`);
+    setBtn("touchBtnHeavy", `破防[K]`);
+    setBtn("touchBtnGrab", `抓技[O]`);
+    setBtn("touchBtnSkill1", `${cfg.skill1.name.slice(0, 4)}[U]`);
+    setBtn("touchBtnSkill2", `${cfg.skill2.name.slice(0, 4)}[I]`);
+    setBtn("touchBtnUlt", `${cfg.ult.name.slice(0, 4)}[L]`);
+
+    // 飛行按鈕顯隱控制 (調整 1)
+    const flightBtn = document.getElementById("touchBtnFlight");
+    if (flightBtn) {
+      if (charData.canFly) {
+        flightBtn.style.display = "flex";
+        flightBtn.querySelector(".label").textContent = "飛行[F]";
+      } else {
+        flightBtn.style.display = "none";
+      }
+    }
   }
 
   // ─── 🎁 每日簽到獎勵彈窗 ───
@@ -169,7 +192,7 @@ class App3D {
       { day: 2, gold: 1000, gift: "綠階召募券" },
       { day: 3, gold: 1500, gift: "振金編織內襯" },
       { day: 4, gold: 2000, gift: "初鋼改裝零件" },
-      { day: 5, gold: 3000, gift: "感應骨架結晶" },
+      { day: 5, gold: 3000, gift: "2顆感應結晶" },
       { day: 6, gold: 4000, gift: "特南克斯碎片" },
       { day: 7, gold: 10000, gift: "史詩自選箱！" }
     ];
@@ -219,14 +242,13 @@ class App3D {
     while (this.p2Team.length > this.teamSize) this.p2Team.pop();
   }
 
-  // ─── 專屬獨立按鍵監聽 (支援 Enter 開始/換人，J/K/O/U/I/L/B/Q/E) ───
   setupKeyboard() {
     window.addEventListener("keydown", (e) => {
       if (e.repeat) return;
       this.keys[e.key.toLowerCase()] = true;
       this.keys[e.code] = true;
 
-      // ── [Enter] 鍵：開始比賽 / 下一隻角色登場 ──
+      // [Enter]: 開始比賽 / 下一隻角色登場
       if (e.key === "Enter" || e.code === "Enter") {
         if (window.matchEngine3D) {
           window.matchEngine3D.confirmStartMatch();
@@ -237,6 +259,11 @@ class App3D {
       const p1 = window.matchEngine3D.p1Current;
       if (!p1 || window.matchEngine3D.matchState !== "fighting") return;
       const p2 = window.matchEngine3D.p2Current;
+
+      // [F]: 飛行起飛 / 舞空術懸浮切換 (調整 1)
+      if (e.key.toLowerCase() === "f") {
+        p1.toggleFlight();
+      }
 
       // [V]: 3D 視角切換
       if (e.key.toLowerCase() === "v") {
@@ -249,7 +276,7 @@ class App3D {
         }
       }
 
-      // [Space]: 3D 跳躍 / 空中二段跳
+      // [Space]: 3D 跳躍
       if (e.code === "Space") {
         p1.jump();
       }
@@ -259,12 +286,12 @@ class App3D {
         p1.dodge();
       }
 
-      // [S]: 格擋 (按下即防)
+      // [S]: 格擋
       if (e.key.toLowerCase() === "s") {
         p1.guard(true);
       }
 
-      // [J]: 普通輕攻擊
+      // [J]: 普攻連擊
       if (e.key.toLowerCase() === "j") {
         p1.lightAttack(p2);
       }
@@ -277,7 +304,7 @@ class App3D {
         }, 700);
       }
 
-      // [O]: 近身摔投 / 抓技
+      // [O]: 近身抓技
       if (e.key.toLowerCase() === "o") {
         p1.grab(p2);
       }
@@ -292,12 +319,12 @@ class App3D {
         p1.useSkill2(p2);
       }
 
-      // [L]: 終極奧義大招 (滿 100% 怒氣)
+      // [L]: 終極奧義大招
       if (e.key.toLowerCase() === "l") {
         p1.useUlt(p2);
       }
 
-      // [Q] / [E]: 呼叫隊友援護攻擊
+      // [Q] / [E]: 呼叫隊友援護
       if (e.key.toLowerCase() === "q" || e.key.toLowerCase() === "e") {
         window.matchEngine3D.callAssist();
       }
@@ -319,7 +346,6 @@ class App3D {
     });
   }
 
-  // ─── 手機端 360° 虛擬搖桿與觸控按鍵 ───
   setupTouchControls() {
     const joystickArea = document.getElementById("virtualJoystickArea");
     const joystickKnob = document.getElementById("virtualJoystickKnob");
@@ -375,6 +401,7 @@ class App3D {
     const p1 = () => window.matchEngine3D.p1Current;
     const p2 = () => window.matchEngine3D.p2Current;
 
+    bindTouch("touchBtnFlight", () => { if (p1()) p1().toggleFlight(); });
     bindTouch("touchBtnJump", () => { if (p1()) p1().jump(); });
     bindTouch("touchBtnRoll", () => { if (p1()) p1().dodge(); });
     bindTouch("touchBtnGuard", () => { if (p1()) p1().guard(true); }, () => { if (p1()) p1().guard(false); });
@@ -388,7 +415,7 @@ class App3D {
     bindTouch("touchBtnAssist", () => { window.matchEngine3D.callAssist(); });
   }
 
-  startSelectedBattle(mode = "kof", customP2Roster = null, isRanked = false) {
+  startSelectedBattle(mode = "kof", customP2Roster = null, isRanked = false, bossFloor = 0) {
     const p1RosterData = this.p1Team.map(id => {
       const base = window.CHARACTERS_DATA.find(c => c.id === id);
       return Object.assign({}, base, {
@@ -405,7 +432,7 @@ class App3D {
       });
     });
 
-    window.matchEngine3D.startMatch(p1RosterData, p2RosterData, mode, isRanked);
+    window.matchEngine3D.startMatch(p1RosterData, p2RosterData, mode, isRanked, bossFloor);
 
     if (this.cameraController && window.matchEngine3D.p1Current) {
       this.cameraController.target = window.matchEngine3D.p1Current.model.group;
@@ -421,14 +448,23 @@ class App3D {
 
   handleMatchResult(result) {
     const isWin = result.winner === "player";
+    const isBossRush = result.mode === "boss_rush";
+
     window.saveSystem.addGold(result.gold);
-    window.saveSystem.recordMatchResult(isWin, 2000, true);
+    window.saveSystem.recordMatchResult(
+      isWin,
+      3500,
+      result.mode === "ranked",
+      isBossRush,
+      result.bossFloor,
+      result.isSweep1v5
+    );
     this.updateUserStatusBar();
 
     const title = isWin ? "🏆 3D 榮耀大勝利 (VICTORY)!" : "💀 戰鬥落敗 (DEFEATED)";
-    const sweepNotice = result.isSweep ? "🔥【一挑多雙倍金幣獎勵】首發單人穿隊達成！" : "";
+    const sweepNotice = result.isSweep1v5 ? "\n🔥【1 穿 5 完封紀錄達成！】解鎖吉連成就資格！" : (result.isSweep ? "\n🔥【一挑多雙倍金幣獎勵】" : "");
 
-    alert(`${title}\n\n獲得金幣獎勵：+${result.gold} 金幣！\n${sweepNotice}`);
+    alert(`${title}\n\n獲得金幣獎勵：+${result.gold} 金幣！${sweepNotice}`);
   }
 
   renderTeamSelectors() {
@@ -511,7 +547,6 @@ class App3D {
     document.querySelectorAll(".modal-backdrop").forEach(m => m.classList.remove("active"));
   }
 
-  // ─── 👥 所有角色頁面 (含 1~5 陣容快速配置、升級與屬性成長) ───
   renderRosterView() {
     const grid = document.getElementById("rosterGrid");
     const currentTeamBanner = document.getElementById("rosterTeamBanner");
@@ -537,7 +572,7 @@ class App3D {
                 <div style="background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 12px; min-width: 130px;">
                   <div style="font-size: 11px; font-weight: 800; color: #facc15;">${slotLabels[idx]}</div>
                   <div style="font-weight: 800; color: ${char.themeColor}; font-size: 14px;">${char.name}</div>
-                  <div style="font-size: 11px; color: #94a3b8;">Lv.${lvl} / 100</div>
+                  <div style="font-size: 11px; color: #94a3b8;">Lv.${lvl} / 100 ${char.canFly ? '✈️ 具備飛行' : ''}</div>
                 </div>
               `;
             }).join("")}
@@ -562,7 +597,7 @@ class App3D {
             ${c.series === 'gundam' ? '🤖' : (c.series === 'dragonball' ? '⚡' : '🦸')}
           </div>
           <div class="card-char-name">${c.name}</div>
-          <div class="card-char-title">${c.seriesName} · ${c.role}</div>
+          <div class="card-char-title">${c.seriesName} · ${c.role} ${c.canFly ? '✈️' : ''}</div>
           <div class="card-stats-row">
             <span>${isUnlocked ? `Lv.${lvl} / 100` : '🔒 未解鎖'}</span>
             <span style="color: ${c.themeColor}">ATK ${Math.round(c.baseAtk * (1 + (lvl - 1) * 0.02))}</span>
@@ -594,13 +629,14 @@ class App3D {
     const lvl = window.saveSystem.user.characterLevels[char.id] || 1;
     const upgradeCost = Math.round(100 * Math.pow(lvl, 1.35));
     const rarity = window.RARITY_TIERS[char.rarity];
+    const cfg = char.attackConfig;
 
     container.innerHTML = `
       <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 16px;">
         <div style="font-size: 48px;">${char.series === 'gundam' ? '🤖' : (char.series === 'dragonball' ? '⚡' : '🦸')}</div>
         <div>
           <h2 style="font-size: 24px; font-weight: 900; color: ${char.themeColor}">${char.name}</h2>
-          <div style="color: #94a3b8; font-size: 13px;">${char.seriesName} · ${char.title} · <span style="color: ${rarity.color}">${rarity.name}</span></div>
+          <div style="color: #94a3b8; font-size: 13px;">${char.seriesName} · ${char.title} · <span style="color: ${rarity.color}">${rarity.name}</span> · ${char.canFly ? '<b style="color:#38bdf8;">✈️ 支援飛行升空</b>' : '地面戰鬥型'}</div>
         </div>
       </div>
 
@@ -616,11 +652,12 @@ class App3D {
         </div>
       </div>
 
-      <h4 style="font-size: 15px; margin-bottom: 8px; color: #38bdf8;">🎮 專屬 3D 招式指令</h4>
+      <h4 style="font-size: 15px; margin-bottom: 8px; color: #38bdf8;">🎮 專屬 3D 招式設定</h4>
       <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px; margin-bottom: 16px;">
-        <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[J] 普攻連擊</b>：連續 3~4 段體術打擊</div>
-        <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[K] 破防重擊</b>：單次霸體，強力破除格擋</div>
-        <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[O] 近身抓技</b>：無視防禦直接抓摔</div>
+        ${char.canFly ? `<div style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; padding: 8px 12px; border-radius: 6px; color:#38bdf8;"><b>[F] 飛行起飛</b>：${cfg.flight.name} (升空懸浮，可空中四向作戰)</div>` : ''}
+        <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[J] 普攻連擊</b>：${cfg.light.name}</div>
+        <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[K] 破防重擊</b>：${cfg.heavy.name}</div>
+        <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[O] 近身抓技</b>：${cfg.grab.name}</div>
         <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[U] 小招 1【${char.skills.skill1.name}】</b> (CD ${char.skills.skill1.cd}s)：${char.skills.skill1.desc}</div>
         <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[I] 小招 2【${char.skills.skill2.name}】</b> (CD ${char.skills.skill2.cd}s)：${char.skills.skill2.desc}</div>
         <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px; border-left: 3px solid #facc15;"><b>[L] 奧義大招【${char.skills.ult.name}】</b> (CD ${char.skills.ult.cd}s + 100% 怒氣)：${char.skills.ult.desc}</div>
@@ -733,6 +770,7 @@ class App3D {
     this.renderWorkshopSlots();
   }
 
+  // ─── 🛒 招募商店與嚴格創世成就解鎖驗證 (調整 2) ───
   renderShopView() {
     const grid = document.getElementById("shopHeroGrid");
     const genesisList = document.getElementById("genesisChallengesList");
@@ -761,18 +799,27 @@ class App3D {
     const genesisHeroes = window.CHARACTERS_DATA.filter(c => c.rarity === 9);
     genesisList.innerHTML = genesisHeroes.map(g => {
       const isUnlocked = window.saveSystem.user.unlockedCharacters.includes(g.id);
+      const progress = window.saveSystem.getGenesisProgress(g.id);
+
       return `
-        <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid #fb7185; border-radius: 12px; padding: 14px; margin-bottom: 12px;">
+        <div style="background: rgba(15, 23, 42, 0.95); border: 1px solid ${isUnlocked ? '#4ade80' : '#fb7185'}; border-radius: 12px; padding: 16px; margin-bottom: 14px;">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div style="font-weight: 900; color: #fb7185; font-size: 16px;">★ 創世級【${g.name}】</div>
-            <div style="font-size: 12px; font-weight: 800; color: ${isUnlocked ? '#4ade80' : '#f59e0b'}">
-              ${isUnlocked ? '👑 已登頂解鎖' : '🔒 挑戰中'}
+            <div style="font-size: 12px; font-weight: 800; color: ${isUnlocked ? '#4ade80' : (progress.achieved ? '#facc15' : '#f43f5e')}">
+              ${isUnlocked ? '👑 已登頂解鎖' : (progress.achieved ? '⚡ 目標已達成！可領取' : '🔒 挑戰進行中')}
             </div>
           </div>
-          <div style="font-size: 12px; color: #cbd5e1; margin-top: 4px;">解鎖條件：${g.unlockCondition}</div>
+          <div style="font-size: 12px; color: #cbd5e1; margin-top: 6px;"><b>目標要求：</b>${progress.desc}</div>
+          <div style="font-size: 12px; color: #38bdf8; margin-top: 4px;"><b>目前真實進度：</b>${progress.progressText}</div>
+
+          <!-- 進度條 -->
+          <div style="background: rgba(0,0,0,0.5); height: 8px; border-radius: 4px; overflow: hidden; margin-top: 8px;">
+            <div style="background: ${isUnlocked ? '#4ade80' : '#fb7185'}; height: 100%; width: ${isUnlocked ? 100 : progress.percent}%;"></div>
+          </div>
+
           ${!isUnlocked ? `
-            <button class="btn-secondary" style="margin-top: 8px; font-size: 11px;" onclick="window.app.tryGenesisUnlock('${g.id}')">
-              ⚡ 驗證並解鎖
+            <button class="btn-primary" style="margin-top: 10px; font-size: 12px; padding: 6px 16px; background: ${progress.achieved ? 'linear-gradient(135deg, #f59e0b, #eab308)' : 'rgba(51, 65, 85, 0.8)'}" onclick="window.app.tryGenesisUnlock('${g.id}')">
+              ${progress.achieved ? '🎁 達成目標！立即解鎖角色' : '🔒 驗證並解鎖 (未達標無法領取)'}
             </button>
           ` : ''}
         </div>
@@ -794,11 +841,15 @@ class App3D {
   }
 
   tryGenesisUnlock(charId) {
-    window.saveSystem.unlockCharacter(charId);
-    if (window.soundEngine) window.soundEngine.playVictory();
-    this.renderShopView();
-    this.renderRosterView();
-    alert(`👑 恭喜達成極限神級成就！創世級【${charId}】已成功降臨！`);
+    const res = window.saveSystem.tryStrictGenesisUnlock(charId);
+    if (res.success) {
+      if (window.soundEngine) window.soundEngine.playVictory();
+      this.renderShopView();
+      this.renderRosterView();
+      alert(`👑 恭喜達成極限神級成就！創世級【${charId}】已成功降臨！`);
+    } else {
+      alert(res.reason);
+    }
   }
 
   renderBossRushView() {
@@ -810,10 +861,10 @@ class App3D {
         <div>
           <div style="font-weight: 800; font-size: 15px; color: #38bdf8;">${f.name} (Lv.${f.level})</div>
           <div style="font-size: 12px; color: #cbd5e1; margin-top: 2px;">${f.affix}</div>
-          <div style="font-size: 11px; color: #facc15; margin-top: 2px;">💰 通關獎勵：${f.rewardGold} 金幣</div>
+          <div style="font-size: 11px; color: #facc15; margin-top: 2px;">💰 通關獎勵：${f.rewardGold} 金幣 ｜ 💎 掉落感應骨架結晶</div>
         </div>
         <button class="btn-primary" style="font-size: 12px; padding: 8px 16px;" onclick="window.app.startBossRushFloor(${f.floor})">
-          ⚔️ 挑戰本層 3D 魔王
+          ⚔️ 挑戰第 ${f.floor} 層 3D 魔王
         </button>
       </div>
     `).join("");
@@ -822,7 +873,7 @@ class App3D {
   startBossRushFloor(floorNum) {
     const floorData = window.BOSS_RUSH_FLOORS.find(f => f.floor === floorNum);
     if (!floorData) return;
-    this.startSelectedBattle("boss_rush", floorData.bosses, false);
+    this.startSelectedBattle("boss_rush", floorData.bosses, false, floorNum);
   }
 
   renderAllViews() {
@@ -833,7 +884,6 @@ class App3D {
     this.renderBossRushView();
   }
 
-  // ─── 3D 60 FPS 主戰鬥迴圈 ───
   gameLoop(currentTime) {
     const dt = Math.min(0.1, (currentTime - this.lastFrameTime) / 1000);
     this.lastFrameTime = currentTime;
@@ -898,7 +948,7 @@ class App3D {
 
       if (p1HpFill) p1HpFill.style.width = `${Math.max(0, (p1.hp / p1.maxHp) * 100)}%`;
       if (p1RageFill) p1RageFill.style.width = `${p1.rage}%`;
-      if (p1Name) p1Name.textContent = p1.charData.name;
+      if (p1Name) p1Name.textContent = p1.charData.name + (p1.isFlying ? ' [✈️飛行中]' : '');
       if (p1Lvl) p1Lvl.textContent = `Lv.${p1.level}`;
     }
 

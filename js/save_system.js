@@ -1,25 +1,28 @@
 /**
  * 跨次元大亂鬥 (Dimension Clash Online)
- * 帳號存檔、Google 登入與每日簽到獎勵系統 (Save System & Daily Rewards)
+ * 帳號存檔、Google 登入、每日簽到獎勵與嚴格成就驗證系統
+ * (Save System, Google Login, Daily Rewards & Strict Genesis Achievement Verifier)
  */
 
-const STORAGE_KEY = "DIMENSION_CLASH_ONLINE_SAVE_V2";
+const STORAGE_KEY = "DIMENSION_CLASH_ONLINE_SAVE_V3";
 
 class SaveSystem {
   constructor() {
     this.user = {
-      isLoggedIn: false, // 初始需登入 Google
+      isLoggedIn: false,
       uid: "PLAYER_" + Math.floor(100000 + Math.random() * 900000),
       nickname: "次元格鬥家",
       email: "player@gmail.com",
       avatar: "https://lh3.googleusercontent.com/a/default-user=s96-c",
-      gold: 1500, // 初始登入贈送 1500 金幣
+      gold: 1500, // 初始贈送 1500 金幣
       trophies: 1000,
       pvpWins: 0,
       pvpLosses: 0,
       totalDamage: 0,
-      bossRushFloor: 1,
-      psychoCrystals: 0,
+      bossRushMaxFloor: 0, // 通關魔王塔最高層數
+      bossRushNoDeathCleared: false, // 是否一命無傷通關魔王塔
+      psychoCrystals: 0, // 感應骨架結晶 (獨角獸材料)
+      has1v5Sweep: false, // 是否達成 5v5 單人 1 穿 5 紀錄
       unlockedCharacters: ["goku_kid", "cap_america", "gm_rgm79"], // 免費新手三劍客
       selectedTeam: ["goku_kid", "cap_america", "gm_rgm79"], // 預設 3 隻上場角色
       characterLevels: {
@@ -94,10 +97,10 @@ class SaveSystem {
 
     const rewardsTable = [
       { day: 1, gold: 500, desc: "500 金幣 + 仙豆補給包" },
-      { day: 2, gold: 1000, desc: "1,000 金幣 + 綠階抽卡券" },
+      { day: 2, gold: 1000, desc: "1,000 金幣 + 綠階召募券" },
       { day: 3, gold: 1500, desc: "1,500 金幣 + 振金編織內襯" },
       { day: 4, gold: 2000, desc: "2,000 金幣 + 初鋼改裝零件" },
-      { day: 5, gold: 3000, desc: "3,000 金幣 + 感應骨架結晶" },
+      { day: 5, gold: 3000, desc: "3,000 金幣 + 2顆感應骨架結晶" },
       { day: 6, gold: 4000, desc: "4,000 金幣 + 特南克斯解鎖碎片" },
       { day: 7, gold: 10000, desc: "10,000 金幣 + 史詩英雄自選箱！" }
     ];
@@ -106,12 +109,94 @@ class SaveSystem {
     const reward = rewardsTable[(currentDay - 1) % rewardsTable.length];
 
     this.user.gold += reward.gold;
+    if (currentDay === 5) this.user.psychoCrystals += 2;
+
     this.user.dailyReward.claimedToday = true;
     this.user.dailyReward.lastClaimDate = todayStr;
     this.user.dailyReward.streakDay = (currentDay % 7) + 1;
     this.save();
 
     return { success: true, reward, nextStreakDay: this.user.dailyReward.streakDay };
+  }
+
+  // ─── 嚴格創世級成就解鎖檢查 (Strict Genesis Achievement Verifier) ───
+  getGenesisProgress(charId) {
+    const u = this.user;
+    switch (charId) {
+      case "thanos_gauntlet":
+        const thanosAchieved = u.bossRushMaxFloor >= 10 && u.bossRushNoDeathCleared;
+        return {
+          achieved: thanosAchieved,
+          desc: "PVE 極限「無限之戰」一命單人無傷通關 10 層魔王塔",
+          progressText: `魔王塔進度：${u.bossRushMaxFloor} / 10 層 ${u.bossRushNoDeathCleared ? '(一命達成)' : '(尚未一命通關)'}`,
+          percent: thanosAchieved ? 100 : Math.min(90, u.bossRushMaxFloor * 9)
+        };
+
+      case "goku_ultra_instinct":
+        const uiAchieved = u.pvpWins >= 150 && u.trophies >= 2500;
+        return {
+          achieved: uiAchieved,
+          desc: "PVP 天梯達到宗師段位 (2,500 獎盃) 且累計 150 勝場",
+          progressText: `勝場：${u.pvpWins} / 150 勝 ｜ 獎盃：${u.trophies} / 2500 盃`,
+          percent: Math.min(100, Math.round(((u.pvpWins / 150) * 0.5 + (u.trophies / 2500) * 0.5) * 100))
+        };
+
+      case "unicorn_crystal":
+        const unicornAchieved = u.psychoCrystals >= 15;
+        return {
+          achieved: unicornAchieved,
+          desc: "收集 15 顆感應骨架結晶 (通關魔王塔高層掉落)",
+          progressText: `結晶收集：${u.psychoCrystals} / 15 顆`,
+          percent: Math.min(100, Math.round((u.psychoCrystals / 15) * 100))
+        };
+
+      case "jiren_fullpower":
+        const jirenAchieved = u.has1v5Sweep === true;
+        return {
+          achieved: jirenAchieved,
+          desc: "5v5 模式中首發先鋒達成「1 穿 5 不換人」全勝完封",
+          progressText: u.has1v5Sweep ? "已達成 1 穿 5 紀錄" : "尚未達成 1 穿 5 (0 / 1)",
+          percent: u.has1v5Sweep ? 100 : 0
+        };
+
+      case "beerus_god":
+        const beerusAchieved = u.bossRushMaxFloor >= 10;
+        return {
+          achieved: beerusAchieved,
+          desc: "通關次元魔王塔全部 10 層挑戰",
+          progressText: `魔王塔挑戰：${Math.min(10, u.bossRushMaxFloor)} / 10 層`,
+          percent: Math.min(100, u.bossRushMaxFloor * 10)
+        };
+
+      case "kang":
+        const kangAchieved = u.totalDamage >= 5000000;
+        return {
+          achieved: kangAchieved,
+          desc: "PVP / 戰鬥累計造成 5,000,000 點總戰鬥傷害",
+          progressText: `累計傷害：${u.totalDamage.toLocaleString()} / 5,000,000 點`,
+          percent: Math.min(100, Math.round((u.totalDamage / 5000000) * 100))
+        };
+
+      default:
+        return { achieved: false, desc: "未知條件", progressText: "0 / 0", percent: 0 };
+    }
+  }
+
+  tryStrictGenesisUnlock(charId) {
+    if (this.user.unlockedCharacters.includes(charId)) {
+      return { success: false, reason: "該角色已經解鎖！" };
+    }
+
+    const check = this.getGenesisProgress(charId);
+    if (!check.achieved) {
+      return {
+        success: false,
+        reason: `❌ 尚未達成解鎖條件！\n\n【目標】：${check.desc}\n【目前進度】：${check.progressText} (${check.percent}%)\n\n請先在戰鬥中完成真實目標後再來領取！`
+      };
+    }
+
+    this.unlockCharacter(charId);
+    return { success: true, charId };
   }
 
   setTeam(teamArray) {
@@ -173,7 +258,7 @@ class SaveSystem {
     }
   }
 
-  recordMatchResult(isWin, damageDealt = 0, isPvp = true) {
+  recordMatchResult(isWin, damageDealt = 0, isPvp = true, isBossRush = false, floorNumber = 0, isSweep1v5 = false) {
     if (isPvp) {
       if (isWin) {
         this.user.pvpWins++;
@@ -183,6 +268,19 @@ class SaveSystem {
         this.user.trophies = Math.max(0, this.user.trophies - 15);
       }
     }
+
+    if (isBossRush && isWin && floorNumber > 0) {
+      this.user.bossRushMaxFloor = Math.max(this.user.bossRushMaxFloor, floorNumber);
+      this.user.psychoCrystals += 1; // 魔王塔掉落結晶
+      if (floorNumber === 10) {
+        this.user.bossRushNoDeathCleared = true;
+      }
+    }
+
+    if (isSweep1v5) {
+      this.user.has1v5Sweep = true;
+    }
+
     this.user.totalDamage += damageDealt;
     this.save();
   }
