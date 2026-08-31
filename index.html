@@ -165,9 +165,11 @@
             <h3 style="font-size: 18px; font-weight: 900; color: #38bdf8;">KOF 輪替賽制出場順序 (1v1 ~ 5v5 自訂編組)</h3>
             <p style="font-size: 12px; color: #94a3b8; margin-top: 2px;">點擊角色卡片可自由替換出場陣容（勝者留場、殘血接戰、陣亡按 Enter 換下一隻英雄登場）</p>
           </div>
-          <div style="display: flex; gap: 8px;">
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
             <button class="btn-secondary team-size-btn" data-size="1">1v1 單挑</button>
+            <button class="btn-secondary team-size-btn" data-size="2">2v2 雙人</button>
             <button class="btn-secondary team-size-btn active" data-size="3">3v3 經典</button>
+            <button class="btn-secondary team-size-btn" data-size="4">4v4 四連</button>
             <button class="btn-secondary team-size-btn" data-size="5">5v5 終極</button>
             <button class="btn-primary" id="startBattleBtn"><i class="fa-solid fa-play"></i> 開始 3D 戰鬥</button>
           </div>
@@ -204,12 +206,14 @@
           <p style="font-size: 13px; color: #cbd5e1; margin-top: 8px;">勝場 +30 獎盃，敗場 -15 獎盃。達到 2000 獎盃 (大師段位) 可解鎖彩階【黑化奇異博士】！達到 150 勝登頂傳奇宗師可解鎖創世【自在極意悟空】！</p>
         </div>
         <div style="background: var(--bg-card); padding: 20px; border-radius: 12px; border: 1px solid rgba(250, 204, 21, 0.3);">
-          <h3 style="font-size: 16px; font-weight: 800; color: #facc15;">🌐 跨裝置 P2P 房間碼 3D 對戰</h3>
-          <p style="font-size: 13px; color: #cbd5e1; margin-top: 8px;">免架伺服器！兩台裝置（電腦對手機）輸入相同 6 位數房間碼即可進行低延遲即時對戰。</p>
-          <div style="display: flex; gap: 8px; margin-top: 12px;">
-            <input type="text" id="p2pRoomInput" placeholder="輸入 6 位數房間碼" style="background: #0f172a; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; width: 140px;">
-            <button class="btn-secondary" onclick="alert('P2P 3D 房間已建立，等待連線！')">建立 / 加入房間</button>
+          <h3 style="font-size: 16px; font-weight: 800; color: #facc15;">🌐 同一房間跨機台 3D 即時對戰 (P2P WebRTC)</h3>
+          <p style="font-size: 13px; color: #cbd5e1; margin-top: 8px;">免架伺服器！兩台不同裝置（電腦對電腦、手機對電腦）連進同一個房間碼即可雙人實時 3D 對決！</p>
+          <div style="display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;">
+            <button class="btn-primary" style="font-size: 12px; padding: 8px 14px;" onclick="window.app.createP2PRoom()"><i class="fa-solid fa-house-chimney-medical"></i> 建立對戰房間</button>
+            <input type="text" id="p2pRoomInput" placeholder="輸入 6 位房間碼" style="background: #0f172a; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; width: 130px;">
+            <button class="btn-secondary" style="font-size: 12px; padding: 8px 14px;" onclick="window.app.joinP2PRoom()"><i class="fa-solid fa-right-to-bracket"></i> 加入房間</button>
           </div>
+          <div id="p2pStatusBanner" style="font-size: 12px; color: #38bdf8; margin-top: 10px; font-weight: 700;"></div>
         </div>
       </div>
     </section>
@@ -371,6 +375,11 @@
       <button class="modal-close-btn">&times;</button>
       <div id="userProfileContent"></div>
     </div>
+  </div>
+
+  <!-- ── 模態彈窗：戰鬥勝負結算畫面 (你贏了 / 你輸了 + 重新開始按鈕) ── -->
+  <div id="matchSettlementModal" class="modal-backdrop">
+    <div class="modal-content settlement-card" id="settlementCardContent"></div>
   </div>
 
   <!-- Game Scripts -->

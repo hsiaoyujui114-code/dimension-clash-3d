@@ -1,6 +1,6 @@
 /**
  * 跨次元大亂鬥 3D (Dimension Clash Online 3D) - 主應用協調器
- * (Dynamic Action Configurations, Flight Controller, Strict Genesis Unlocks, User Avatar & Auto/Manual Sync)
+ * (Dynamic Action Configurations, Flight Controller, Strict Genesis Unlocks, User Avatar, 1v1~5v5, Victory/Defeat Settlement & P2P Multiplayer)
  */
 
 class App3D {
@@ -33,6 +33,11 @@ class App3D {
       );
 
       window.matchEngine3D.init(this.sceneManager.scene);
+    }
+
+    // 初始化 P2P 聯機庫
+    if (window.p2pNetwork) {
+      window.p2pNetwork.init();
     }
 
     this.bindEvents();
@@ -248,6 +253,7 @@ class App3D {
       });
     }
 
+    // 1v1 ~ 5v5 賽制切換
     document.querySelectorAll(".team-size-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         document.querySelectorAll(".team-size-btn").forEach(b => b.classList.remove("active"));
@@ -256,7 +262,7 @@ class App3D {
         this.adjustTeamSize();
         this.renderTeamSelectors();
         this.renderRosterView();
-        this.autoSync("變更隊伍人數");
+        this.autoSync(`變更為 ${this.teamSize}v${this.teamSize} 賽制`);
       });
     });
 
@@ -356,13 +362,17 @@ class App3D {
   }
 
   adjustTeamSize() {
-    while (this.p1Team.length < this.teamSize) this.p1Team.push(window.saveSystem.user.unlockedCharacters[0] || "goku_kid");
+    while (this.p1Team.length < this.teamSize) {
+      const avail = window.saveSystem.user.unlockedCharacters.find(id => !this.p1Team.includes(id)) || window.saveSystem.user.unlockedCharacters[0] || "goku_kid";
+      this.p1Team.push(avail);
+    }
     while (this.p1Team.length > this.teamSize) this.p1Team.pop();
     window.saveSystem.setTeam(this.p1Team);
 
-    const enemies = ["rx78_2", "spiderman_classic", "krillin", "char_zaku2", "hulk", "vegeta", "thor"];
+    const enemies = ["rx78_2", "spiderman_classic", "krillin", "char_zaku2", "hulk", "vegeta", "thor", "ironman_mark3", "piccolo", "wing_zero_ew"];
     while (this.p2Team.length < this.teamSize) {
-      this.p2Team.push(enemies[Math.floor(Math.random() * enemies.length)]);
+      const e = enemies[Math.floor(Math.random() * enemies.length)];
+      this.p2Team.push(e);
     }
     while (this.p2Team.length > this.teamSize) this.p2Team.pop();
   }
@@ -562,6 +572,7 @@ class App3D {
     }, 50);
   }
 
+  // ─── 🏆 戰鬥勝負結算彈窗 (你贏了 / 你輸了 + 🔄 重新開始按鈕) ───
   handleMatchResult(result) {
     const isWin = result.winner === "player";
     const isBossRush = result.mode === "boss_rush";
@@ -570,7 +581,7 @@ class App3D {
     window.saveSystem.recordMatchResult(
       isWin,
       3500,
-      result.mode === "ranked",
+      result.mode === "ranked" || result.mode === "p2p",
       isBossRush,
       result.bossFloor,
       result.isSweep1v5
@@ -578,10 +589,124 @@ class App3D {
     this.updateUserStatusBar();
     this.autoSync("戰鬥結算");
 
-    const title = isWin ? "🏆 3D 榮耀大勝利 (VICTORY)!" : "💀 戰鬥落敗 (DEFEATED)";
-    const sweepNotice = result.isSweep1v5 ? "\n🔥【1 穿 5 完封紀錄達成！】解鎖吉連成就資格！" : (result.isSweep ? "\n🔥【一挑多雙倍金幣獎勵】" : "");
+    this.showMatchSettlementModal(result);
+  }
 
-    alert(`${title}\n\n獲得金幣獎勵：+${result.gold} 金幣！${sweepNotice}`);
+  showMatchSettlementModal(result) {
+    const modal = document.getElementById("matchSettlementModal");
+    const container = document.getElementById("settlementCardContent");
+    if (!modal || !container) return;
+
+    const isWin = result.winner === "player";
+    container.className = `modal-content settlement-card ${isWin ? 'victory-theme' : 'defeat-theme'}`;
+
+    const sweepNotice = result.isSweep1v5 ? `<div style="color: #facc15; font-weight: 900; font-size: 14px; margin-top: 6px;">👑【神級成就達成】首發先鋒 1 穿 5 完封大滿貫！</div>` : (result.isSweep ? `<div style="color: #38bdf8; font-weight: 800; font-size: 13px; margin-top: 6px;">🔥【一挑多連勝】獲得雙倍金幣獎勵！</div>` : '');
+
+    container.innerHTML = `
+      <div style="font-size: 52px; margin-bottom: 8px;">
+        ${isWin ? '🏆' : '💀'}
+      </div>
+      <h2 style="font-size: 30px; font-weight: 900; color: ${isWin ? '#10b981' : '#ef4444'}; margin-bottom: 4px; text-shadow: 0 0 20px ${isWin ? 'rgba(16,185,129,0.6)' : 'rgba(239,68,68,0.6)'};">
+        ${isWin ? '你贏了！(VICTORY)' : '你輸了 (DEFEATED)'}
+      </h2>
+      <p style="font-size: 14px; color: #cbd5e1; margin-bottom: 12px;">
+        ${isWin ? '恭喜獲得本次跨次元 3D 對決勝利！' : '全體出賽英雄已力竭倒下，請再接再厲！'}
+      </p>
+      ${sweepNotice}
+
+      <div class="settlement-stat-box">
+        <div style="display: flex; justify-content: space-between;">
+          <span style="color: #94a3b8;">💰 結算金幣獎勵：</span>
+          <b style="color: #facc15; font-size: 15px;">+${result.gold.toLocaleString()} 金幣</b>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span style="color: #94a3b8;">🏆 天梯積分結算：</span>
+          <b style="color: ${isWin ? '#34d399' : '#f87171'}; font-size: 15px;">${isWin ? '+35 獎盃' : '-15 獎盃'}</b>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span style="color: #94a3b8;">⚔️ 擊敗敵方角色數：</span>
+          <b style="color: #f8fafc;">${result.p1DefeatedCount !== undefined ? result.p1DefeatedCount + (isWin ? 1 : 0) : 1} 位</b>
+        </div>
+      </div>
+
+      <button class="btn-primary" style="width: 100%; font-size: 18px; font-weight: 900; padding: 14px 28px; justify-content: center; background: linear-gradient(135deg, #10b981, #059669); margin-top: 16px; box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);" onclick="window.app.restartToRoster()">
+        <i class="fa-solid fa-rotate-left"></i> 🔄 重新開始 (回到我的角色)
+      </button>
+    `;
+
+    modal.classList.add("active");
+  }
+
+  // ─── 🔄 重新開始回到初始角色頁面 ───
+  restartToRoster() {
+    this.closeModal();
+    if (window.matchEngine3D) {
+      window.matchEngine3D.matchState = "standby";
+      if (window.matchEngine3D.p1Current) window.matchEngine3D.p1Current.destroy();
+      if (window.matchEngine3D.p2Current) window.matchEngine3D.p2Current.destroy();
+    }
+    this.switchTab("roster");
+    this.renderAllViews();
+    this.updateUserStatusBar();
+    this.autoSync("重新開始回到初始角色頁");
+  }
+
+  // ─── 🌐 跨裝置 P2P 房間建立與加入 ───
+  createP2PRoom() {
+    const banner = document.getElementById("p2pStatusBanner");
+    if (banner) banner.textContent = "⏳ 正在初始化 WebRTC P2P 房間...";
+
+    window.p2pNetwork.createRoom((code) => {
+      if (banner) {
+        banner.innerHTML = `
+          <div style="background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; padding: 10px; border-radius: 8px; margin-top: 8px;">
+            🏠 <b>房間建立成功！</b><br>
+            房間碼：<b style="font-size: 18px; color: #facc15; letter-spacing: 2px;">${code}</b><br>
+            <span style="font-size: 11px; color: #cbd5e1;">請在另一台電腦或手機輸入此 6 位數房間碼並點擊「加入房間」！</span>
+          </div>
+        `;
+      }
+
+      window.p2pNetwork.onConnected = () => {
+        if (banner) banner.innerHTML = `<span style="color: #34d399;">✅ 雙方裝置已連線！正在啟動 3D 即時對決...</span>`;
+        window.p2pNetwork.send({ type: "ROSTER_INFO", team: this.p1Team });
+      };
+
+      window.p2pNetwork.onMessageReceived = (data) => {
+        if (data.type === "ROSTER_INFO") {
+          this.startSelectedBattle("p2p", data.team, true);
+        }
+      };
+    });
+  }
+
+  joinP2PRoom() {
+    const input = document.getElementById("p2pRoomInput");
+    const code = input ? input.value.trim() : "";
+    const banner = document.getElementById("p2pStatusBanner");
+
+    if (!code) {
+      alert("請先輸入 6 位數房間碼！");
+      return;
+    }
+
+    if (banner) banner.textContent = `⏳ 正在連接至房間【${code}】...`;
+
+    window.p2pNetwork.joinRoom(code, (ok) => {
+      if (ok) {
+        if (banner) banner.innerHTML = `<span style="color: #34d399;">✅ 成功加入房間！正在加載雙方 3D 機台...</span>`;
+        window.p2pNetwork.onConnected = () => {
+          window.p2pNetwork.send({ type: "ROSTER_INFO", team: this.p1Team });
+        };
+        window.p2pNetwork.onMessageReceived = (data) => {
+          if (data.type === "ROSTER_INFO") {
+            this.startSelectedBattle("p2p", data.team, true);
+          }
+        };
+      } else {
+        if (banner) banner.innerHTML = `<span style="color: #ef4444;">❌ 連接房間失敗，請確認房間碼是否正確！</span>`;
+      }
+    });
   }
 
   renderTeamSelectors() {
@@ -715,21 +840,18 @@ class App3D {
           const isSlotTakenBySomeoneElse = (this.p1Team[s] && this.p1Team[s] !== c.id);
 
           if (isThisCharInThisSlot) {
-            // 已選中該號位
             slotButtons.push(`
               <button class="slot-num-btn active-slot" onclick="window.app.setHeroToTeamSlot('${c.id}', ${s})" title="已指派為第 ${slotNum} 號位出場">
                 ✅ ${slotNum}
               </button>
             `);
           } else if (isSlotTakenBySomeoneElse) {
-            // 該號位已被其他英雄選走：不顯示高亮亮色，維持暗色
             slotButtons.push(`
               <button class="slot-num-btn taken-slot" onclick="window.app.setHeroToTeamSlot('${c.id}', ${s})" title="第 ${slotNum} 號位已選，點擊可替換">
                 ${slotNum}
               </button>
             `);
           } else {
-            // 號位空缺，可點擊選入
             slotButtons.push(`
               <button class="slot-num-btn available-slot" onclick="window.app.setHeroToTeamSlot('${c.id}', ${s})" title="指派為第 ${slotNum} 號位出場">
                 +${slotNum}
@@ -741,7 +863,7 @@ class App3D {
 
       return `
         <div class="character-card ${isUnlocked ? '' : 'locked'}" style="border-top: 3px solid ${rarity.color}">
-          <div class="rarity-ribbon" style="background: ${rarity.bg}; color: ${rarity.border}; border: 1px solid ${rarity.border}">${rarity.label}</div>
+          <div class="rarity-ribbon" style="background: ${rarity.bg}; color: ${rarity.border}">${rarity.label}</div>
           <div class="card-avatar-box" style="border-color: ${c.themeColor}">
             ${c.series === 'gundam' ? '🤖' : (c.series === 'dragonball' ? '⚡' : '🦸')}
           </div>
