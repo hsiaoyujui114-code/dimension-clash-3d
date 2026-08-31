@@ -635,7 +635,8 @@ body {
   position: relative;
   width: 100%;
   height: 580px;
-  background: #000;
+  min-height: 480px;
+  background: #07090e;
   border-radius: 14px;
   overflow: hidden;
 }
@@ -645,6 +646,76 @@ body {
   height: 100% !important;
   display: block;
   outline: none;
+}
+
+.hud-start-btn {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: 2px solid #34d399;
+  border-radius: 20px;
+  padding: 6px 18px;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.6);
+  pointer-events: auto !important;
+  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  animation: pulseButton 1.5s infinite alternate;
+}
+
+.hud-start-btn:hover {
+  transform: scale(1.06);
+  background: linear-gradient(135deg, #059669, #047857);
+}
+
+@keyframes pulseButton {
+  from { box-shadow: 0 0 10px rgba(16, 185, 129, 0.4); }
+  to { box-shadow: 0 0 25px rgba(52, 211, 153, 0.9); }
+}
+
+.slot-num-btn {
+  flex: 1;
+  padding: 6px 4px;
+  font-size: 12px;
+  font-weight: 800;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.slot-num-btn.active-slot {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border-color: #34d399;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+.slot-num-btn.taken-slot {
+  background: rgba(30, 41, 59, 0.5);
+  color: #64748b;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.slot-num-btn.taken-slot:hover {
+  background: rgba(51, 65, 85, 0.8);
+  color: #94a3b8;
+}
+
+.slot-num-btn.available-slot {
+  background: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+  border-color: #38bdf8;
+}
+
+.slot-num-btn.available-slot:hover {
+  background: #38bdf8;
+  color: #0f172a;
 }
 
 .team-slot-card {
@@ -703,13 +774,13 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(7, 9, 14, 0.85);
-  backdrop-filter: blur(8px);
+  background: rgba(7, 9, 14, 0.4);
   display: none;
   justify-content: center;
   align-items: center;
   z-index: 100;
   padding: 20px;
+  pointer-events: auto;
 }
 
 .battle-overlay-card {

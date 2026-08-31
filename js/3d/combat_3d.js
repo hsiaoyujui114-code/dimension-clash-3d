@@ -12,9 +12,9 @@ class Fighter3D {
     this.isPlayer = isPlayer;
 
     // 3D Position & Velocity
-    this.x = isPlayer ? -14 : 14;
+    this.x = isPlayer ? -8 : 8;
     this.y = 0;
-    this.z = isPlayer ? 4 : -4;
+    this.z = 0;
     this.vx = 0;
     this.vy = 0;
     this.vz = 0;
@@ -541,9 +541,11 @@ class MatchEngine3D {
   }
 
   confirmStartMatch() {
-    if (this.matchState === "pre_match") {
+    const hudStartBtn = document.getElementById("hudStartGameBtn");
+    if (this.matchState === "pre_match" || this.matchState === "standby") {
       this.matchState = "fighting";
       this.hideOverlay();
+      if (hudStartBtn) hudStartBtn.style.display = "none";
       if (window.soundEngine) window.soundEngine.playHit("heavy");
     } else if (this.matchState === "waiting_spawn_p1" || this.matchState === "waiting_spawn_p2") {
       this.confirmNextFighterSpawn();
@@ -551,6 +553,7 @@ class MatchEngine3D {
   }
 
   confirmNextFighterSpawn() {
+    const hudStartBtn = document.getElementById("hudStartGameBtn");
     if (this.matchState === "waiting_spawn_p1") {
       this.p1Index++;
       if (this.p1Index < this.team1Roster.length) {
@@ -560,6 +563,7 @@ class MatchEngine3D {
         this.p2Current.invulnerableTimer = 2.0;
         this.matchState = "fighting";
         this.hideOverlay();
+        if (hudStartBtn) hudStartBtn.style.display = "none";
         if (window.app) window.app.updateActionButtonsForFighter(nextP1);
       } else {
         this.finishMatch(false);
@@ -573,6 +577,7 @@ class MatchEngine3D {
         this.p1Current.invulnerableTimer = 2.0;
         this.matchState = "fighting";
         this.hideOverlay();
+        if (hudStartBtn) hudStartBtn.style.display = "none";
       } else {
         this.finishMatch(true);
       }
@@ -581,6 +586,11 @@ class MatchEngine3D {
 
   showPreMatchOverlay() {
     const overlay = document.getElementById("battleOverlay");
+    const hudStartBtn = document.getElementById("hudStartGameBtn");
+    if (hudStartBtn) {
+      hudStartBtn.style.display = "inline-flex";
+      hudStartBtn.innerHTML = `<i class="fa-solid fa-play"></i> ⚔️ 開始遊戲`;
+    }
     if (!overlay) return;
 
     const p1 = this.team1Roster[this.p1Index];
@@ -588,20 +598,16 @@ class MatchEngine3D {
 
     overlay.innerHTML = `
       <div class="battle-overlay-card">
-        <h2 style="font-size: 24px; font-weight: 900; color: #facc15; margin-bottom: 12px;">⚔️ 3D 對決準備就緒</h2>
-        <div style="font-size: 13px; color: #cbd5e1; line-height: 1.8; margin-bottom: 16px;">
+        <h2 style="font-size: 22px; font-weight: 900; color: #facc15; margin-bottom: 10px;">⚔️ 3D 對決準備就緒</h2>
+        <div style="font-size: 12px; color: #cbd5e1; line-height: 1.8; margin-bottom: 14px; text-align: left; background: rgba(30,41,59,0.7); padding: 10px 14px; border-radius: 8px;">
           <b>🎮 首發英雄【${p1.name}】專屬指令：</b><br>
-          • <b>[ W / A / S / D ]</b>：四面八方 360 度走位<br>
-          • <b>[ Space ]</b>：3D 跳躍 ｜ <b>[ Shift ]</b>：翻滾閃避 ｜ <b>[ S ]</b>：防禦格擋<br>
+          • <b>[ W / A / S / D ]</b>：四面八方 360 度走位 ｜ <b>[ Space ]</b>：3D 跳躍 ｜ <b>[ S ]</b>：防禦格擋<br>
           ${canFly ? '• <b style="color:#38bdf8;">[ F 鍵 ]</b>：<b>起飛升空 / 舞空術懸浮飛行 (可空中全向作戰)</b><br>' : ''}
-          • <b>[ J ]</b>：${p1.attackConfig.light.name}<br>
-          • <b>[ K ]</b>：${p1.attackConfig.heavy.name}<br>
-          • <b>[ O ]</b>：${p1.attackConfig.grab.name}<br>
-          • <b>[ U ]</b>：小招1【${p1.skills.skill1.name}】 ｜ <b>[ I ]</b>：小招2【${p1.skills.skill2.name}】<br>
-          • <b>[ L ]</b>：奧義【${p1.skills.ult.name}】 ｜ <b>[ Q/E ]</b>：隊友援護 ｜ <b>[ B ]</b>：極限爆發
+          • <b>[ J ]</b>：${p1.attackConfig.light.name} ｜ <b>[ K ]</b>：${p1.attackConfig.heavy.name}<br>
+          • <b>[ O ]</b>：${p1.attackConfig.grab.name} ｜ <b>[ U / I ]</b>：小招1 / 小招2 ｜ <b>[ L ]</b>：奧義
         </div>
-        <button class="btn-primary" style="font-size: 18px; padding: 12px 32px; width: 100%; justify-content: center;" onclick="window.matchEngine3D.confirmStartMatch()">
-          👉 按 [Enter] 鍵 開始戰鬥！
+        <button class="btn-primary" style="font-size: 18px; font-weight: 900; padding: 12px 32px; width: 100%; justify-content: center; background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 0 15px rgba(16, 185, 129, 0.6);" onclick="window.matchEngine3D.confirmStartMatch()">
+          <i class="fa-solid fa-play"></i> ⚔️ 點此「開始遊戲」 (或按 Enter)
         </button>
       </div>
     `;
@@ -610,18 +616,23 @@ class MatchEngine3D {
 
   showNextFighterSpawnOverlay(isPlayerFighter, nextHeroName) {
     const overlay = document.getElementById("battleOverlay");
+    const hudStartBtn = document.getElementById("hudStartGameBtn");
+    if (hudStartBtn) {
+      hudStartBtn.style.display = "inline-flex";
+      hudStartBtn.innerHTML = `<i class="fa-solid fa-user-plus"></i> 下一位登場`;
+    }
     if (!overlay) return;
 
     overlay.innerHTML = `
       <div class="battle-overlay-card">
-        <h3 style="font-size: 22px; font-weight: 900; color: ${isPlayerFighter ? '#38bdf8' : '#ef4444'}; margin-bottom: 10px;">
+        <h3 style="font-size: 20px; font-weight: 900; color: ${isPlayerFighter ? '#38bdf8' : '#ef4444'}; margin-bottom: 10px;">
           ${isPlayerFighter ? '⚠️ 角色倒下！準備派出下一位英雄' : '🔥 擊敗對手！迎戰下一位敵人'}
         </h3>
-        <p style="font-size: 15px; color: #f8fafc; margin-bottom: 16px;">
+        <p style="font-size: 14px; color: #f8fafc; margin-bottom: 14px;">
           即將登場：<b style="color: #facc15;">【 ${nextHeroName} 】</b> (享有 2 秒登場無敵護盾)
         </p>
-        <button class="btn-primary" style="font-size: 16px; padding: 10px 28px; width: 100%; justify-content: center;" onclick="window.matchEngine3D.confirmNextFighterSpawn()">
-          👉 按 [Enter] 鍵 讓下一隻角色登場！
+        <button class="btn-primary" style="font-size: 16px; font-weight: 900; padding: 12px 28px; width: 100%; justify-content: center; background: linear-gradient(135deg, #10b981, #059669);" onclick="window.matchEngine3D.confirmNextFighterSpawn()">
+          👉 點此派出下一隻角色登場！ (或按 Enter)
         </button>
       </div>
     `;

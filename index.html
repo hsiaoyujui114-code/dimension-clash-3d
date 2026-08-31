@@ -114,10 +114,12 @@
             <div class="rage-bar-bg"><div class="rage-bar-fill" id="p1RageFill"></div></div>
           </div>
 
-          <!-- Center Mode Indicator -->
+          <!-- Center Mode Indicator & Direct Start Game Button -->
           <div class="hud-center">
             <div class="hud-vs-badge">3D BATTLE</div>
-            <div style="font-size: 11px; color: #38bdf8; font-weight: 800;">[Enter] 開始 / 換人</div>
+            <button id="hudStartGameBtn" class="hud-start-btn" onclick="window.matchEngine3D.confirmStartMatch()" title="點擊立即開始 3D 對決">
+              <i class="fa-solid fa-play"></i> ⚔️ 開始遊戲
+            </button>
           </div>
 
           <!-- P2 Status -->

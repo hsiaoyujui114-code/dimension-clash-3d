@@ -528,7 +528,7 @@ class App3D {
 
   startSelectedBattle(mode = "kof", customP2Roster = null, isRanked = false, bossFloor = 0) {
     const p1RosterData = this.p1Team.map(id => {
-      const base = window.CHARACTERS_DATA.find(c => c.id === id);
+      const base = window.CHARACTERS_DATA.find(c => c.id === id) || window.CHARACTERS_DATA[0];
       return Object.assign({}, base, {
         userLevel: window.saveSystem.user.characterLevels[id] || 1,
         equippedGear: (window.saveSystem.user.equippedGear[id] || []).map(gid => window.EQUIPMENT_DATA.find(e => e.id === gid))
@@ -536,7 +536,7 @@ class App3D {
     });
 
     const p2RosterData = (customP2Roster || this.p2Team).map(id => {
-      const base = window.CHARACTERS_DATA.find(c => c.id === id);
+      const base = window.CHARACTERS_DATA.find(c => c.id === id) || window.CHARACTERS_DATA[0];
       return Object.assign({}, base, {
         userLevel: isRanked ? 100 : (base.rarity * 10),
         equippedGear: []
@@ -589,14 +589,12 @@ class App3D {
     const p2Container = document.getElementById("p2TeamSlots");
     if (!p1Container || !p2Container) return;
 
-    const slotNames = ["先鋒 (Vanguard)", "次鋒 (Second)", "中堅 (Center)", "副將 (Vice-Captain)", "大將 (Captain)"];
-
     p1Container.innerHTML = this.p1Team.map((charId, idx) => {
       const char = window.CHARACTERS_DATA.find(c => c.id === charId) || window.CHARACTERS_DATA[0];
       const lvl = window.saveSystem.user.characterLevels[charId] || 1;
       return `
         <div class="team-slot-card" onclick="window.app.openHeroPicker(${idx}, 1)">
-          <div class="slot-badge">${slotNames[idx]}</div>
+          <div class="slot-badge">${idx + 1} 號位 ${idx === 0 ? '(首發)' : ''}</div>
           <div class="slot-char-name" style="color: ${char.themeColor}">${char.name}</div>
           <div class="slot-char-lvl">Lv.${lvl}</div>
         </div>
@@ -607,7 +605,7 @@ class App3D {
       const char = window.CHARACTERS_DATA.find(c => c.id === charId) || window.CHARACTERS_DATA[0];
       return `
         <div class="team-slot-card" onclick="window.app.openHeroPicker(${idx}, 2)">
-          <div class="slot-badge">${slotNames[idx]}</div>
+          <div class="slot-badge">${idx + 1} 號位</div>
           <div class="slot-char-name" style="color: ${char.themeColor}">${char.name}</div>
           <div class="slot-char-lvl">Lv.${char.rarity * 10}</div>
         </div>
@@ -649,6 +647,7 @@ class App3D {
     this.autoSync("更換出場英雄");
   }
 
+  // ─── 自由指派出場順序 [ 1 ] / [ 2 ] / [ 3 ] ───
   setHeroToTeamSlot(charId, slotIndex = 0) {
     if (slotIndex < this.p1Team.length) {
       this.p1Team[slotIndex] = charId;
@@ -658,8 +657,9 @@ class App3D {
     window.saveSystem.setTeam(this.p1Team);
     this.renderTeamSelectors();
     this.renderRosterView();
-    this.autoSync("設定先鋒英雄");
-    alert(`✅ 已將【${window.CHARACTERS_DATA.find(c => c.id === charId).name}】設為出場陣容！`);
+    this.autoSync("指派出場號位");
+    const char = window.CHARACTERS_DATA.find(c => c.id === charId) || { name: charId };
+    alert(`✅ 已將【${char.name}】指派為第 ${slotIndex + 1} 號位出場！`);
   }
 
   closeModal() {
@@ -675,21 +675,20 @@ class App3D {
         <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid #38bdf8; border-radius: 12px; padding: 16px; margin-bottom: 20px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
             <div>
-              <h3 style="font-size: 16px; font-weight: 900; color: #38bdf8;">⚔️ 當前出賽隊伍 (${this.p1Team.length} 隻參賽英雄)</h3>
-              <p style="font-size: 12px; color: #94a3b8;">在下方角色卡片點擊「設為先鋒 / 入隊」即可替換順序！</p>
+              <h3 style="font-size: 16px; font-weight: 900; color: #38bdf8;">⚔️ 當前出賽陣容 (${this.p1Team.length} 隻參賽英雄)</h3>
+              <p style="font-size: 12px; color: #94a3b8;">點擊下方角色卡片上的號位按鈕 [ 1 ]、[ 2 ]、[ 3 ] 即可自由指派出場順序！(1 代表首發，已選過則不顯示亮色)</p>
             </div>
             <button class="btn-primary" style="font-size: 15px; padding: 10px 22px;" onclick="window.app.startSelectedBattle('kof')">
-              👉 前往 3D 戰鬥 [Enter]
+              <i class="fa-solid fa-play"></i> ⚔️ 開始遊戲 [前往 3D 戰鬥]
             </button>
           </div>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
             ${this.p1Team.map((id, idx) => {
-              const char = window.CHARACTERS_DATA.find(c => c.id === id);
+              const char = window.CHARACTERS_DATA.find(c => c.id === id) || window.CHARACTERS_DATA[0];
               const lvl = window.saveSystem.user.characterLevels[id] || 1;
-              const slotLabels = ["先鋒", "次鋒", "中堅", "副將", "大將"];
               return `
                 <div style="background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 12px; min-width: 130px;">
-                  <div style="font-size: 11px; font-weight: 800; color: #facc15;">${slotLabels[idx]}</div>
+                  <div style="font-size: 11px; font-weight: 800; color: #facc15;">${idx + 1} 號位 ${idx === 0 ? '(首發)' : ''}</div>
                   <div style="font-weight: 800; color: ${char.themeColor}; font-size: 14px;">${char.name}</div>
                   <div style="font-size: 11px; color: #94a3b8;">Lv.${lvl} / 100 ${char.canFly ? '✈️ 具備飛行' : ''}</div>
                 </div>
@@ -706,8 +705,39 @@ class App3D {
       const isUnlocked = window.saveSystem.user.unlockedCharacters.includes(c.id);
       const lvl = window.saveSystem.user.characterLevels[c.id] || 1;
       const rarity = window.RARITY_TIERS[c.rarity];
-      const isInTeam = this.p1Team.includes(c.id);
-      const teamSlotIdx = this.p1Team.indexOf(c.id);
+
+      // ─── 自由選人按鈕：1, 2, 3 號位 ───
+      const slotButtons = [];
+      if (isUnlocked) {
+        for (let s = 0; s < this.teamSize; s++) {
+          const slotNum = s + 1;
+          const isThisCharInThisSlot = (this.p1Team[s] === c.id);
+          const isSlotTakenBySomeoneElse = (this.p1Team[s] && this.p1Team[s] !== c.id);
+
+          if (isThisCharInThisSlot) {
+            // 已選中該號位
+            slotButtons.push(`
+              <button class="slot-num-btn active-slot" onclick="window.app.setHeroToTeamSlot('${c.id}', ${s})" title="已指派為第 ${slotNum} 號位出場">
+                ✅ ${slotNum}
+              </button>
+            `);
+          } else if (isSlotTakenBySomeoneElse) {
+            // 該號位已被其他英雄選走：不顯示高亮亮色，維持暗色
+            slotButtons.push(`
+              <button class="slot-num-btn taken-slot" onclick="window.app.setHeroToTeamSlot('${c.id}', ${s})" title="第 ${slotNum} 號位已選，點擊可替換">
+                ${slotNum}
+              </button>
+            `);
+          } else {
+            // 號位空缺，可點擊選入
+            slotButtons.push(`
+              <button class="slot-num-btn available-slot" onclick="window.app.setHeroToTeamSlot('${c.id}', ${s})" title="指派為第 ${slotNum} 號位出場">
+                +${slotNum}
+              </button>
+            `);
+          }
+        }
+      }
 
       return `
         <div class="character-card ${isUnlocked ? '' : 'locked'}" style="border-top: 3px solid ${rarity.color}">
@@ -722,15 +752,16 @@ class App3D {
             <span style="color: ${c.themeColor}">ATK ${Math.round(c.baseAtk * (1 + (lvl - 1) * 0.02))}</span>
           </div>
 
-          <div style="margin-top: 10px; display: flex; gap: 6px;">
-            <button class="btn-secondary" style="flex: 1; font-size: 11px; padding: 5px;" onclick="window.app.openCharacterDetail('${c.id}')">
-              🔍 詳情/升級
-            </button>
+          <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 6px;">
             ${isUnlocked ? `
-              <button class="btn-primary" style="flex: 1; font-size: 11px; padding: 5px; background: ${isInTeam ? 'linear-gradient(135deg, #10b981, #059669)' : ''}" onclick="window.app.setHeroToTeamSlot('${c.id}', 0)">
-                ${isInTeam ? `✅ 先鋒(第${teamSlotIdx+1}位)` : '⚔️ 設為先鋒'}
-              </button>
+              <div style="display: flex; gap: 4px; align-items: center;">
+                <span style="font-size: 11px; color: #94a3b8; font-weight: 700; margin-right: 2px;">出場:</span>
+                ${slotButtons.join("")}
+              </div>
             ` : ''}
+            <button class="btn-secondary" style="font-size: 11px; padding: 5px; width: 100%; justify-content: center;" onclick="window.app.openCharacterDetail('${c.id}')">
+              🔍 詳情 / 升級
+            </button>
           </div>
         </div>
       `;
@@ -746,7 +777,7 @@ class App3D {
 
     const isUnlocked = window.saveSystem.user.unlockedCharacters.includes(char.id);
     const lvl = window.saveSystem.user.characterLevels[char.id] || 1;
-    const upgradeCost = Math.round(100 * Math.pow(lvl, 1.35));
+    const upgradeCost = Math.round(200 * Math.pow(lvl, 1.4));
     const rarity = window.RARITY_TIERS[char.rarity];
     const cfg = char.attackConfig;
 
@@ -785,7 +816,7 @@ class App3D {
       <div style="display: flex; gap: 12px; justify-content: flex-end;">
         ${isUnlocked ? `
           <button class="btn-primary" onclick="window.app.upgradeCurrentHero('${char.id}')">
-            🔼 升級角色 (消耗 ${upgradeCost} 金幣)
+            🔼 升級角色 (消耗 ${upgradeCost.toLocaleString()} 金幣)
           </button>
         ` : `
           <div style="color: #ef4444; font-weight: 700;">解鎖條件：${char.unlockCondition}</div>
@@ -816,7 +847,7 @@ class App3D {
 
     const unlocked = window.saveSystem.user.unlockedCharacters;
     select.innerHTML = unlocked.map(id => {
-      const c = window.CHARACTERS_DATA.find(x => x.id === id);
+      const c = window.CHARACTERS_DATA.find(x => x.id === id) || window.CHARACTERS_DATA[0];
       return `<option value="${id}">${c.name} (${c.seriesName})</option>`;
     }).join("");
 
@@ -909,7 +940,7 @@ class App3D {
           <div style="margin-top: 12px;">
             ${isOwned ? `<div style="color: #4ade80; font-weight: 800; font-size: 12px;">✅ 已招募</div>` : `
               <button class="btn-primary" style="width: 100%; font-size: 12px; padding: 6px 10px;" onclick="window.app.buyHero('${c.id}', ${c.cost})">
-                💰 招募 (${c.cost} 金幣)
+                💰 招募 (${c.cost.toLocaleString()} 金幣)
               </button>
             `}
           </div>
@@ -957,7 +988,7 @@ class App3D {
       this.autoSync("招募英雄");
       alert(`🎉 恭喜招募成功！`);
     } else {
-      alert(`金幣不足！`);
+      alert(`金幣不足！招募需要 ${cost.toLocaleString()} 金幣`);
     }
   }
 
