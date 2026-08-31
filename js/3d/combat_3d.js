@@ -504,17 +504,22 @@ class MatchEngine3D {
     this.scene = scene;
   }
 
-  startMatch(p1RosterData, p2RosterData, mode = "kof", isRanked = false, bossFloor = 0) {
+  startMatch(p1RosterData, p2RosterData, mode = "kof", isRanked = false, bossFloor = 0, difficulty = "medium") {
     if (this.p1Current) this.p1Current.destroy();
     if (this.p2Current) this.p2Current.destroy();
 
     this.mode = mode;
     this.isRanked = isRanked;
     this.currentBossFloor = bossFloor;
+    this.difficulty = difficulty;
     this.p1Index = 0;
     this.p2Index = 0;
     this.team1Roster = p1RosterData;
     this.team2Roster = p2RosterData;
+
+    if (window.fighterAI3D) {
+      window.fighterAI3D.setDifficulty(difficulty);
+    }
 
     this.spawnFighters();
     this.assistCooldown = 0;
@@ -698,7 +703,34 @@ class MatchEngine3D {
     const isSweep = this.p1Index === 0 && this.team2Roster.length >= 3;
     const isSweep1v5 = isPlayerWinner && this.p1Index === 0 && this.team2Roster.length >= 5;
 
-    let rewardGold = isPlayerWinner ? (this.mode === "boss_rush" ? 1500 : 800) : 200;
+    let baseGold = 800;
+    let trophiesDelta = 35;
+    let crystalReward = 0;
+
+    if (this.mode === "boss_rush") {
+      baseGold = 1500;
+      trophiesDelta = 50;
+      crystalReward = isPlayerWinner ? 1 : 0;
+    } else if (this.mode === "ranked" || this.mode === "p2p") {
+      baseGold = isPlayerWinner ? 1200 : 300;
+      trophiesDelta = isPlayerWinner ? 30 : -15;
+    } else {
+      // 自由 AI 對決：簡單 / 中等 / 困難
+      if (this.difficulty === "easy") {
+        baseGold = isPlayerWinner ? 400 : 100;
+        trophiesDelta = isPlayerWinner ? 15 : -8;
+      } else if (this.difficulty === "hard") {
+        baseGold = isPlayerWinner ? 1800 : 400;
+        trophiesDelta = isPlayerWinner ? 75 : -25;
+        if (isPlayerWinner && Math.random() < 0.6) crystalReward = 1;
+      } else {
+        // "medium"
+        baseGold = isPlayerWinner ? 800 : 200;
+        trophiesDelta = isPlayerWinner ? 35 : -15;
+      }
+    }
+
+    let rewardGold = baseGold;
     if (isSweep) rewardGold *= 2;
 
     if (this.onMatchEnd) {
@@ -708,7 +740,10 @@ class MatchEngine3D {
         isSweep1v5,
         bossFloor: this.currentBossFloor,
         mode: this.mode,
+        difficulty: this.difficulty,
         gold: rewardGold,
+        trophiesDelta: isPlayerWinner ? trophiesDelta : (this.mode === "ranked" ? -15 : (this.difficulty === "hard" ? -25 : -10)),
+        crystalReward,
         p1DefeatedCount: this.p2Index,
         p2DefeatedCount: this.p1Index
       });

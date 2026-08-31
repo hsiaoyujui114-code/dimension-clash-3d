@@ -175,6 +175,19 @@
           </div>
         </div>
 
+        <!-- 🤖 AI 難度選擇器 (自由對決模式可調，其他模式鎖定) -->
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 10px; padding: 12px 16px; margin: 16px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <span style="font-size: 13px; font-weight: 800; color: #facc15;"><i class="fa-solid fa-robot"></i> AI 對手難度設定：</span>
+            <span style="font-size: 11px; color: #cbd5e1;" id="difficultyRewardHint">當前 [中等]：標準反應 ｜ 勝場 +800 金幣 / +35 獎盃</span>
+          </div>
+          <div style="display: flex; gap: 6px;">
+            <button class="btn-secondary diff-btn" data-diff="easy">🟢 簡單 (Easy)</button>
+            <button class="btn-secondary diff-btn active" data-diff="medium">🟡 中等 (Normal)</button>
+            <button class="btn-secondary diff-btn" data-diff="hard">🔴 困難 (Hard / 結晶掉落)</button>
+          </div>
+        </div>
+
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
           <!-- P1 Team -->
           <div>

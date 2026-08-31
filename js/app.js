@@ -1,6 +1,6 @@
 /**
  * 跨次元大亂鬥 3D (Dimension Clash Online 3D) - 主應用協調器
- * (Dynamic Action Configurations, Flight Controller, Strict Genesis Unlocks, User Avatar, 1v1~5v5, Victory/Defeat Settlement & P2P Multiplayer)
+ * (Dynamic Action Configurations, Flight Controller, Strict Genesis Unlocks, User Avatar, 1v1~5v5, Victory/Defeat Settlement, AI Difficulty Tiers & P2P Multiplayer)
  */
 
 class App3D {
@@ -10,6 +10,7 @@ class App3D {
     this.activeTab = "roster";
 
     this.teamSize = 3;
+    this.aiDifficulty = "medium"; // "easy", "medium", "hard"
     this.p1Team = window.saveSystem.user.selectedTeam || ["goku_kid", "cap_america", "gm_rgm79"];
     this.p2Team = ["spiderman_classic", "krillin", "rx78_2"];
     this.pickingSlotIndex = 0;
@@ -263,6 +264,29 @@ class App3D {
         this.renderTeamSelectors();
         this.renderRosterView();
         this.autoSync(`變更為 ${this.teamSize}v${this.teamSize} 賽制`);
+      });
+    });
+
+    // 🤖 AI 難度分級選擇切換 (簡單 / 中等 / 困難)
+    document.querySelectorAll(".diff-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".diff-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        this.aiDifficulty = btn.dataset.diff;
+        const hint = document.getElementById("difficultyRewardHint");
+        if (hint) {
+          if (this.aiDifficulty === "easy") {
+            hint.innerHTML = `<b style="color:#22c55e;">[簡單]</b>：AI 攻擊頻率較低、反應較慢 ｜ 勝場 +400 金幣 / +15 獎盃`;
+          } else if (this.aiDifficulty === "hard") {
+            hint.innerHTML = `<b style="color:#ef4444;">[困難]</b>：AI 幀級極速反擊、空中制空、主動破防 ｜ 勝場 +1,800 金幣 / +75 獎盃 / 掉落感應結晶！`;
+          } else {
+            hint.innerHTML = `<b style="color:#eab308;">[中等]</b>：AI 標準反應與戰術連招 ｜ 勝場 +800 金幣 / +35 獎盃`;
+          }
+        }
+        if (window.fighterAI3D) {
+          window.fighterAI3D.setDifficulty(this.aiDifficulty);
+        }
+        this.autoSync(`調整 AI 難度為 ${this.aiDifficulty}`);
       });
     });
 
@@ -553,7 +577,10 @@ class App3D {
       });
     });
 
-    window.matchEngine3D.startMatch(p1RosterData, p2RosterData, mode, isRanked, bossFloor);
+    // 只有在自由 PVE 對決時允許使用自訂難度，其他天梯/魔王塔模式難度鎖定
+    const appliedDifficulty = mode === "kof" ? this.aiDifficulty : "medium";
+
+    window.matchEngine3D.startMatch(p1RosterData, p2RosterData, mode, isRanked, bossFloor, appliedDifficulty);
 
     if (this.cameraController && window.matchEngine3D.p1Current) {
       this.cameraController.target = window.matchEngine3D.p1Current.model.group;
@@ -578,6 +605,10 @@ class App3D {
     const isBossRush = result.mode === "boss_rush";
 
     window.saveSystem.addGold(result.gold);
+    if (result.crystalReward > 0) {
+      window.saveSystem.addPsychoCrystals(result.crystalReward);
+    }
+
     window.saveSystem.recordMatchResult(
       isWin,
       3500,
@@ -602,6 +633,8 @@ class App3D {
 
     const sweepNotice = result.isSweep1v5 ? `<div style="color: #facc15; font-weight: 900; font-size: 14px; margin-top: 6px;">👑【神級成就達成】首發先鋒 1 穿 5 完封大滿貫！</div>` : (result.isSweep ? `<div style="color: #38bdf8; font-weight: 800; font-size: 13px; margin-top: 6px;">🔥【一挑多連勝】獲得雙倍金幣獎勵！</div>` : '');
 
+    const diffLabel = result.difficulty === "easy" ? "🟢 簡單 (Easy)" : (result.difficulty === "hard" ? "🔴 困難 (Hard)" : "🟡 中等 (Normal)");
+
     container.innerHTML = `
       <div style="font-size: 52px; margin-bottom: 8px;">
         ${isWin ? '🏆' : '💀'}
@@ -616,13 +649,23 @@ class App3D {
 
       <div class="settlement-stat-box">
         <div style="display: flex; justify-content: space-between;">
+          <span style="color: #94a3b8;">🎮 對戰賽制與難度：</span>
+          <b style="color: #38bdf8;">${result.mode === 'boss_rush' ? `魔王塔第 ${result.bossFloor} 層` : (result.mode === 'ranked' ? '天梯標準公平排位' : diffLabel)}</b>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
           <span style="color: #94a3b8;">💰 結算金幣獎勵：</span>
           <b style="color: #facc15; font-size: 15px;">+${result.gold.toLocaleString()} 金幣</b>
         </div>
         <div style="display: flex; justify-content: space-between;">
           <span style="color: #94a3b8;">🏆 天梯積分結算：</span>
-          <b style="color: ${isWin ? '#34d399' : '#f87171'}; font-size: 15px;">${isWin ? '+35 獎盃' : '-15 獎盃'}</b>
+          <b style="color: ${result.trophiesDelta > 0 ? '#34d399' : '#f87171'}; font-size: 15px;">${result.trophiesDelta > 0 ? `+${result.trophiesDelta}` : result.trophiesDelta} 獎盃</b>
         </div>
+        ${result.crystalReward > 0 ? `
+          <div style="display: flex; justify-content: space-between; border-top: 1px dashed rgba(255,255,255,0.2); padding-top: 6px;">
+            <span style="color: #f472b6;">💎 稀有掉落物：</span>
+            <b style="color: #f472b6;">+${result.crystalReward} 顆感應骨架結晶！</b>
+          </div>
+        ` : ''}
         <div style="display: flex; justify-content: space-between;">
           <span style="color: #94a3b8;">⚔️ 擊敗敵方角色數：</span>
           <b style="color: #f8fafc;">${result.p1DefeatedCount !== undefined ? result.p1DefeatedCount + (isWin ? 1 : 0) : 1} 位</b>
@@ -648,7 +691,7 @@ class App3D {
     this.switchTab("roster");
     this.renderAllViews();
     this.updateUserStatusBar();
-    this.autoSync("重新開始回到初始角色頁");
+    this.autoSync("戰鬥結束重置回到首頁");
   }
 
   // ─── 🌐 跨裝置 P2P 房間建立與加入 ───
@@ -1134,7 +1177,7 @@ class App3D {
     list.innerHTML = window.BOSS_RUSH_FLOORS.map(f => `
       <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
         <div>
-          <div style="font-weight: 800; font-size: 15px; color: #38bdf8;">${f.name} (Lv.${f.level})</div>
+          <div style="font-weight: 800; font-size: 15px; color: #38bdf8;">${f.name} (Lv.${f.level}) 🔒 固定挑戰難度</div>
           <div style="font-size: 12px; color: #cbd5e1; margin-top: 2px;">${f.affix}</div>
           <div style="font-size: 11px; color: #facc15; margin-top: 2px;">💰 通關獎勵：${f.rewardGold} 金幣 ｜ 💎 掉落感應骨架結晶</div>
         </div>

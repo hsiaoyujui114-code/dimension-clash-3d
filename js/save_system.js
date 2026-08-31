@@ -91,6 +91,11 @@ class SaveSystem {
     this.save();
   }
 
+  addPsychoCrystals(amount = 1) {
+    this.user.psychoCrystals = (this.user.psychoCrystals || 0) + amount;
+    this.save();
+  }
+
   logout() {
     this.user.isLoggedIn = false;
     this.save();
