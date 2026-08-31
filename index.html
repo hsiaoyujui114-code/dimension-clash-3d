@@ -14,8 +14,9 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <!-- Three.js 3D WebGL Library -->
+  <!-- Three.js 3D WebGL Library (with CDN fallback) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>if (typeof THREE === 'undefined') { document.write('<script src="https://unpkg.com/three@0.128.0/build/three.min.js"><\/script>'); }</script>
 
   <!-- PeerJS for WebRTC P2P Room Matchmaking -->
   <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>

@@ -26,14 +26,19 @@ class Arena3DScene {
     this.scene.background = new THREE.Color(0x07090e);
     this.scene.fog = new THREE.FogExp2(0x07090e, 0.012);
 
-    // 2. Create Camera
-    const aspect = this.container.clientWidth / this.container.clientHeight;
+    // 2. Calculate Viewport Dimensions (Safe Fallback to avoid 0x0 NaN aspect)
+    const width = this.container.clientWidth || (this.container.parentElement ? this.container.parentElement.clientWidth : 0) || window.innerWidth || 900;
+    const height = this.container.clientHeight || 580;
+    const aspect = Math.max(0.1, width / height);
+
+    // 3. Create Camera
     this.camera = new THREE.PerspectiveCamera(65, aspect, 0.1, 1000);
     this.camera.position.set(0, 15, 25);
 
-    // 3. Create WebGL Renderer with Anti-aliasing & Shadows
+    // 4. Create WebGL Renderer with Anti-aliasing & Shadows
     this.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
-    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+    this.renderer.setClearColor(0x07090e, 1);
+    this.renderer.setSize(width, height);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -43,24 +48,24 @@ class Arena3DScene {
     this.container.appendChild(this.renderer.domElement);
     this.renderer.domElement.id = "battleCanvas3D";
 
-    // 4. Setup Lighting
+    // 5. Setup Lighting
     this.setupLighting();
 
-    // 5. Build 3D Arena & Environment
+    // 6. Build 3D Arena & Environment
     this.buildArena();
 
-    // 6. Resize listener
+    // 7. Resize listener
     window.addEventListener("resize", () => this.onWindowResize());
   }
 
   setupLighting() {
     // Ambient light
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
     this.scene.add(ambientLight);
     this.lights.ambient = ambientLight;
 
     // Main Directional Sun Light with Shadows
-    const sunLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    const sunLight = new THREE.DirectionalLight(0xffffff, 1.4);
     sunLight.position.set(25, 45, 25);
     sunLight.castShadow = true;
     sunLight.shadow.mapSize.width = 2048;
@@ -75,15 +80,15 @@ class Arena3DScene {
     this.lights.sun = sunLight;
 
     // Cyberpunk Colored Rim Spotlights
-    const cyanLight = new THREE.PointLight(0x38bdf8, 2.5, 60);
+    const cyanLight = new THREE.PointLight(0x38bdf8, 3.0, 70);
     cyanLight.position.set(-30, 10, -20);
     this.scene.add(cyanLight);
 
-    const magentaLight = new THREE.PointLight(0xec4899, 2.5, 60);
+    const magentaLight = new THREE.PointLight(0xec4899, 3.0, 70);
     magentaLight.position.set(30, 10, 20);
     this.scene.add(magentaLight);
 
-    const goldLight = new THREE.PointLight(0xfacc15, 1.8, 50);
+    const goldLight = new THREE.PointLight(0xfacc15, 2.2, 60);
     goldLight.position.set(0, 20, 0);
     this.scene.add(goldLight);
   }
@@ -159,11 +164,14 @@ class Arena3DScene {
 
   onWindowResize() {
     if (!this.container || !this.renderer || !this.camera) return;
-    const width = this.container.clientWidth;
-    const height = this.container.clientHeight;
-    this.camera.aspect = width / height;
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(width, height);
+    const width = this.container.clientWidth || (this.container.parentElement ? this.container.parentElement.clientWidth : 0) || window.innerWidth || 900;
+    const height = this.container.clientHeight || 580;
+
+    if (width > 50 && height > 50) {
+      this.camera.aspect = width / height;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(width, height);
+    }
   }
 
   render() {

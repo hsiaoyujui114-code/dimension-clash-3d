@@ -41,6 +41,9 @@ class App3D {
     this.renderAllViews();
     this.updateUserStatusBar();
 
+    // 預先加載並準備好 3D 戰鬥對局 (防止進入戰鬥大廳時為空白)
+    this.startSelectedBattle("kof");
+
     if (!window.saveSystem.user.isLoggedIn) {
       this.openGoogleLoginModal();
     } else {
@@ -82,6 +85,17 @@ class App3D {
       sec.classList.toggle("active", sec.id === `view_${tabId}`);
     });
 
+    if (tabId === "battle") {
+      if (!window.matchEngine3D.p1Current || window.matchEngine3D.matchState === "standby") {
+        this.startSelectedBattle("kof");
+      }
+      setTimeout(() => {
+        if (this.sceneManager) {
+          this.sceneManager.onWindowResize();
+        }
+      }, 50);
+    }
+
     if (tabId === "roster") this.renderRosterView();
     if (tabId === "workshop") this.renderWorkshopView();
     if (tabId === "shop") this.renderShopView();
@@ -92,6 +106,11 @@ class App3D {
     document.querySelectorAll(".tab-btn").forEach(btn => {
       btn.addEventListener("click", () => this.switchTab(btn.dataset.tab));
     });
+
+    const startBattleBtn = document.getElementById("startBattleBtn");
+    if (startBattleBtn) {
+      startBattleBtn.addEventListener("click", () => this.startSelectedBattle("kof"));
+    }
 
     const dailyRewardBtn = document.getElementById("dailyRewardBtn");
     if (dailyRewardBtn) {
@@ -146,7 +165,6 @@ class App3D {
     });
   }
 
-  // ─── 每個角色的專屬戰鬥按鍵與招式名稱即時更新 (調整 3) ───
   updateActionButtonsForFighter(charData) {
     if (!charData || !charData.attackConfig) return;
     const cfg = charData.attackConfig;
@@ -166,7 +184,6 @@ class App3D {
     setBtn("touchBtnSkill2", `${cfg.skill2.name.slice(0, 4)}[I]`);
     setBtn("touchBtnUlt", `${cfg.ult.name.slice(0, 4)}[L]`);
 
-    // 飛行按鈕顯隱控制 (調整 1)
     const flightBtn = document.getElementById("touchBtnFlight");
     if (flightBtn) {
       if (charData.canFly) {
@@ -178,7 +195,6 @@ class App3D {
     }
   }
 
-  // ─── 🎁 每日簽到獎勵彈窗 ───
   openDailyRewardModal() {
     const modal = document.getElementById("dailyRewardModal");
     const container = document.getElementById("dailyRewardContent");
@@ -260,7 +276,7 @@ class App3D {
       if (!p1 || window.matchEngine3D.matchState !== "fighting") return;
       const p2 = window.matchEngine3D.p2Current;
 
-      // [F]: 飛行起飛 / 舞空術懸浮切換 (調整 1)
+      // [F]: 飛行起飛 / 舞空術懸浮切換
       if (e.key.toLowerCase() === "f") {
         p1.toggleFlight();
       }
@@ -444,6 +460,11 @@ class App3D {
     };
 
     this.switchTab("battle");
+    setTimeout(() => {
+      if (this.sceneManager) {
+        this.sceneManager.onWindowResize();
+      }
+    }, 50);
   }
 
   handleMatchResult(result) {
@@ -770,7 +791,6 @@ class App3D {
     this.renderWorkshopSlots();
   }
 
-  // ─── 🛒 招募商店與嚴格創世成就解鎖驗證 (調整 2) ───
   renderShopView() {
     const grid = document.getElementById("shopHeroGrid");
     const genesisList = document.getElementById("genesisChallengesList");
