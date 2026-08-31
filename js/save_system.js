@@ -77,10 +77,17 @@ class SaveSystem {
     }
   }
 
-  loginWithGoogle(email = "player@gmail.com", nickname = "超次元戰神") {
+  loginWithGoogle(email = "player@gmail.com", nickname = "超次元戰神", avatar = "https://api.dicebear.com/7.x/bottts/svg?seed=DimensionGamer") {
     this.user.isLoggedIn = true;
     this.user.email = email;
     this.user.nickname = nickname;
+    this.user.avatar = avatar || "https://api.dicebear.com/7.x/bottts/svg?seed=" + encodeURIComponent(nickname);
+    this.user.lastSyncedAt = new Date().toISOString();
+    this.save();
+  }
+
+  setAvatar(avatarUrl) {
+    this.user.avatar = avatarUrl;
     this.save();
   }
 

@@ -49,14 +49,19 @@
         <span id="userTrophyDisplay">1,000</span>
       </div>
       <button class="btn-header" id="cameraViewBtn" style="background: linear-gradient(135deg, #0284c7, #06b6d4);">
-        <i class="fa-solid fa-video"></i> 🎥 第三人稱 (3rd Person)
+        <i class="fa-solid fa-video"></i> 🎥 視角切換
       </button>
-      <button class="btn-header" id="googleLoginBtn">
-        <i class="fa-brands fa-google"></i>
-        <span id="userNicknameDisplay">Google 帳號</span>
+      <!-- 🔄 立即手動更新按鈕 -->
+      <button class="btn-header" id="manualSyncBtn" style="background: linear-gradient(135deg, #10b981, #059669);" title="手動立即更新並同步遊戲存檔與畫面">
+        <i class="fa-solid fa-rotate" id="syncSpinIcon"></i> <span>立即更新</span>
       </button>
+      <!-- 👤 登入頭像徽章 -->
+      <div class="user-avatar-badge" id="userAvatarBadge" title="點擊查看玩家個人檔案與切換頭像">
+        <img id="userAvatarImg" src="https://api.dicebear.com/7.x/bottts/svg?seed=DimensionGamer" alt="Avatar" class="user-avatar-img">
+        <span id="userNicknameDisplay" class="user-nickname-text">Google 帳號</span>
+      </div>
       <button class="btn-secondary" id="muteToggleBtn" style="padding: 6px 12px; font-size: 13px;">
-        <i class="fa-solid fa-volume-high"></i> 音效
+        <i class="fa-solid fa-volume-high"></i>
       </button>
     </div>
   </header>
@@ -355,6 +360,14 @@
       <button class="modal-close-btn">&times;</button>
       <h3 style="font-size: 18px; font-weight: 900; margin-bottom: 14px; color: #facc15;">選擇安裝模組配件</h3>
       <div id="gearPickerList" style="max-height: 60vh; overflow-y: auto;"></div>
+    </div>
+  </div>
+
+  <!-- ── 模態彈窗：玩家個人檔案與頭像管理 ── -->
+  <div id="userProfileModal" class="modal-backdrop">
+    <div class="modal-content" style="max-width: 480px;">
+      <button class="modal-close-btn">&times;</button>
+      <div id="userProfileContent"></div>
     </div>
   </div>
 

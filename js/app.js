@@ -1,6 +1,6 @@
 /**
  * 跨次元大亂鬥 3D (Dimension Clash Online 3D) - 主應用協調器
- * (Dynamic Action Configurations, Flight Controller, Strict Genesis Unlocks & Daily Rewards)
+ * (Dynamic Action Configurations, Flight Controller, Strict Genesis Unlocks, User Avatar & Auto/Manual Sync)
  */
 
 class App3D {
@@ -41,7 +41,7 @@ class App3D {
     this.renderAllViews();
     this.updateUserStatusBar();
 
-    // 預先加載並準備好 3D 戰鬥對局 (防止進入戰鬥大廳時為空白)
+    // 預先加載並準備好 3D 戰鬥對局
     this.startSelectedBattle("kof");
 
     if (!window.saveSystem.user.isLoggedIn) {
@@ -50,17 +50,116 @@ class App3D {
       this.switchTab("roster");
     }
 
+    // ── 每 5 分鐘自動同步與存檔 (Auto-Sync every 5 minutes) ──
+    setInterval(() => {
+      this.autoSync("5 分鐘定時自動同步");
+    }, 5 * 60 * 1000);
+
     requestAnimationFrame((t) => this.gameLoop(t));
   }
 
+  // ─── 更新頂部狀態列 (含頭像與暱稱) ───
   updateUserStatusBar() {
     const goldElem = document.getElementById("userGoldDisplay");
     const trophyElem = document.getElementById("userTrophyDisplay");
     const nameElem = document.getElementById("userNicknameDisplay");
+    const avatarImg = document.getElementById("userAvatarImg");
 
     if (goldElem) goldElem.textContent = window.saveSystem.user.gold.toLocaleString();
     if (trophyElem) trophyElem.textContent = window.saveSystem.user.trophies.toLocaleString();
     if (nameElem) nameElem.textContent = window.saveSystem.user.nickname;
+    if (avatarImg) {
+      avatarImg.src = window.saveSystem.user.avatar || ("https://api.dicebear.com/7.x/bottts/svg?seed=" + encodeURIComponent(window.saveSystem.user.nickname));
+    }
+  }
+
+  // ─── 🔄 手動立即更新 (Manual Instant Sync) ───
+  manualSync() {
+    const spinIcon = document.getElementById("syncSpinIcon");
+    if (spinIcon) spinIcon.classList.add("spinning");
+
+    window.saveSystem.save();
+    this.updateUserStatusBar();
+    this.renderAllViews();
+
+    if (this.sceneManager) {
+      this.sceneManager.onWindowResize();
+    }
+
+    setTimeout(() => {
+      if (spinIcon) spinIcon.classList.remove("spinning");
+      alert("✅ 遊戲資料已成功立即手動同步並更新！");
+    }, 600);
+  }
+
+  // ─── 🔄 事件完成與定時自動同步 (Auto Sync) ───
+  autoSync(source = "事件自動同步") {
+    window.saveSystem.save();
+    this.updateUserStatusBar();
+    console.log(`[AutoSync] ${source} 完成: ${new Date().toLocaleTimeString()}`);
+  }
+
+  // ─── 👤 玩家個人檔案與頭像選擇彈窗 ───
+  openProfileModal() {
+    const modal = document.getElementById("userProfileModal");
+    const container = document.getElementById("userProfileContent");
+    if (!modal || !container) return;
+
+    const u = window.saveSystem.user;
+    const avatarOptions = [
+      { id: "robot", name: "次元機體", url: "https://api.dicebear.com/7.x/bottts/svg?seed=GundamMecha" },
+      { id: "saiyan", name: "超級賽亞人", url: "https://api.dicebear.com/7.x/adventurer/svg?seed=SaiyanGoku" },
+      { id: "hero", name: "漫威英雄", url: "https://api.dicebear.com/7.x/adventurer/svg?seed=IronHero" },
+      { id: "titan", name: "宇宙泰坦", url: "https://api.dicebear.com/7.x/bottts/svg?seed=ThanosTitan" },
+      { id: "warrior", name: "神話戰士", url: "https://api.dicebear.com/7.x/adventurer/svg?seed=DimensionClash" }
+    ];
+
+    container.innerHTML = `
+      <div style="text-align: center; margin-bottom: 16px;">
+        <img src="${u.avatar || avatarOptions[0].url}" style="width: 72px; height: 72px; border-radius: 50%; border: 3px solid #38bdf8; background: #0f172a; margin-bottom: 8px;">
+        <h2 style="font-size: 20px; font-weight: 900; color: #f8fafc;">${u.nickname}</h2>
+        <div style="font-size: 12px; color: #94a3b8;">${u.email} ｜ UID: ${u.uid}</div>
+      </div>
+
+      <h4 style="font-size: 13px; font-weight: 800; color: #38bdf8; margin-bottom: 8px;">選擇個人頭像：</h4>
+      <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 16px;">
+        ${avatarOptions.map(av => `
+          <div style="border: 2px solid ${u.avatar === av.url ? '#38bdf8' : 'rgba(255,255,255,0.1)'}; border-radius: 10px; padding: 4px; text-align: center; cursor: pointer; background: rgba(30,41,59,0.7);" onclick="window.app.changeUserAvatar('${av.url}')">
+            <img src="${av.url}" style="width: 40px; height: 40px; border-radius: 50%;">
+            <div style="font-size: 10px; color: #cbd5e1; margin-top: 2px;">${av.name}</div>
+          </div>
+        `).join("")}
+      </div>
+
+      <div style="background: rgba(30, 41, 59, 0.7); border-radius: 10px; padding: 12px; margin-bottom: 16px; font-size: 12px; line-height: 1.8;">
+        <div>🏆 天梯排位：<b>${u.trophies} 獎盃</b> (勝 ${u.pvpWins} / 敗 ${u.pvpLosses})</div>
+        <div>💰 總金幣：<b>${u.gold.toLocaleString()}</b> ｜ 🗼 魔王塔通關：<b>第 ${u.bossRushMaxFloor} 層</b></div>
+        <div>💎 感應骨架結晶：<b>${u.psychoCrystals} 顆</b> ｜ ⚔️ 總傷害：<b>${u.totalDamage.toLocaleString()} 點</b></div>
+      </div>
+
+      <div style="display: flex; gap: 8px;">
+        <button class="btn-primary" style="flex: 1; justify-content: center; font-size: 13px; padding: 10px;" onclick="window.app.manualSync()">
+          <i class="fa-solid fa-rotate"></i> 立即手動同步
+        </button>
+        <button class="btn-secondary" style="font-size: 13px; padding: 10px 14px;" onclick="window.app.logoutUser()">
+          <i class="fa-solid fa-right-from-bracket"></i> 登出
+        </button>
+      </div>
+    `;
+
+    modal.classList.add("active");
+  }
+
+  changeUserAvatar(avatarUrl) {
+    window.saveSystem.setAvatar(avatarUrl);
+    this.updateUserStatusBar();
+    this.openProfileModal();
+  }
+
+  logoutUser() {
+    window.saveSystem.logout();
+    this.closeModal();
+    this.openGoogleLoginModal();
   }
 
   openGoogleLoginModal() {
@@ -69,7 +168,8 @@ class App3D {
   }
 
   performGoogleLogin(email, nickname) {
-    window.saveSystem.loginWithGoogle(email, nickname);
+    const avatar = "https://api.dicebear.com/7.x/bottts/svg?seed=" + encodeURIComponent(nickname);
+    window.saveSystem.loginWithGoogle(email, nickname, avatar);
     this.updateUserStatusBar();
     this.closeModal();
     this.switchTab("roster");
@@ -112,14 +212,21 @@ class App3D {
       startBattleBtn.addEventListener("click", () => this.startSelectedBattle("kof"));
     }
 
+    // 手動立即更新按鈕
+    const manualSyncBtn = document.getElementById("manualSyncBtn");
+    if (manualSyncBtn) {
+      manualSyncBtn.addEventListener("click", () => this.manualSync());
+    }
+
+    // 頭像徽章點擊
+    const userAvatarBadge = document.getElementById("userAvatarBadge");
+    if (userAvatarBadge) {
+      userAvatarBadge.addEventListener("click", () => this.openProfileModal());
+    }
+
     const dailyRewardBtn = document.getElementById("dailyRewardBtn");
     if (dailyRewardBtn) {
       dailyRewardBtn.addEventListener("click", () => this.openDailyRewardModal());
-    }
-
-    const googleLoginBtn = document.getElementById("googleLoginBtn");
-    if (googleLoginBtn) {
-      googleLoginBtn.addEventListener("click", () => this.openGoogleLoginModal());
     }
 
     const googleSubmitBtn = document.getElementById("confirmGoogleLoginBtn");
@@ -149,6 +256,7 @@ class App3D {
         this.adjustTeamSize();
         this.renderTeamSelectors();
         this.renderRosterView();
+        this.autoSync("變更隊伍人數");
       });
     });
 
@@ -240,6 +348,7 @@ class App3D {
       if (window.soundEngine) window.soundEngine.playLevelUp();
       this.updateUserStatusBar();
       this.openDailyRewardModal();
+      this.autoSync("領取每日獎勵");
       alert(`🎉 成功領取第 ${res.reward.day} 天獎勵：\n${res.reward.desc} (+${res.reward.gold} 金幣)！`);
     } else {
       alert(res.reason);
@@ -264,7 +373,6 @@ class App3D {
       this.keys[e.key.toLowerCase()] = true;
       this.keys[e.code] = true;
 
-      // [Enter]: 開始比賽 / 下一隻角色登場
       if (e.key === "Enter" || e.code === "Enter") {
         if (window.matchEngine3D) {
           window.matchEngine3D.confirmStartMatch();
@@ -276,12 +384,10 @@ class App3D {
       if (!p1 || window.matchEngine3D.matchState !== "fighting") return;
       const p2 = window.matchEngine3D.p2Current;
 
-      // [F]: 飛行起飛 / 舞空術懸浮切換
       if (e.key.toLowerCase() === "f") {
         p1.toggleFlight();
       }
 
-      // [V]: 3D 視角切換
       if (e.key.toLowerCase() === "v") {
         if (this.cameraController) {
           this.cameraController.cycleViewMode();
@@ -292,27 +398,22 @@ class App3D {
         }
       }
 
-      // [Space]: 3D 跳躍
       if (e.code === "Space") {
         p1.jump();
       }
 
-      // [Shift]: 3D 翻滾閃避
       if (e.key === "Shift" || e.code === "ShiftLeft") {
         p1.dodge();
       }
 
-      // [S]: 格擋
       if (e.key.toLowerCase() === "s") {
         p1.guard(true);
       }
 
-      // [J]: 普攻連擊
       if (e.key.toLowerCase() === "j") {
         p1.lightAttack(p2);
       }
 
-      // [K]: 蓄力破防重擊
       if (e.key.toLowerCase() === "k") {
         p1.startHeavyCharge();
         setTimeout(() => {
@@ -320,32 +421,26 @@ class App3D {
         }, 700);
       }
 
-      // [O]: 近身抓技
       if (e.key.toLowerCase() === "o") {
         p1.grab(p2);
       }
 
-      // [U]: 戰術小招 1
       if (e.key.toLowerCase() === "u") {
         p1.useSkill1(p2);
       }
 
-      // [I]: 戰術小招 2
       if (e.key.toLowerCase() === "i") {
         p1.useSkill2(p2);
       }
 
-      // [L]: 終極奧義大招
       if (e.key.toLowerCase() === "l") {
         p1.useUlt(p2);
       }
 
-      // [Q] / [E]: 呼叫隊友援護
       if (e.key.toLowerCase() === "q" || e.key.toLowerCase() === "e") {
         window.matchEngine3D.callAssist();
       }
 
-      // [B]: 極限爆發脫身
       if (e.key.toLowerCase() === "b") {
         p1.useBurst(p2);
       }
@@ -481,6 +576,7 @@ class App3D {
       result.isSweep1v5
     );
     this.updateUserStatusBar();
+    this.autoSync("戰鬥結算");
 
     const title = isWin ? "🏆 3D 榮耀大勝利 (VICTORY)!" : "💀 戰鬥落敗 (DEFEATED)";
     const sweepNotice = result.isSweep1v5 ? "\n🔥【1 穿 5 完封紀錄達成！】解鎖吉連成就資格！" : (result.isSweep ? "\n🔥【一挑多雙倍金幣獎勵】" : "");
@@ -550,6 +646,7 @@ class App3D {
     this.closeModal();
     this.renderTeamSelectors();
     this.renderRosterView();
+    this.autoSync("更換出場英雄");
   }
 
   setHeroToTeamSlot(charId, slotIndex = 0) {
@@ -561,6 +658,7 @@ class App3D {
     window.saveSystem.setTeam(this.p1Team);
     this.renderTeamSelectors();
     this.renderRosterView();
+    this.autoSync("設定先鋒英雄");
     alert(`✅ 已將【${window.CHARACTERS_DATA.find(c => c.id === charId).name}】設為出場陣容！`);
   }
 
@@ -705,6 +803,7 @@ class App3D {
       this.updateUserStatusBar();
       this.openCharacterDetail(charId);
       this.renderRosterView();
+      this.autoSync("升級角色等級");
     } else {
       alert(res.reason);
     }
@@ -764,6 +863,7 @@ class App3D {
   unequipGear(charId, slotNum) {
     window.saveSystem.unequipItem(charId, slotNum);
     this.renderWorkshopSlots();
+    this.autoSync("卸下裝備配件");
   }
 
   openGearEquipModal(charId, slotNum) {
@@ -789,6 +889,7 @@ class App3D {
     window.saveSystem.equipItem(charId, slotNum, gearId);
     this.closeModal();
     this.renderWorkshopSlots();
+    this.autoSync("安裝裝備配件");
   }
 
   renderShopView() {
@@ -832,7 +933,6 @@ class App3D {
           <div style="font-size: 12px; color: #cbd5e1; margin-top: 6px;"><b>目標要求：</b>${progress.desc}</div>
           <div style="font-size: 12px; color: #38bdf8; margin-top: 4px;"><b>目前真實進度：</b>${progress.progressText}</div>
 
-          <!-- 進度條 -->
           <div style="background: rgba(0,0,0,0.5); height: 8px; border-radius: 4px; overflow: hidden; margin-top: 8px;">
             <div style="background: ${isUnlocked ? '#4ade80' : '#fb7185'}; height: 100%; width: ${isUnlocked ? 100 : progress.percent}%;"></div>
           </div>
@@ -854,6 +954,7 @@ class App3D {
       this.updateUserStatusBar();
       this.renderShopView();
       this.renderRosterView();
+      this.autoSync("招募英雄");
       alert(`🎉 恭喜招募成功！`);
     } else {
       alert(`金幣不足！`);
@@ -866,6 +967,7 @@ class App3D {
       if (window.soundEngine) window.soundEngine.playVictory();
       this.renderShopView();
       this.renderRosterView();
+      this.autoSync("解鎖創世英雄");
       alert(`👑 恭喜達成極限神級成就！創世級【${charId}】已成功降臨！`);
     } else {
       alert(res.reason);

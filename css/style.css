@@ -112,7 +112,7 @@ body {
   color: white;
   border: none;
   border-radius: 8px;
-  padding: 8px 16px;
+  padding: 8px 14px;
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
@@ -125,6 +125,53 @@ body {
 .btn-header:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+}
+
+.user-avatar-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(30, 41, 59, 0.85);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  padding: 4px 12px 4px 6px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.user-avatar-badge:hover {
+  background: rgba(51, 65, 85, 0.95);
+  border-color: #38bdf8;
+  transform: translateY(-1px);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+}
+
+.user-avatar-img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #0f172a;
+  border: 1.5px solid #38bdf8;
+  object-fit: cover;
+}
+
+.user-nickname-text {
+  font-size: 13px;
+  font-weight: 800;
+  color: #f8fafc;
+  max-width: 110px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.spinning {
+  animation: spinRotate 0.8s linear infinite;
+}
+
+@keyframes spinRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* 主分頁切換導航 */
