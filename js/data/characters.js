@@ -1,6 +1,6 @@
 /**
- * 跨次元大亂鬥 (Dimension Clash Online)
- * 角色資料庫 (Characters Database) - 45+ 位跨次元完整陣容
+ * 跨次元大亂鬥 (Dimension Clash Online 3D)
+ * 角色資料庫 (Characters Database) - 100 位跨次元頂級全明星陣容 (七龍珠 / 漫威 / 鋼彈 / 熱血動漫 / 3D 經典遊戲傳奇)
  */
 
 const RARITY_TIERS = {
@@ -16,7 +16,9 @@ const RARITY_TIERS = {
 };
 
 const CHARACTERS_DATA = [
-  // ── 1. 凡品 (白階) ──
+  // ==========================================
+  // ── 1. 七龍珠宇宙 (Dragon Ball Universe) ──
+  // ==========================================
   {
     id: "goku_kid",
     name: "少年孫悟空",
@@ -27,48 +29,562 @@ const CHARACTERS_DATA = [
     cost: 0,
     unlockCondition: "登入 Google 帳號自動贈送",
     isFree: true,
-    role: "近戰平衡",
+    role: "近戰體術",
+    weaponType: "power_pole",
+    canFly: false,
     baseHp: 1000,
     baseAtk: 100,
     baseDef: 50,
     speed: 6.5,
     themeColor: "#f97316",
     auraColor: "rgba(249, 115, 22, 0.6)",
-    avatarType: "goku_kid",
-    skills: {
-      skill1: {
-        name: "伸縮如意棒",
-        cd: 3,
-        damage: 180,
-        type: "melee_pierce",
-        desc: "揮舞如意棒向前方直線伸長突刺，具備遠程破招與擊退效果。"
-      },
-      skill2: {
-        name: "殘像拳",
-        cd: 6,
-        damage: 120,
-        type: "teleport_strike",
-        desc: "化身殘影瞬移至對手身後發動體術迴旋踢，造成 0.5 秒僵直。"
-      },
-      ult: {
-        name: "基礎龜派氣功",
-        cd: 35,
-        rageCost: 100,
-        damage: 650,
-        type: "beam",
-        desc: "雙手蓄積湛藍氣功波轟擊全場，造成多段穿透巨額傷害。"
-      }
+    attackConfig: {
+      light: { name: "如意棒連打", desc: "如意棒三段快速突刺" },
+      heavy: { name: "伸長橫掃", desc: "蓄力橫掃千軍破防" },
+      grab: { name: "筋斗雲背摔", desc: "抓住對手藉筋斗雲下砸" },
+      flight: { name: "筋斗雲浮空", desc: "召喚金色筋斗雲飛行" }
     },
-    gadget: { name: "金斗雲突襲", desc: "主動召喚金斗雲衝撞擊飛對手，每場可用 2 次。" },
-    starPower1: { name: "賽亞人之尾", desc: "受到致命傷害時有 20% 機率保留 1 點生命值。" },
-    starPower2: { name: "飽腹鬥志", desc: "連擊數超過 10 時，攻擊力提升 15%。" },
-    hypercharge: { name: "天地貫穿之怒", desc: "大招龜派氣功範圍擴大 50%，擊中附帶擊飛牆撞效果。" },
-    godAuraTitle: "初源之拳"
+    skills: {
+      skill1: { name: "伸縮如意棒", cd: 3, damage: 180, type: "melee_pierce", desc: "揮舞如意棒向前方直線伸長突刺，遠程破招。" },
+      skill2: { name: "殘像拳", cd: 6, damage: 120, type: "teleport_strike", desc: "化身殘影瞬移至對手身後發動迴旋踢。" },
+      ult: { name: "基礎龜派氣功", cd: 20, damage: 650, type: "beam", desc: "雙手蓄積湛藍氣功波轟擊全場。" }
+    }
   },
+  {
+    id: "krillin",
+    name: "克林",
+    title: "最強地球人",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 2,
+    cost: 800,
+    unlockCondition: "消耗 800 金幣招募",
+    isFree: false,
+    role: "遠程牽制",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 1100,
+    baseAtk: 115,
+    baseDef: 55,
+    speed: 6.8,
+    themeColor: "#eab308",
+    auraColor: "rgba(234, 179, 8, 0.6)",
+    attackConfig: {
+      light: { name: "鶴龜體術", desc: "靈巧三段連打" },
+      heavy: { name: "氣圓斬突擊", desc: "蓄力光刃重劈破防" },
+      grab: { name: "近身過肩摔", desc: "抓起對手重摔" },
+      flight: { name: "舞空術", desc: "調動氣息升空飛行" }
+    },
+    skills: {
+      skill1: { name: "氣圓斬", cd: 4, damage: 240, type: "saw_blade", desc: "投擲鋒利金色旋轉光鋸，無視 40% 防禦。" },
+      skill2: { name: "太陽拳", cd: 8, damage: 60, type: "flash_stun", desc: "爆發強光致盲對手 1.5 秒。" },
+      ult: { name: "散彈氣功波", cd: 20, damage: 780, type: "multishot", desc: "升空發射追蹤氣彈轟炸全場。" }
+    }
+  },
+  {
+    id: "yamcha",
+    name: "飲茶",
+    title: "沙漠大盜",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 2,
+    cost: 800,
+    unlockCondition: "消耗 800 金幣招募",
+    isFree: false,
+    role: "高速連擊",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 1050,
+    baseAtk: 120,
+    baseDef: 50,
+    speed: 7.2,
+    themeColor: "#ea580c",
+    auraColor: "rgba(234, 88, 12, 0.6)",
+    attackConfig: {
+      light: { name: "狼牙拳法", desc: "狂野四段連擊爪擊" },
+      heavy: { name: "野狼衝撞", desc: "蓄力狼魂衝刺破防" },
+      grab: { name: "風刃投擲", desc: "近身擒拿拋投" },
+      flight: { name: "舞空術", desc: "升空浮空飛行" }
+    },
+    skills: {
+      skill1: { name: "狼牙風風拳", cd: 4.5, damage: 260, type: "rapid_strikes", desc: "疾風狼影快速爪擊連打。" },
+      skill2: { name: "操氣彈", cd: 7, damage: 210, type: "homing_orb", desc: "手動操控氣彈軌道精準追擊。" },
+      ult: { name: "真·狼牙風風拳", cd: 20, damage: 800, type: "rush_combo", desc: "狂暴狼魂全方位極限打擊。" }
+    }
+  },
+  {
+    id: "tien_shinhan",
+    name: "天津飯",
+    title: "三目鶴仙流宗師",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 3,
+    cost: 1500,
+    unlockCondition: "消耗 1,500 金幣招募",
+    isFree: false,
+    role: "破防爆發",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 1250,
+    baseAtk: 135,
+    baseDef: 65,
+    speed: 6.6,
+    themeColor: "#16a34a",
+    auraColor: "rgba(22, 163, 74, 0.6)",
+    attackConfig: {
+      light: { name: "四妖拳法", desc: "多臂幻影連擊" },
+      heavy: { name: "排球拳重扣", desc: "蓄力將對手砸入地面" },
+      grab: { name: "三目擒拿", desc: "三目鎖定過肩重摔" },
+      flight: { name: "舞空術", desc: "升空懸浮飛行" }
+    },
+    skills: {
+      skill1: { name: "氣功砲", cd: 5, damage: 320, type: "blast_box", desc: "雙手結方印轟出方形震撼光波。" },
+      skill2: { name: "四妖拳突襲", cd: 8, damage: 250, type: "multi_arm", desc: "背部長出雙臂高速壓制對手。" },
+      ult: { name: "新·氣功砲", cd: 20, damage: 980, type: "rapid_blasts", desc: "凌空連續狂轟金色氣功砲！" }
+    }
+  },
+  {
+    id: "piccolo",
+    name: "比克大魔王 (神比克)",
+    title: "那美克星智勇大師",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 4,
+    cost: 2500,
+    unlockCondition: "消耗 2,500 金幣招募",
+    isFree: false,
+    role: "伸展牽制",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 1400,
+    baseAtk: 150,
+    baseDef: 75,
+    speed: 6.7,
+    themeColor: "#22c55e",
+    auraColor: "rgba(34, 197, 94, 0.6)",
+    attackConfig: {
+      light: { name: "那美克體術", desc: "剛柔並濟三段打擊" },
+      heavy: { name: "手臂伸長抓擊", desc: "手臂伸長十米破防抓取" },
+      grab: { name: "念力摔投", desc: "念力將對手拋向半空" },
+      flight: { name: "舞空術", desc: "升空懸浮飛行" }
+    },
+    skills: {
+      skill1: { name: "魔貫光殺砲", cd: 6, damage: 380, type: "spiral_pierce", desc: "指尖螺旋金色光束，強力穿透。" },
+      skill2: { name: "激烈光彈", cd: 8.5, damage: 300, type: "chest_blast", desc: "胸前聚集高密度氣團向前爆轟。" },
+      ult: { name: "魔空包圍彈", cd: 20, damage: 1100, type: "surround_blast", desc: "無數氣彈懸空包圍對手同時引爆！" }
+    }
+  },
+  {
+    id: "vegeta_base",
+    name: "達爾 (賽亞人王子)",
+    title: "驕傲的血統",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 4,
+    cost: 3000,
+    unlockCondition: "消耗 3,000 金幣招募",
+    isFree: false,
+    role: "狂暴壓制",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 1380,
+    baseAtk: 160,
+    baseDef: 70,
+    speed: 7.2,
+    themeColor: "#3b82f6",
+    auraColor: "rgba(59, 130, 246, 0.7)",
+    attackConfig: {
+      light: { name: "王室狂攻", desc: "剛猛凌厲四段體術" },
+      heavy: { name: "戰鬥重擊", desc: "蓄力肘擊破防" },
+      grab: { name: "踢碎下巴", desc: "近身抱摔凌空踢飛" },
+      flight: { name: "舞空術", desc: "全向懸浮飛行" }
+    },
+    skills: {
+      skill1: { name: "連續氣彈波", cd: 5, damage: 330, type: "bullet_barrage", desc: "雙手狂射十發追蹤氣功彈。" },
+      skill2: { name: "大爆炸攻擊", cd: 9, damage: 390, type: "sphere_burst", desc: "單手掌心轟出巨大金黃球形爆破。" },
+      ult: { name: "最終閃光 (Final Flash)", cd: 20, damage: 1250, type: "gigantic_beam", desc: "雙手展開蓄滿金光，撕裂大地巨型光束！" }
+    }
+  },
+  {
+    id: "goku_ssj1",
+    name: "超級賽亞人 孫悟空",
+    title: "傳說金髮戰士",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 5,
+    cost: 4500,
+    unlockCondition: "消耗 4,500 金幣招募",
+    isFree: false,
+    role: "全面均衡",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 1550,
+    baseAtk: 175,
+    baseDef: 80,
+    speed: 7.5,
+    themeColor: "#facc15",
+    auraColor: "rgba(250, 204, 21, 0.8)",
+    attackConfig: {
+      light: { name: "超賽連打", desc: "金色氣場纏繞四段猛擊" },
+      heavy: { name: "瞬身重拳", desc: "瞬間移動破防重拳" },
+      grab: { name: "龍爪擒拿", desc: "抓起對手倒栽蔥重砸" },
+      flight: { name: "高速舞空術", desc: "金光氣焰超速飛行" }
+    },
+    skills: {
+      skill1: { name: "瞬移龜派氣功", cd: 6, damage: 420, type: "teleport_beam", desc: "貼臉瞬移零距離轟出龜派氣功。" },
+      skill2: { name: "龍槌擊", cd: 8, damage: 340, type: "dive_smash", desc: "凌空重拳俯衝砸地震飛對手。" },
+      ult: { name: "憤怒龜派氣功", cd: 20, damage: 1350, type: "golden_beam", desc: "狂怒金光爆發，全螢幕金色氣功巨浪！" }
+    }
+  },
+  {
+    id: "future_trunks_sword",
+    name: "未來特南克斯 (手持勇者之劍)",
+    title: "絕望未來的救世主",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 5,
+    cost: 5000,
+    unlockCondition: "消耗 5,000 金幣招募",
+    isFree: false,
+    role: "劍術突進",
+    weaponType: "katana_sword",
+    canFly: true,
+    baseHp: 1500,
+    baseAtk: 180,
+    baseDef: 75,
+    speed: 7.8,
+    themeColor: "#818cf8",
+    auraColor: "rgba(129, 140, 248, 0.75)",
+    attackConfig: {
+      light: { name: "勇者劍舞", desc: "雙手大劍快速四段斬擊" },
+      heavy: { name: "次元居合斬", desc: "蓄力光刃縱斬破防" },
+      grab: { name: "劍柄重擊摔投", desc: "劍柄頂擊接過肩重摔" },
+      flight: { name: "舞空術", desc: "背負巨劍凌空飛行" }
+    },
+    skills: {
+      skill1: { name: "燃燒突擊 (Burning Attack)", cd: 5.5, damage: 390, type: "fast_orb", desc: "花式手印轟出巨大熾熱火球。" },
+      skill2: { name: "閃光劍伏擊", cd: 8, damage: 430, type: "sword_rush", desc: "金色劍光將對手劈成碎片。" },
+      ult: { name: "魔封劍·魔貫斬", cd: 20, damage: 1400, type: "cross_slash", desc: "灌注全次元希望之光的極限雙十字斬！" }
+    }
+  },
+  {
+    id: "gohan_beast",
+    name: "孫悟飯 (野獸型態 Beast)",
+    title: "深紅魔瞳覺醒",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 7,
+    cost: 12000,
+    unlockCondition: "消耗 12,000 金幣招募",
+    isFree: false,
+    role: "極限爆發",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 1850,
+    baseAtk: 225,
+    baseDef: 95,
+    speed: 8.2,
+    themeColor: "#f43f5e",
+    auraColor: "rgba(244, 63, 94, 0.9)",
+    attackConfig: {
+      light: { name: "野獸狂暴爪擊", desc: "銀白銀光殘影體術" },
+      heavy: { name: "魔神重拳", desc: "純力量破空霸體重拳破防" },
+      grab: { name: "魔閃投摔", desc: "單手鎖喉凌空貫地" },
+      flight: { name: "真·舞空術", desc: "狂暴血紅雷電纏身飛行" }
+    },
+    skills: {
+      skill1: { name: "魔閃光·極", cd: 5, damage: 520, type: "heavy_laser", desc: "額頭雙手轟出刺目金紅魔光柱。" },
+      skill2: { name: "野獸瞬身直拳", cd: 7.5, damage: 490, type: "piercing_strike", desc: "超越光速直拳貫穿對手防線。" },
+      ult: { name: "魔貫光殺砲 (野獸版)", cd: 20, damage: 1850, type: "apocalypse_beam", desc: "深紅血電環繞銀光，滅世螺旋光柱轟穿蒼穹！" }
+    }
+  },
+  {
+    id: "orange_piccolo",
+    name: "橙色短笛 (神龍極限化身)",
+    title: "巨神那美克傲世",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 6,
+    cost: 8500,
+    unlockCondition: "消耗 8,500 金幣招募",
+    isFree: false,
+    role: "重裝霸體",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 2100,
+    baseAtk: 195,
+    baseDef: 110,
+    speed: 6.4,
+    themeColor: "#ea580c",
+    auraColor: "rgba(234, 88, 12, 0.8)",
+    attackConfig: {
+      light: { name: "橙色重拳", desc: "巨大鐵拳重轟三段" },
+      heavy: { name: "地裂巨掌", desc: "單手碎地霸體破防" },
+      grab: { name: "巨力擒摔", desc: "雙手抓起對手砸向山壁" },
+      flight: { name: "舞空術", desc: "橙金氣焰懸浮飛行" }
+    },
+    skills: {
+      skill1: { name: "巨神魔電爆", cd: 6, damage: 450, type: "ground_quake", desc: "掌心雷光引發大地震波。" },
+      skill2: { name: "金剛不壞之軀", cd: 9, damage: 200, type: "iron_body", desc: "全抗性提升 50% 霸體 4 秒。" },
+      ult: { name: "大魔王激震巨神拳", cd: 20, damage: 1550, type: "colossal_punch", desc: "巨大化金剛之拳，泰山壓頂碎裂擂台！" }
+    }
+  },
+  {
+    id: "goku_ssj4",
+    name: "超級賽亞人4 孫悟空",
+    title: "究極猿化戰士",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 7,
+    cost: 14000,
+    unlockCondition: "消耗 14,000 金幣招募",
+    isFree: false,
+    role: "狂暴近戰",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 1900,
+    baseAtk: 230,
+    baseDef: 90,
+    speed: 8.0,
+    themeColor: "#dc2626",
+    auraColor: "rgba(220, 38, 38, 0.85)",
+    attackConfig: {
+      light: { name: "十倍猿神連打", desc: "赤紅獸性四段猛攻" },
+      heavy: { name: "龍拳前兆", desc: "金紅爆氣蓄力破防" },
+      grab: { name: "神猿撕扯", desc: "神尾掃腿接近身重拋" },
+      flight: { name: "赤紅舞空術", desc: "紅黑神焰超速飛行" }
+    },
+    skills: {
+      skill1: { name: "10倍龜派氣功", cd: 5.5, damage: 560, type: "crimson_beam", desc: "雙手凝結赤紅血色巨型能量波。" },
+      skill2: { name: "瞬影隕石重踏", cd: 8, damage: 480, type: "meteor_smash", desc: "瞬移至頭頂雙腳將對手踏入深淵。" },
+      ult: { name: "真·龍拳爆發 (Dragon Fist)", cd: 20, damage: 1900, type: "golden_dragon", desc: "黃金神龍穿透胸膛，天地俱滅一擊必殺！" }
+    }
+  },
+  {
+    id: "vegeta_ultra_ego",
+    name: "自我極意 達爾 (我慢極意)",
+    title: "破壞神之怒",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 8,
+    cost: 20000,
+    unlockCondition: "消耗 20,000 金幣招募",
+    isFree: false,
+    role: "越戰越勇",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 2050,
+    baseAtk: 245,
+    baseDef: 85,
+    speed: 8.1,
+    themeColor: "#9333ea",
+    auraColor: "rgba(147, 51, 234, 0.9)",
+    attackConfig: {
+      light: { name: "破壞鬥氣連擊", desc: "紫焰纏繞瘋狂重拳" },
+      heavy: { name: "破壞碎天擊", desc: "無視受擊霸體破防重擊" },
+      grab: { name: "破壞滅頂摔", desc: "單手掐喉灌地紫炎爆破" },
+      flight: { name: "破壞神焰飛行", desc: "紫色破壞神焰凌空懸浮" }
+    },
+    skills: {
+      skill1: { name: "破壞之球 (Hakai Sphere)", cd: 5, damage: 580, type: "destruction_orb", desc: "單手凝聚深紫破壞能量球湮滅一切。" },
+      skill2: { name: "越傷越強 (Battle Instinct)", cd: 10, damage: 300, type: "buff_damage", desc: "受傷轉化為攻擊力，攻擊提升 30%。" },
+      ult: { name: "滅絕破壞神閃光", cd: 20, damage: 2000, type: "hakai_cataclysm", desc: "全屏破壞神紫炎降臨，物質與靈魂全面湮滅！" }
+    }
+  },
+  {
+    id: "vegito_blue",
+    name: "達洛特 (超級賽亞人藍)",
+    title: "耳環合體最強戰神",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 8,
+    cost: 22000,
+    unlockCondition: "消耗 22,000 金幣招募",
+    isFree: false,
+    role: "靈劍壓制",
+    weaponType: "spirit_sword",
+    canFly: true,
+    baseHp: 2000,
+    baseAtk: 250,
+    baseDef: 95,
+    speed: 8.5,
+    themeColor: "#0284c7",
+    auraColor: "rgba(2, 132, 199, 0.9)",
+    attackConfig: {
+      light: { name: "湛藍靈劍踢", desc: "雙手插兜無影連環踢" },
+      heavy: { name: "靈魂光劍突刺", desc: "金黃靈魂光劍刺穿破防" },
+      grab: { name: "無影腳踩踏", desc: "踏在對手身上凌空轟擊" },
+      flight: { name: "神之氣息飛行", desc: "神之藍焰全向超光速飛行" }
+    },
+    skills: {
+      skill1: { name: "靈魂光劍 (Spirit Sword)", cd: 5.5, damage: 600, type: "energy_blade", desc: "手掌延伸出十米光劍橫斬挑空！" },
+      skill2: { name: "大爆炸連環彈", cd: 8, damage: 520, type: "spread_burst", desc: "五發大爆炸光球全方位覆蓋戰場。" },
+      ult: { name: "最終龜派氣功 (Final Kamehameha)", cd: 20, damage: 2150, type: "dual_god_beam", desc: "融合達爾與悟空雙奧義，滅星神柱粉碎一切！" }
+    }
+  },
+  {
+    id: "gogeta_ssj4",
+    name: "悟吉塔 (超級賽亞人4)",
+    title: "融合之究極至尊",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 8,
+    cost: 24000,
+    unlockCondition: "消耗 24,000 金幣招募",
+    isFree: false,
+    role: "全能主宰",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 2100,
+    baseAtk: 260,
+    baseDef: 100,
+    speed: 8.6,
+    themeColor: "#ef4444",
+    auraColor: "rgba(239, 68, 68, 0.95)",
+    attackConfig: {
+      light: { name: "炫目殘影體術", desc: "瞬息百拳極速連招" },
+      heavy: { name: "彩虹霸體重劈", desc: "單手下劈震撼大地破防" },
+      grab: { name: "戲謔神擊", desc: "手指彈射將對手彈飛萬米" },
+      flight: { name: "至尊赤光舞空術", desc: "彩虹光環與赤紅毛皮流光飛行" }
+    },
+    skills: {
+      skill1: { name: "大爆炸龜派氣功 100倍", cd: 6, damage: 640, type: "supreme_kame", desc: "雙手向前噴射百倍璀璨狂暴光柱。" },
+      skill2: { name: "彩虹星屑閃耀", cd: 8.5, damage: 550, type: "stardust_breaker", desc: "七彩星屑淨化邪惡，防禦完全無效。" },
+      ult: { name: "究極 100倍 Big Bang Kamehameha", cd: 20, damage: 2300, type: "universe_eraser", desc: "震碎維度的終極巨浪，宇宙無可匹敵！" }
+    }
+  },
+  {
+    id: "golden_frieza",
+    name: "黃金弗利沙",
+    title: "宇宙帝王復仇之姿",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 6,
+    cost: 9000,
+    unlockCondition: "消耗 9,000 金幣招募",
+    isFree: false,
+    role: "遠程刺客",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 1650,
+    baseAtk: 210,
+    baseDef: 85,
+    speed: 8.0,
+    themeColor: "#facc15",
+    auraColor: "rgba(250, 204, 21, 0.9)",
+    attackConfig: {
+      light: { name: "帝王殘影擊", desc: "金色流光四段凌厲指刺" },
+      heavy: { name: "黃金帝王重踢", desc: "尾巴與戰靴雙重破防" },
+      grab: { name: "神尾絞殺", desc: "尾巴勒住咽喉重摔" },
+      flight: { name: "黃金光幕飛行", desc: "金色神光環繞超光速飛行" }
+    },
+    skills: {
+      skill1: { name: "死亡光束 (Death Beam)", cd: 4, damage: 440, type: "instant_pierce", desc: "指尖瞬發血紅激光，零前搖穿刺！" },
+      skill2: { name: "大地裂斬", cd: 7.5, damage: 410, type: "ground_slicer", desc: "金黃能量光刃切裂大地引發地底噴發。" },
+      ult: { name: "黃金死亡彈 (Golden Death Ball)", cd: 20, damage: 1650, type: "planet_buster", desc: "召喚毀滅星球的巨大黃金火球轟擊大地！" }
+    }
+  },
+  {
+    id: "goku_black_rose",
+    name: "黑悟空 (超級賽亞人桃紅)",
+    title: "神之正義肅清者",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 7,
+    cost: 16000,
+    unlockCondition: "消耗 16,000 金幣招募",
+    isFree: false,
+    role: "氣刃死神",
+    weaponType: "ki_scythe",
+    canFly: true,
+    baseHp: 1800,
+    baseAtk: 235,
+    baseDef: 90,
+    speed: 8.1,
+    themeColor: "#ec4899",
+    auraColor: "rgba(236, 72, 153, 0.9)",
+    attackConfig: {
+      light: { name: "神裂氣刃斬", desc: "右手桃紅手刀三段削斬" },
+      heavy: { name: "神之狂怒重刺", desc: "氣刃伸長破防突刺" },
+      grab: { name: "神之制裁拘禁", desc: "單手掐住對手引爆氣刺" },
+      flight: { name: "桃紅神焰飛行", desc: "暗紫與粉紅交織神焰飛行" }
+    },
+    skills: {
+      skill1: { name: "神裂光彈波", cd: 5, damage: 510, type: "rose_orbs", desc: "發射數道粉紅氣針穿刺爆炸。" },
+      skill2: { name: "神之死神鐮刀 (Ki Scythe)", cd: 8, damage: 540, type: "scythe_cleave", desc: "具現化桃紅巨型神之鐮刀，劈開時空次元裂縫！" },
+      ult: { name: "神之審判·千刃神罰", cd: 20, damage: 1950, type: "dimension_rift", desc: "時空裂縫湧出無數分身狂斬，終結人類神罰！" }
+    }
+  },
+  {
+    id: "broly_dbs_lssj",
+    name: "布羅利 (傳說超級賽亞人 full power)",
+    title: "狂暴綠焰魔神",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 8,
+    cost: 21000,
+    unlockCondition: "消耗 21,000 金幣招募",
+    isFree: false,
+    role: "霸體狂戰",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 2400,
+    baseAtk: 255,
+    baseDef: 105,
+    speed: 7.6,
+    themeColor: "#22c55e",
+    auraColor: "rgba(34, 197, 94, 0.95)",
+    attackConfig: {
+      light: { name: "狂暴巨拳", desc: "綠焰包裹無可抵擋重拳" },
+      heavy: { name: "巨神野蠻衝撞", desc: "全身綠焰霸體橫衝直撞破防" },
+      grab: { name: "臉部拖行重砸", desc: "按住對手臉部在岩壁瘋狂拖行" },
+      flight: { name: "暴怒咆哮飛行", desc: "龐大巨軀綠光沖天霸道飛行" }
+    },
+    skills: {
+      skill1: { name: "狂暴巨彈 (Eraser Cannon)", cd: 5.5, damage: 600, type: "giant_green_orb", desc: "胸口與掌心同時噴發滅絕綠色巨彈。" },
+      skill2: { name: "狂怒巨口咆哮", cd: 9, damage: 520, type: "mouth_cannon", desc: "張口轟出綠色能量巨柱震撼天地。" },
+      ult: { name: "巨神狂暴綠焰大爆炸", cd: 20, damage: 2200, type: "apocalyptic_nova", desc: "全場化為綠色能量核爆海洋，寸草不生！" }
+    }
+  },
+  {
+    id: "hit_assassin",
+    name: "希特 (Hit)",
+    title: "第6宇宙無影殺手",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 7,
+    cost: 17000,
+    unlockCondition: "消耗 17,000 金幣招募",
+    isFree: false,
+    role: "刺客時間",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 1700,
+    baseAtk: 240,
+    baseDef: 80,
+    speed: 8.8,
+    themeColor: "#8b5cf6",
+    auraColor: "rgba(139, 92, 246, 0.85)",
+    attackConfig: {
+      light: { name: "無影點穴拳", desc: "手插口袋零前搖刺拳" },
+      heavy: { name: "寸勁震心", desc: "蓄力寸勁精準擊碎格擋" },
+      grab: { name: "閃時鎖喉", desc: "暫停時間瞬移至背後重摔" },
+      flight: { name: "無聲無息飛行", desc: "紫光包裹幽靈般懸浮飛行" }
+    },
+    skills: {
+      skill1: { name: "閃時功 (Time Skip 0.5s)", cd: 5, damage: 480, type: "time_freeze", desc: "凍結時間 0.5 秒穿透至對手身後打擊！" },
+      skill2: { name: "穿透波動拳", cd: 8, damage: 510, type: "invisible_shock", desc: "跨越空間障礙發射無視距離隱形氣勁。" },
+      ult: { name: "時間牢獄·致命一刺", cd: 20, damage: 2050, type: "time_cage", desc: "將對手困於時間牢籠中，百拳齊發致命心臟穿透！" }
+    }
+  },
+
+  // ==========================================
+  // ── 2. 漫威宇宙 (Marvel Universe) ──
+  // ==========================================
   {
     id: "cap_america",
     name: "美國隊長",
-    title: "復仇者領袖",
+    title: "復仇者精神領袖",
     series: "marvel",
     seriesName: "漫威",
     rarity: 1,
@@ -76,43 +592,402 @@ const CHARACTERS_DATA = [
     unlockCondition: "登入 Google 帳號自動贈送",
     isFree: true,
     role: "防禦反擊",
+    weaponType: "shield",
+    canFly: false,
     baseHp: 1150,
-    baseAtk: 90,
+    baseAtk: 95,
     baseDef: 70,
-    speed: 6.0,
+    speed: 6.2,
     themeColor: "#3b82f6",
     auraColor: "rgba(59, 130, 246, 0.6)",
-    avatarType: "cap_america",
-    skills: {
-      skill1: {
-        name: "振金盾牌投擲",
-        cd: 3.5,
-        damage: 160,
-        type: "projectile_bounce",
-        desc: "擲出振金圓盾，在命中目標後折射返回，二段打擊並眩暈 0.4 秒。"
-      },
-      skill2: {
-        name: "飛踢衝撞",
-        cd: 5,
-        damage: 200,
-        type: "dash_tackle",
-        desc: "舉盾前衝並接凌空飛踢，帶有短暫霸體，強制擊退對手。"
-      },
-      ult: {
-        name: "自由正義連擊",
-        cd: 35,
-        rageCost: 100,
-        damage: 620,
-        type: "barrage",
-        desc: "振金盾牌連打後全力重砸地面引發震波，造成全屏高額打擊。"
-      }
+    attackConfig: {
+      light: { name: "振金盾牌連擊", desc: "盾擊與直拳三段連打" },
+      heavy: { name: "振金破防猛砸", desc: "雙手舉盾蓄力重砸破防" },
+      grab: { name: "盾牌過肩摔", desc: "盾牌鎖住手臂過肩摔" },
+      flight: { name: "陸戰推進", desc: "地面急速衝刺" }
     },
-    gadget: { name: "振金防禦力場", desc: "產生 3 秒無敵護盾，吸收所有正面攻擊。" },
-    starPower1: { name: "我可以打一整天", desc: "生命值低於 30% 時，防禦力提升 35%。" },
-    starPower2: { name: "戰術指揮", desc: "隊友援護冷卻時間縮短 3 秒。" },
-    hypercharge: { name: "終極雷神之鎚舉起", desc: "大招額外附加雷電震撼波，傷害增加 30%。" },
-    godAuraTitle: "不屈守護者"
+    skills: {
+      skill1: { name: "振金盾牌投擲", cd: 3.5, damage: 170, type: "projectile_bounce", desc: "擲出圓盾折射反彈攻擊。" },
+      skill2: { name: "舉盾前衝飛踢", cd: 6, damage: 210, type: "dash_tackle", desc: "頂盾霸體衝撞凌空飛踢。" },
+      ult: { name: "自由正義之怒", cd: 20, damage: 680, type: "shield_barrage", desc: "盾牌極速連擊引發振金音波衝擊！" }
+    }
   },
+  {
+    id: "spiderman_classic",
+    name: "蜘蛛人 (彼得·帕克)",
+    title: "友好鄰居守護者",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 2,
+    cost: 900,
+    unlockCondition: "消耗 900 金幣招募",
+    isFree: false,
+    role: "敏捷牽制",
+    weaponType: "web_shooters",
+    canFly: true,
+    baseHp: 1100,
+    baseAtk: 118,
+    baseDef: 55,
+    speed: 8.0,
+    themeColor: "#ef4444",
+    auraColor: "rgba(239, 68, 68, 0.6)",
+    attackConfig: {
+      light: { name: "雜技蛛拳", desc: "空中翻滾靈活四段打擊" },
+      heavy: { name: "蛛絲流星錘", desc: "蛛絲拉扯重物破防" },
+      grab: { name: "蛛網倒掛重摔", desc: "蛛絲黏住雙腳倒掛摔投" },
+      flight: { name: "蛛絲擺盪 (Web Swing)", desc: "空中蛛絲飛蕩懸浮" }
+    },
+    skills: {
+      skill1: { name: "蛛網束縛", cd: 4, damage: 190, type: "web_trap", desc: "射出高黏度蛛網定身對手 1.2 秒。" },
+      skill2: { name: "蛛絲彈射飛踢", cd: 7, damage: 260, type: "web_slingshot", desc: "蛛絲蓄能彈射超高速雙腳飛踢。" },
+      ult: { name: "全方位蛛網風暴", cd: 20, damage: 850, type: "web_cataclysm", desc: "全場編織巨大蛛網，狂暴拉扯連環重砸！" }
+    }
+  },
+  {
+    id: "ironman_mark85",
+    name: "鋼鐵人 (Mark 85 奈米戰甲)",
+    title: "終局之戰終極科技",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 7,
+    cost: 15000,
+    unlockCondition: "消耗 15,000 金幣招募",
+    isFree: false,
+    role: "全能軍火",
+    weaponType: "nano_cannons",
+    canFly: true,
+    baseHp: 1800,
+    baseAtk: 235,
+    baseDef: 95,
+    speed: 8.2,
+    themeColor: "#e11d48",
+    auraColor: "rgba(225, 29, 72, 0.9)",
+    attackConfig: {
+      light: { name: "掌心雷射連發", desc: "雙掌脈衝雷射四段轟擊" },
+      heavy: { name: "奈米能量重錘", desc: "雙手化為奈米巨錘破防" },
+      grab: { name: "推進器零距貫頂", desc: "掌心壓面零距離噴射" },
+      flight: { name: "弧形反應堆超音速飛行", desc: "背部奈米翼與腳底光焰飛行" }
+    },
+    skills: {
+      skill1: { name: "背部奈米浮游加農", cd: 5, damage: 520, type: "nano_lasers", desc: "背部展開 6 門能量光砲聚焦轟炸。" },
+      skill2: { name: "奈米光刃旋風", cd: 7.5, damage: 480, type: "energy_blade_spin", desc: "雙手凝聚熾紅能量光刃旋轉切裂。" },
+      ult: { name: "胸口單一光束極限過載 (Unibeam Overload)", cd: 20, damage: 2000, type: "chest_laser", desc: "全反應堆能量注入胸口，直徑 5 米巨型藍白光柱毀滅全場！" }
+    }
+  },
+  {
+    id: "thor_stormbreaker",
+    name: "雷神索爾 (風暴破壞者 + 雷神之鎚)",
+    title: "阿斯嘉九界天雷之神",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 8,
+    cost: 21000,
+    unlockCondition: "消耗 21,000 金幣招募",
+    isFree: false,
+    role: "神雷重擊",
+    weaponType: "dual_axes_hammers",
+    canFly: true,
+    baseHp: 2200,
+    baseAtk: 250,
+    baseDef: 100,
+    speed: 7.8,
+    themeColor: "#38bdf8",
+    auraColor: "rgba(56, 189, 248, 0.95)",
+    attackConfig: {
+      light: { name: "雙持雷神連擊", desc: "左手妙爾尼爾右手風暴破壞者四段斬擊" },
+      heavy: { name: "神斧重劈破防", desc: "雷霆狂暴跳劈擊碎護甲" },
+      grab: { name: "雷電重砸", desc: "單手舉起召喚天雷灌頂" },
+      flight: { name: "旋風戰斧飛行", desc: "旋轉風暴戰斧呼嘯凌空" }
+    },
+    skills: {
+      skill1: { name: "彩虹橋傳送召喚 (Bifrost)", cd: 6, damage: 580, type: "lightning_column", desc: "引導彩虹橋光柱轟擊地面並造成巨幅麻痺。" },
+      skill2: { name: "神鎚召喚天雷風暴", cd: 8.5, damage: 540, type: "aoe_storm", desc: "雙手引雷全場狂暴閃電交織。" },
+      ult: { name: "滅世風暴破壞斬 (Bring Me Thanos!)", cd: 20, damage: 2250, type: "stormbreaker_leap", desc: "騰空百米引動九界雷霆，神斧墜地碎滅一切！" }
+    }
+  },
+  {
+    id: "wolverine_logan",
+    name: "金鋼狼 (羅根)",
+    title: "不死鋼爪狂戰士",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 6,
+    cost: 9500,
+    unlockCondition: "消耗 9,500 金幣招募",
+    isFree: false,
+    role: "嗜血撕裂",
+    weaponType: "adamantium_claws",
+    canFly: false,
+    baseHp: 1950,
+    baseAtk: 215,
+    baseDef: 85,
+    speed: 7.6,
+    themeColor: "#eab308",
+    auraColor: "rgba(234, 179, 8, 0.8)",
+    attackConfig: {
+      light: { name: "亞德曼爪舞", desc: "雙手合金鋼爪四段交叉撕裂" },
+      heavy: { name: "旋風雙爪突刺", desc: "蓄力霸體旋風破防" },
+      grab: { name: "鎖骨擒摔", desc: "鋼爪刺入鎖骨重摔" },
+      flight: { name: "狂暴奔行", desc: "貼地疾速奔馳" }
+    },
+    skills: {
+      skill1: { name: "野性狂撲", cd: 4.5, damage: 430, type: "claw_rush", desc: "向前飛撲雙爪將對手釘在地面。" },
+      skill2: { name: "自癒因子活化", cd: 11, damage: 0, type: "instant_heal", desc: "瞬間回復 25% 最大生命並解除所有負面狀態。" },
+      ult: { name: "狂戰士之怒 (Berserker Barrage)", cd: 20, damage: 1750, type: "claw_carnage", desc: "進入血紅狂化狀態，千百道鋼爪刀光將對手徹底切碎！" }
+    }
+  },
+  {
+    id: "deadpool_dual_sword",
+    name: "死侍 (韋德·威爾森)",
+    title: "打破第四面牆的嘴砲王",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 6,
+    cost: 10000,
+    unlockCondition: "消耗 10,000 金幣招募",
+    isFree: false,
+    role: "武士刀雙槍",
+    weaponType: "dual_katanas_guns",
+    canFly: false,
+    baseHp: 1900,
+    baseAtk: 210,
+    baseDef: 80,
+    speed: 7.8,
+    themeColor: "#dc2626",
+    auraColor: "rgba(220, 38, 38, 0.8)",
+    attackConfig: {
+      light: { name: "雙刀亂切", desc: "雙武士刀快速削斬" },
+      heavy: { name: "雙烏茲掃射破防", desc: "雙槍近距離齊射擊破防禦" },
+      grab: { name: "手榴彈塞褲襠", desc: "塞入手榴彈接倒栽蔥" },
+      flight: { name: "瘋狂滑步", desc: "滑稽而極速的翻滾突進" }
+    },
+    skills: {
+      skill1: { name: "雙槍芭蕾舞", cd: 5, damage: 450, type: "gun_dance", desc: "邊跳芭蕾邊全方位掃射子彈雨。" },
+      skill2: { name: "自我修復吃玉米捲", cd: 9, damage: 100, type: "taco_heal", desc: "吃玉米捲回復 20% 生命值並發射火箭筒。" },
+      ult: { name: "第四面牆血腥嘉年華", cd: 20, damage: 1800, type: "fourth_wall_chaos", desc: "拔出遊戲血條狂砸對手，雙刀雙槍瘋狂終結！" }
+    }
+  },
+  {
+    id: "scarlet_witch_chaos",
+    name: "緋紅女巫 (汪達·馬克希莫夫)",
+    title: "渾沌魔法至尊主宰",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 8,
+    cost: 23000,
+    unlockCondition: "消耗 23,000 金幣招募",
+    isFree: false,
+    role: "渾沌念力",
+    weaponType: "chaos_magic",
+    canFly: true,
+    baseHp: 1850,
+    baseAtk: 265,
+    baseDef: 85,
+    speed: 8.0,
+    themeColor: "#b91c1c",
+    auraColor: "rgba(185, 28, 28, 0.95)",
+    attackConfig: {
+      light: { name: "渾沌血印彈", desc: "深紅魔法球三段轟炸" },
+      heavy: { name: "心靈念力重壓", desc: "深紅魔力下壓破防" },
+      grab: { name: "心靈撕裂懸浮", desc: "念力隔空掐起對手折骨" },
+      flight: { name: "渾沌魔力懸浮", desc: "深紅魔法氣場優雅凌空飛行" }
+    },
+    skills: {
+      skill1: { name: "渾沌現實扭曲", cd: 5, damage: 620, type: "reality_warp", desc: "扭曲局部空間，造成無法防禦的深紅爆破。" },
+      skill2: { name: "心靈控制反噬", cd: 8.5, damage: 560, type: "mind_crush", desc: "直接引爆對手心靈，造成眩暈並大幅減速。" },
+      ult: { name: "No More Limits (渾沌湮滅牢籠)", cd: 20, damage: 2350, type: "chaos_cataclysm", desc: "深紅魔力籠罩整個維度，將目標分子級生生撕碎！" }
+    }
+  },
+  {
+    id: "doctor_strange_supreme",
+    name: "奇異博士 (至尊法師)",
+    title: "秘術大師掌控時間",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 7,
+    cost: 16500,
+    unlockCondition: "消耗 16,500 金幣招募",
+    isFree: false,
+    role: "秘術控場",
+    weaponType: "magic_mandala",
+    canFly: true,
+    baseHp: 1750,
+    baseAtk: 240,
+    baseDef: 90,
+    speed: 7.9,
+    themeColor: "#f59e0b",
+    auraColor: "rgba(245, 158, 11, 0.9)",
+    attackConfig: {
+      light: { name: "拉格加多爾之環", desc: "橙金魔法陣手刀三段削斬" },
+      heavy: { name: "塞拉芬之盾突擊", desc: "巨大橙金魔盾向前破防重推" },
+      grab: { name: "賽托拉克紅帶束縛", desc: "紅帶捆綁對手甩向高空" },
+      flight: { name: "懸浮斗篷飛行 (Cloak of Levitation)", desc: "紅色斗篷凌空全向飛行" }
+    },
+    skills: {
+      skill1: { name: "瓦圖姆魔風", cd: 5, damage: 510, type: "magic_whirlwind", desc: "召喚金黃秘術龍捲將對手吹飛至空中。" },
+      skill2: { name: "伊孔之像千手分身", cd: 8, damage: 550, type: "clone_magic", desc: "分化出數十位法師分身齊射魔能法索。" },
+      ult: { name: "鏡像維度碎裂封印 (Mirror Dimension)", cd: 20, damage: 1980, type: "mirror_shatter", desc: "將戰場拖入鏡像維度，折疊碎裂萬千玻璃鏡面重創！" }
+    }
+  },
+  {
+    id: "worldbreaker_hulk",
+    name: "浩克 (世界破壞者 Worldbreaker)",
+    title: "無限憤怒巨神",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 8,
+    cost: 21500,
+    unlockCondition: "消耗 21,500 金幣招募",
+    isFree: false,
+    role: "巨神肉盾",
+    weaponType: "none",
+    canFly: false,
+    baseHp: 2600,
+    baseAtk: 260,
+    baseDef: 110,
+    speed: 7.2,
+    themeColor: "#16a34a",
+    auraColor: "rgba(22, 163, 74, 0.95)",
+    attackConfig: {
+      light: { name: "浩克重拳", desc: "伽瑪巨拳四段重砸" },
+      heavy: { name: "碎裂大陸拍擊", desc: "雙手合十拍擊引發劇烈震波破防" },
+      grab: { name: "洛基式輪流猛砸", desc: "抓住雙腿在地面左右狂砸十次" },
+      flight: { name: "超巨躍進 (Super Leap)", desc: "躍起數十米空中俯衝" }
+    },
+    skills: {
+      skill1: { name: "伽瑪拍擊衝擊波 (Thunderclap)", cd: 5, damage: 590, type: "concussive_blast", desc: "雙手合掌打出扇形超音速伽瑪衝擊波。" },
+      skill2: { name: "大地地殼掀翻", cd: 8.5, damage: 530, type: "earth_flip", desc: "掀起整塊擂台岩石砸向對手。" },
+      ult: { name: "世界破壞者狂怒踐踏 (Worldbreaker Stomp)", cd: 20, damage: 2200, type: "continental_quake", desc: "全體內伽瑪射線爆發，一腳將整座大陸板塊踩成齏粉！" }
+    }
+  },
+  {
+    id: "venom_symbiote",
+    name: "猛毒 (共生體暴虐之牙)",
+    title: "致命守護者",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 6,
+    cost: 9800,
+    unlockCondition: "消耗 9,800 金幣招募",
+    isFree: false,
+    role: "觸手撕咬",
+    weaponType: "symbiote_tendrils",
+    canFly: true,
+    baseHp: 2000,
+    baseAtk: 215,
+    baseDef: 90,
+    speed: 7.5,
+    themeColor: "#0f172a",
+    auraColor: "rgba(15, 23, 42, 0.9)",
+    attackConfig: {
+      light: { name: "共生爪擊", desc: "漆黑巨爪四段連咬" },
+      heavy: { name: "觸手地刺破防", desc: "背部伸出六根利刃黑刺破防" },
+      grab: { name: "巨口生吞撕咬", desc: "張開血盆大口撕咬重摔" },
+      flight: { name: "共生體滑行", desc: "黑色觸手黏著彈射飛行" }
+    },
+    skills: {
+      skill1: { name: "黑棘狂刺風暴", cd: 5, damage: 470, type: "black_spikes", desc: "全身體表伸出數百根黑色硬化長刺。" },
+      skill2: { name: "共生體觸手捕食", cd: 8, damage: 490, type: "tendril_grab", desc: "遠程觸手將對手拽至面前狠狠狂啃。" },
+      ult: { name: "「我們是猛毒」嗜血狂宴", cd: 20, damage: 1780, type: "symbiote_feast", desc: "巨大化漆黑共生體吞噬整座戰場，瘋狂狂暴撕碎！" }
+    }
+  },
+  {
+    id: "ghost_rider_hellfire",
+    name: "惡靈戰警 (強尼·布雷茲)",
+    title: "地獄之火復仇之靈",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 7,
+    cost: 16000,
+    unlockCondition: "消耗 16,000 金幣招募",
+    isFree: false,
+    role: "地獄火鎖鏈",
+    weaponType: "hellfire_chain",
+    canFly: true,
+    baseHp: 1850,
+    baseAtk: 240,
+    baseDef: 90,
+    speed: 7.9,
+    themeColor: "#ea580c",
+    auraColor: "rgba(234, 88, 12, 0.95)",
+    attackConfig: {
+      light: { name: "地獄火鎖鏈揮擊", desc: "燃燒火鏈四段鞭打" },
+      heavy: { name: "火鏈巨斧重劈", desc: "火鏈化為烈焰巨刃破防" },
+      grab: { name: "鎖鏈纏頸地獄拽摔", desc: "火鏈勒住頸部過肩甩砸" },
+      flight: { name: "地獄火摩托飛行", desc: "烈焰重型機車踏空狂飆" }
+    },
+    skills: {
+      skill1: { name: "地獄火柱噴發", cd: 5, damage: 520, type: "hellfire_pillar", desc: "腳下召喚沖天而起的硫磺地獄火。" },
+      skill2: { name: "地獄鎖鏈旋風", cd: 8, damage: 510, type: "flame_chain_spin", desc: "高速揮舞鎖鏈形成旋轉烈焰防禦圈。" },
+      ult: { name: "審判之眼 (Penance Stare)", cd: 20, damage: 2020, type: "soul_burn", desc: "直視靈魂罪孽，地獄之火焚盡肉體與靈魂萬劫不復！" }
+    }
+  },
+  {
+    id: "black_panther_vibranium",
+    name: "黑豹 (帝查拉)",
+    title: "瓦干達振金守護神",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 6,
+    cost: 9200,
+    unlockCondition: "消耗 9,200 金幣招募",
+    isFree: false,
+    role: "動能反釋",
+    weaponType: "vibranium_claws",
+    canFly: false,
+    baseHp: 1800,
+    baseAtk: 215,
+    baseDef: 95,
+    speed: 8.3,
+    themeColor: "#8b5cf6",
+    auraColor: "rgba(139, 92, 246, 0.8)",
+    attackConfig: {
+      light: { name: "豹爪連擊", desc: "振金利爪四段疾速撕裂" },
+      heavy: { name: "動能蓄力飛踢", desc: "紫光動能爆發破防飛踢" },
+      grab: { name: "黑豹抱摔", desc: "靈巧翻身將對手摔入地面" },
+      flight: { name: "瓦干達疾影", desc: "地面極速無聲潛行" }
+    },
+    skills: {
+      skill1: { name: "振金飛鏢連擲", cd: 4, damage: 410, type: "vibranium_daggers", desc: "發射數枚穿甲振金能量飛鏢。" },
+      skill2: { name: "動能吸收護甲", cd: 8, damage: 320, type: "kinetic_burst", desc: "吸收受到的傷害並轉化為紫色衝擊波震開四周。" },
+      ult: { name: "瓦干達萬歲·黑豹之魂", cd: 20, damage: 1720, type: "panther_god_strike", desc: "召喚黑豹神巴斯特巨影，動能全開撕碎一切強敵！" }
+    }
+  },
+  {
+    id: "shang_chi_ten_rings",
+    name: "尚氣 (十環傳奇)",
+    title: "十環功夫大師",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 6,
+    cost: 9500,
+    unlockCondition: "消耗 9,500 金幣招募",
+    isFree: false,
+    role: "十環氣功",
+    weaponType: "ten_rings",
+    canFly: true,
+    baseHp: 1750,
+    baseAtk: 220,
+    baseDef: 85,
+    speed: 8.1,
+    themeColor: "#f59e0b",
+    auraColor: "rgba(245, 158, 11, 0.85)",
+    attackConfig: {
+      light: { name: "十環拳法", desc: "金環環繞四段剛勁體術" },
+      heavy: { name: "十環重槌", desc: "十環合一直線轟擊破防" },
+      grab: { name: "十環鎖腕拋摔", desc: "十環套住四肢凌空重甩" },
+      flight: { name: "十環踏步凌空", desc: "腳踏金色十環空中漫步" }
+    },
+    skills: {
+      skill1: { name: "十環穿梭飛彈", cd: 4.5, damage: 460, type: "rings_projectile", desc: "十枚金環如流星雨般高速迴旋貫穿。" },
+      skill2: { name: "大羅氣功旋風", cd: 7.5, damage: 490, type: "dragon_breath", desc: "引導神龍神息形成太極防禦風暴。" },
+      ult: { name: "神龍降世·十環破滅拳", cd: 20, damage: 1760, type: "dragon_ten_rings", desc: "十環化為千米金色巨龍咆哮貫穿全場！" }
+    }
+  },
+
+  // ==========================================
+  // ── 3. 機動戰士鋼彈宇宙 (Gundam Universe) ──
+  // ==========================================
   {
     id: "gm_rgm79",
     name: "吉姆 (RGM-79)",
@@ -123,2157 +998,2167 @@ const CHARACTERS_DATA = [
     cost: 0,
     unlockCondition: "登入 Google 帳號自動贈送",
     isFree: true,
-    role: "量產射擊",
+    role: "射擊支援",
+    weaponType: "beam_spray_gun",
+    canFly: true,
     baseHp: 1050,
     baseAtk: 95,
-    baseDef: 55,
+    baseDef: 60,
     speed: 6.2,
-    themeColor: "#ef4444",
-    auraColor: "rgba(239, 68, 68, 0.5)",
-    avatarType: "gm_rgm79",
-    skills: {
-      skill1: {
-        name: "光束噴槍射擊",
-        cd: 2.5,
-        damage: 150,
-        type: "beam_shot",
-        desc: "拔槍快速點射 2 發粒子光束，牽制中距離對手。"
-      },
-      skill2: {
-        name: "盾牌衝撞",
-        cd: 5.5,
-        damage: 190,
-        type: "dash_slam",
-        desc: "推進器加速舉盾撞向目標，打斷對手起手動作。"
-      },
-      ult: {
-        name: "火箭筒齊射",
-        cd: 35,
-        rageCost: 100,
-        damage: 600,
-        type: "artillery",
-        desc: "換裝 380mm 超級火箭筒連續轟擊地面引發連環大爆炸。"
-      }
+    themeColor: "#06b6d4",
+    auraColor: "rgba(6, 182, 212, 0.6)",
+    attackConfig: {
+      light: { name: "光束噴槍三連射", desc: "基礎光束三段射擊" },
+      heavy: { name: "光束軍刀重劈", desc: "拔刀下劈破防" },
+      grab: { name: "近身盾擊頂撞", desc: "舉盾頂開過肩摔" },
+      flight: { name: "背包推進器升空", desc: "標準推進器懸浮飛行" }
     },
-    gadget: { name: "緊急散熱噴射", desc: "消除自身所有異常狀態並向後滑行 5 米。" },
-    starPower1: { name: "量產奇蹟", desc: "陣亡後下一位登場的隊友獲得 15% 怒氣獎勵。" },
-    starPower2: { name: "精準校準", desc: "遠程射擊暴擊率增加 15%。" },
-    hypercharge: { name: "全武裝支援連射", desc: "大招召喚 2 架友方吉姆進行交叉覆蓋轟炸。" },
-    godAuraTitle: "聯邦基石"
-  },
-
-  // ── 2. 優秀 (綠階) ──
-  {
-    id: "spiderman_classic",
-    name: "基礎蜘蛛人",
-    title: "友好鄰居",
-    series: "marvel",
-    seriesName: "漫威",
-    rarity: 2,
-    cost: 2800,
-    unlockCondition: "商店招募 (2,800 金幣)",
-    role: "敏捷刺客",
-    baseHp: 1020,
-    baseAtk: 110,
-    baseDef: 45,
-    speed: 7.2,
-    themeColor: "#dc2626",
-    auraColor: "rgba(220, 38, 38, 0.6)",
-    avatarType: "spiderman",
     skills: {
-      skill1: {
-        name: "蛛絲牽引飛踢",
-        cd: 3,
-        damage: 190,
-        type: "grapple_kick",
-        desc: "射出蛛絲拉向對手並施展雙腳飛踢，快速拉近身位。"
-      },
-      skill2: {
-        name: "蛛網束縛",
-        cd: 6,
-        damage: 130,
-        type: "web_trap",
-        desc: "發射高密度蛛網彈將目標纏繞定身 1.2 秒。"
-      },
-      ult: {
-        name: "終極蛛網牢籠",
-        cd: 38,
-        rageCost: 100,
-        damage: 680,
-        type: "web_storm",
-        desc: "在全場織造巨大蛛網將敵方拉入中心進行 360 度迴旋重砸。"
-      }
-    },
-    gadget: { name: "蛛網感應地雷", desc: "在地面埋設 2 顆蛛網地雷，踩中即爆並定身。" },
-    starPower1: { name: "蜘蛛感應", desc: "受擊時有 15% 機率自動觸發翻滾閃避。" },
-    starPower2: { name: "敏捷空戰", desc: "在空中發動的攻擊傷害提升 20%。" },
-    hypercharge: { name: "鋼鐵蜘蛛爪連擊", desc: "背後伸出 4 支鋼鐵蛛爪，大招連擊數增加 100%。" },
-    godAuraTitle: "紐約之光"
+      skill1: { name: "光束噴槍散射", cd: 3.5, damage: 160, type: "spray_beam", desc: "近距離散射光束。" },
+      skill2: { name: "頭部火神砲掃射", cd: 6, damage: 180, type: "vulcan_rapid", desc: "頭部 60mm 機砲高速壓制。" },
+      ult: { name: "全武裝聯邦齊射", cd: 20, damage: 620, type: "barrage_missile", desc: "超視距火箭筒與光束齊射！" }
+    }
   },
-  {
-    id: "krillin",
-    name: "克林 (小林)",
-    title: "最強地球人",
-    series: "dragonball",
-    seriesName: "七龍珠",
-    rarity: 2,
-    cost: 2800,
-    unlockCondition: "商店招募 (2,800 金幣)",
-    role: "牽制爆發",
-    baseHp: 1000,
-    baseAtk: 115,
-    baseDef: 50,
-    speed: 6.6,
-    themeColor: "#ea580c",
-    auraColor: "rgba(234, 88, 12, 0.6)",
-    avatarType: "krillin",
-    skills: {
-      skill1: {
-        name: "太陽拳",
-        cd: 4,
-        damage: 80,
-        type: "blind_flash",
-        desc: "雙手置於前額綻放刺眼強光，致盲並中斷敵方動作 1.5 秒。"
-      },
-      skill2: {
-        name: "氣圓斬",
-        cd: 6.5,
-        damage: 240,
-        type: "cutting_disc",
-        desc: "投擲高速旋轉的鋸齒光盤，無視防禦切割前進。"
-      },
-      ult: {
-        name: "散射氣功波",
-        cd: 36,
-        rageCost: 100,
-        damage: 700,
-        type: "multi_ki",
-        desc: "將氣功波引向高空後分裂成漫天光雨，大範圍地毯式轟炸。"
-      }
-    },
-    gadget: { name: "仙豆補給包", desc: "立即恢復 30% 最大生命值，每場限用 2 次。" },
-    starPower1: { name: "老練武道", desc: "閃避冷卻時間減少 25%。" },
-    starPower2: { name: "百折不撓", desc: "瀕死狀態下氣功技能傷害提升 30%。" },
-    hypercharge: { name: "多重氣圓斬狂嵐", desc: "大招同時發射 5 枚追蹤氣圓斬。" },
-    godAuraTitle: "無畏武道家"
-  },
-  {
-    id: "guncannon_rx77",
-    name: "鋼加農 (RX-77)",
-    title: "重裝中程火力支援",
-    series: "gundam",
-    seriesName: "鋼彈",
-    rarity: 2,
-    cost: 2800,
-    unlockCondition: "商店招募 (2,800 金幣)",
-    role: "重裝火砲",
-    baseHp: 1200,
-    baseAtk: 105,
-    baseDef: 75,
-    speed: 5.5,
-    themeColor: "#b91c1c",
-    auraColor: "rgba(185, 28, 28, 0.6)",
-    avatarType: "guncannon",
-    skills: {
-      skill1: {
-        name: "肩部雙聯加農砲",
-        cd: 3.5,
-        damage: 210,
-        type: "cannon_blast",
-        desc: "雙肩 240mm 低後座力砲齊射，附帶強力擊退效果。"
-      },
-      skill2: {
-        name: "震地重擊",
-        cd: 6,
-        damage: 180,
-        type: "ground_slam",
-        desc: "屈膝雙拳重擊地面，震飛周圍接近的敵方單位。"
-      },
-      ult: {
-        name: "240mm 密集轟炸",
-        cd: 38,
-        rageCost: 100,
-        damage: 710,
-        type: "heavy_barrage",
-        desc: "半跪姿態全彈發射，連續打擊正前方整片戰場。"
-      }
-    },
-    gadget: { name: "重裝推進護盾", desc: "受到正面攻擊減傷 70%，持續 4 秒。" },
-    starPower1: { name: "厚重裝甲", desc: "常駐獲得 10% 物理傷害減免。" },
-    starPower2: { name: "火力壓制", desc: "火砲命中後使目標減速 30%，持續 2 秒。" },
-    hypercharge: { name: "超重型軌道轟炸", desc: "大招召喚天基動能砲追加終結轟擊。" },
-    godAuraTitle: "重砲堡壘"
-  },
-  {
-    id: "hawkeye",
-    name: "鷹眼 (克林特)",
-    title: "神箭百步穿楊",
-    series: "marvel",
-    seriesName: "漫威",
-    rarity: 2,
-    cost: 2800,
-    unlockCondition: "商店招募 (2,800 金幣)",
-    role: "遠程射手",
-    baseHp: 980,
-    baseAtk: 125,
-    baseDef: 40,
-    speed: 6.8,
-    themeColor: "#7c3aed",
-    auraColor: "rgba(124, 58, 237, 0.6)",
-    avatarType: "hawkeye",
-    skills: {
-      skill1: {
-        name: "爆破箭矢",
-        cd: 3,
-        damage: 200,
-        type: "arrow_explode",
-        desc: "射出一支高爆箭，命中或觸地後產生烈焰爆炸。"
-      },
-      skill2: {
-        name: "電擊網箭",
-        cd: 5.5,
-        damage: 150,
-        type: "arrow_electric",
-        desc: "展開高壓電流網，使範圍內敵人麻痺 1 秒。"
-      },
-      ult: {
-        name: "萬箭齊發終極射擊",
-        cd: 36,
-        rageCost: 100,
-        damage: 730,
-        type: "arrow_storm",
-        desc: "連續高速拉弓向天空射出特殊箭囊，傾瀉箭雨覆蓋戰場。"
-      }
-    },
-    gadget: { name: "煙霧彈撤退", desc: "扔下煙霧彈獲得 2 秒完全隱身與移速提升。" },
-    starPower1: { name: "百發百中", desc: "箭矢暴擊傷害提升 40%。" },
-    starPower2: { name: "弱點鎖定", desc: "距離對手越遠，造成的傷害越高 (最高 +25%)。" },
-    hypercharge: { name: "皮姆粒子縮小箭", desc: "大招箭雨附帶縮小射線，削弱敵方 50% 防禦。" },
-    godAuraTitle: "絕影箭聖"
-  },
-  {
-    id: "yajirobe",
-    name: "亞奇洛貝",
-    title: "居合拔刀客",
-    series: "dragonball",
-    seriesName: "七龍珠",
-    rarity: 2,
-    cost: 2800,
-    unlockCondition: "商店招募 (2,800 金幣)",
-    role: "拔刀突襲",
-    baseHp: 1100,
-    baseAtk: 115,
-    baseDef: 55,
-    speed: 6.0,
-    themeColor: "#ca8a04",
-    auraColor: "rgba(202, 138, 4, 0.6)",
-    avatarType: "yajirobe",
-    skills: {
-      skill1: {
-        name: "拔刀居合斬",
-        cd: 3.2,
-        damage: 220,
-        type: "sword_dash",
-        desc: "收刀蓄勢後瞬間拔刀閃斬，前衝破開前方一切阻礙。"
-      },
-      skill2: {
-        name: "仙豆啃咬",
-        cd: 12,
-        damage: 0,
-        type: "heal",
-        desc: "掏出一粒仙豆咀嚼，瞬間回復 200 點生命值。"
-      },
-      ult: {
-        name: "斷尾重劈",
-        cd: 38,
-        rageCost: 100,
-        damage: 750,
-        type: "sword_slam",
-        desc: "高高躍起對準對手弱點施展全力量一刀兩斷的致命重劈。"
-      }
-    },
-    gadget: { name: "緊急烤肉補給", desc: "吃下大塊烤肉，10 秒內每秒回復 30 點生命。" },
-    starPower1: { name: "偷襲專精", desc: "背擊對手時傷害提高 30%。" },
-    starPower2: { name: "關鍵一擊", desc: "生命低於 20% 時拔刀居合斬必定暴擊。" },
-    hypercharge: { name: "神聖武士狂斬", desc: "大招釋放劍氣裂地波，傷害提升 25%。" },
-    godAuraTitle: "隱世狂刀"
-  },
-
-  // ── 3. 稀有 (藍階) ──
   {
     id: "rx78_2",
-    name: "初鋼 RX-78-2",
-    title: "聯邦白色惡魔",
-    series: "gundam",
-    seriesName: "鋼彈",
-    rarity: 3,
-    cost: 6800,
-    unlockCondition: "商店招募 (6,800 金幣)",
-    role: "攻防兼備",
-    baseHp: 1180,
-    baseAtk: 130,
-    baseDef: 65,
-    speed: 6.5,
-    themeColor: "#2563eb",
-    auraColor: "rgba(37, 99, 235, 0.6)",
-    avatarType: "rx78",
-    skills: {
-      skill1: {
-        name: "光束步槍點射",
-        cd: 3,
-        damage: 230,
-        type: "beam_rifle",
-        desc: "使用專用光束步槍精準射擊 2 發高能光束。"
-      },
-      skill2: {
-        name: "盾牌格擋衝撞",
-        cd: 5.5,
-        damage: 220,
-        type: "shield_bash",
-        desc: "舉盾格擋抵消正面攻擊並全力衝撞，將敵方挑飛。"
-      },
-      ult: {
-        name: "超級火箭筒轟炸",
-        cd: 38,
-        rageCost: 100,
-        damage: 820,
-        type: "bazooka_barrage",
-        desc: "雙手持超級火箭筒連續射出高爆彈頭，最後拔出光束軍刀飛斬收尾。"
-      }
-    },
-    gadget: { name: "核心戰機支援", desc: "召喚核心戰機進行一次空中俯衝掃射。" },
-    starPower1: { name: "學習型電腦", desc: "連續命中目標 4 次後，後續技能傷害提升 15%。" },
-    starPower2: { name: "月神鈦合金裝甲", desc: "受到的暴擊傷害降低 40%。" },
-    hypercharge: { name: "最後之射擊 (Last Shooting)", desc: "大招轉化為仰天單臂光束最大出力射擊，穿透全屏。" },
-    godAuraTitle: "初代傳說"
-  },
-  {
-    id: "char_zaku2",
-    name: "夏亞專用紅薩克",
-    title: "赤色彗星",
-    series: "gundam",
-    seriesName: "鋼彈",
-    rarity: 3,
-    cost: 6800,
-    unlockCondition: "商店招募 (6,800 金幣)",
-    role: "高速近戰",
-    baseHp: 1100,
-    baseAtk: 140,
-    baseDef: 55,
-    speed: 8.0,
-    themeColor: "#dc2626",
-    auraColor: "rgba(220, 38, 38, 0.7)",
-    avatarType: "char_zaku",
-    skills: {
-      skill1: {
-        name: "熱能斧三連斬",
-        cd: 3,
-        damage: 240,
-        type: "axe_slash",
-        desc: "抽出赤熱熱能斧發動極速三連斬，最後一擊附帶破甲。"
-      },
-      skill2: {
-        name: "薩克機槍掃射",
-        cd: 5,
-        damage: 210,
-        type: "mg_sweep",
-        desc: "持 120mm 薩克機槍呈扇形掃射，形成彈幕壓制。"
-      },
-      ult: {
-        name: "三倍速赤色彗星踢",
-        cd: 36,
-        rageCost: 100,
-        damage: 850,
-        type: "comet_kick",
-        desc: "推進器全開以三倍速殘影逼近，施展震碎機體的終極凌空飛踢。"
-      }
-    },
-    gadget: { name: "三倍速推進爆發", desc: "5 秒內移動速度與攻速提升 40%。" },
-    starPower1: { name: "赤色彗星之名", desc: "每次衝刺後的第一次攻擊必定暴擊。" },
-    starPower2: { name: "新人類預感", desc: "閃避成功後立即刷新小招 1 的冷卻時間。" },
-    hypercharge: { name: "隕石推進重踢", desc: "大招附帶隕石燃燒特效，衝擊範圍擴大 60%。" },
-    godAuraTitle: "赤色彗星"
-  },
-  {
-    id: "hulk",
-    name: "綠巨人浩克",
-    title: "不滅憤怒巨獸",
-    series: "marvel",
-    seriesName: "漫威",
-    rarity: 3,
-    cost: 6800,
-    unlockCondition: "商店招募 (6,800 金幣)",
-    role: "重裝力量",
-    baseHp: 1400,
-    baseAtk: 135,
-    baseDef: 80,
-    speed: 5.4,
-    themeColor: "#16a34a",
-    auraColor: "rgba(22, 163, 74, 0.7)",
-    avatarType: "hulk",
-    skills: {
-      skill1: {
-        name: "撼地衝擊波",
-        cd: 3.5,
-        damage: 250,
-        type: "ground_quake",
-        desc: "雙手合十怒擊地面，產生向前裂開的巨大岩石衝擊波。"
-      },
-      skill2: {
-        name: "狂暴飛撲抓取",
-        cd: 6,
-        damage: 230,
-        type: "leap_grab",
-        desc: "騰空躍起撲向對手，抓住後直接將其面朝下砸進地板。"
-      },
-      ult: {
-        name: "浩克重砸 (HULK SMASH!)",
-        cd: 40,
-        rageCost: 100,
-        damage: 880,
-        type: "hulk_smash",
-        desc: "抓起對手進行左右連續 4 次來回猛砸，最後一記跳躍重碾震撼全場。"
-      }
-    },
-    gadget: { name: "無盡怒火咆哮", desc: "震退全場敵方並使自身怒氣值直接增加 40%。" },
-    starPower1: { name: "越憤怒越強大", desc: "生命值每降低 10%，攻擊力提升 5%。" },
-    starPower2: { name: "伽馬自癒因子", desc: "每秒自動回復 1% 最大生命值。" },
-    hypercharge: { name: "世界破壞者形態", desc: "大招附帶綠色伽馬核爆，傷害提升 30% 並灼燒地面。" },
-    godAuraTitle: "怒火泰坦"
-  },
-  {
-    id: "yamcha",
-    name: "飲茶 (亞姆)",
-    title: "荒漠狂狼",
-    series: "dragonball",
-    seriesName: "七龍珠",
-    rarity: 3,
-    cost: 6800,
-    unlockCondition: "商店招募 (6,800 金幣)",
-    role: "敏捷連打",
-    baseHp: 1050,
-    baseAtk: 125,
-    baseDef: 50,
-    speed: 7.0,
-    themeColor: "#d97706",
-    auraColor: "rgba(217, 119, 6, 0.6)",
-    avatarType: "yamcha",
-    skills: {
-      skill1: {
-        name: "狼牙風風拳",
-        cd: 3,
-        damage: 230,
-        type: "wolf_combo",
-        desc: "化身狂狼撲擊，發動高速爪擊爪影連環撕裂打擊。"
-      },
-      skill2: {
-        name: "操氣彈",
-        cd: 5.5,
-        damage: 210,
-        type: "control_ki",
-        desc: "凝聚操氣彈並隨意念追蹤轉向，連續穿透打擊對手。"
-      },
-      ult: {
-        name: "真·狼牙烈風拳",
-        cd: 36,
-        rageCost: 100,
-        damage: 800,
-        type: "wolf_tempest",
-        desc: "凝聚巨型狂狼幻影，展開狂風暴雨般的極限體術終結。"
-      }
-    },
-    gadget: { name: "替身自爆假人", desc: "在原地留下替身假人引爆，自身後撤。" },
-    starPower1: { name: "孤狼之志", desc: "隊伍中其他隊友陣亡時，自身攻擊力 +20%。" },
-    starPower2: { name: "狼性直覺", desc: "暴擊率提升 15%。" },
-    hypercharge: { name: "狂暴狼魂覺醒", desc: "大招附帶群狼幻影撕咬，連段數翻倍。" },
-    godAuraTitle: "荒野狼王"
-  },
-  {
-    id: "winter_soldier",
-    name: "冬兵 (酷寒戰士)",
-    title: "機械臂殺手",
-    series: "marvel",
-    seriesName: "漫威",
-    rarity: 3,
-    cost: 6800,
-    unlockCondition: "商店招募 (6,800 金幣)",
-    role: "戰術近戰",
-    baseHp: 1120,
-    baseAtk: 135,
-    baseDef: 60,
-    speed: 6.6,
-    themeColor: "#475569",
-    auraColor: "rgba(71, 85, 105, 0.7)",
-    avatarType: "winter_soldier",
-    skills: {
-      skill1: {
-        name: "機械臂重拳",
-        cd: 3,
-        damage: 240,
-        type: "cyber_punch",
-        desc: "左手金屬手臂全力揮出一記重拳，具備單次破霸體效果。"
-      },
-      skill2: {
-        name: "突擊步槍連射",
-        cd: 5,
-        damage: 220,
-        type: "rifle_burst",
-        desc: "拔出戰術突擊步槍進行精準點射壓制。"
-      },
-      ult: {
-        name: "震爆彈破防襲擊",
-        cd: 36,
-        rageCost: 100,
-        damage: 830,
-        type: "stun_assault",
-        desc: "投擲多枚震爆閃光彈致盲敵方，隨後金屬手臂連續狂轟終結。"
-      }
-    },
-    gadget: { name: "戰術微型地雷", desc: "埋設高爆地雷，敵人踏入引發連鎖破甲爆炸。" },
-    starPower1: { name: "金屬臂格擋", desc: "格擋時減傷效果提升至 95%。" },
-    starPower2: { name: "冷酷刺客", desc: "對硬直狀態下的對手造成的傷害提升 25%。" },
-    hypercharge: { name: "汎合金手臂超載", desc: "大招機械臂釋放電磁脈衝波，造成額外眩暈。" },
-    godAuraTitle: "酷寒戰魂"
-  },
-
-  // ── 4. 特級 (紫階) ──
-  {
-    id: "ironman_mk50",
-    name: "鋼鐵人 Mark 50",
-    title: "奈米血邊裝甲",
-    series: "marvel",
-    seriesName: "漫威",
-    rarity: 4,
-    cost: 18000,
-    unlockCondition: "商店招募 (18,000 金幣)",
-    role: "飛行射擊",
-    baseHp: 1150,
-    baseAtk: 150,
-    baseDef: 60,
-    speed: 7.2,
-    themeColor: "#ea580c",
-    auraColor: "rgba(234, 88, 12, 0.7)",
-    avatarType: "ironman",
-    skills: {
-      skill1: {
-        name: "奈米能量掌心雷",
-        cd: 2.8,
-        damage: 260,
-        type: "repulsor_blast",
-        desc: "手部奈米粒子凝聚，發射極速高能脈衝光炮。"
-      },
-      skill2: {
-        name: "追蹤微型飛彈",
-        cd: 5.5,
-        damage: 240,
-        type: "micro_missiles",
-        desc: "背部展開 6 枚追蹤微型導彈，鎖定敵方追擊轟炸。"
-      },
-      ult: {
-        name: "單束單向衝擊胸砲 (Unibeam)",
-        cd: 40,
-        rageCost: 100,
-        damage: 960,
-        type: "unibeam",
-        desc: "胸口方舟反應爐過載全開，發射毀天滅地的超粗光束巨砲。"
-      }
-    },
-    gadget: { name: "奈米能量護盾", desc: "展開大型奈米護盾反彈所有投射物攻擊。" },
-    starPower1: { name: "AI 戰術輔助 Friday", desc: "每 8 秒自動識別並標記敵方破綻，下一擊必定暴擊。" },
-    starPower2: { name: "空中懸浮推進", desc: "可在空中自由推進滑行，空中攻擊傷害 +25%。" },
-    hypercharge: { name: "奈米重型加農砲矩陣", desc: "大招胸砲附帶背部 4 門浮空加農砲同步開火。" },
-    godAuraTitle: "鋼鐵之心"
-  },
-  {
-    id: "piccolo",
-    name: "比克 (魔童)",
-    title: "娜美克星大魔王",
-    series: "dragonball",
-    seriesName: "七龍珠",
-    rarity: 4,
-    cost: 18000,
-    unlockCondition: "商店招募 (18,000 金幣)",
-    role: "中程破防",
-    baseHp: 1220,
-    baseAtk: 145,
-    baseDef: 65,
-    speed: 6.6,
-    themeColor: "#15803d",
-    auraColor: "rgba(21, 128, 61, 0.7)",
-    avatarType: "piccolo",
-    skills: {
-      skill1: {
-        name: "伸長手臂擒拿",
-        cd: 3.5,
-        damage: 240,
-        type: "elastic_grab",
-        desc: "伸長橡膠般的手臂跨半屏抓取對手並拉回身前重擊。"
-      },
-      skill2: {
-        name: "激烈光彈",
-        cd: 6,
-        damage: 260,
-        type: "hellzone_grenade",
-        desc: "在敵方周圍布下懸浮氣彈，隨後一齊收攏爆破。"
-      },
-      ult: {
-        name: "魔貫光殺砲",
-        cd: 38,
-        rageCost: 100,
-        damage: 980,
-        type: "makankosappo",
-        desc: "兩指凝聚螺旋光芒貫穿全屏，具備無視 50% 防禦的極致穿透力。"
-      }
-    },
-    gadget: { name: "脫去重型披風", desc: "脫下負重披風，移速與攻擊速度永久提升 20%。" },
-    starPower1: { name: "超速再生", desc: "瀕死時瞬間回復 25% 生命值 (每場戰鬥限 1 次)。" },
-    starPower2: { name: "娜美克智慧", desc: "戰術小招冷卻時間縮短 15%。" },
-    hypercharge: { name: "橙色比克神力覺醒", desc: "大招化身巨大化體型，魔貫光殺砲化為核爆級光柱。" },
-    godAuraTitle: "魔界智尊"
-  },
-  {
-    id: "wing_gundam_zero",
-    name: "飛翼鋼彈 Zero",
-    title: "天使之翼破壞者",
+    name: "初代鋼彈 (RX-78-2)",
+    title: "白色基地聯邦惡魔",
     series: "gundam",
     seriesName: "鋼彈",
     rarity: 4,
-    cost: 18000,
-    unlockCondition: "商店招募 (18,000 金幣)",
-    role: "浮空轟炸",
-    baseHp: 1160,
-    baseAtk: 155,
-    baseDef: 60,
-    speed: 7.4,
-    themeColor: "#0284c7",
-    auraColor: "rgba(2, 132, 199, 0.7)",
-    avatarType: "wing_zero",
-    skills: {
-      skill1: {
-        name: "旋轉光束軍刀",
-        cd: 3,
-        damage: 260,
-        type: "saber_spin",
-        desc: "光束軍刀高速迴旋突進，將沿途敵人挑至浮空。"
-      },
-      skill2: {
-        name: "機關加農砲",
-        cd: 5,
-        damage: 230,
-        type: "gatling_burst",
-        desc: "胸部雙聯裝機關加農砲極速開火掃射。"
-      },
-      ult: {
-        name: "雙重破壞步槍迴旋射擊",
-        cd: 42,
-        rageCost: 100,
-        damage: 1000,
-        type: "twin_buster_spin",
-        desc: "展開羽翼懸空，雙重破壞步槍合體進行 360 度毀滅光束迴旋掃射。"
-      }
-    },
-    gadget: { name: "羽翼護盾包覆", desc: "4 片白羽機翼閉合，3 秒內免疫一切傷害。" },
-    starPower1: { name: "ZERO 系統預測", desc: "對手施展技能前 0.5 秒發出紅光預警，自身暴擊 +20%。" },
-    starPower2: { name: "天使滑翔", desc: "空中可進行無限次滑翔與衝刺。" },
-    hypercharge: { name: "滾動破壞全彈齊射", desc: "大招附帶全方位羽毛光刃粒子，掃蕩整個螢幕。" },
-    godAuraTitle: "光羽神判"
-  },
-  {
-    id: "future_trunks",
-    name: "特南克斯 (未來)",
-    title: "末世救世劍客",
-    series: "dragonball",
-    seriesName: "七龍珠",
-    rarity: 4,
-    cost: 18000,
-    unlockCondition: "商店招募 (18,000 金幣)",
-    role: "劍技突進",
-    baseHp: 1140,
+    cost: 3200,
+    unlockCondition: "消耗 3,200 金幣招募",
+    isFree: false,
+    role: "光束近戰",
+    weaponType: "beam_saber_rifle",
+    canFly: true,
+    baseHp: 1450,
     baseAtk: 160,
-    baseDef: 55,
-    speed: 7.1,
-    themeColor: "#8b5cf6",
-    auraColor: "rgba(139, 92, 246, 0.7)",
-    avatarType: "trunks",
-    skills: {
-      skill1: {
-        name: "閃光刺擊",
-        cd: 2.8,
-        damage: 250,
-        type: "sword_thrust",
-        desc: "背後拔出寶劍化作金光突刺，極速穿透前方敵人。"
-      },
-      skill2: {
-        name: "燃燒攻擊 (Burning Attack)",
-        cd: 5.5,
-        damage: 270,
-        type: "burning_attack",
-        desc: "雙手結出繁複印法，發射金色高熱氣功彈爆破。"
-      },
-      ult: {
-        name: "終結斬擊烈焰破",
-        cd: 38,
-        rageCost: 100,
-        damage: 990,
-        type: "shining_slash",
-        desc: "將弗利沙分屍的傳奇劍法！數十道劍光斬碎目標後氣功將其粉碎。"
-      }
-    },
-    gadget: { name: "時光機回溯", desc: "瞬間回到 3 秒前的位置並恢復期間損失的 50% 生命。" },
-    starPower1: { name: "希望之劍意", desc: "連擊每次命中使自身攻擊力提升 3% (最多疊加 10 層)。" },
-    starPower2: { name: "超賽怒火", desc: "怒氣累積速度提升 25%。" },
-    hypercharge: { name: "元氣之劍 (Sword of Hope)", desc: "大招匯聚全人類希望光芒，化作巨型光之巨劍劈裂天地。" },
-    godAuraTitle: "希望之刃"
-  },
-  {
-    id: "black_panther",
-    name: "黑豹 (帝查拉)",
-    title: "瓦甘達守護之王",
-    series: "marvel",
-    seriesName: "漫威",
-    rarity: 4,
-    cost: 18000,
-    unlockCondition: "商店招募 (18,000 金幣)",
-    role: "敏捷突擊",
-    baseHp: 1180,
-    baseAtk: 155,
-    baseDef: 65,
-    speed: 7.5,
-    themeColor: "#7e22ce",
-    auraColor: "rgba(126, 34, 206, 0.7)",
-    avatarType: "black_panther",
-    skills: {
-      skill1: {
-        name: "汎合金利爪連擊",
-        cd: 3,
-        damage: 260,
-        type: "claw_strike",
-        desc: "雙爪泛著紫光極速連撕 4 次，附加撕裂流血效果。"
-      },
-      skill2: {
-        name: "能量反衝護盾",
-        cd: 5.5,
-        damage: 200,
-        type: "kinetic_shield",
-        desc: "吸收當前攻擊的動能並化作紫色衝擊波彈開身邊敵人。"
-      },
-      ult: {
-        name: "瓦甘達之躍突襲",
-        cd: 38,
-        rageCost: 100,
-        damage: 970,
-        type: "wakanda_leap",
-        desc: "全身釋放充能動能狂暴震盪，伴隨黑豹幻影高速俯衝絕殺。"
-      }
-    },
-    gadget: { name: "心型草藥激活", desc: "10 秒內移速提升 50% 且普攻無法被格擋。" },
-    starPower1: { name: "動能吸收轉化", desc: "受到傷害的 20% 自動轉化為自身怒氣值。" },
-    starPower2: { name: "豹影匿蹤", desc: "翻滾閃避期間獲得完全隱形與 0.5 秒無敵。" },
-    hypercharge: { name: "瓦甘達萬歲 (Wakanda Forever)", desc: "大招引爆超強紫色動能脈衝，全圖衝擊波擊飛對手。" },
-    godAuraTitle: "瓦甘達黑豹"
-  },
-  {
-    id: "barbatos_lupus",
-    name: "獵魔鋼彈 Lupus",
-    title: "鐵華團狂狼",
-    series: "gundam",
-    seriesName: "鋼彈",
-    rarity: 4,
-    cost: 18000,
-    unlockCondition: "商店招募 (18,000 金幣)",
-    role: "霸體重擊",
-    baseHp: 1250,
-    baseAtk: 165,
-    baseDef: 70,
-    speed: 6.5,
-    themeColor: "#0f766e",
-    auraColor: "rgba(15, 118, 110, 0.7)",
-    avatarType: "barbatos",
-    skills: {
-      skill1: {
-        name: "巨大太刀橫掃",
-        cd: 3,
-        damage: 280,
-        type: "blade_sweep",
-        desc: "手持對艦太刀猛力橫劈，自帶單次強霸體並擊退敵人。"
-      },
-      skill2: {
-        name: "200mm 腕砲",
-        cd: 5,
-        damage: 230,
-        type: "wrist_cannon",
-        desc: "雙腕火砲速射，壓制中距離企圖拉扯的敵人。"
-      },
-      ult: {
-        name: "狂暴阿賴耶識重錘連打",
-        cd: 40,
-        rageCost: 100,
-        damage: 1020,
-        type: "mace_crush",
-        desc: "阿賴耶識限制器解除，雙眼綻放紅光，手持超大型鎚矛發動野獸般瘋狂連砸！"
-      }
-    },
-    gadget: { name: "阿賴耶識超頻注射", desc: "以自身 10% 生命為代價，攻擊力提升 40%，持續 8 秒。" },
-    starPower1: { name: "奈米積層裝甲", desc: "常駐免疫光束武器 30% 傷害。" },
-    starPower2: { name: "惡魔之眼", desc: "攻擊命中處於霸體狀態的對手造成雙倍傷害。" },
-    hypercharge: { name: "狼王帝王狂暴形態", desc: "大招附帶尾刃利刃撕裂，造成全場貫穿震裂。" },
-    godAuraTitle: "厄祭狂狼"
-  },
-
-  // ── 5. 史詩 (粉階) ──
-  {
-    id: "thor",
-    name: "雷神索爾",
-    title: "阿斯嘉雷霆之神",
-    series: "marvel",
-    seriesName: "漫威",
-    rarity: 5,
-    cost: 38000,
-    unlockCondition: "商店招募 (38,000 金幣)",
-    role: "範圍雷電",
-    baseHp: 1300,
-    baseAtk: 175,
-    baseDef: 70,
-    speed: 6.4,
-    themeColor: "#0284c7",
-    auraColor: "rgba(2, 132, 199, 0.8)",
-    avatarType: "thor",
-    skills: {
-      skill1: {
-        name: "雷神之鎚飛擲",
-        cd: 3.2,
-        damage: 290,
-        type: "hammer_throw",
-        desc: "擲出雷神之鎚妙爾尼爾穿透前方目標，並召喚其旋轉飛回。"
-      },
-      skill2: {
-        name: "雷霆旋風",
-        cd: 5.5,
-        damage: 310,
-        type: "lightning_spin",
-        desc: "高速揮舞戰鎚引導雷暴，將周圍敵方捲入暴風中擊飛。"
-      },
-      ult: {
-        name: "萬雷降臨神力召喚",
-        cd: 42,
-        rageCost: 100,
-        damage: 1150,
-        type: "god_thunder",
-        desc: "雙眼綻放白金神雷，從天空召喚九道粗大天雷狂轟全圖，撕裂一切！"
-      }
-    },
-    gadget: { name: "彩虹橋傳送衝擊", desc: "召喚彩虹橋從天而降砸擊目標區域並造成眩暈。" },
-    starPower1: { name: "雷霆之神本源", desc: "所有雷電技能命中使對手陷入感電狀態 (每秒扣血 40 點)。" },
-    starPower2: { name: "神之體魄", desc: "免疫眩暈與冰凍等所有硬控效果。" },
-    hypercharge: { name: "風暴毀滅者召喚 (Stormbreaker)", desc: "大招同時揮舞風暴戰斧，召喚巨大雷霆龍捲風。" },
-    godAuraTitle: "奧丁之子"
-  },
-  {
-    id: "vegeta",
-    name: "貝吉塔 (達爾)",
-    title: "賽亞人高傲王子",
-    series: "dragonball",
-    seriesName: "七龍珠",
-    rarity: 5,
-    cost: 38000,
-    unlockCondition: "商店招募 (38,000 金幣)",
-    role: "高速爆發",
-    baseHp: 1200,
-    baseAtk: 185,
-    baseDef: 60,
-    speed: 7.2,
-    themeColor: "#2563eb",
-    auraColor: "rgba(37, 99, 235, 0.8)",
-    avatarType: "vegeta",
-    skills: {
-      skill1: {
-        name: "連續氣功彈 (王子戰法)",
-        cd: 3,
-        damage: 300,
-        type: "rapid_ki",
-        desc: "雙手瘋狂發射密集的黃色氣彈雨，進行全方位狂轟爛炸。"
-      },
-      skill2: {
-        name: "大爆炸攻擊 (Big Bang Attack)",
-        cd: 6,
-        damage: 340,
-        type: "big_bang",
-        desc: "單手手掌向前凝聚高密度能量球，轟出巨大爆炸光團。"
-      },
-      ult: {
-        name: "最終閃光砲 (Final Flash)",
-        cd: 42,
-        rageCost: 100,
-        damage: 1180,
-        type: "final_flash",
-        desc: "雙臂張開蓄滿全身金色氣焰，怒吼轟出遮天蔽日的毀滅黃金閃光柱！"
-      }
-    },
-    gadget: { name: "賽亞人自尊爆發", desc: "強制打斷當前被控狀態並瞬間提升 50 點怒氣。" },
-    starPower1: { name: "王族高傲", desc: "對血量高於自身的目標傷害提高 25%！" },
-    starPower2: { name: "極速狂攻", desc: "普攻連擊速度提升 25%。" },
-    hypercharge: { name: "深藍魔神閃光 (SSGSS Evolved)", desc: "大招變身超藍進化，最終閃光砲寬度與傷害擴大 50%。" },
-    godAuraTitle: "賽亞戰皇"
-  },
-  {
-    id: "exia_gundam",
-    name: "能天使鋼彈 Exia",
-    title: "天人七劍驅逐者",
-    series: "gundam",
-    seriesName: "鋼彈",
-    rarity: 5,
-    cost: 38000,
-    unlockCondition: "商店招募 (38,000 金幣)",
-    role: "極速連斬",
-    baseHp: 1150,
-    baseAtk: 190,
-    baseDef: 55,
-    speed: 8.2,
-    themeColor: "#0284c7",
-    auraColor: "rgba(2, 132, 199, 0.8)",
-    avatarType: "exia",
-    skills: {
-      skill1: {
-        name: "GN 光束匕首投擲",
-        cd: 2.5,
-        damage: 260,
-        type: "dagger_throw",
-        desc: "極速投擲 2 枚高溫 GN 光束短匕首，造成減速。"
-      },
-      skill2: {
-        name: "GN 實體劍突刺",
-        cd: 5,
-        damage: 320,
-        type: "sword_pierce",
-        desc: "展開巨大 GN 實體巨劍極速突刺，瞬間穿過對手防線。"
-      },
-      ult: {
-        name: "Trans-AM 七劍連斬",
-        cd: 40,
-        rageCost: 100,
-        damage: 1160,
-        type: "transam_slash",
-        desc: "Trans-AM 系統全面啟動！機體通體化作赤紅殘影，施展七劍極速連環絕殺！"
-      }
-    },
-    gadget: { name: "GN 粒子干擾散佈", desc: "散佈高濃度 GN 粒子，5 秒內敵方無法使用任何技能。" },
-    starPower1: { name: "七劍宗師", desc: "每次暴擊縮短所有技能冷卻時間 1 秒。" },
-    starPower2: { name: "GN 粒子殘影", desc: "疾跑時獲得 20% 幾率完全迴避判定。" },
-    hypercharge: { name: "Trans-AM 爆發超載模式", desc: "大招期間獲得完全無敵，連斬次數增加至 14 連擊。" },
-    godAuraTitle: "天人斬神"
-  },
-  {
-    id: "scarlet_witch",
-    name: "緋紅女巫 (汪達)",
-    title: "混沌魔法至尊",
-    series: "marvel",
-    seriesName: "漫威",
-    rarity: 5,
-    cost: 38000,
-    unlockCondition: "商店招募 (38,000 金幣)",
-    role: "控場法師",
-    baseHp: 1100,
-    baseAtk: 195,
-    baseDef: 50,
-    speed: 6.6,
-    themeColor: "#e11d48",
-    auraColor: "rgba(225, 29, 72, 0.8)",
-    avatarType: "scarlet_witch",
-    skills: {
-      skill1: {
-        name: "混沌能量球",
-        cd: 3,
-        damage: 280,
-        type: "chaos_orb",
-        desc: "投擲深紅混沌能量球，命中後向外擴散造成二次引爆。"
-      },
-      skill2: {
-        name: "念力重壓摔擲",
-        cd: 6,
-        damage: 330,
-        type: "telekinesis_slam",
-        desc: "雙手浮空抓取目標懸至半空，隨後狠狠摜砸至地面。"
-      },
-      ult: {
-        name: "現實扭曲全屏震盪",
-        cd: 44,
-        rageCost: 100,
-        damage: 1200,
-        type: "reality_warp",
-        desc: "雙瞳泛起深紅混沌狂焰，撕裂現實維度，將全圖敵人壓制在維度重力中絞殺！"
-      }
-    },
-    gadget: { name: "心靈操控混亂", desc: "使對手在 3 秒內移動方向顛倒，且無法施放技能。" },
-    starPower1: { name: "混沌護盾", desc: "每施放一次技能獲得自身最大生命 10% 的混沌護盾。" },
-    starPower2: { name: "現實篡改", desc: "普通攻擊有 20% 機率直接將對手擊退並造成破防。" },
-    hypercharge: { name: "黑暗神書暴走", desc: "大招附帶全螢幕混沌黑紅閃電，造成額外 35% 毀滅傷害。" },
-    godAuraTitle: "混沌女皇"
-  },
-  {
-    id: "frieza_final",
-    name: "弗利沙 (最終形態)",
-    title: "宇宙帝王",
-    series: "dragonball",
-    seriesName: "七龍珠",
-    rarity: 5,
-    cost: 38000,
-    unlockCondition: "商店招募 (38,000 金幣)",
-    role: "殘酷牽制",
-    baseHp: 1220,
-    baseAtk: 180,
-    baseDef: 65,
-    speed: 7.5,
-    themeColor: "#9333ea",
-    auraColor: "rgba(147, 51, 234, 0.8)",
-    avatarType: "frieza",
-    skills: {
-      skill1: {
-        name: "死亡指束 (瞬發)",
-        cd: 2.2,
-        damage: 250,
-        type: "death_beam",
-        desc: "食指射出極速瞬發的紫紅射線，穿透力極強，起手極快。"
-      },
-      skill2: {
-        name: "念力巨石投砸",
-        cd: 5.5,
-        damage: 320,
-        type: "telekinesis_rock",
-        desc: "意念拔起巨型地表岩石，砸向對手引發範圍爆炸。"
-      },
-      ult: {
-        name: "這顆星球就由我來毀滅彈",
-        cd: 44,
-        rageCost: 100,
-        damage: 1220,
-        type: "death_ball",
-        desc: "單指凝聚遮天蔽日的黑色超級死滅彈砸向地面，引爆整顆星球的毀滅核光！"
-      }
-    },
-    gadget: { name: "殘酷假死護盾", desc: "受致命傷害時進入 2 秒無敵狀態並反彈所有近戰傷害。" },
-    starPower1: { name: "宇宙帝王之威", desc: "普攻命中使目標防禦力降低 5% (可疊加 5 層)。" },
-    starPower2: { name: "極度自負", desc: "自身血量高於 80% 時，暴擊傷害提高 50%。" },
-    hypercharge: { name: "黃金弗利沙變身 (Golden Frieza)", desc: "大招化身耀眼黃金形態，死滅彈轉為金光核融爆。" },
-    godAuraTitle: "帝皇威壓"
-  },
-  {
-    id: "god_gundam",
-    name: "神威鋼彈",
-    title: "爆熱神指格鬥王",
-    series: "gundam",
-    seriesName: "鋼彈",
-    rarity: 5,
-    cost: 38000,
-    unlockCondition: "商店招募 (38,000 金幣)",
-    role: "格鬥霸體",
-    baseHp: 1280,
-    baseAtk: 195,
-    baseDef: 70,
+    baseDef: 75,
     speed: 7.0,
-    themeColor: "#dc2626",
-    auraColor: "rgba(220, 38, 38, 0.8)",
-    avatarType: "god_gundam",
-    skills: {
-      skill1: {
-        name: "神威烈火掌",
-        cd: 3,
-        damage: 290,
-        type: "flame_palm",
-        desc: "右手燃起高溫烈火突進衝掌，附加灼燒與擊飛。"
-      },
-      skill2: {
-        name: "機關金剛拳",
-        cd: 5,
-        damage: 340,
-        type: "machinegun_punch",
-        desc: "展開背部翼板，施展每秒百拳的狂暴近身拳幕轟擊。"
-      },
-      ult: {
-        name: "爆熱神威掌·石破天驚拳",
-        cd: 42,
-        rageCost: 100,
-        damage: 1250,
-        type: "sekiha_tenkyoken",
-        desc: "背後展開超級光之日輪！雙手蓄滿熾熱愛心神力，怒吼轟出終極石破天驚拳！"
-      }
+    themeColor: "#38bdf8",
+    auraColor: "rgba(56, 189, 248, 0.7)",
+    attackConfig: {
+      light: { name: "光束步槍三連射", desc: "精準光束步槍射擊" },
+      heavy: { name: "光束軍刀縱斬", desc: "雙手持軍刀下劈破防" },
+      grab: { name: "超絕火箭筒近距離轟擊", desc: "零距離火箭筒轟擊重摔" },
+      flight: { name: "高出力噴射飛行", desc: "雙背包全向推進" }
     },
-    gadget: { name: "超級明鏡止水", desc: "瞬間解除所有負面狀態，5 秒內常駐完全霸體。" },
-    starPower1: { name: "流派東方不敗", desc: "近身格鬥傷害提升 25%，破防值提升 50%。" },
-    starPower2: { name: "燃燒之心", desc: "生命值越低，蓄力攻擊蓄力時間越短 (最多縮短 70%)。" },
-    hypercharge: { name: "真·石破LOVE天驚拳", desc: "大招召喚巨型金色巨人合力轟出，傷害提升 30%。" },
-    godAuraTitle: "拳神尊者"
-  },
-
-  // ── 6. 傳奇 (金階) ──
-  {
-    id: "ssj3_goku",
-    name: "超賽 3 孫悟空",
-    title: "超越極限金髮戰神",
-    series: "dragonball",
-    seriesName: "七龍珠",
-    rarity: 6,
-    cost: 78000,
-    unlockCondition: "商店招募 (78,000 金幣)",
-    role: "狂暴體術",
-    baseHp: 1350,
-    baseAtk: 220,
-    baseDef: 70,
-    speed: 7.8,
-    themeColor: "#eab308",
-    auraColor: "rgba(234, 179, 8, 0.85)",
-    avatarType: "ssj3_goku",
     skills: {
-      skill1: {
-        name: "瞬間移動升龍拳",
-        cd: 3,
-        damage: 340,
-        type: "instant_uppercut",
-        desc: "瞬移至目標正下方施展驚天升龍拳，強制浮空對手。"
-      },
-      skill2: {
-        name: "界王拳全開連打",
-        cd: 5.5,
-        damage: 400,
-        type: "kaioken_rush",
-        desc: "紅金氣焰交織，以肉眼難辨的速度發動 20 連擊體術重轟。"
-      },
-      ult: {
-        name: "超級龍拳爆發 (天地貫穿)",
-        cd: 45,
-        rageCost: 100,
-        damage: 1450,
-        type: "dragon_fist",
-        desc: "金龍狂嘯！悟空化身貫穿星辰的金色巨龍，全圖狂暴貫穿粉碎對手！"
-      }
-    },
-    gadget: { name: "瞬間移動閃避", desc: "立即瞬移至對手正後方並獲得 1 秒無敵。" },
-    starPower1: { name: "賽亞狂潮", desc: "連擊超過 15 次後，暴擊率提升至 100%，持續 3 秒。" },
-    starPower2: { name: "神之氣息共鳴", desc: "技能命中時有 20% 機率直接返還 30 點怒氣。" },
-    hypercharge: { name: "超賽 4 猿神覺醒", desc: "大招召喚狂暴紅猿與金龍合流，傷害增加 40%。" },
-    godAuraTitle: "真·賽亞神武"
+      skill1: { name: "鋼彈流星錘 (Gundam Hammer)", cd: 5, damage: 360, type: "chain_flail", desc: "投擲帶刺超重鐵球擊飛對手。" },
+      skill2: { name: "雙持光束軍刀突刺", cd: 7.5, damage: 380, type: "dual_saber_dash", desc: "拔出雙軍刀極速突進穿刺。" },
+      ult: { name: "最後一擊 (Last Shooting)", cd: 20, damage: 1200, type: "vertical_beam", desc: "單臂擎天朝上方轟出摧毀要塞的貫通巨光！" }
+    }
   },
   {
     id: "strike_freedom",
-    name: "攻擊自由鋼彈",
-    title: "金色骨架天罰之翼",
+    name: "攻擊自由鋼彈 (ZGMF-X20A)",
+    title: "超級龍騎兵天空之翼",
     series: "gundam",
     seriesName: "鋼彈",
-    rarity: 6,
-    cost: 78000,
-    unlockCondition: "商店招募 (78,000 金幣)",
-    role: "全方位射擊",
-    baseHp: 1300,
-    baseAtk: 230,
-    baseDef: 75,
-    speed: 8.0,
-    themeColor: "#3b82f6",
-    auraColor: "rgba(59, 130, 246, 0.85)",
-    avatarType: "strike_freedom",
-    skills: {
-      skill1: {
-        name: "光束軍刀雙刀流",
-        cd: 3,
-        damage: 350,
-        type: "dual_saber",
-        desc: "雙手持高能光束軍刀發動極速十字交叉斬。"
-      },
-      skill2: {
-        name: "高能磁軌砲",
-        cd: 5.5,
-        damage: 410,
-        type: "railgun_burst",
-        desc: "腰部展開「旗魚 3」磁軌砲發射高貫穿超音速實體彈幕。"
-      },
-      ult: {
-        name: "超級龍騎兵全發射 (全屏鎖定)",
-        cd: 46,
-        rageCost: 100,
-        damage: 1500,
-        type: "dragoon_full_burst",
-        desc: "展開 8 枚超級龍騎兵浮游砲，配合腹部相轉移加農砲進行全方位無死角鎖定齊射！"
-      }
-    },
-    gadget: { name: "光之盾陣列展開", desc: "產生覆蓋全身的立體光之盾，5 秒內反射所有遠程攻擊。" },
-    starPower1: { name: "新人類五彩大砲", desc: "遠程技能每次命中多個目標時，冷卻時間縮短 2 秒。" },
-    starPower2: { name: "SEED 爆種核心", desc: "血量低於 30% 時強制進入爆種狀態，攻速移速 +35%。" },
-    hypercharge: { name: "全武裝極限流星裝備", desc: "大招召喚大型流星支援裝備轟出戰艦級光束！" },
-    godAuraTitle: "自由之翼"
-  },
-  {
-    id: "hulkbuster",
-    name: "反浩克裝甲",
-    title: "軌道衛星空投重裝",
-    series: "marvel",
-    seriesName: "漫威",
-    rarity: 6,
-    cost: 78000,
-    unlockCondition: "商店招募 (78,000 金幣)",
-    role: "巨型重甲",
-    baseHp: 1600,
-    baseAtk: 215,
-    baseDef: 95,
-    speed: 5.2,
-    themeColor: "#b91c1c",
-    auraColor: "rgba(185, 28, 28, 0.85)",
-    avatarType: "hulkbuster",
-    skills: {
-      skill1: {
-        name: "液壓火箭重拳",
-        cd: 3.2,
-        damage: 360,
-        type: "rocket_punch",
-        desc: "重型液壓活塞噴射打出一記巨拳，直接將對手打飛至版邊。"
-      },
-      skill2: {
-        name: "牽制修復力場",
-        cd: 6.5,
-        damage: 280,
-        type: "repair_field",
-        desc: "釋放電磁牽制力場限制對手，並召喚配件快速修復自身 250 點生命。"
-      },
-      ult: {
-        name: "軌道衛星空投重裝連擊",
-        cd: 46,
-        rageCost: 100,
-        damage: 1480,
-        type: "veronica_drop",
-        desc: "呼叫維羅妮卡天基衛星空投巨大裝甲模組連續砸擊地面，最後釋放超重型充能衝擊！"
-      }
-    },
-    gadget: { name: "裝甲零件緊急替換", desc: "瞬間更換損壞肢體，立即清除硬直並恢復 20% 生命值。" },
-    starPower1: { name: "泰坦裝甲厚度", desc: "免疫所有非破防技能的擊飛與打斷硬直。" },
-    starPower2: { name: "液壓重擊破防", desc: "普通攻擊破防判定增加 100%。" },
-    hypercharge: { name: "全功率方舟力場引爆", desc: "大招釋放方舟核心超臨界核爆，覆蓋整個畫面。" },
-    godAuraTitle: "重裝守護神"
-  },
-  {
-    id: "dr_strange",
-    name: "奇異博士",
-    title: "至尊魔法師",
-    series: "marvel",
-    seriesName: "漫威",
-    rarity: 6,
-    cost: 78000,
-    unlockCondition: "商店招募 (78,000 金幣)",
-    role: "空間干擾",
-    baseHp: 1200,
-    baseAtk: 235,
-    baseDef: 60,
-    speed: 6.8,
-    themeColor: "#ea580c",
-    auraColor: "rgba(234, 88, 12, 0.85)",
-    avatarType: "dr_strange",
-    skills: {
-      skill1: {
-        name: "賽托拉克的紅帶 (捆綁)",
-        cd: 3.5,
-        damage: 320,
-        type: "magic_bind",
-        desc: "召喚深紅魔法鎖鏈纏繞對手，使其定身 1.5 秒並持續受損。"
-      },
-      skill2: {
-        name: "鏡像傳送門",
-        cd: 5.5,
-        damage: 300,
-        type: "portal_strike",
-        desc: "劃開金色傳送門，將敵方投射物或人直接轉移至空中砸下。"
-      },
-      ult: {
-        name: "千手阿戈摩托之眼幻術",
-        cd: 45,
-        rageCost: 100,
-        damage: 1520,
-        type: "vishanti_strike",
-        desc: "身後分化千手魔法法相，召喚鏡像維度碎裂空間，對目標進行多維度毀滅切割！"
-      }
-    },
-    gadget: { name: "阿戈摩托之眼時間回溯", desc: "使對手動作時間減慢 80%，持續 3 秒。" },
-    starPower1: { name: "魔導法陣結界", desc: "在場上留下魔法光陣，站於其上隊友技能 CD 縮短 20%。" },
-    starPower2: { name: "維山帝神佑", desc: "受致命傷時化為蝴蝶幻影散開並滿血復活 (每場 1 次)。" },
-    hypercharge: { name: "多元宇宙維度崩塌", desc: "大招轉化為多元維度摺疊，造成全屏純粹真實傷害。" },
-    godAuraTitle: "至尊法聖"
-  },
-  {
-    id: "cell_perfect",
-    name: "沙魯 (完全體)",
-    title: "完美生物終極兵器",
-    series: "dragonball",
-    seriesName: "七龍珠",
-    rarity: 6,
-    cost: 78000,
-    unlockCondition: "商店招募 (78,000 金幣)",
-    role: "萬能拷貝",
-    baseHp: 1320,
-    baseAtk: 225,
-    baseDef: 70,
-    speed: 7.4,
-    themeColor: "#16a34a",
-    auraColor: "rgba(22, 163, 74, 0.85)",
-    avatarType: "cell",
-    skills: {
-      skill1: {
-        name: "龜派氣功 (拷貝)",
-        cd: 3,
-        damage: 350,
-        type: "copied_kame",
-        desc: "雙手蓄力轟出湛藍巨型氣功波，帶有強烈擊退與高傷害。"
-      },
-      skill2: {
-        name: "瞬間移動魔貫光殺砲",
-        cd: 5.5,
-        damage: 420,
-        type: "tp_beam",
-        desc: "兩指點額瞬間移動至目標背後，近距離轟出魔貫光殺砲。"
-      },
-      ult: {
-        name: "完美結界自爆釋放",
-        cd: 46,
-        rageCost: 100,
-        damage: 1530,
-        type: "perfect_barrier",
-        desc: "展開耀眼金黃完美結界，將對手震至中心，隨後釋放足以摧毀太陽系的究極金光大爆發！"
-      }
-    },
-    gadget: { name: "小沙魯分裂召喚", desc: "召喚 1 隻小沙魯自動追擊騷擾對手。" },
-    starPower1: { name: "賽亞人瀕死突破", desc: "每從瀕死狀態（<20%血）恢復一次，攻擊力永久提升 20%。" },
-    starPower2: { name: "短笛細胞超再生", desc: "受到傷害後 3 秒內緩慢回復該次傷害 30% 生命值。" },
-    hypercharge: { name: "閃電沙魯超完美覺醒", desc: "周身環繞金色閃電，大招自爆傷害提升 35% 且無死角。" },
-    godAuraTitle: "完美終結者"
-  },
-  {
-    id: "oo_raiser",
-    name: "00 強化模組 (00-R)",
-    title: "雙爐同調量子變革",
-    series: "gundam",
-    seriesName: "鋼彈",
-    rarity: 6,
-    cost: 78000,
-    unlockCondition: "商店招募 (78,000 金幣)",
-    role: "粒子同調",
-    baseHp: 1280,
-    baseAtk: 240,
-    baseDef: 65,
-    speed: 8.5,
-    themeColor: "#0284c7",
-    auraColor: "rgba(2, 132, 199, 0.85)",
-    avatarType: "oo_raiser",
-    skills: {
-      skill1: {
-        name: "GN 微型飛彈",
-        cd: 2.8,
-        damage: 330,
-        type: "gn_missiles",
-        desc: "O-Raiser 背包射出 8 枚高機動 GN 導彈追尾襲擊。"
-      },
-      skill2: {
-        name: "雙重刃旋風",
-        cd: 5,
-        damage: 420,
-        type: "twin_saber_spin",
-        desc: "GN 巨劍 III 高速迴旋斬擊，形成青綠色粒子切割風暴。"
-      },
-      ult: {
-        name: "Trans-AM Raiser 巨型光束巨劍 (Raiser Sword)",
-        cd: 46,
-        rageCost: 100,
-        damage: 1550,
-        type: "raiser_sword",
-        desc: "Twin Drive 系統產能突破極限！伸長出長達數萬公里的超巨型光束巨劍縱向力劈！"
-      }
-    },
-    gadget: { name: "量子化空間位移", desc: "化身純粹粒子消散，3 秒內完全無敵且可穿透對手。" },
-    starPower1: { name: "雙爐拓撲缺陷同調", desc: "技能冷卻速度整體提升 20%。" },
-    starPower2: { name: "純種變革者共感", desc: "自動看穿對手動作，格擋不會消耗任何格擋條。" },
-    hypercharge: { name: "全刃式七劍極限粒子解放", desc: "大招巨劍化作七重天刃光柱，橫掃全圖。" },
-    godAuraTitle: "量子之神"
-  },
-
-  // ── 7. 神話 (紅階) ──
-  {
-    id: "gogeta_blue",
-    name: "超藍 悟吉塔",
-    title: "神之領域究極合體",
-    series: "dragonball",
-    seriesName: "七龍珠",
-    rarity: 7,
-    cost: 150000,
-    unlockCondition: "商店招募 (150,000 金幣)",
-    role: "神之氣息",
-    baseHp: 1450,
+    rarity: 8,
+    cost: 23000,
+    unlockCondition: "消耗 23,000 金幣招募",
+    isFree: false,
+    role: "全域光束",
+    weaponType: "dragoons_dual_rifles",
+    canFly: true,
+    baseHp: 2000,
     baseAtk: 260,
-    baseDef: 75,
-    speed: 8.5,
-    themeColor: "#06b6d4",
-    auraColor: "rgba(6, 182, 212, 0.9)",
-    avatarType: "gogeta",
-    skills: {
-      skill1: {
-        name: "神聖狂風踢",
-        cd: 3,
-        damage: 420,
-        type: "holy_kick",
-        desc: "神聖藍氣纏繞腿部施展殘影四連迴旋踢，空中壓制極強。"
-      },
-      skill2: {
-        name: "懲罰者破壞球 (Punisher Drive)",
-        cd: 5.2,
-        damage: 480,
-        type: "punisher_drive",
-        desc: "極速閃爍穿梭於對手周身，留下十數道湛藍爆裂能量球。"
-      },
-      ult: {
-        name: "靈魂破壞者 (Stardust Breaker)",
-        cd: 48,
-        rageCost: 100,
-        damage: 1850,
-        type: "stardust_breaker",
-        desc: "手中凝聚七彩星塵光球拋向對手，在目標體內引爆淨化一切邪惡的彩虹核爆！"
-      }
-    },
-    gadget: { name: "神之氣息震懾", desc: "震碎全屏投射物並使對手陷入 1.5 秒絕望僵直。" },
-    starPower1: { name: "融合術完美體", desc: "常駐獲得 15% 傷害減免與 20% 全屬性提升。" },
-    starPower2: { name: "神境威壓", desc: "怒氣累積速度提升 35%。" },
-    hypercharge: { name: "終極龜派氣功全開", desc: "大招後追加全屏超藍終極龜派氣功，傷害暴增 40%。" },
-    godAuraTitle: "究極合體神"
-  },
-  {
-    id: "kshatriya",
-    name: "剎帝利 (大青椒)",
-    title: "四翼複合大型浮游機",
-    series: "gundam",
-    seriesName: "鋼彈",
-    rarity: 7,
-    cost: 150000,
-    unlockCondition: "商店招募 (150,000 金幣)",
-    role: "浮游砲陣列",
-    baseHp: 1550,
-    baseAtk: 250,
-    baseDef: 90,
-    speed: 6.2,
-    themeColor: "#15803d",
-    auraColor: "rgba(21, 128, 61, 0.9)",
-    avatarType: "kshatriya",
-    skills: {
-      skill1: {
-        name: "四片複合防禦翼展開",
-        cd: 3.5,
-        damage: 400,
-        type: "wing_slam",
-        desc: "四片大型複合翼向前閉合夾擊，具備反彈遠程攻擊與高額擊飛。"
-      },
-      skill2: {
-        name: "飛彈齊射",
-        cd: 5.5,
-        damage: 460,
-        type: "pod_missiles",
-        desc: "翼部內藏多聯裝飛彈全數噴射，形成覆蓋半屏的爆炸火網。"
-      },
-      ult: {
-        name: "24 枚浮游砲全域十字交火",
-        cd: 48,
-        rageCost: 100,
-        damage: 1800,
-        type: "funnel_storm",
-        desc: "釋放 24 枚感應浮游砲布滿整個戰場，以超高頻率進行無死角十字光束光網絞殺！"
-      }
-    },
-    gadget: { name: "I-Field 能量力場全開", desc: "5 秒內吸收所有光束傷害並轉化為自身生命值。" },
-    starPower1: { name: "重裝四翼抗性", desc: "受到任何正面攻擊時減傷 40%。" },
-    starPower2: { name: "感應兵器精通", desc: "浮游砲攻擊有 25% 機率造成對手麻痺 0.5 秒。" },
-    hypercharge: { name: "超級光束加農砲超載", desc: "胸部四門高能米加粒子砲同步轟擊，貫穿全場。" },
-    godAuraTitle: "森羅青椒"
-  },
-  {
-    id: "loki_god_of_stories",
-    name: "時間之神 洛基",
-    title: "故事之神·時間盡頭",
-    series: "marvel",
-    seriesName: "漫威",
-    rarity: 7,
-    cost: 150000,
-    unlockCondition: "商店招募 (150,000 金幣)",
-    role: "幻象分身",
-    baseHp: 1380,
-    baseAtk: 265,
-    baseDef: 70,
-    speed: 7.6,
-    themeColor: "#16a34a",
-    auraColor: "rgba(22, 163, 74, 0.9)",
-    avatarType: "loki",
-    skills: {
-      skill1: {
-        name: "幻影分身替身術",
-        cd: 3.2,
-        damage: 390,
-        type: "illusion_tp",
-        desc: "在原地留下幻影並瞬移至敵後，幻影爆炸造成眩暈與傷害。"
-      },
-      skill2: {
-        name: "時間絲線纏繞",
-        cd: 5.5,
-        damage: 450,
-        type: "time_threads",
-        desc: "雙手拉扯綠色時間光線束縛對手，強制暫停其技能 CD 4 秒。"
-      },
-      ult: {
-        name: "時間盡頭·命運編織",
-        cd: 48,
-        rageCost: 100,
-        damage: 1880,
-        type: "time_tree",
-        desc: "手握億萬條世界線走上時間王座！綠色時間神力貫穿寰宇，將對手打回時間荒原毀滅！"
-      }
-    },
-    gadget: { name: "時間倒流結界", desc: "將自身生命值重置回 5 秒前的最高狀態。" },
-    starPower1: { name: "惡作劇神格", desc: "閃避成功時在原地自動召喚 1 個攻擊敵人的幻影。" },
-    starPower2: { name: "光陰之主", desc: "對手處於受控狀態時，自身對其造成的傷害增加 35%。" },
-    hypercharge: { name: "世界樹王座冠冕", desc: "大招時間樹光輝閃耀，直接封印敵方援護技 15 秒。" },
-    godAuraTitle: "時間神王"
-  },
-  {
-    id: "kid_buu",
-    name: "魔人普烏 (純粹)",
-    title: "宇宙毀滅原初魔物",
-    series: "dragonball",
-    seriesName: "七龍珠",
-    rarity: 7,
-    cost: 150000,
-    unlockCondition: "商店招募 (150,000 金幣)",
-    role: "不死再生",
-    baseHp: 1500,
-    baseAtk: 255,
-    baseDef: 80,
-    speed: 8.0,
-    themeColor: "#ec4899",
-    auraColor: "rgba(236, 72, 153, 0.9)",
-    avatarType: "kid_buu",
-    skills: {
-      skill1: {
-        name: "變形糖果光線",
-        cd: 4,
-        damage: 380,
-        type: "candy_beam",
-        desc: "頭頂觸角射出粉紅光線，將對手變成巧克力糖果 2 秒（無法攻擊與移動）。"
-      },
-      skill2: {
-        name: "狂暴肉彈戰車",
-        cd: 5.5,
-        damage: 460,
-        type: "rolling_smash",
-        desc: "蜷縮成粉紅巨球在地面與牆壁高速彈射反覆碾壓敵人。"
-      },
-      ult: {
-        name: "超級特大毀滅彈 (Planet Burst)",
-        cd: 48,
-        rageCost: 100,
-        damage: 1900,
-        type: "planet_burst",
-        desc: "高舉雙手凝聚出直徑數十米的暗粉紅毀滅死星，大笑著砸向地面摧毀整片次元！"
-      }
-    },
-    gadget: { name: "無限肉身分裂", desc: "受到致命傷時化身為無數肉塊，在戰場角落滿血重生 (每場 1 次)。" },
-    starPower1: { name: "原初魔人體質", desc: "每秒自動回復 2% 最大生命值，且免疫所有負面減速。" },
-    starPower2: { name: "瘋狂狂亂打擊", desc: "普通攻擊每次命中造成 10% 額外真實傷害。" },
-    hypercharge: { name: "魔化粉紅蒸氣暴走", desc: "大招釋放前噴射全屏毀滅蒸氣，造成多段穿透擊退。" },
-    godAuraTitle: "原初魔尊"
-  },
-  {
-    id: "crossbone_x1_fc",
-    name: "海盜鋼彈 X1 全覆式",
-    title: "骷髏狂刀海盜戰神",
-    series: "gundam",
-    seriesName: "鋼彈",
-    rarity: 7,
-    cost: 150000,
-    unlockCondition: "商店招募 (150,000 金幣)",
-    role: "斬擊刺客",
-    baseHp: 1350,
-    baseAtk: 275,
-    baseDef: 70,
-    speed: 8.6,
-    themeColor: "#475569",
-    auraColor: "rgba(71, 85, 105, 0.9)",
-    avatarType: "crossbone",
-    skills: {
-      skill1: {
-        name: "雀屏碎擊弩",
-        cd: 3,
-        damage: 420,
-        type: "peacock_smasher",
-        desc: "手持扇形雀屏碎擊弩射出 9 道散射高能光束。"
-      },
-      skill2: {
-        name: "骷髏粒子砲",
-        cd: 5,
-        damage: 490,
-        type: "skull_blaster",
-        desc: "肩部骷髏核心推進器展開，釋放超高溫米加粒子衝擊。"
-      },
-      ult: {
-        name: "螺旋鋼鞭村正狂刀",
-        cd: 46,
-        rageCost: 100,
-        damage: 1890,
-        type: "murasama_slashes",
-        desc: "村正狂刀 14 把光束刃全開！以狂暴骷髏斬擊風暴將對手切成無數光刃碎片！"
-      }
-    },
-    gadget: { name: "全覆式裝甲脫卸", desc: "爆散外層重裝甲，移速瞬間提升 60% 且下次攻擊必定暴擊。" },
-    starPower1: { name: "海盜狂熱刃", desc: "斬擊武器暴擊傷害提升 50%。" },
-    starPower2: { name: "熱能烙鐵短刀", desc: "抓技與近身技能可強制摧毀對手 25% 防禦裝甲。" },
-    hypercharge: { name: "生化電腦極限解放", desc: "大招附帶金色骷髏氣浪，最後一擊產生核爆級光束切斷。" },
-    godAuraTitle: "骷髏劍王"
-  },
-
-  // ── 8. 幻界 (彩階) ──
-  {
-    id: "vegito_blue",
-    name: "超藍·貝吉特",
-    title: "波特拉耳環神之無敵",
-    series: "dragonball",
-    seriesName: "七龍珠",
-    rarity: 8,
-    cost: 360000,
-    unlockCondition: "商店招募 (360,000 金幣)",
-    role: "絕對無敵",
-    baseHp: 1600,
-    baseAtk: 310,
-    baseDef: 85,
+    baseDef: 95,
     speed: 8.8,
-    themeColor: "#0284c7",
-    auraColor: "rgba(2, 132, 199, 0.95)",
-    avatarType: "vegito",
-    skills: {
-      skill1: {
-        name: "終極巨劍刺擊 (Spirit Sword)",
-        cd: 3,
-        damage: 520,
-        type: "spirit_sword",
-        desc: "單手凝聚出數十米長金色氣劍橫空刺穿對手並將其狠狠摔砸！"
-      },
-      skill2: {
-        name: "擴散指束彈",
-        cd: 5,
-        damage: 580,
-        type: "scatter_finger_beams",
-        desc: "雙手五指齊張，射出十道藍白交叉雷光射線穿透全場。"
-      },
-      ult: {
-        name: "最終龜派氣功 (Final Kamehameha)",
-        cd: 50,
-        rageCost: 100,
-        damage: 2300,
-        type: "final_kamehameha",
-        desc: "最終閃光砲與龜派氣功的終極融合！雙臂拉開釋放毀滅宇宙的藍金混色巨神光柱！"
-      }
+    themeColor: "#facc15",
+    auraColor: "rgba(250, 204, 21, 0.95)",
+    attackConfig: {
+      light: { name: "高能量光束雙槍連射", desc: "雙天狼座光束步槍四段速射" },
+      heavy: { name: "天鏡光束劍破防", desc: "腰間雙刀合一雙頭刃橫掃破防" },
+      grab: { name: "腹部超相軌道砲近轟", desc: "烈火相移砲零距離轟擊" },
+      flight: { name: "光之翼全開 (Wings of Light)", desc: "黃金骨架光之翼超高速懸浮作戰" }
     },
-    gadget: { name: "這就是貝吉特的力量！", desc: "3 秒內免疫所有攻擊並使下次技能傷害翻倍。" },
-    starPower1: { name: "無可匹敵的傲慢", desc: "每次攻擊命中時扣除目標 10 點怒氣。" },
-    starPower2: { name: "耳環永恆力量", desc: "怒氣達到 100% 時，所有技能傷害額外提升 30%。" },
-    hypercharge: { name: "神之絕對次元裂解砲", desc: "大招附帶神域時空震盪，撕碎螢幕所有敵對單位。" },
-    godAuraTitle: "寰宇無敵至尊"
+    skills: {
+      skill1: { name: "8枚超級龍騎兵全方位齊射", cd: 5.5, damage: 620, type: "dragoons_beam", desc: "展開 8 枚龍騎兵浮游砲 360 度鎖定交叉射擊！" },
+      skill2: { name: "雙槍組合長射程步槍", cd: 8, damage: 560, type: "sniper_beam", desc: "雙槍前後組合轟出超貫通金色光束。" },
+      ult: { name: "全彈發射·全領域鎖定 (Full Burst Mode)", cd: 20, damage: 2280, type: "multi_lock_burst", desc: "龍騎兵、腰砲、雙槍、腹砲全功率齊射，星河毀滅巨響！" }
+    }
   },
   {
-    id: "destiny_spec2",
-    name: "命運鋼彈 (Spec II)",
-    title: "赤紅光翼全武裝極速",
+    id: "nu_gundam_fin_funnel",
+    name: "Nu 鋼彈 (阿姆羅·雷)",
+    title: "阿克西斯精神感應奇蹟",
     series: "gundam",
     seriesName: "鋼彈",
     rarity: 8,
-    cost: 360000,
-    unlockCondition: "商店招募 (360,000 金幣)",
-    role: "全武裝高速",
-    baseHp: 1550,
-    baseAtk: 320,
-    baseDef: 80,
-    speed: 9.0,
+    cost: 22500,
+    unlockCondition: "消耗 22,500 金幣招募",
+    isFree: false,
+    role: "感應浮游砲",
+    weaponType: "fin_funnels",
+    canFly: true,
+    baseHp: 2050,
+    baseAtk: 255,
+    baseDef: 100,
+    speed: 8.4,
+    themeColor: "#38bdf8",
+    auraColor: "rgba(56, 189, 248, 0.95)",
+    attackConfig: {
+      light: { name: "專用光束步槍射擊", desc: "四段高出力光束連打" },
+      heavy: { name: "定製光束軍刀重劈", desc: "背部弧形光束軍刀破防" },
+      grab: { name: "新人類精神重拳", desc: "連擊後將對手砸入擂台" },
+      flight: { name: "精神感應推進", desc: "翼狀感應砲流光懸浮飛行" }
+    },
+    skills: {
+      skill1: { name: "翼狀感應砲 (Fin Funnel)", cd: 5, damage: 600, type: "funnel_lasers", desc: "6 枚翼狀感應砲飛出全角度追擊射擊。" },
+      skill2: { name: "金字塔感應防禦力場", cd: 9, damage: 200, type: "pyramid_barrier", desc: "展開無敵金字塔光之壁，抵擋一切遠程攻擊 4 秒。" },
+      ult: { name: "新人類奇蹟·阿克西斯衝擊", cd: 20, damage: 2200, type: "psychoframe_miracle", desc: "精神感應骨架爆發翠綠神光，創造超越物理法則的奇蹟光芒！" }
+    }
+  },
+  {
+    id: "sazabi_char",
+    name: "沙薩比 (夏亞·阿茲納布爾)",
+    title: "新吉翁總帥紅色彗星",
+    series: "gundam",
+    seriesName: "鋼彈",
+    rarity: 8,
+    cost: 22500,
+    unlockCondition: "消耗 22,500 金幣招募",
+    isFree: false,
+    role: "重型浮游",
+    weaponType: "funnels_beam_axe",
+    canFly: true,
+    baseHp: 2200,
+    baseAtk: 255,
+    baseDef: 100,
+    speed: 8.3,
     themeColor: "#dc2626",
     auraColor: "rgba(220, 38, 38, 0.95)",
-    avatarType: "destiny",
-    skills: {
-      skill1: {
-        name: "光之翼極速突進",
-        cd: 2.8,
-        damage: 510,
-        type: "wings_dash",
-        desc: "背部展開幻影光之翼以超光速殘影穿梭突進，造成多重斬擊。"
-      },
-      skill2: {
-        name: "掌中槍衝擊波 (Palma Fiocina)",
-        cd: 5,
-        damage: 590,
-        type: "palma_fiocina",
-        desc: "掌心直接按住目標面門，零距離引爆高能光束掌中槍！"
-      },
-      ult: {
-        name: "亞隆戴特巨劍全開斬",
-        cd: 48,
-        rageCost: 100,
-        damage: 2250,
-        type: "arondight_combo",
-        desc: "拔出超長對艦刀「亞隆戴特」，配合光之翼分身展開全螢幕十字幻影極限狂斬！"
-      }
+    attackConfig: {
+      light: { name: "光束散彈步槍射擊", desc: "大威力光束散彈四段連射" },
+      heavy: { name: "大型光束戰斧重劈", desc: "翠綠大型戰斧蓄力破防" },
+      grab: { name: "腹部米加粒子砲零距離轟殺", desc: "抓住胸口零距大砲轟飛" },
+      flight: { name: "三倍速推進飛行", desc: "紅色巨軀三倍速狂暴突進" }
     },
-    gadget: { name: "幻影分身狂嵐", desc: "召喚 3 具實體殘影分身同步施展普攻 5 秒。" },
-    starPower1: { name: "殘影光之翼", desc: "移動與疾跑時常駐獲得 30% 迴避率。" },
-    starPower2: { name: "復仇意志", desc: "隊友每陣亡一人，自身暴擊率 +15%，攻擊力 +15%。" },
-    hypercharge: { name: "宙斯裝備衛星加農砲", desc: "大招呼叫天基宙斯導彈裝備轟出巨大軌道爆破！" },
-    godAuraTitle: "命運主宰"
+    skills: {
+      skill1: { name: "6門圓錐浮游砲 (Funnels)", cd: 5, damage: 590, type: "funnels_barrage", desc: "背部 6 門浮游砲彈出全方位轟炸。" },
+      skill2: { name: "腹部大型米加粒子砲", cd: 8, damage: 560, type: "mega_particle", desc: "腹部發射直徑 3 米深紅粒子巨束。" },
+      ult: { name: "總帥之肅清·紅色彗星審判", cd: 20, damage: 2220, type: "char_judgment", desc: "浮游砲與巨型光束戰斧全力齊射，徹底肅清重力束縛之魂！" }
+    }
   },
   {
-    id: "strange_supreme",
-    name: "黑化奇異博士",
-    title: "吞噬萬物黑化至尊",
-    series: "marvel",
-    seriesName: "漫威",
+    id: "barbatos_lupus_rex",
+    name: "天狼王型獵魔鋼彈 (ASW-G-08)",
+    title: "鐵華團惡魔之王",
+    series: "gundam",
+    seriesName: "鋼彈",
     rarity: 8,
-    cost: 360000,
-    unlockCondition: "商店招募 (360,000 金幣)",
-    role: "異界吞噬",
-    baseHp: 1520,
-    baseAtk: 330,
-    baseDef: 75,
-    speed: 7.8,
-    themeColor: "#581c87",
-    auraColor: "rgba(88, 28, 135, 0.95)",
-    avatarType: "strange_supreme",
-    skills: {
-      skill1: {
-        name: "召喚遠古觸手",
-        cd: 3,
-        damage: 530,
-        type: "ancient_tentacles",
-        desc: "從虛空撕裂維度裂縫，召喚數十條紫黑遠古觸手瘋狂抽打抓取對手。"
-      },
-      skill2: {
-        name: "吞噬能量護盾",
-        cd: 5.5,
-        damage: 480,
-        type: "absorb_shield",
-        desc: "張開暗黑吞噬之口，將對手施放的所有投射物與技能能量吞噬並轉化為自身攻擊力。"
-      },
-      ult: {
-        name: "絕對時間點崩塌大術",
-        cd: 50,
-        rageCost: 100,
-        damage: 2350,
-        type: "time_collapse",
-        desc: "強行逆轉不可改變的絕對時間點！暗黑神力撕裂整個宇宙，黑洞吞噬所有維度生靈！"
-      }
+    cost: 21500,
+    unlockCondition: "消耗 21,500 金幣招募",
+    isFree: false,
+    role: "野獸狂戰",
+    weaponType: "giant_mace_tail",
+    canFly: true,
+    baseHp: 2300,
+    baseAtk: 260,
+    baseDef: 95,
+    speed: 8.5,
+    themeColor: "#475569",
+    auraColor: "rgba(239, 68, 68, 0.9)",
+    attackConfig: {
+      light: { name: "超硬質金屬利爪連擊", desc: "野獸巨爪狂暴撕裂四段" },
+      heavy: { name: "超大型錘矛重砸", desc: "萬噸重錘粉碎一切防禦" },
+      grab: { name: "尾刃貫穿重摔", desc: "尾部刃狀纜線刺穿甩地" },
+      flight: { name: "阿賴耶識極限飛行", desc: "血紅眼芒與狂暴姿態獵殺" }
     },
-    gadget: { name: "吞噬魔獸巨力", desc: "立即吞噬一隻異界魔獸，使自身生命上限提升 30% 並回滿血。" },
-    starPower1: { name: "千魔同體", desc: "每次施放技能後使下一擊技能傷害提升 25% (可疊加 3 層)。" },
-    starPower2: { name: "因果逆轉", desc: "受到大於自身 20% 生命的單次傷害時，將該傷害 50% 反彈給攻擊者。" },
-    hypercharge: { name: "巨型九頭蛇魔神降臨", desc: "大招召喚遮天蔽日的異次元魔神法相合擊，威力提升 35%。" },
-    godAuraTitle: "滅世魔尊"
+    skills: {
+      skill1: { name: "尾部刃狀電纜穿刺 (Tail Blade)", cd: 4.5, damage: 560, type: "tail_pierce", desc: "背後尾刃如毒蛇般超高速穿透對手心臟。" },
+      skill2: { name: "超大型錘矛瘋狂連砸", cd: 8, damage: 580, type: "mace_smash", desc: "揮舞超重巨錘連續砸擊大地碎石飛濺。" },
+      ult: { name: "阿賴耶識限制解除 (Alaya-Vijnana Unleashed)", cd: 20, damage: 2260, type: "rex_carnage", desc: "雙眼爆發赤紅光焰，巨爪狂撕錘矛暴砸，極致暴力美學！" }
+    }
   },
   {
-    id: "broly_legendary",
-    name: "傳奇超賽 布羅利",
-    title: "無限暴走綠焰巨獸",
-    series: "dragonball",
-    seriesName: "七龍珠",
+    id: "wing_zero_ew",
+    name: "飛翼零式 EW (天使羽翼)",
+    title: "白色天使純白之翼",
+    series: "gundam",
+    seriesName: "鋼彈",
     rarity: 8,
-    cost: 360000,
-    unlockCondition: "商店招募 (360,000 金幣)",
-    role: "狂暴巨獸",
+    cost: 23500,
+    unlockCondition: "消耗 23,500 金幣招募",
+    isFree: false,
+    role: "雙管光束",
+    weaponType: "twin_buster_rifle",
+    canFly: true,
+    baseHp: 1950,
+    baseAtk: 265,
+    baseDef: 90,
+    speed: 8.7,
+    themeColor: "#38bdf8",
+    auraColor: "rgba(56, 189, 248, 0.95)",
+    attackConfig: {
+      light: { name: "光束步槍雙槍射擊", desc: "天使四羽展開四段光束射擊" },
+      heavy: { name: "光束軍刀雙重迴旋斬", desc: "翠綠軍刀蓄力破防" },
+      grab: { name: "羽翼包裹近距離旋轉射擊", desc: "羽翼護體零距離雙槍轟碎" },
+      flight: { name: "天使四翼飛行", desc: "掉落純白羽毛優雅全向翱翔" }
+    },
+    skills: {
+      skill1: { name: "旋轉破壞步槍 (Rolling Buster)", cd: 5.5, damage: 620, type: "360_laser", desc: "雙手持槍 360 度旋轉橫掃全場。" },
+      skill2: { name: "ZERO 系統預判衝刺", cd: 8.5, damage: 490, type: "zero_dodge", desc: "預判一切彈道，0.8 秒無敵高速突刺。" },
+      ult: { name: "雙管破壞步槍最大出力 (Twin Buster Max Output)", cd: 20, damage: 2320, type: "twin_buster_cannon", desc: "雙槍合一，黃金粒子巨洪貫穿宇宙殖民地！" }
+    }
+  },
+  {
+    id: "gundam_exia",
+    name: "能天使鋼彈 (剎那·F·塞耶)",
+    title: "我就是鋼彈！近身格鬥專家",
+    series: "gundam",
+    seriesName: "鋼彈",
+    rarity: 7,
+    cost: 16000,
+    unlockCondition: "消耗 16,000 金幣招募",
+    isFree: false,
+    role: "七劍狂斬",
+    weaponType: "gn_sword",
+    canFly: true,
     baseHp: 1800,
-    baseAtk: 340,
+    baseAtk: 240,
     baseDef: 85,
-    speed: 7.2,
-    themeColor: "#22c55e",
-    auraColor: "rgba(34, 197, 94, 0.95)",
-    avatarType: "broly",
-    skills: {
-      skill1: {
-        name: "巨型爆發衝擊 (Gigantic Charge)",
-        cd: 3.2,
-        damage: 550,
-        type: "broly_charge",
-        desc: "全身包裹狂暴綠色氣焰向前蠻橫狂衝，自帶極強霸體碾碎沿途一切阻礙！"
-      },
-      skill2: {
-        name: "碎面拖行砸地 (Eraser Cannon)",
-        cd: 5.5,
-        damage: 610,
-        type: "face_slam",
-        desc: "大手直接抓住對手的臉龐在地面狂暴拖行數十米後凌空重摔爆破！"
-      },
-      ult: {
-        name: "巨型毀滅巨星 (全圖洗地)",
-        cd: 52,
-        rageCost: 100,
-        damage: 2450,
-        type: "gigantic_meteor",
-        desc: "仰天怒吼釋放無盡綠色氣焰！手中凝聚一顆填滿整個畫面的巨型綠色滅世光球洗地毀滅！"
-      }
+    speed: 8.6,
+    themeColor: "#0284c7",
+    auraColor: "rgba(2, 132, 199, 0.9)",
+    attackConfig: {
+      light: { name: "GN 實體劍連斬", desc: "GN 巨劍四段實體削砍" },
+      heavy: { name: "GN 突刺破防", desc: "劍刃展開極速突刺破防" },
+      grab: { name: "GN 光束軍刀鎖投", desc: "雙刀刺入倒摔對手" },
+      flight: { name: "GN 粒子噴射飛行", desc: "散發翠綠 GN 粒子高速飛行" }
     },
-    gadget: { name: "狂暴綠焰震天咆哮", desc: "震碎周圍一切屏障，5 秒內受到的所有傷害降低 70%。" },
-    starPower1: { name: "傳奇賽亞人之血", desc: "戰鬥時間每過 1 秒，自身攻擊力永久 +1% (無上限)。" },
-    starPower2: { name: "無限體力", desc: "受擊時怒氣獲取量翻倍。" },
-    hypercharge: { name: "超越極限全功率狂暴", desc: "身形再度膨脹，大招滅世光球傷害提升 40% 並造成持續火海。" },
-    godAuraTitle: "傳奇戰神"
+    skills: {
+      skill1: { name: "GN 投刃飛刀", cd: 4.5, damage: 480, type: "gn_blades", desc: "投擲左右兩柄 GN 實體長短刀。" },
+      skill2: { name: "GN 劍步突進", cd: 7.5, damage: 520, type: "gn_dash", desc: "翠綠流光瞬移突進，挑飛對手。" },
+      ult: { name: "Trans-AM 系統極限開啟", cd: 20, damage: 2050, type: "trans_am_combo", desc: "機體全身赤紅三倍速爆發，七劍狂舞終結！" }
+    }
+  },
+  {
+    id: "god_gundam",
+    name: "神威鋼彈 (多蒙·卡修)",
+    title: "殖民星格鬥大賽霸主",
+    series: "gundam",
+    seriesName: "鋼彈",
+    rarity: 8,
+    cost: 22000,
+    unlockCondition: "消耗 22,000 金幣招募",
+    isFree: false,
+    role: "熱血格鬥",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 2100,
+    baseAtk: 255,
+    baseDef: 95,
+    speed: 8.5,
+    themeColor: "#ef4444",
+    auraColor: "rgba(239, 68, 68, 0.95)",
+    attackConfig: {
+      light: { name: "流派東方不敗拳法", desc: "剛猛烈火四段打擊" },
+      heavy: { name: "爆熱重踏破防", desc: "氣焰爆發一腳破防" },
+      grab: { name: "熱血背摔", desc: "抓起對手烈焰灌地" },
+      flight: { name: "超高級霸王飛行", desc: "背部日輪光環展開飛行" }
+    },
+    skills: {
+      skill1: { name: "超級霸王電影彈", cd: 5, damage: 590, type: "tornado_bullet", desc: "化身旋轉烈焰鑽頭貫穿戰場。" },
+      skill2: { name: "爆熱神威掌 (God Finger)", cd: 8, damage: 620, type: "god_finger", desc: "「這隻手在閃耀著金光！」單手抓碎對手面部！" },
+      ult: { name: "石破天驚拳 (Sekiha Tenkyoken)", cd: 20, damage: 2250, type: "giant_ki_punch", desc: "凝聚終極陰陽烈焰，巨大的紅心之王氣功巨掌覆滅天地！" }
+    }
   },
 
-  // ── ★ 9. 創世/概念級 (GENESIS) ──
+  // ==========================================
+  // ── 4. 熱血動漫宇宙 (Legendary Anime) ──
+  // ==========================================
+  {
+    id: "naruto_sage_mode",
+    name: "漩渦鳴人 (九尾仙人模式)",
+    title: "木葉第七代火影",
+    series: "anime",
+    seriesName: "熱血動漫",
+    rarity: 7,
+    cost: 16500,
+    unlockCondition: "消耗 16,500 金幣招募",
+    isFree: false,
+    role: "螺旋影分身",
+    weaponType: "kunai",
+    canFly: true,
+    baseHp: 1900,
+    baseAtk: 235,
+    baseDef: 90,
+    speed: 8.3,
+    themeColor: "#f97316",
+    auraColor: "rgba(249, 115, 22, 0.9)",
+    attackConfig: {
+      light: { name: "影分身體術連打", desc: "多位分身四段連環飛踢" },
+      heavy: { name: "大玉螺旋丸重砸", desc: "巨型螺旋丸蓄力破防" },
+      grab: { name: "蛙組手過肩摔", desc: "自然能量仙人重摔" },
+      flight: { name: "九尾查克拉懸浮", desc: "金色九尾查克拉衣飛行" }
+    },
+    skills: {
+      skill1: { name: "風遁·螺旋手裏劍", cd: 5.5, damage: 570, type: "wind_shuriken", desc: "投擲狂暴旋轉的風遁巨輪，引發微觀級風暴撕裂！" },
+      skill2: { name: "多重影分身突擊", cd: 8, damage: 520, type: "shadow_clones", desc: "召喚 8 名分身全方位圍毆壓制。" },
+      ult: { name: "尾獸玉·六道螺旋丸", cd: 20, damage: 2100, type: "tailed_beast_bomb", desc: "巨大黑金九尾真身咆哮，尾獸玉滅世大爆炸！" }
+    }
+  },
+  {
+    id: "sasuke_rinnegan",
+    name: "宇智波佐助 (六道輪迴眼)",
+    title: "復仇與救贖的宇智波末裔",
+    series: "anime",
+    seriesName: "熱血動漫",
+    rarity: 7,
+    cost: 17000,
+    unlockCondition: "消耗 17,000 金幣招募",
+    isFree: false,
+    role: "雷遁劍聖",
+    weaponType: "kusanagi_sword",
+    canFly: true,
+    baseHp: 1850,
+    baseAtk: 245,
+    baseDef: 85,
+    speed: 8.7,
+    themeColor: "#6366f1",
+    auraColor: "rgba(99, 102, 241, 0.9)",
+    attackConfig: {
+      light: { name: "草薙劍千鳥刃", desc: "雷光附魔四段斬擊" },
+      heavy: { name: "天手力居合斬", desc: "輪迴眼置換空間破防" },
+      grab: { name: "寫輪眼幻術摔投", desc: "幻術定身重摔" },
+      flight: { name: "須佐能乎之翼飛行", desc: "紫色骷髏神翼全速翱翔" }
+    },
+    skills: {
+      skill1: { name: "千鳥 (Chidori)", cd: 4.5, damage: 550, type: "lightning_dash", desc: "雷切瞬身直刺，雷鳴千鳥撕碎一切。" },
+      skill2: { name: "天照 (Amaterasu)", cd: 8, damage: 540, type: "black_flame", desc: "永不熄滅的黑炎直接在對手身上燃燒。" },
+      ult: { name: "因陀羅之矢 (Indra's Arrow)", cd: 20, damage: 2150, type: "susanoo_arrow", desc: "完全體須佐能乎拉滿雷神之弓，毀天滅地神箭！" }
+    }
+  },
+  {
+    id: "luffy_gear5",
+    name: "魯夫 (五檔·太陽神尼卡)",
+    title: "解放的戰鼓·自由之神",
+    series: "anime",
+    seriesName: "熱血動漫",
+    rarity: 8,
+    cost: 23000,
+    unlockCondition: "消耗 23,000 金幣招募",
+    isFree: false,
+    role: "橡膠卡通",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 2200,
+    baseAtk: 260,
+    baseDef: 95,
+    speed: 8.5,
+    themeColor: "#f8fafc",
+    auraColor: "rgba(248, 250, 252, 0.95)",
+    attackConfig: {
+      light: { name: "尼卡歡樂連打", desc: "橡膠手臂大笑四段打擊" },
+      heavy: { name: "卡通巨大重踩", desc: "巨大化腳掌踏碎地面破防" },
+      grab: { name: "抓起地面跳繩", desc: "把對手當跳繩甩動重砸" },
+      flight: { name: "白雲踏空飛行", desc: "渾身純白雲朵空中奔跑" }
+    },
+    skills: {
+      skill1: { name: "橡膠巨人 (Gigant)", cd: 5, damage: 600, type: "giant_body", desc: "化身百米泰坦巨神，大腳踩踏全場。" },
+      skill2: { name: "抓取雷電 (Lightning Grab)", cd: 8, damage: 560, type: "grab_lightning", desc: "直接從天空抓下真雷當標槍投擲！" },
+      ult: { name: "霸王色·猿神槍 (Bajrang Gun)", cd: 20, damage: 2300, type: "island_sized_fist", desc: "島嶼般巨大的霸王色巨拳，將島嶼連同對手轟入地底！" }
+    }
+  },
+  {
+    id: "zoro_three_swords",
+    name: "羅羅亞·索隆 (閻魔九刀流)",
+    title: "世界第一大劍豪的野心",
+    series: "anime",
+    seriesName: "熱血動漫",
+    rarity: 7,
+    cost: 16500,
+    unlockCondition: "消耗 16,500 金幣招募",
+    isFree: false,
+    role: "三刀流劍豪",
+    weaponType: "three_swords",
+    canFly: false,
+    baseHp: 1950,
+    baseAtk: 245,
+    baseDef: 90,
+    speed: 7.9,
+    themeColor: "#16a34a",
+    auraColor: "rgba(22, 163, 74, 0.9)",
+    attackConfig: {
+      light: { name: "三刀流百八煩惱鳳", desc: "三刀齊舞四段風壓劍氣" },
+      heavy: { name: "鬼斬破防", desc: "交錯衝刺三刀破防" },
+      grab: { name: "龍捲風拋摔", desc: "三刀旋風將對手捲入高空" },
+      flight: { name: "劍氣踏步", desc: "凌空踏斬" }
+    },
+    skills: {
+      skill1: { name: "千八十煩惱鳳", cd: 5, damage: 550, type: "giant_flying_slash", desc: "三把名刀揮出切裂山峰的巨大飛翔斬擊。" },
+      skill2: { name: "黑繩·大龍捲", cd: 8, damage: 530, type: "sword_tornado", desc: "霸王色纏繞黑色龍捲風持續吞噬對手。" },
+      ult: { name: "九刀流·阿修羅·拔劍·死·亡者之戲", cd: 20, damage: 2150, type: "ashura_nine_swords", desc: "鬼氣九刀化身，霸王色霸氣纏繞一刀定生死！" }
+    }
+  },
+  {
+    id: "ichigo_bankai",
+    name: "黑崎一護 (天鎖斬月·虛化)",
+    title: "代理死神超越者",
+    series: "anime",
+    seriesName: "熱血動漫",
+    rarity: 7,
+    cost: 17000,
+    unlockCondition: "消耗 17,000 金幣招募",
+    isFree: false,
+    role: "死神斬月",
+    weaponType: "tensa_zangetsu",
+    canFly: true,
+    baseHp: 1850,
+    baseAtk: 250,
+    baseDef: 85,
+    speed: 8.8,
+    themeColor: "#0f172a",
+    auraColor: "rgba(220, 38, 38, 0.9)",
+    attackConfig: {
+      light: { name: "天鎖斬月速斬", desc: "黑紅刀光四段極速削砍" },
+      heavy: { name: "黑月牙重劈", desc: "黑紅氣浪下劈破防" },
+      grab: { name: "虛化鎖頸貫摔", desc: "虛化巨爪掐住摔地" },
+      flight: { name: "瞬步飛行", desc: "黑紅靈壓全速瞬步" }
+    },
+    skills: {
+      skill1: { name: "月牙天衝 (Getsuga Tensho)", cd: 4.5, damage: 560, type: "crescent_slash", desc: "揮出十米長漆黑月牙刀芒。" },
+      skill2: { name: "月牙十字衝", cd: 8, damage: 540, type: "cross_getsuga", desc: "雙刀交錯轟出巨型十字黑紅衝擊。" },
+      ult: { name: "最後的月牙天衝·無月 (Mugetsu)", cd: 20, damage: 2200, type: "mugetsu_abyss", desc: "化身黑髮漆黑死神，一刀劃出寂滅天地的無盡黑幕！" }
+    }
+  },
+  {
+    id: "saitama_opm",
+    name: "埼玉 (一拳超人)",
+    title: "興趣使然的英雄",
+    series: "anime",
+    seriesName: "熱血動漫",
+    rarity: 9,
+    cost: 30000,
+    unlockCondition: "天梯達到 3000 獎盃或完成無傷 100 連勝",
+    isFree: false,
+    isNonPurchasable: true,
+    role: "一擊必殺",
+    weaponType: "none",
+    canFly: false,
+    baseHp: 3000,
+    baseAtk: 350,
+    baseDef: 150,
+    speed: 9.0,
+    themeColor: "#facc15",
+    auraColor: "rgba(250, 204, 21, 1.0)",
+    attackConfig: {
+      light: { name: "普通連續拳", desc: "漫不經心殘影百拳" },
+      heavy: { name: "普通重拳", desc: "拳風碎地破防" },
+      grab: { name: "單手提起扔飛", desc: "抓起對手扔出地球" },
+      flight: { name: "認真反覆橫跳", desc: "地面超高速跳躍" }
+    },
+    skills: {
+      skill1: { name: "連續普通拳", cd: 4, damage: 800, type: "normal_punches", desc: "無數殘影拳風打擊。" },
+      skill2: { name: "認真掀桌", cd: 7, damage: 900, type: "serious_table_flip", desc: "雙手將整塊地殼掀翻至宇宙大氣層。" },
+      ult: { name: "認真系列·認真一拳 (Serious Punch)", cd: 20, damage: 3500, type: "serious_punch", desc: "揮出認真一拳，拳風劈開半個地球與大氣層！" }
+    }
+  },
+  {
+    id: "gojo_satoru",
+    name: "五條悟 (現代最強咒術師)",
+    title: "天上天下唯我獨尊",
+    series: "anime",
+    seriesName: "熱血動漫",
+    rarity: 8,
+    cost: 25000,
+    unlockCondition: "消耗 25,000 金幣招募",
+    isFree: false,
+    role: "無下限術式",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 2100,
+    baseAtk: 270,
+    baseDef: 120,
+    speed: 8.6,
+    themeColor: "#38bdf8",
+    auraColor: "rgba(56, 189, 248, 0.95)",
+    attackConfig: {
+      light: { name: "無下限體術", desc: "優雅手插口袋四段重擊" },
+      heavy: { name: "術式順轉「蒼」引力破防", desc: "引力吸附蓄力重拳破防" },
+      grab: { name: "空間置換摔投", desc: "瞬間置換空間重摔" },
+      flight: { name: "無下限凌空漫步", desc: "空中無視重力行走" }
+    },
+    skills: {
+      skill1: { name: "術式反轉「赫」 (Red)", cd: 5, damage: 640, type: "red_repulsion", desc: "指尖發射血紅排斥爆轟。" },
+      skill2: { name: "術式順轉「蒼」 (Blue)", cd: 8, damage: 600, type: "blue_attraction", desc: "製造超強黑洞引力球碾碎目標。" },
+      ult: { name: "虛式「茈」 (Hollow Purple)", cd: 20, damage: 2400, type: "hollow_purple", desc: "「蒼」與「赫」碰撞融合，抹殺路徑上一切質量的神罰紫光！" }
+    }
+  },
+  {
+    id: "sukuna_king",
+    name: "兩面宿儺 (詛咒之王)",
+    title: "天上天下唯我獨尊之魔",
+    series: "anime",
+    seriesName: "熱血動漫",
+    rarity: 8,
+    cost: 25000,
+    unlockCondition: "消耗 25,000 金幣招募",
+    isFree: false,
+    role: "無形斬擊",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 2200,
+    baseAtk: 275,
+    baseDef: 100,
+    speed: 8.5,
+    themeColor: "#dc2626",
+    auraColor: "rgba(220, 38, 38, 0.95)",
+    attackConfig: {
+      light: { name: "無形「解」連斬", desc: "手指劃出四道無形風刃" },
+      heavy: { name: "「捌」接觸斬破防", desc: "手掌接觸瞬間依防禦力調整破防斬" },
+      grab: { name: "單手掐頸貫穿", desc: "直接掐住脖頸震碎" },
+      flight: { name: "咒力凌空飛行", desc: "暗紅咒力纏身狂暴飛行" }
+    },
+    skills: {
+      skill1: { name: "蜘蛛之絲·解 (Cleave Web)", cd: 5, damage: 630, type: "web_slashes", desc: "全場地面密布無形斬擊網絡切碎目標。" },
+      skill2: { name: "神火「開」 (Furnace)", cd: 8.5, damage: 680, type: "fire_arrow", desc: "拉開火焰神弓，轟出核爆級火之矢！" },
+      ult: { name: "領域展開·伏魔御廚子 (Malevolent Shrine)", cd: 20, damage: 2450, type: "domain_shrine", desc: "召喚魔殿，半徑 200 米範圍內無休止狂風暴雨斬擊成灰！" }
+    }
+  },
+  {
+    id: "tanjiro_sun_breathing",
+    name: "竈門炭治郎 (日之呼吸·火之神神樂)",
+    title: "日之呼吸繼承者",
+    series: "anime",
+    seriesName: "熱血動漫",
+    rarity: 6,
+    cost: 9500,
+    unlockCondition: "消耗 9,500 金幣招募",
+    isFree: false,
+    role: "日輪刀斬",
+    weaponType: "nichirin_sword",
+    canFly: false,
+    baseHp: 1800,
+    baseAtk: 220,
+    baseDef: 85,
+    speed: 8.0,
+    themeColor: "#ef4444",
+    auraColor: "rgba(239, 68, 68, 0.85)",
+    attackConfig: {
+      light: { name: "水之呼吸·水面斬擊", desc: "水流日輪刀三段斬" },
+      heavy: { name: "火之神神樂·圓舞破防", desc: "赤紅烈焰大車輪重斬破防" },
+      grab: { name: "鐵頭功重擊", desc: "究極鐵頭撞暈對手摔投" },
+      flight: { name: "全集中·常中奔馳", desc: "極速日輪步法" }
+    },
+    skills: {
+      skill1: { name: "火之神神樂·碧羅天", cd: 4.5, damage: 490, type: "sun_circle", desc: "劃出渾圓日輪烈焰護體斬擊。" },
+      skill2: { name: "火之神神樂·烈日紅鏡", cd: 7.5, damage: 510, type: "twin_sun_blades", desc: "左右兩道烈焰深紅斬擊交叉突進。" },
+      ult: { name: "日之呼吸·第十三型連環舞", cd: 20, damage: 1800, type: "sun_breathing_13th", desc: "十二種劍型如太陽般生生不息連環狂斬，斬滅鬼王！" }
+    }
+  },
+  {
+    id: "levi_ackerman",
+    name: "里維·阿卡曼",
+    title: "人類最強士兵 (巨人天災)",
+    series: "anime",
+    seriesName: "熱血動漫",
+    rarity: 6,
+    cost: 9800,
+    unlockCondition: "消耗 9,800 金幣招募",
+    isFree: false,
+    role: "雙刀高速",
+    weaponType: "dual_odm_blades",
+    canFly: true,
+    baseHp: 1700,
+    baseAtk: 235,
+    baseDef: 75,
+    speed: 9.2,
+    themeColor: "#10b981",
+    auraColor: "rgba(16, 185, 129, 0.85)",
+    attackConfig: {
+      light: { name: "雙超硬質刃極速連切", desc: "四段超高速刀刃削斬" },
+      heavy: { name: "陀螺旋風斬破防", desc: "高速旋轉成刀輪破防" },
+      grab: { name: "錨鉤射擊踢擊", desc: "錨鉤刺入飛踢摔投" },
+      flight: { name: "立體機動裝置高速飛行 (ODM Gear)", desc: "瓦斯噴射立體空中狂飆" }
+    },
+    skills: {
+      skill1: { name: "雷槍爆破 (Thunder Spear)", cd: 5, damage: 520, type: "thunder_spear", desc: "發射雷槍穿透裝甲引發劇烈爆炸。" },
+      skill2: { name: "阿卡曼極限螺旋切", cd: 7, damage: 540, type: "odm_spin", desc: "空中如陀螺般極速旋轉削肉千刀。" },
+      ult: { name: "人類最強的一擊·削肉風暴", cd: 20, damage: 1880, type: "levi_storm", desc: "化身綠色死神流光，在目標周身斬出上千道殘影血光！" }
+    }
+  },
+
+  // ==========================================
+  // ── 5. 3D 經典遊戲傳奇宇宙 (Gaming Legends) ──
+  // ==========================================
+  {
+    id: "cloud_strife",
+    name: "克勞德·史特萊夫 (Cloud Strife)",
+    title: "神羅 1st 級神劍使",
+    series: "gaming",
+    seriesName: "遊戲傳奇",
+    rarity: 7,
+    cost: 16800,
+    unlockCondition: "消耗 16,800 金幣招募",
+    isFree: false,
+    role: "大劍霸體",
+    weaponType: "buster_sword",
+    canFly: false,
+    baseHp: 1950,
+    baseAtk: 245,
+    baseDef: 90,
+    speed: 7.8,
+    themeColor: "#38bdf8",
+    auraColor: "rgba(56, 189, 248, 0.9)",
+    attackConfig: {
+      light: { name: "破壞劍四段連斬", desc: "雙手巨劍剛猛削斬" },
+      heavy: { name: "勇猛模式破防重劈", desc: "蓄力雙重大劍下砸破防" },
+      grab: { name: "劍柄頂擊挑空", desc: "重劍挑飛空中重摔" },
+      flight: { name: "魔晶石狂奔", desc: "地面魔晄流光突進" }
+    },
+    skills: {
+      skill1: { name: "凶斬 (Cross-Slash)", cd: 5, damage: 560, type: "kanji_slash", desc: "巨劍在空中劃出赤紅「凶」字三連斬！" },
+      skill2: { name: "破晄擊 (Blade Beam)", cd: 8, damage: 510, type: "magic_wave", desc: "揮劍甩出貼地奔馳的蒼藍魔晄劍氣浪。" },
+      ult: { name: "超究武神霸斬 (Omnislash)", cd: 20, damage: 2200, type: "omnislash", desc: "化身千道金光殘影，十五段極速武神連斬一擊必殺！" }
+    }
+  },
+  {
+    id: "sephiroth_angel",
+    name: "賽菲羅斯 (片翼天使)",
+    title: "神羅傳說最強戰士",
+    series: "gaming",
+    seriesName: "遊戲傳奇",
+    rarity: 8,
+    cost: 24500,
+    unlockCondition: "消耗 24,500 金幣招募",
+    isFree: false,
+    role: "長刀劍神",
+    weaponType: "masamune_sword",
+    canFly: true,
+    baseHp: 2050,
+    baseAtk: 270,
+    baseDef: 95,
+    speed: 8.7,
+    themeColor: "#94a3b8",
+    auraColor: "rgba(148, 163, 184, 0.95)",
+    attackConfig: {
+      light: { name: "正宗長刀居合", desc: "2.5 米長刀神速四段斬" },
+      heavy: { name: "獄門刺擊破防", desc: "凌空倒持正宗長刀下刺破防" },
+      grab: { name: "黑翼暗黑擒摔", desc: "單手鎖喉黑翼重振" },
+      flight: { name: "片翼翱翔 (One-Winged Angel)", desc: "單邊黑色巨大翅膀優雅飛行" }
+    },
+    skills: {
+      skill1: { name: "八刀一閃 (Octaslash)", cd: 5.5, damage: 640, type: "eight_slashes", desc: "瞬身向前揮出八道撕裂空間的銀白刀芒！" },
+      skill2: { name: "暗黑絕望黑球 (Shadow Flare)", cd: 8.5, damage: 580, type: "shadow_orbs", desc: "召喚四枚黑色暗物質火球自動追蹤引爆。" },
+      ult: { name: "超新星殞落 (Supernova)", cd: 20, damage: 2400, type: "supernova_cataclysm", desc: "召喚宇宙超新星隕石撞穿太陽系，引發終極宇宙毀滅！" }
+    }
+  },
+  {
+    id: "dante_dmc",
+    name: "但丁 (Dante·惡魔獵人)",
+    title: "傳奇魔劍士斯巴達之子",
+    series: "gaming",
+    seriesName: "遊戲傳奇",
+    rarity: 7,
+    cost: 17500,
+    unlockCondition: "消耗 17,500 金幣招募",
+    isFree: false,
+    role: "風格切換",
+    weaponType: "rebellion_sword_guns",
+    canFly: true,
+    baseHp: 1900,
+    baseAtk: 245,
+    baseDef: 90,
+    speed: 8.4,
+    themeColor: "#dc2626",
+    auraColor: "rgba(220, 38, 38, 0.9)",
+    attackConfig: {
+      light: { name: "叛逆之劍連斬", desc: "大劍與黑白雙槍四段流暢切換" },
+      heavy: { name: "百萬刺擊破防 (Million Stab)", desc: "大劍極速狂刺破防" },
+      grab: { name: "槍手風格倒掛射擊", desc: "踩在對手身上滑行雙槍連射" },
+      flight: { name: "真魔人魔翼飛行 (Sin Devil Trigger)", desc: "魔人黑紅雙翼凌空霸氣飛行" }
+    },
+    skills: {
+      skill1: { name: "挑空迴旋斬 (High Time & Stinger)", cd: 4.5, damage: 530, type: "stinger_dash", desc: "化身赤紅刺針突刺挑空對手。" },
+      skill2: { name: "黑檀木與白象牙瘋狂掃射", cd: 7.5, damage: 510, type: "ebony_ivory_rain", desc: "雙槍狂暴連射打出 SSS 級評價雨。" },
+      ult: { name: "真魔人次元審判 (Sin Devil Judgment)", cd: 20, damage: 2180, type: "sin_devil_cataclysm", desc: "化身終極魔人，雙手合劍撕裂全屏次元魔界風暴！" }
+    }
+  },
+  {
+    id: "vergil_dmc",
+    name: "維吉爾 (Vergil·魔劍士)",
+    title: "尋求極致力量之神",
+    series: "gaming",
+    seriesName: "遊戲傳奇",
+    rarity: 8,
+    cost: 23500,
+    unlockCondition: "消耗 23,500 金幣招募",
+    isFree: false,
+    role: "閻魔刀神速",
+    weaponType: "yamato_katana",
+    canFly: true,
+    baseHp: 1950,
+    baseAtk: 265,
+    baseDef: 90,
+    speed: 8.9,
+    themeColor: "#0284c7",
+    auraColor: "rgba(2, 132, 199, 0.95)",
+    attackConfig: {
+      light: { name: "閻魔刀居合疾斬", desc: "瞬息拔刀四段藍色刀光" },
+      heavy: { name: "疾走居合破防", desc: "超光速穿身拔刀破防" },
+      grab: { name: "幻影劍刺擊摔投", desc: "幻影劍釘住對手反身摔投" },
+      flight: { name: "瞬移踏步 (Trick Dodge)", desc: "藍色幻影空間瞬移" }
+    },
+    skills: {
+      skill1: { name: "次元斬 (Judgement Cut)", cd: 4, damage: 580, type: "spatial_slice", desc: "拔刀瞬間在遠處引發球形次元空間粉碎。" },
+      skill2: { name: "圓陣幻影劍 (Spiral Swords)", cd: 7.5, damage: 550, type: "sword_shield", desc: "召喚 8 柄藍光幻影劍環繞周身攻防一體。" },
+      ult: { name: "次元斬·絕 (Judgement Cut End)", cd: 20, damage: 2350, type: "world_slice_end", desc: "「I need more power!」緩慢收刀，全螢幕時空徹底碎裂！" }
+    }
+  },
+  {
+    id: "kratos_god_of_war",
+    name: "克雷多斯 (Kratos·戰神)",
+    title: "奧林帕斯與九界屠神者",
+    series: "gaming",
+    seriesName: "遊戲傳奇",
+    rarity: 8,
+    cost: 24000,
+    unlockCondition: "消耗 24,000 金幣招募",
+    isFree: false,
+    role: "屠神狂戰",
+    weaponType: "blades_of_chaos_axe",
+    canFly: false,
+    baseHp: 2350,
+    baseAtk: 270,
+    baseDef: 105,
+    speed: 7.7,
+    themeColor: "#dc2626",
+    auraColor: "rgba(220, 38, 38, 0.95)",
+    attackConfig: {
+      light: { name: "渾沌雙刃烈焰舞", desc: "鎖鏈雙刃狂暴烈焰四段揮擊" },
+      heavy: { name: "利維坦之斧重劈破防", desc: "極寒冰斧蓄力重劈碎裂防禦" },
+      grab: { name: "戰神殘暴撕扯", desc: "手撕神明般按地瘋狂連砸" },
+      flight: { name: "斯巴達狂奔", desc: "赤紅怒焰霸體衝刺" }
+    },
+    skills: {
+      skill1: { name: "利維坦之斧冰霜投擲", cd: 4.5, damage: 590, type: "frost_axe_throw", desc: "擲出冰霜戰斧凍結目標，隨後心念召回二度重傷！" },
+      skill2: { name: "渾沌旋風旋轉撕裂", cd: 8, damage: 610, type: "chaos_blades_spin", desc: "雙刃鎖鏈旋轉成 360 度烈焰絞肉風暴。" },
+      ult: { name: "斯巴達之怒·諸神黃昏滅絕 (Spartan Rage)", cd: 20, damage: 2380, type: "spartan_rage", desc: "血紅怒火沖天，雙手赤拳生撕山嶽，屠盡神明！" }
+    }
+  },
+  {
+    id: "master_chief",
+    name: "士官長 (Master Chief 117)",
+    title: "斯巴達二期傳奇英雄",
+    series: "gaming",
+    seriesName: "遊戲傳奇",
+    rarity: 7,
+    cost: 16500,
+    unlockCondition: "消耗 16,500 金幣招募",
+    isFree: false,
+    role: "光劍射擊",
+    weaponType: "energy_sword_rifle",
+    canFly: true,
+    baseHp: 2000,
+    baseAtk: 235,
+    baseDef: 100,
+    speed: 7.9,
+    themeColor: "#15803d",
+    auraColor: "rgba(21, 128, 61, 0.85)",
+    attackConfig: {
+      light: { name: "MA40 突擊步槍射擊", desc: "精準點射四段光束" },
+      heavy: { name: "星盟能量光劍重斬", desc: "雙刃藍光劍蓄力破防" },
+      grab: { name: "斯巴達近身背摔", desc: "裝甲擒拿重摔" },
+      flight: { name: "推進噴射背包", desc: "斯巴達推進器空中懸浮" }
+    },
+    skills: {
+      skill1: { name: "星盟能量光劍突刺", cd: 4.5, damage: 540, type: "energy_sword_dash", desc: "能量劍藍芒一閃穿透護盾。" },
+      skill2: { name: "M41 雙管火箭筒齊射", cd: 8, damage: 560, type: "rocket_launcher", desc: "兩枚重型火箭彈覆蓋轟炸。" },
+      ult: { name: "軌道空降軌道加農炮 (Orbital Strike)", cd: 20, damage: 2050, type: "orbital_cannon", desc: "引導 UNSC 戰艦軌道 MAC 電磁巨炮轟平戰場！" }
+    }
+  },
+  {
+    id: "doom_slayer",
+    name: "毀滅戰士 (DOOM Slayer)",
+    title: "地獄惡魔之永恆夢魘",
+    series: "gaming",
+    seriesName: "遊戲傳奇",
+    rarity: 8,
+    cost: 23000,
+    unlockCondition: "消耗 23,000 金幣招募",
+    isFree: false,
+    role: "屠魔重裝",
+    weaponType: "crucible_shotgun",
+    canFly: false,
+    baseHp: 2250,
+    baseAtk: 265,
+    baseDef: 105,
+    speed: 8.0,
+    themeColor: "#166534",
+    auraColor: "rgba(22, 101, 52, 0.95)",
+    attackConfig: {
+      light: { name: "超級霰彈槍雙發", desc: "近距離狂暴噴射" },
+      heavy: { name: "阿古斯光劍 (Crucible) 斬", desc: "熾紅光劍下劈破防" },
+      grab: { name: "壯烈殺戮 (Glory Kill)", desc: "殘暴手撕惡魔摔投" },
+      flight: { name: "雙重衝刺", desc: "地面超高速噴射突進" }
+    },
+    skills: {
+      skill1: { name: "肉鉤霰彈槍飛索", cd: 4.5, damage: 570, type: "meathook_shotgun", desc: "肉鉤拉近對手貼臉雙管重噴！" },
+      skill2: { name: "BFG 9000 綠色能量球", cd: 9, damage: 680, type: "bfg_ball", desc: "發射巨大綠色阿爾法能量球釋放閃電觸手。" },
+      ult: { name: "熾紅神劍·滅絕裁決 (The Crucible Sever)", cd: 20, damage: 2300, type: "crucible_judgment", desc: "手持熾紅阿古斯巨刃，將魔王與維度一刀兩斷！" }
+    }
+  },
+  {
+    id: "link_hero",
+    name: "林克 (薩爾達傳說·曠野之勇者)",
+    title: "退魔之劍傳說勇者",
+    series: "gaming",
+    seriesName: "遊戲傳奇",
+    rarity: 7,
+    cost: 16000,
+    unlockCondition: "消耗 16,000 金幣招募",
+    isFree: false,
+    role: "大師劍技",
+    weaponType: "master_sword_shield",
+    canFly: true,
+    baseHp: 1850,
+    baseAtk: 240,
+    baseDef: 90,
+    speed: 8.2,
+    themeColor: "#0284c7",
+    auraColor: "rgba(2, 132, 199, 0.85)",
+    attackConfig: {
+      light: { name: "大師之劍四段連斬", desc: "聖光藍刃流暢四段斬" },
+      heavy: { name: "迴旋斬破防 (Spin Attack)", desc: "蓄力 360 度聖光旋風破防" },
+      grab: { name: "海利亞盾反摔投", desc: "精準盾反擊暈對手摔投" },
+      flight: { name: "滑翔傘懸浮 (Paraglider)", desc: "利用上升氣流空中滑翔" }
+    },
+    skills: {
+      skill1: { name: "林克時間·極限精準閃避", cd: 5, damage: 520, type: "flurry_rush", desc: "完美閃避觸發林克時間，連續七刀狂斬！" },
+      skill2: { name: "古代兵裝神弓五連射", cd: 7.5, damage: 500, type: "ancient_arrows", desc: "躍入空中射出五發古代爆破箭。" },
+      ult: { name: "封印神力·真·大師之劍破魔斬", cd: 20, damage: 2050, type: "master_sword_beam", desc: "大師之劍金色聖光直衝天際，徹底驅散一切災厄！" }
+    }
+  },
+
+  // ==========================================
+  // ── 6. 創世/概念級神級挑戰 (Genesis Tier) ──
+  // ==========================================
   {
     id: "thanos_gauntlet",
-    name: "滅霸 (六石無限手套)",
-    title: "天命毀滅主宰",
+    name: "滅霸 (無限手套完全體)",
+    title: "宇宙秩序終結者",
     series: "marvel",
     seriesName: "漫威",
     rarity: 9,
-    cost: "不可購買",
-    unlockCondition: "[極限挑戰] PVE 極限難度「無限之戰」一命無陣亡單人通關解鎖",
+    cost: 99999,
+    unlockCondition: "達成成就【天梯大師段位 (2000 獎盃)】解鎖",
+    isFree: false,
     isNonPurchasable: true,
-    role: "全能破壞神",
-    baseHp: 2000,
-    baseAtk: 400,
-    baseDef: 100,
-    speed: 7.5,
-    themeColor: "#8b5cf6",
-    auraColor: "rgba(139, 92, 246, 1)",
-    avatarType: "thanos",
-    skills: {
-      skill1: {
-        name: "時間寶石回溯自癒",
-        cd: 4,
-        damage: 600,
-        type: "time_rewind",
-        desc: "綠色時間寶石光芒綻放，瞬間重創對手並倒流自身時間回復 300 點生命值。"
-      },
-      skill2: {
-        name: "力量寶石滅世震波",
-        cd: 6,
-        damage: 750,
-        type: "power_surge",
-        desc: "紫光一閃，拳頭砸向地面釋放行星級破壞震波，直接震碎敵方所有格擋。"
-      },
-      ult: {
-        name: "無限響指 (直接扣除 50% 全體血量)",
-        cd: 60,
-        rageCost: 100,
-        damage: 3200,
-        type: "snap_wipe",
-        desc: "六顆無限寶石同時綻放耀眼光芒！滅霸輕輕打出一個響指——直接湮滅敵方當前 50% 生命值並引發全屏宇宙塵埃湮滅！"
-      }
+    role: "無限寶石",
+    weaponType: "infinity_gauntlet",
+    canFly: true,
+    baseHp: 2800,
+    baseAtk: 320,
+    baseDef: 140,
+    speed: 8.0,
+    themeColor: "#a855f7",
+    auraColor: "rgba(168, 85, 247, 1.0)",
+    attackConfig: {
+      light: { name: "力量寶石紫光拳", desc: "六寶石流光重拳連打" },
+      heavy: { name: "空間撕裂破防", desc: "引力扭曲蓄力破防" },
+      grab: { name: "現實扭曲重摔", desc: "將對手變為泡泡摔碎" },
+      flight: { name: "空間寶石懸浮", desc: "空間傳送門空中漫步" }
     },
-    gadget: { name: "空間寶石虛空傳送", desc: "劃破空間將對手強制放逐至虛空 2 秒。" },
-    starPower1: { name: "我是天命 (I Am Inevitable)", desc: "生命值低於 20% 時免疫死亡 3 秒，並直接回滿怒氣。" },
-    starPower2: { name: "靈魂寶石審判", desc: "普通攻擊命中時吸收目標 10% 造成傷害轉化為生命值。" },
-    hypercharge: { name: "宇宙之心概念抹除", desc: "響指附加靈魂抹除，直接斬殺生命低於 25% 的敵方角色。" },
-    godAuraTitle: "天命神帝"
+    skills: {
+      skill1: { name: "力量寶石碎星重轟", cd: 5, damage: 750, type: "power_stone_beam", desc: "紫光爆發撕碎一切防禦護盾。" },
+      skill2: { name: "時間倒轉與空間囚籠", cd: 8, damage: 700, type: "time_space_cage", desc: "暫停時間並鎖定對手。" },
+      ult: { name: "★ 宇宙天命·毀滅響指 (The Snap)", cd: 20, damage: 3200, type: "infinity_snap", desc: "金光閃耀清脆響指，直接抹除全場 50% 最大生命與萬千星河！" }
+    }
   },
   {
     id: "goku_ultra_instinct",
-    name: "自在極意功 (極) 悟空",
-    title: "神之極致銀瞳戰神",
+    name: "孫悟空 (自在極意功·真)",
+    title: "神之領域純粹極致",
     series: "dragonball",
     seriesName: "七龍珠",
     rarity: 9,
-    cost: "不可購買",
-    unlockCondition: "[天梯登頂] PVP 天梯達到「傳奇宗師」段位 或 累計 150 場勝利解鎖",
+    cost: 99999,
+    unlockCondition: "達成成就【天梯 150 勝登頂傳奇宗師】解鎖",
+    isFree: false,
     isNonPurchasable: true,
-    role: "神之極致",
-    baseHp: 1900,
-    baseAtk: 420,
-    baseDef: 90,
-    speed: 9.8,
-    themeColor: "#cbd5e1",
-    auraColor: "rgba(203, 213, 225, 1)",
-    avatarType: "goku_ui",
-    skills: {
-      skill1: {
-        name: "自動閃避真空拳",
-        cd: 3,
-        damage: 650,
-        type: "ui_counter",
-        desc: "身軀完全交由本能引導，自動閃避敵方正面攻擊並以神速真空拳反打貫穿！"
-      },
-      skill2: {
-        name: "神速反擊衝擊波",
-        cd: 5,
-        damage: 780,
-        type: "ui_blast",
-        desc: "身形化作銀白流光突進，近身瞬間釋放銀白神之衝擊波震飛對手。"
-      },
-      ult: {
-        name: "神之領域氣息爆發 (銀白神拳)",
-        cd: 55,
-        rageCost: 100,
-        damage: 3300,
-        type: "ui_supreme_burst",
-        desc: "周身升騰起銀白神之熱度氣焰！化身神之領域，瞬移在全屏發動數千拳銀光打擊，最後以神之一拳終結一切！"
-      }
+    role: "神之閃避",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 2700,
+    baseAtk: 330,
+    baseDef: 130,
+    speed: 9.5,
+    themeColor: "#e2e8f0",
+    auraColor: "rgba(226, 232, 240, 1.0)",
+    attackConfig: {
+      light: { name: "神之體術自動反擊", desc: "肉體本能超光速四段重擊" },
+      heavy: { name: "自在極意碎天拳", desc: "銀白神光直拳破防" },
+      grab: { name: "本能閃避過肩摔", desc: "避開攻擊順勢重摔" },
+      flight: { name: "神之銀輝飛行", desc: "銀白神熱氣焰超光速飛行" }
     },
-    gadget: { name: "自在極意本能覺醒", desc: "5 秒內完全自動迴避所有普通攻擊與飛行道具。" },
-    starPower1: { name: "極之本能", desc: "常駐 35% 閃避率，閃避後 1 秒內必定打出 200% 暴擊。" },
-    starPower2: { name: "神之御意", desc: "不受任何硬直、擊倒與擊飛效果影響。" },
-    hypercharge: { name: "巨大化氣息神像顯現", desc: "大招身後凝聚萬丈神之氣息法相，一拳轟碎天地。" },
-    godAuraTitle: "極意神主"
+    skills: {
+      skill1: { name: "本能絕對閃避 (Auto-Evade)", cd: 6, damage: 680, type: "auto_dodge", desc: "2 秒內 100% 閃避所有近戰與飛行道具！" },
+      skill2: { name: "神之氣功波連環爆", cd: 8, damage: 720, type: "god_kame_barrage", desc: "銀白神光四面八方轟擊。" },
+      ult: { name: "★ 神之領域·銀白神龍龜派氣功", cd: 20, damage: 3300, type: "ultra_instinct_kame", desc: "凝聚神之極意銀白神芒，貫穿多元宇宙一切維度！" }
+    }
   },
   {
-    id: "unicorn_crystal",
-    name: "獨角獸鋼彈 (神化結晶)",
-    title: "扭曲時間感應骨架神話",
+    id: "unicorn_perfectibility",
+    name: "全武裝獨角獸 (光之結晶神化型態)",
+    title: "扭轉時空因果之奇蹟",
     series: "gundam",
     seriesName: "鋼彈",
     rarity: 9,
-    cost: "不可購買",
-    unlockCondition: "[每週收集] 累計收集 15 顆「感應骨架結晶」(每週 Boss 隨機掉落)",
+    cost: 99999,
+    unlockCondition: "達成成就【單人先鋒 1 穿 5 完封大滿貫】解鎖",
+    isFree: false,
     isNonPurchasable: true,
-    role: "概念級機體",
-    baseHp: 1950,
-    baseAtk: 410,
-    baseDef: 95,
-    speed: 9.2,
-    themeColor: "#10b981",
-    auraColor: "rgba(16, 185, 129, 1)",
-    avatarType: "unicorn_crystal",
-    skills: {
-      skill1: {
-        name: "感應力場全彈吸收",
-        cd: 3.5,
-        damage: 620,
-        type: "psycho_absorb",
-        desc: "翠綠色感應力場展開，瞬間吞噬前方所有彈幕並化為光粒子反彈回去。"
-      },
-      skill2: {
-        name: "波動粒子手刀",
-        cd: 5.2,
-        damage: 760,
-        type: "psycho_chop",
-        desc: "右手化作結晶神刃揮下手刀，直接將空間切開一道感應裂縫。"
-      },
-      ult: {
-        name: "扭曲時間之光束重組 (時間倒流神跡)",
-        cd: 55,
-        rageCost: 100,
-        damage: 3250,
-        type: "time_reversal_beam",
-        desc: "揮手展現時間倒流奇蹟！將對手機體分解倒退至出廠零件狀態，造成概念級空間崩壞！"
-      }
+    role: "因果律奇蹟",
+    weaponType: "psycho_crystals",
+    canFly: true,
+    baseHp: 2900,
+    baseAtk: 315,
+    baseDef: 145,
+    speed: 9.0,
+    themeColor: "#22c55e",
+    auraColor: "rgba(34, 197, 94, 1.0)",
+    attackConfig: {
+      light: { name: "結晶神手揮擊", desc: "綠色感應結晶四段重斬" },
+      heavy: { name: "感應力場破防", desc: "揮動綠色結晶大翅破防" },
+      grab: { name: "時間倒轉拘束", desc: "分解目標武器並重摔" },
+      flight: { name: "光之結晶光翼翱翔", desc: "綠色神之結晶光之羽翼" }
     },
-    gadget: { name: "神化結晶防護壁", desc: "周身生長出巨大綠色結晶刺，免疫一切傷害持續 4 秒。" },
-    starPower1: { name: "新人類終極神髓", desc: "所有攻擊附帶 20% 概念真實傷害，無視敵方一切防禦力。" },
-    starPower2: { name: "時光同調反應", desc: "每次受到傷害有 25% 機率使對手技能 CD 增加 2 秒。" },
-    hypercharge: { name: "超越次元的暖光", desc: "大招釋放覆蓋宇宙的溫暖彩虹光輝，敵方全員攻擊力削弱 50%。" },
-    godAuraTitle: "神化獨角獸"
+    skills: {
+      skill1: { name: "精神感應力場·武器分解波", cd: 5, damage: 700, type: "psycho_disarm", desc: "揮手釋放綠色衝擊波，使目標 2 秒內無法攻擊！" },
+      skill2: { name: "全武裝 DE 浮游護盾衝撞", cd: 8, damage: 740, type: "de_shield_ram", desc: "兩枚光之結晶護盾超音速撞穿敵陣。" },
+      ult: { name: "★ 暖光之奇蹟·時空倒轉 (Miracle of Warm Light)", cd: 20, damage: 3250, type: "time_reversal_beam", desc: "結晶巨翅伸展，翠綠暖光籠罩戰場，倒轉時間抹除一切攻擊！" }
+    }
   },
   {
     id: "jiren_full_power",
-    name: "吉連 (全力量暴走)",
-    title: "絕對正義無敵之壁",
+    name: "吉連 (灰色吉連·燃魂全開)",
+    title: "絕對力量超越破壞神",
     series: "dragonball",
     seriesName: "七龍珠",
     rarity: 9,
-    cost: "不可購買",
-    unlockCondition: "[神級成就] 在 5v5 模式中達成「單人 1 穿 5 不換人」全勝戰績解鎖",
+    cost: 99999,
+    unlockCondition: "達成成就【通關 3D 魔王塔第 10 層】解鎖",
+    isFree: false,
     isNonPurchasable: true,
-    role: "絕對之壁",
-    baseHp: 2200,
-    baseAtk: 430,
-    baseDef: 110,
-    speed: 7.8,
+    role: "絕對力量",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 3100,
+    baseAtk: 340,
+    baseDef: 150,
+    speed: 8.8,
     themeColor: "#ef4444",
-    auraColor: "rgba(239, 68, 68, 1)",
-    avatarType: "jiren",
-    skills: {
-      skill1: {
-        name: "意念凝視破防衝擊",
-        cd: 3,
-        damage: 680,
-        type: "glare_strike",
-        desc: "僅憑雙眼神念凝視，便在空氣中引發無形破空衝擊，強制擊碎一切格擋！"
-      },
-      skill2: {
-        name: "熾熱磁氣能量風暴",
-        cd: 5,
-        damage: 820,
-        type: "magnetron_storm",
-        desc: "全身燃起赤紅熾熱如太陽般的狂暴氣焰，雙拳轟出無數狂熱拳壓。"
-      },
-      ult: {
-        name: "超絕毀滅力量大碰撞 (Overheat Magnetron)",
-        cd: 55,
-        rageCost: 100,
-        damage: 3400,
-        type: "jiren_overheat",
-        desc: "將全身肌肉與力量催生至超絕極限！單手托起一顆超巨型赤紅微型太陽砸向目標，毀滅整片戰場！"
-      }
+    auraColor: "rgba(239, 68, 68, 1.0)",
+    attackConfig: {
+      light: { name: "目力神速拳", desc: "單靠眼神與拳風轟出四段打擊" },
+      heavy: { name: "熱炎霸體重拳破防", desc: "熾紅神焰覆蓋直拳破防" },
+      grab: { name: "單掌壓制拋摔", desc: "單掌抓住對手頭顱爆摔" },
+      flight: { name: "熾炎神威飛行", desc: "紅熱氣焰撕裂空氣飛行" }
     },
-    gadget: { name: "不可撼動之壁", desc: "進入 6 秒絕對霸體狀態，期間防禦力提升 100%。" },
-    starPower1: { name: "常駐全身霸體", desc: "普通攻擊與小招無法打斷吉連的任何出招動作。" },
-    starPower2: { name: "力量即是正義", desc: "攻擊力額外獲得當前剩餘防禦力 50% 的加成。" },
-    hypercharge: { name: "超越破壞神的熱量", desc: "大招赤紅太陽膨脹一倍，全圖地面持續燃燒熾熱熔岩。" },
-    godAuraTitle: "絕對無敵壁"
+    skills: {
+      skill1: { name: "能量磁場護體 (Power Wall)", cd: 5, damage: 720, type: "fiery_barrier", desc: "爆發紅熱氣場反彈一切攻擊。" },
+      skill2: { name: "目力氣勁連發 (Glance Cannon)", cd: 7.5, damage: 760, type: "gaze_cannons", desc: "雙目閃耀紅芒，瞬發無數道破壞力場。" },
+      ult: { name: "★ 絕對力量·巨炎滅絕熱彈", cd: 20, damage: 3400, type: "heat_magnetron", desc: "單手托起太陽般巨大的紅熱核心，無情砸碎一切反抗者！" }
+    }
   },
   {
-    id: "beerus",
-    name: "破壞神 比魯斯",
-    title: "第七宇宙毀滅之神",
+    id: "beerus_god_of_destruction",
+    name: "比魯斯 (第7宇宙破壞神)",
+    title: "星宿毀滅至高神明",
     series: "dragonball",
     seriesName: "七龍珠",
     rarity: 9,
-    cost: "不可購買",
-    unlockCondition: "[挑戰極限] 單人無傷通關「魔王 Rush 挑戰」第 10 層解鎖",
+    cost: 99999,
+    unlockCondition: "達成成就【全角色平均等級達到 Lv.50】解鎖",
+    isFree: false,
     isNonPurchasable: true,
-    role: "神界處決者",
-    baseHp: 1950,
-    baseAtk: 440,
+    role: "破壞神力",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 2850,
+    baseAtk: 335,
+    baseDef: 135,
+    speed: 9.0,
+    themeColor: "#8b5cf6",
+    auraColor: "rgba(139, 92, 246, 1.0)",
+    attackConfig: {
+      light: { name: "破壞神指戳", desc: "單指輕點四段穿透打擊" },
+      heavy: { name: "神之哈欠破防", desc: "打哈欠引發紫色震波破防" },
+      grab: { name: "尾巴戲耍重摔", desc: "尾巴甩動砸向地面" },
+      flight: { name: "破壞神漫步", desc: "紫色神光空中優雅懸浮" }
+    },
+    skills: {
+      skill1: { name: "毀滅之球 (Sphere of Destruction)", cd: 5, damage: 740, type: "sun_sphere", desc: "指尖召喚微型太陽重轟目標。" },
+      skill2: { name: "破壞神掌力場", cd: 8, damage: 710, type: "hakai_palm", desc: "掌心爆發純粹破壞神力。" },
+      ult: { name: "★ 真·破壞 (HAKAI)", cd: 20, damage: 3350, type: "hakai_obliterate", desc: "「破壞。」單手輕念，對手瞬間化為紫金粒子徹底消散！" }
+    }
+  },
+  // ── 7. 七龍珠經典補全 ──
+  {
+    id: "vegeta_blue",
+    name: "達爾 (超級賽亞人藍)",
+    title: "超越神境界的純粹孤傲",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 7,
+    cost: 15500,
+    unlockCondition: "消耗 15,500 金幣招募",
+    isFree: false,
+    role: "神速突擊",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 1850,
+    baseAtk: 240,
+    baseDef: 90,
+    speed: 8.3,
+    themeColor: "#0284c7",
+    auraColor: "rgba(2, 132, 199, 0.9)",
+    attackConfig: {
+      light: { name: "神之重拳", desc: "藍焰四段神速連拳" },
+      heavy: { name: "伽瑪爆發重擊", desc: "藍光爆裂破防" },
+      grab: { name: "傲氣鎖頸摔", desc: "單手鎖喉爆發藍光" },
+      flight: { name: "神藍舞空術", desc: "湛藍神氣高速飛行" }
+    },
+    skills: {
+      skill1: { name: "伽瑪爆發閃光", cd: 5, damage: 540, type: "blue_burst", desc: "雙手向前爆發巨型藍色衝擊波。" },
+      skill2: { name: "神之連續氣彈", cd: 7.5, damage: 500, type: "blue_bullets", desc: "狂射二十發湛藍能量彈。" },
+      ult: { name: "最終閃光·真藍極限", cd: 20, damage: 2100, type: "final_flash_blue", desc: "湛藍神焰沖天，撕裂天幕的終極閃光！" }
+    }
+  },
+  {
+    id: "gotenks_ssj3",
+    name: "悟天克斯 (超級賽亞人3)",
+    title: "正義死神搞怪合體",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 6,
+    cost: 9500,
+    unlockCondition: "消耗 9,500 金幣招募",
+    isFree: false,
+    role: "幽靈轟炸",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 1750,
+    baseAtk: 225,
+    baseDef: 80,
+    speed: 8.4,
+    themeColor: "#facc15",
+    auraColor: "rgba(250, 204, 21, 0.9)",
+    attackConfig: {
+      light: { name: "搞怪連打", desc: "花式搞怪四段拳" },
+      heavy: { name: "超級排球重扣破防", desc: "將對手當排球打擊破防" },
+      grab: { name: "金黃甜甜圈捆摔", desc: "甜甜圈束縛重摔" },
+      flight: { name: "金髮舞空術", desc: "超長金髮懸浮飛行" }
+    },
+    skills: {
+      skill1: { name: "超級幽靈神風拳 (Kamikaze Attack)", cd: 5.5, damage: 530, type: "ghost_bombs", desc: "召喚 4 隻會自爆的可愛幽靈衝向對手！" },
+      skill2: { name: "連續連環甜甜圈", cd: 8, damage: 480, type: "donut_trap", desc: "金色能量圈禁錮並引發擠壓爆破。" },
+      ult: { name: "激突狂爆排球大絕招", cd: 20, damage: 1850, type: "volleyball_smash", desc: "把對手搓成排球，狂暴扣殺砸入地心！" }
+    }
+  },
+  {
+    id: "cell_perfect",
+    name: "賽魯 (完全體)",
+    title: "終極完美生物",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 6,
+    cost: 9800,
+    unlockCondition: "消耗 9,800 金幣招募",
+    isFree: false,
+    role: "全武技複製",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 1850,
+    baseAtk: 220,
+    baseDef: 90,
+    speed: 8.0,
+    themeColor: "#16a34a",
+    auraColor: "rgba(22, 163, 74, 0.85)",
+    attackConfig: {
+      light: { name: "完美體術", desc: "融合眾家武學四段連擊" },
+      heavy: { name: "完美重拳破防", desc: "金黃氣焰直拳破防" },
+      grab: { name: "吸收尾刺甩摔", desc: "尾針刺擊過肩重摔" },
+      flight: { name: "昆蟲翼膜飛行", desc: "背部甲翅超速飛行" }
+    },
+    skills: {
+      skill1: { name: "完美射線 (Perfect Beam)", cd: 4.5, damage: 490, type: "death_beam", desc: "指尖瞬發金黃毀滅死光。" },
+      skill2: { name: "小賽魯召喚群擊", cd: 8.5, damage: 520, type: "cell_jr_swarm", desc: "生出兩隻小賽魯發動左右夾擊。" },
+      ult: { name: "太陽系消滅龜派氣功", cd: 20, damage: 1900, type: "solar_kamehameha", desc: "金色電弧環繞，足以毀滅太陽系的巨型龜派氣功！" }
+    }
+  },
+  {
+    id: "kid_buu",
+    name: "魔人普烏 (純粹惡)",
+    title: "無秩序太古破壞神",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 7,
+    cost: 16000,
+    unlockCondition: "消耗 16,000 金幣招募",
+    isFree: false,
+    role: "橡膠怪胎",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 2100,
+    baseAtk: 240,
+    baseDef: 95,
+    speed: 8.6,
+    themeColor: "#f472b6",
+    auraColor: "rgba(244, 114, 182, 0.9)",
+    attackConfig: {
+      light: { name: "怪異肉體狂打", desc: "手臂伸長怪笑四段拳" },
+      heavy: { name: "頭部觸角伸縮重抽破防", desc: "頭頂觸鬚橫掃破防" },
+      grab: { name: "肉團包裹吞噬", desc: "化身粉紅史萊姆包裹摔砸" },
+      flight: { name: "怪異翻滾飛行", desc: "粉紅魔光懸空狂奔" }
+    },
+    skills: {
+      skill1: { name: "變形光線 (Candy Beam)", cd: 5, damage: 510, type: "candy_ray", desc: "頭部觸角發射光線將對手變成巧克力咬碎！" },
+      skill2: { name: "狂暴捶胸衝擊波", cd: 8, damage: 530, type: "shout_wave", desc: "捶胸狂嚎引發全屏粉紅衝擊波。" },
+      ult: { name: "星球毀滅滅絕彈 (Vanishing Ball)", cd: 20, damage: 2050, type: "planet_vanish", desc: "單手托起巨大深粉色滅世火球，直接蒸發星球！" }
+    }
+  },
+  {
+    id: "android_17_super",
+    name: "人造人17號 (力量大會MVP)",
+    title: "無限能源荒野守護者",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 7,
+    cost: 15500,
+    unlockCondition: "消耗 15,500 金幣招募",
+    isFree: false,
+    role: "綠色防護罩",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 1900,
+    baseAtk: 235,
+    baseDef: 105,
+    speed: 8.5,
+    themeColor: "#10b981",
+    auraColor: "rgba(16, 185, 129, 0.9)",
+    attackConfig: {
+      light: { name: "無休止連擊", desc: "無限體力疾風四段打擊" },
+      heavy: { name: "防護罩衝撞破防", desc: "頂著綠色圓形護盾撞飛破防" },
+      grab: { name: "單臂鎖扣爆摔", desc: "近身鎖喉灌地" },
+      flight: { name: "無限能源飛行", desc: "翠綠氣場極速懸浮" }
+    },
+    skills: {
+      skill1: { name: "人造人能量防護罩 (Android Barrier)", cd: 5, damage: 450, type: "barrier_slam", desc: "展開無敵綠色球形護盾反彈一切衝擊。" },
+      skill2: { name: "閃光衝擊射線", cd: 7.5, damage: 510, type: "green_beam", desc: "雙手向前激射高密度綠光粒子束。" },
+      ult: { name: "自爆佯攻·極限超電磁爆轟", cd: 20, damage: 2000, type: "mvp_explosion", desc: "護盾全開極速突進，在零距離引發無限能源超核爆！" }
+    }
+  },
+  {
+    id: "bardock",
+    name: "巴達克 (孤傲的抵抗者)",
+    title: "孫悟空之父·戰士之魂",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 6,
+    cost: 9200,
+    unlockCondition: "消耗 9,200 金幣招募",
+    isFree: false,
+    role: "熱血野蠻",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 1850,
+    baseAtk: 225,
+    baseDef: 85,
+    speed: 7.9,
+    themeColor: "#dc2626",
+    auraColor: "rgba(220, 38, 38, 0.85)",
+    attackConfig: {
+      light: { name: "血性重拳", desc: "染血頭巾四段剛猛直拳" },
+      heavy: { name: "狂怒肘擊破防", desc: "霸體肘擊破防" },
+      grab: { name: "過肩霸摔", desc: "野蠻將對手砸入碎石" },
+      flight: { name: "赤紅舞空術", desc: "赤焰飛空" }
+    },
+    skills: {
+      skill1: { name: "最終烈焰彈 (Final Spirit Cannon)", cd: 4.5, damage: 510, type: "spirit_cannon", desc: "單手凝聚深藍熾烈能量巨球。" },
+      skill2: { name: "暴動突刺", cd: 7.5, damage: 490, type: "rebellion_dash", desc: "帶有霸體的瘋狂直線突進重拳。" },
+      ult: { name: "改變未來的最後一擊", cd: 20, damage: 1820, type: "future_cannon", desc: "傾注全賽亞人命運與不甘，轟穿帝王宇宙船！" }
+    }
+  },
+
+  // ── 8. 漫威英雄與反派補全 ──
+  {
+    id: "magneto_master",
+    name: "萬磁王 (埃里克·蘭謝爾)",
+    title: "變種人磁力主宰",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 7,
+    cost: 16800,
+    unlockCondition: "消耗 16,800 金幣招募",
+    isFree: false,
+    role: "金屬風暴",
+    weaponType: "magnetic_metal",
+    canFly: true,
+    baseHp: 1800,
+    baseAtk: 245,
+    baseDef: 95,
+    speed: 8.0,
+    themeColor: "#9333ea",
+    auraColor: "rgba(147, 51, 234, 0.9)",
+    attackConfig: {
+      light: { name: "金屬碎片四連射", desc: "引導磁力金屬尖刺射擊" },
+      heavy: { name: "巨大鐵塊砸擊破防", desc: "磁力巨石下壓破防" },
+      grab: { name: "磁力隔空倒吊摔", desc: "磁力操控血液鐵質摔投" },
+      flight: { name: "磁場懸浮 (Magnetic Flight)", desc: "紫紅磁力光罩全向懸空" }
+    },
+    skills: {
+      skill1: { name: "電磁脈衝爆破 (EMP Shock)", cd: 5, damage: 540, type: "emp_blast", desc: "全屏引爆電磁波，消除一切護盾並麻痺。" },
+      skill2: { name: "磁力壓縮金屬球", cd: 8, damage: 560, type: "metal_sphere_crush", desc: "將周圍金屬吸附為巨大球體碾壓對手。" },
+      ult: { name: "地球磁極反轉·金屬風暴天災", cd: 20, damage: 2150, type: "magnetic_tempest", desc: "引導地核磁力，萬噸金屬海嘯自天際狂嘯墜落！" }
+    }
+  },
+  {
+    id: "loki_scepter",
+    name: "洛基 (惡作劇之神)",
+    title: "阿斯嘉九界幻術詭王",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 6,
+    cost: 9600,
+    unlockCondition: "消耗 9,600 金幣招募",
+    isFree: false,
+    role: "幻影背刺",
+    weaponType: "scepter_daggers",
+    canFly: true,
+    baseHp: 1750,
+    baseAtk: 220,
+    baseDef: 80,
+    speed: 8.2,
+    themeColor: "#16a34a",
+    auraColor: "rgba(22, 163, 74, 0.85)",
+    attackConfig: {
+      light: { name: "雙匕首刺擊", desc: "翡翠匕首四段削割" },
+      heavy: { name: "心靈權杖光束破防", desc: "藍寶石光束直線破防" },
+      grab: { name: "分身背摔", desc: "幻影出現在背後刺擊摔投" },
+      flight: { name: "綠光幻術懸浮", desc: "綠色魔能空中漫步" }
+    },
+    skills: {
+      skill1: { name: "幻影分身替身", cd: 4.5, damage: 460, type: "illusion_dodge", desc: "留下分身吸引火力，真身瞬移至對手背後背刺！" },
+      skill2: { name: "心靈權杖精神射線", cd: 7.5, damage: 490, type: "mind_laser", desc: "射出心靈控制能量射線造成混亂。" },
+      ult: { name: "惡作劇之神·千影匕首狂宴", cd: 20, damage: 1850, type: "loki_illusions", desc: "全場召喚數十個洛基幻影，同時投擲毒匕首狂舞終結！" }
+    }
+  },
+  {
+    id: "miles_morales",
+    name: "邁爾斯·摩拉斯 (蜘蛛人·新宇宙)",
+    title: "生化毒刺電流英雄",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 6,
+    cost: 9800,
+    unlockCondition: "消耗 9,800 金幣招募",
+    isFree: false,
+    role: "毒刺電流",
+    weaponType: "venom_blast",
+    canFly: true,
+    baseHp: 1750,
+    baseAtk: 230,
+    baseDef: 80,
+    speed: 8.7,
+    themeColor: "#facc15",
+    auraColor: "rgba(250, 204, 21, 0.9)",
+    attackConfig: {
+      light: { name: "塗鴉風格蛛拳", desc: "黃金電火花四段連打" },
+      heavy: { name: "生化毒刺重拳破防", desc: "雙手爆發金黃電弧破防" },
+      grab: { name: "隱身蛛絲摔砸", desc: "隱身狀態下蛛絲拉扯摔投" },
+      flight: { name: "新宇宙蛛絲擺盪", desc: "空中極限塗鴉擺盪" }
+    },
+    skills: {
+      skill1: { name: "生化毒刺衝擊 (Venom Strike)", cd: 4.5, damage: 510, type: "bio_electric_punch", desc: "掌心爆發金黃電流擊飛對手並麻痺 1.5 秒。" },
+      skill2: { name: "光學迷彩隱形 (Camouflage)", cd: 8, damage: 420, type: "invisibility_dash", desc: "進入 3 秒完全隱身狀態並提升 40% 爆擊率。" },
+      ult: { name: "百萬伏特生化毒刺大核爆 (Mega Venom Blast)", cd: 20, damage: 1900, type: "electric_nova", desc: "體內儲蓄的所有生物電狂暴釋放，全場金黃雷霆海嘯！" }
+    }
+  },
+  {
+    id: "captain_marvel_binary",
+    name: "驚奇隊長 (卡蘿·丹佛斯)",
+    title: "雙星形態宇宙巡航者",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 8,
+    cost: 22000,
+    unlockCondition: "消耗 22,000 金幣招募",
+    isFree: false,
+    role: "雙星光子",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 2150,
+    baseAtk: 260,
+    baseDef: 100,
+    speed: 9.0,
+    themeColor: "#f59e0b",
+    auraColor: "rgba(245, 158, 11, 0.95)",
+    attackConfig: {
+      light: { name: "光子重拳連打", desc: "金色宇宙能量四段光速打擊" },
+      heavy: { name: "雙星衝撞破防", desc: "全身體表金焰爆發破防" },
+      grab: { name: "宇宙擒摔", desc: "抓起對手凌空穿透雲層摔砸" },
+      flight: { name: "雙星光速超音速飛行", desc: "金紅能量流光極速翱翔" }
+    },
+    skills: {
+      skill1: { name: "光子能量連環射線", cd: 5, damage: 580, type: "photon_lasers", desc: "雙掌連續轟出高熱光子加農砲。" },
+      skill2: { name: "能量吸收全充能", cd: 8.5, damage: 520, type: "energy_absorb", desc: "吸收周圍攻擊轉化為全身護盾與怒氣。" },
+      ult: { name: "超新星雙星貫日衝擊 (Binary Supernova)", cd: 20, damage: 2250, type: "binary_ram", desc: "化身金色人形彗星，以光速貫穿整座星際艦隊與戰場！" }
+    }
+  },
+
+  // ── 9. 鋼彈宇宙傳奇神機補全 ──
+  {
+    id: "oo_qant",
+    name: "00 Qan[T] 量子型 00",
+    title: "引導人類變革之先驅",
+    series: "gundam",
+    seriesName: "鋼彈",
+    rarity: 8,
+    cost: 24000,
+    unlockCondition: "消耗 24,000 金幣招募",
+    isFree: false,
+    role: "量子瞬移",
+    weaponType: "gn_sword_bits",
+    canFly: true,
+    baseHp: 2050,
+    baseAtk: 265,
+    baseDef: 95,
+    speed: 9.1,
+    themeColor: "#0284c7",
+    auraColor: "rgba(2, 132, 199, 0.95)",
+    attackConfig: {
+      light: { name: "GN 巨劍 V 連斬", desc: "翠綠 GN 刃四段極速削砍" },
+      heavy: { name: "GN 劍型感應刃破防", desc: "6 枚浮游刃組合破防" },
+      grab: { name: "量子置換重摔", desc: "量子化穿透對手背後重摔" },
+      flight: { name: "純種變革者量子飛行", desc: "雙爐同步翠綠 GN 粒子光翼" }
+    },
+    skills: {
+      skill1: { name: "6枚 GN 劍型感應砲 (Sword Bits)", cd: 5, damage: 620, type: "sword_bits_rush", desc: "6 枚劍刃圍繞對手形成切割劍陣。" },
+      skill2: { name: "量子化瞬間移動 (Quantum Teleport)", cd: 7.5, damage: 560, type: "quantum_warp", desc: "機體粒子化消失，瞬移至對手身後發動巨劍重劈！" },
+      ult: { name: "GN 破壞巨劍·量子爆發全開 (Quantum Burst Max)", cd: 20, damage: 2350, type: "quantum_buster_sword", desc: "組合直徑百米長光之巨劍，一刀切開 ELS 巨型母星！" }
+    }
+  },
+  {
+    id: "banshee_norn",
+    name: "報喪女妖·命運女神 (RX-0 Norn)",
+    title: "黑色金鬃狂怒獅王",
+    series: "gundam",
+    seriesName: "鋼彈",
+    rarity: 8,
+    cost: 22800,
+    unlockCondition: "消耗 22,800 金幣招募",
+    isFree: false,
+    role: "黃金獅鬃",
+    weaponType: "armed_armor_de_xc",
+    canFly: true,
+    baseHp: 2150,
+    baseAtk: 260,
+    baseDef: 100,
+    speed: 8.6,
+    themeColor: "#f59e0b",
+    auraColor: "rgba(245, 158, 11, 0.95)",
+    attackConfig: {
+      light: { name: "光束麥格農連射", desc: "重型光束麥格農四段轟擊" },
+      heavy: { name: "武裝裝甲 DE 突刺破防", desc: "金色巨盾前端光束劍破防" },
+      grab: { name: "武裝裝甲 VN 震動爪捕食", desc: "超振動金屬爪捏碎摔投" },
+      flight: { name: "金色獅鬃推進飛行", desc: "背部武裝裝甲 XC 展開金翼" }
+    },
+    skills: {
+      skill1: { name: "迴旋轉輪發射器 (Revolving Launcher)", cd: 5, damage: 590, type: "launcher_burst", desc: "步槍下掛榴彈與感應彈連續齊射。" },
+      skill2: { name: "武裝裝甲 DE 浮游盾衝撞", cd: 8, damage: 580, type: "shield_ram_gold", desc: "巨大金色盾牌以音速撞擊對手。" },
+      ult: { name: "NT-D 破壞者模式·黑色金獅咆哮", cd: 20, damage: 2260, type: "banshee_roar", desc: "精神感應骨架爆發刺目金芒，狂暴爪擊與重砲將敵機徹底撕裂！" }
+    }
+  },
+  {
+    id: "master_gundam",
+    name: "天王鋼彈 (東方不敗·亞洲尊者)",
+    title: "流派東方不敗王者之風",
+    series: "gundam",
+    seriesName: "鋼彈",
+    rarity: 8,
+    cost: 23000,
+    unlockCondition: "消耗 23,000 金幣招募",
+    isFree: false,
+    role: "暗黑宗師",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 2200,
+    baseAtk: 265,
+    baseDef: 100,
+    speed: 8.7,
+    themeColor: "#9333ea",
+    auraColor: "rgba(147, 51, 234, 0.95)",
+    attackConfig: {
+      light: { name: "十二王方牌連擊", desc: "紫色暗黑拳氣四段重打" },
+      heavy: { name: "暗黑碎地破防", desc: "一腳踏碎擂台破防" },
+      grab: { name: "尊者長巾纏繞重摔", desc: "金色腰帶纏繞甩飛" },
+      flight: { name: "尊者披風飛行", desc: "背部黑色斗篷展開翼膜飛行" }
+    },
+    skills: {
+      skill1: { name: "十二王方牌大車輪", cd: 5, damage: 610, type: "shadow_clones_gundam", desc: "召喚數十個小型尊者分身全方位轟擊。" },
+      skill2: { name: "暗黑掌 (Darkness Finger)", cd: 8, damage: 640, type: "darkness_finger", desc: "深紫暗黑氣功掌，吸取生命並重創對手！" },
+      ult: { name: "石破天驚拳·暗黑宗師極限版", cd: 20, damage: 2320, type: "dark_sekiha", desc: "「血染東方一片紅！」紫色魔王巨掌粉碎乾坤！" }
+    }
+  },
+  {
+    id: "aerial_rebuild",
+    name: "風靈鋼彈·改修型 (XVX-016RN)",
+    title: "水星魔女帕梅特刻痕最高階",
+    series: "gundam",
+    seriesName: "鋼彈",
+    rarity: 8,
+    cost: 23000,
+    unlockCondition: "消耗 23,000 金幣招募",
+    isFree: false,
+    role: "GUND 浮游刃",
+    weaponType: "gund_bits",
+    canFly: true,
+    baseHp: 2000,
+    baseAtk: 260,
     baseDef: 95,
     speed: 8.8,
-    themeColor: "#9333ea",
-    auraColor: "rgba(147, 51, 234, 1)",
-    avatarType: "beerus",
-    skills: {
-      skill1: {
-        name: "彈指能量衝擊",
-        cd: 2.8,
-        damage: 660,
-        type: "finger_flick",
-        desc: "優雅地輕彈食指，轟出一道直徑數米的紫色破壞神風暴直接將對手擊飛。"
-      },
-      skill2: {
-        name: "破壞神之怒氣場",
-        cd: 5,
-        damage: 800,
-        type: "god_wrath",
-        desc: "周身爆發深紫破壞神神力氣場，震碎周圍一切物質。"
-      },
-      ult: {
-        name: "毀滅奧義「破壞 (Hakai)」",
-        cd: 55,
-        rageCost: 100,
-        damage: 3500,
-        type: "hakai_execution",
-        desc: "單手手掌平伸，淡淡吐出「破壞（Hakai）」二字——目標全身被紫色神火吞噬，直接概念級灰飛煙滅！"
-      }
+    themeColor: "#38bdf8",
+    auraColor: "rgba(56, 189, 248, 0.95)",
+    attackConfig: {
+      light: { name: "光束步槍四連射", desc: "高出力光束連打" },
+      heavy: { name: "11枚 GUND-BIT 組合重刃破防", desc: "盾刃合體巨劍破防" },
+      grab: { name: "浮游盾刃圍剿擒摔", desc: "浮游刃鎖死對手重摔" },
+      flight: { name: "水星之魔女飛行", desc: "藍色刻痕發光背翼飛行" }
     },
-    gadget: { name: "美食渴望狂暴", desc: "享用美味布丁，瞬間回滿 50% 生命值並增加 50% 怒氣。" },
-    starPower1: { name: "破壞神域威嚴", desc: "靠近比魯斯的敵方每秒受到 50 點破壞神力真實侵蝕傷害。" },
-    starPower2: { name: "神性傲慢", desc: "暴擊率提升 25%，暴擊傷害提升 50%。" },
-    hypercharge: { name: "超特大破壞神毀滅球", desc: "大招召喚巨型紫色破壞日輪，直接湮滅敵方場上所有護盾。" },
-    godAuraTitle: "第七宇宙破壞神"
+    skills: {
+      skill1: { name: "11枚 GUND-BIT 全方位射擊", cd: 5, damage: 600, type: "gund_bits_lasers", desc: "11 枚浮游子機 360 度鎖定連續射擊！" },
+      skill2: { name: "大型光束步槍加農 (GUND-Arm Cannon)", cd: 8, damage: 590, type: "mega_gund_beam", desc: "浮游刃裝載在步槍上轟出巨型藍白光束柱。" },
+      ult: { name: "帕梅特刻痕 Score 8·寂靜零號共鳴", cd: 20, damage: 2300, type: "permet_score_eight", desc: "藍白數據風暴籠罩全場，強制停滯並分解所有敵方武裝！" }
+    }
+  },
+
+  // ── 10. 動漫與 3D 遊戲傳奇補全 ──
+  {
+    id: "garp_fist",
+    name: "蒙其·D·卡普 (鐵拳卡普)",
+    title: "海軍本部傳奇中將英雄",
+    series: "anime",
+    seriesName: "熱血動漫",
+    rarity: 8,
+    cost: 24000,
+    unlockCondition: "消耗 24,000 金幣招募",
+    isFree: false,
+    role: "霸王色鐵拳",
+    weaponType: "none",
+    canFly: false,
+    baseHp: 2350,
+    baseAtk: 275,
+    baseDef: 105,
+    speed: 8.2,
+    themeColor: "#3b82f6",
+    auraColor: "rgba(59, 130, 246, 0.95)",
+    attackConfig: {
+      light: { name: "骨拳連打", desc: "純肉體霸王色四段鐵拳" },
+      heavy: { name: "拳骨隕石破防", desc: "徒手投擲千噸鐵球破防" },
+      grab: { name: "抓起頭顱連環砸地", desc: "按住對手腦袋狂暴砸地" },
+      flight: { name: "海軍六式·月步", desc: "踏空奔馳" }
+    },
+    skills: {
+      skill1: { name: "拳骨衝突 (Galaxy Impact)", cd: 5.5, damage: 650, type: "galaxy_impact", desc: "凌空一拳，黑雷纏繞摧毀整座城鎮的巨大霸王色衝擊！" },
+      skill2: { name: "海軍特大拳骨鐵球", cd: 8, damage: 590, type: "giant_cannonball", desc: "徒手擲出如山般巨大的黑色巨鐵球。" },
+      ult: { name: "海底落下·銀河分裂鐵拳 (Galaxy Divide)", cd: 20, damage: 2380, type: "galaxy_divide", desc: "霸王色黑雷貫通雲霄，自九天之上一拳將整座島嶼一分為二！" }
+    }
   },
   {
-    id: "kang_quantum",
-    name: "量子之神 征服者康",
-    title: "多元宇宙時空統治者",
+    id: "madara_six_paths",
+    name: "宇智波斑 (六道仙人模式)",
+    title: "戰國修羅神之化身",
+    series: "anime",
+    seriesName: "熱血動漫",
+    rarity: 8,
+    cost: 25000,
+    unlockCondition: "消耗 25,000 金幣招募",
+    isFree: false,
+    role: "六道求道玉",
+    weaponType: "six_paths_staff",
+    canFly: true,
+    baseHp: 2250,
+    baseAtk: 280,
+    baseDef: 110,
+    speed: 8.7,
+    themeColor: "#818cf8",
+    auraColor: "rgba(129, 140, 248, 0.95)",
+    attackConfig: {
+      light: { name: "求道玉黑刃刺擊", desc: "求道玉化為黑刺四段連斬" },
+      heavy: { name: "輪墓分身重擊破防", desc: "輪墓隱形分身破防重拳" },
+      grab: { name: "萬象天引擒摔", desc: "引力吸過來直接貫地" },
+      flight: { name: "六道仙人懸浮飛行", desc: "身披白袍背負求道玉懸空" }
+    },
+    skills: {
+      skill1: { name: "仙法·嵐遁光牙", cd: 4.5, damage: 620, type: "light_fang", desc: "口中吐出光速紫色雷電光刃切裂一切！" },
+      skill2: { name: "求道玉黑球防護陣", cd: 8, damage: 600, type: "truth_seeking_orbs", desc: "黑球形成護罩並射出湮滅光針。" },
+      ult: { name: "天礙震星 (Tengai Shinsei·雙重天降隕石)", cd: 20, damage: 2450, type: "meteor_cataclysm", desc: "「這就是神的力量。」召喚兩顆直徑萬米的滅世巨大隕石墜落！" }
+    }
+  },
+  // ── 11. 經典宇宙 20 位英雄極限補全 (達成 100 滿編陣容) ──
+  {
+    id: "goten_kid",
+    name: "孫悟天 (少年)",
+    title: "天真爛漫的小超賽",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 3,
+    cost: 1800,
+    unlockCondition: "消耗 1,800 金幣招募",
+    isFree: false,
+    role: "靈動小拳",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 1200,
+    baseAtk: 135,
+    baseDef: 60,
+    speed: 7.2,
+    themeColor: "#f97316",
+    auraColor: "rgba(249, 115, 22, 0.7)",
+    attackConfig: {
+      light: { name: "童真快拳", desc: "靈巧三段連擊" },
+      heavy: { name: "小超賽重擊", desc: "金髮爆發破防" },
+      grab: { name: "抱腿摔投", desc: "抱住小腿重摔" },
+      flight: { name: "舞空術", desc: "活潑懸空飛行" }
+    },
+    skills: {
+      skill1: { name: "連續氣彈波", cd: 4, damage: 280, type: "rapid_shots", desc: "發射數發金色氣彈。" },
+      skill2: { name: "衝撞頭槌", cd: 7, damage: 310, type: "headbutt", desc: "金色氣焰包裹頭槌撞飛對手。" },
+      ult: { name: "全力龜派氣功", cd: 20, damage: 1100, type: "kame_kid", desc: "雙手蓄滿氣功波向前轟射！" }
+    }
+  },
+  {
+    id: "trunks_kid",
+    name: "特南克斯 (少年)",
+    title: "膠囊公司小少爺",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 3,
+    cost: 1800,
+    unlockCondition: "消耗 1,800 金幣招募",
+    isFree: false,
+    role: "天才劍術",
+    weaponType: "sword",
+    canFly: true,
+    baseHp: 1200,
+    baseAtk: 140,
+    baseDef: 60,
+    speed: 7.3,
+    themeColor: "#818cf8",
+    auraColor: "rgba(129, 140, 248, 0.7)",
+    attackConfig: {
+      light: { name: "短劍連削", desc: "短劍四段快速揮砍" },
+      heavy: { name: "勇者突擊破防", desc: "短劍橫掃破防" },
+      grab: { name: "近身摔投", desc: "迴旋踢摔倒對手" },
+      flight: { name: "舞空術", desc: "空中靈活飛行" }
+    },
+    skills: {
+      skill1: { name: "閃光重砲 (Flash Buster)", cd: 4.5, damage: 300, type: "flash_shot", desc: "單手射出黃金閃光彈。" },
+      skill2: { name: "勇者短劍突刺", cd: 7, damage: 320, type: "sword_dash", desc: "手持短劍向前極速突刺。" },
+      ult: { name: "勝利終結閃光", cd: 20, damage: 1120, type: "victory_cannon", desc: "金髮超賽全力轟出巨大終結光束！" }
+    }
+  },
+  {
+    id: "janemba_sword",
+    name: "邪念波 (羅剎之劍)",
+    title: "地獄邪念具現魔神",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 7,
+    cost: 16500,
+    unlockCondition: "消耗 16,500 金幣招募",
+    isFree: false,
+    role: "次元魔劍",
+    weaponType: "rakshasa_sword",
+    canFly: true,
+    baseHp: 1900,
+    baseAtk: 245,
+    baseDef: 90,
+    speed: 8.6,
+    themeColor: "#dc2626",
+    auraColor: "rgba(220, 38, 38, 0.9)",
+    attackConfig: {
+      light: { name: "羅剎紅刃連斬", desc: "血紅次元長劍削斬" },
+      heavy: { name: "次元方塊重劈破防", desc: "空間分解碎塊重劈破防" },
+      grab: { name: "空間傳送貫胸", desc: "右手穿透空間抓起重摔" },
+      flight: { name: "分解傳送飛行", desc: "身體化為空間方塊瞬移飛行" }
+    },
+    skills: {
+      skill1: { name: "空間折疊次元斬 (Dimensional Slash)", cd: 4.5, damage: 560, type: "space_cut", desc: "隔空揮劍，在對手身旁直接切出深紅血光！" },
+      skill2: { name: "羅剎空間反彈門", cd: 8, damage: 510, type: "portal_reflect", desc: "開啟傳送門吸收攻擊並反彈回對手身上。" },
+      ult: { name: "地獄邪念·千刃血月審判", cd: 20, damage: 2150, type: "hell_blood_moon", desc: "天空化為血月，無數次元紅刃將戰場切成碎塊！" }
+    }
+  },
+  {
+    id: "whis_angel",
+    name: "維斯 (天使神使)",
+    title: "第7宇宙破壞神導師",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 9,
+    cost: 99999,
+    unlockCondition: "達成成就【天梯 200 勝】解鎖",
+    isFree: false,
+    isNonPurchasable: true,
+    role: "天使極致",
+    weaponType: "angel_staff",
+    canFly: true,
+    baseHp: 3000,
+    baseAtk: 340,
+    baseDef: 145,
+    speed: 9.8,
+    themeColor: "#38bdf8",
+    auraColor: "rgba(56, 189, 248, 1.0)",
+    attackConfig: {
+      light: { name: "神杖輕點", desc: "天使神杖四段優雅點擊" },
+      heavy: { name: "時間微調破防", desc: "神杖頓地引發神光破防" },
+      grab: { name: "天使身法戲耍", desc: "避開攻擊手指輕彈摔飛" },
+      flight: { name: "天使光輪飛行", desc: "頸部光環神速懸浮" }
+    },
+    skills: {
+      skill1: { name: "天使絕對防禦身法", cd: 6, damage: 690, type: "angel_evade", desc: "2.5 秒內不受任何攻擊傷害並自動反擊。" },
+      skill2: { name: "時間倒轉 3 秒 (Time Rewind)", cd: 10, damage: 720, type: "time_rewind", desc: "重置自身血量至 3 秒前並造成範圍神光爆破！" },
+      ult: { name: "★ 天使之裁決·全宇宙法則淨化", cd: 20, damage: 3400, type: "angelic_purification", desc: "神杖高舉，億萬道純白聖光降臨，淨化多元宇宙一切混沌！" }
+    }
+  },
+  {
+    id: "green_goblin",
+    name: "綠惡魔 (諾曼·奧斯朋)",
+    title: "奧斯朋邪惡天災",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 6,
+    cost: 9400,
+    unlockCondition: "消耗 9,400 金幣招募",
+    isFree: false,
+    role: "滑翔炸彈",
+    weaponType: "pumpkin_bombs_glider",
+    canFly: true,
+    baseHp: 1800,
+    baseAtk: 225,
+    baseDef: 85,
+    speed: 8.5,
+    themeColor: "#22c55e",
+    auraColor: "rgba(34, 197, 94, 0.85)",
+    attackConfig: {
+      light: { name: "惡魔刺刀連擊", desc: "滑翔翼刀刃四段削切" },
+      heavy: { name: "南瓜炸彈重擲破防", desc: "燃燒南瓜巨彈破防" },
+      grab: { name: "滑翔翼勾摔", desc: "滑翔翼勾住對手空中重摔" },
+      flight: { name: "綠惡魔滑翔翼飛行 (Goblin Glider)", desc: "腳踏綠色蝙蝠滑翔翼空中高速俯衝" }
+    },
+    skills: {
+      skill1: { name: "南瓜飛彈狂轟 (Pumpkin Bombs)", cd: 4.5, damage: 490, type: "bomb_cluster", desc: "投擲三枚爆裂南瓜炸彈引發連環爆炸。" },
+      skill2: { name: "惡魔毒氣狂笑", cd: 7.5, damage: 460, type: "toxic_gas", desc: "釋放綠色神經毒氣降低對手 30% 防禦。" },
+      ult: { name: "滑翔翼極速穿刺·南瓜地獄大核爆", cd: 20, damage: 1850, type: "glider_carpet_bomb", desc: "滑翔翼超音速穿刺對手，隨後投下巨型南瓜核彈化為火海！" }
+    }
+  },
+  {
+    id: "spiderman_2099",
+    name: "蜘蛛人 2099 (米格爾·奧哈拉)",
+    title: "未來賽博紐約守護者",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 7,
+    cost: 16500,
+    unlockCondition: "消耗 16,500 金幣招募",
+    isFree: false,
+    role: "光學毒爪",
+    weaponType: "optical_claws_cape",
+    canFly: true,
+    baseHp: 1850,
+    baseAtk: 245,
+    baseDef: 90,
+    speed: 8.8,
+    themeColor: "#0284c7",
+    auraColor: "rgba(2, 132, 199, 0.9)",
+    attackConfig: {
+      light: { name: "未來光學爪擊", desc: "赤紅雷射爪四段撕裂" },
+      heavy: { name: "重力尖刺重踢破防", desc: "前臂利爪蓄力破防" },
+      grab: { name: "光網抱摔", desc: "光學蛛網纏繞重摔" },
+      flight: { name: "反重力披風滑翔", desc: "背部紅色雷射蛛網披風滑翔" }
+    },
+    skills: {
+      skill1: { name: "雷射蛛網穿刺", cd: 4.5, damage: 520, type: "laser_webs", desc: "射出帶有高壓能量的硬化光學蛛網。" },
+      skill2: { name: "賽博毒牙突刺", cd: 7.5, damage: 540, type: "fang_bite", desc: "超音速俯衝毒牙撕咬，造成持續流血傷害。" },
+      ult: { name: "2099 維度撕裂·未來正義終結", cd: 20, damage: 2080, type: "future_2099_strike", desc: "全身雷射戰衣全功率超載，以超光速在戰場交織出毀滅紅網！" }
+    }
+  },
+  {
+    id: "hawkeye_archer",
+    name: "鷹眼 (克林特·巴頓)",
+    title: "百步穿楊神射手",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 5,
+    cost: 4800,
+    unlockCondition: "消耗 4,800 金幣招募",
+    isFree: false,
+    role: "精準神射",
+    weaponType: "compound_bow",
+    canFly: false,
+    baseHp: 1550,
+    baseAtk: 185,
+    baseDef: 75,
+    speed: 7.6,
+    themeColor: "#8b5cf6",
+    auraColor: "rgba(139, 92, 246, 0.75)",
+    attackConfig: {
+      light: { name: "複合弓四連射", desc: "精準合金箭矢速射" },
+      heavy: { name: "高爆箭矢破防", desc: "重裝穿甲箭破防" },
+      grab: { name: "弓弦勒頸摔", desc: "弓弦鎖喉過肩摔" },
+      flight: { name: "戰術翻滾", desc: "地面靈巧翻滾" }
+    },
+    skills: {
+      skill1: { name: "高爆箭矢群射", cd: 4.5, damage: 410, type: "explosive_arrows", desc: "發射三枚炸彈箭引發連續爆破。" },
+      skill2: { name: "電擊網箭束縛", cd: 7.5, damage: 380, type: "shock_arrow", desc: "射出高壓電擊箭麻痺對手 1.2 秒。" },
+      ult: { name: "百發百中·天降箭雨風暴", cd: 20, damage: 1500, type: "arrow_storm", desc: "朝天拉滿神弓，萬千特種高科技箭矢覆蓋全場！" }
+    }
+  },
+  {
+    id: "carnage_symbiote",
+    name: "屠殺 (克萊圖斯·卡薩迪)",
+    title: "血紅共生體殺戮魔狂",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 7,
+    cost: 16500,
+    unlockCondition: "消耗 16,500 金幣招募",
+    isFree: false,
+    role: "血刃殺戮",
+    weaponType: "blood_blades_tendrils",
+    canFly: true,
+    baseHp: 1850,
+    baseAtk: 250,
+    baseDef: 85,
+    speed: 8.8,
+    themeColor: "#ef4444",
+    auraColor: "rgba(239, 68, 68, 0.95)",
+    attackConfig: {
+      light: { name: "血色利斧連剁", desc: "雙手化為深紅巨斧四段狂砍" },
+      heavy: { name: "血紅尖刺地獄破防", desc: "背部爆發血色利刃破防" },
+      grab: { name: "血網撕扯重摔", desc: "血紅觸手將對手四肢扯碎摔砸" },
+      flight: { name: "血腥觸手彈射", desc: "血絲拉扯空中狂飆" }
+    },
+    skills: {
+      skill1: { name: "千刃血刺齊射", cd: 4.5, damage: 540, type: "crimson_daggers", desc: "全身體表射出數十枚血紅飛刀。" },
+      skill2: { name: "雙手血鐮迴旋斬", cd: 7.5, damage: 560, type: "scythe_spin_red", desc: "化身旋轉血色鐮刀割裂戰場。" },
+      ult: { name: "「讓這世界血流成河」終極殺戮狂潮", cd: 20, damage: 2120, type: "carnage_abyss", desc: "戰場化為血紅共生體地獄，無數巨型血刃自地面狂暴貫穿！" }
+    }
+  },
+  {
+    id: "silver_surfer",
+    name: "銀色衝浪手 (諾林·萊德)",
+    title: "宇宙秘能純銀先驅",
+    series: "marvel",
+    seriesName: "漫威",
+    rarity: 8,
+    cost: 23500,
+    unlockCondition: "消耗 23,500 金幣招募",
+    isFree: false,
+    role: "宇宙秘能",
+    weaponType: "cosmic_surfboard",
+    canFly: true,
+    baseHp: 2100,
+    baseAtk: 265,
+    baseDef: 100,
+    speed: 9.2,
+    themeColor: "#cbd5e1",
+    auraColor: "rgba(203, 213, 225, 0.95)",
+    attackConfig: {
+      light: { name: "秘能銀光連擊", desc: "銀白宇宙能量四段打擊" },
+      heavy: { name: "衝浪板重砸破防", desc: "純銀滑板蓄力拍擊破防" },
+      grab: { name: "宇宙分子分解摔", desc: "單手觸碰分子級重摔" },
+      flight: { name: "銀色衝浪板光速穿梭", desc: "腳踏純銀滑板超光速全向翺翔" }
+    },
+    skills: {
+      skill1: { name: "宇宙秘能衝擊 (Power Cosmic)", cd: 5, damage: 610, type: "cosmic_beam", desc: "雙手向前激射純白宇宙能量巨束。" },
+      skill2: { name: "超光速滑板穿刺", cd: 7.5, damage: 580, type: "surfboard_ram", desc: "以超光速踩著滑板貫穿對手防線。" },
+      ult: { name: "黑洞引力坍縮·宇宙奇異點", cd: 20, damage: 2300, type: "black_hole_cosmic", desc: "召喚微型黑洞吞噬戰場，引發超光速奇異點大爆炸！" }
+    }
+  },
+  {
+    id: "destiny_gundam",
+    name: "命運鋼彈 (ZGMF-X42S)",
+    title: "光之翼巨劍全武裝戰神",
+    series: "gundam",
+    seriesName: "鋼彈",
+    rarity: 8,
+    cost: 23000,
+    unlockCondition: "消耗 23,000 金幣招募",
+    isFree: false,
+    role: "光翼斬艦",
+    weaponType: "arondight_anti_ship_sword",
+    canFly: true,
+    baseHp: 2100,
+    baseAtk: 265,
+    baseDef: 95,
+    speed: 8.9,
+    themeColor: "#ef4444",
+    auraColor: "rgba(239, 68, 68, 0.95)",
+    attackConfig: {
+      light: { name: "高能量光束步槍射擊", desc: "四段光束速射" },
+      heavy: { name: "亞隆戴特斬艦刀重劈破防", desc: "巨大實體光束斬艦刀破防" },
+      grab: { name: "掌中槍「帕爾瑪」零距轟殺", desc: "掌心光束砲按臉轟擊" },
+      flight: { name: "殘影光之翼全速飛行", desc: "紅色光之翼留下無數殘影" }
+    },
+    skills: {
+      skill1: { name: "掌中槍·帕爾瑪掌底炮", cd: 4.5, damage: 590, type: "palm_cannon", desc: "掌心爆發蒼藍高出力光束貼臉炸飛！" },
+      skill2: { name: "高能量長射程光束加農", cd: 8, damage: 580, type: "long_range_cannon", desc: "背部摺疊大砲展開轟出貫穿光柱。" },
+      ult: { name: "光之翼殘影·亞隆戴特斬艦一刀兩斷", cd: 20, damage: 2320, type: "destiny_wings_slash", desc: "光之翼全開帶出漫天殘影，巨型斬艦刀將戰場一切目標一刀劈碎！" }
+    }
+  },
+  {
+    id: "tallgeese_3",
+    name: "托爾吉斯 III (OZ-00MS2B)",
+    title: "米加加農砲雷霆騎士",
+    series: "gundam",
+    seriesName: "鋼彈",
+    rarity: 7,
+    cost: 16500,
+    unlockCondition: "消耗 16,500 金幣招募",
+    isFree: false,
+    role: "巨砲電鞭",
+    weaponType: "mega_cannon_heat_rod",
+    canFly: true,
+    baseHp: 1900,
+    baseAtk: 245,
+    baseDef: 90,
+    speed: 8.6,
+    themeColor: "#38bdf8",
+    auraColor: "rgba(56, 189, 248, 0.9)",
+    attackConfig: {
+      light: { name: "光束軍刀快速削斬", desc: "騎士長劍四段突刺" },
+      heavy: { name: "大型電熱鞭橫掃破防", desc: "高熱合金鞭橫掃破防" },
+      grab: { name: "電熱鞭纏繞甩飛", desc: "高熱鞭鎖死對手過肩摔" },
+      flight: { name: "超絕噴射器加速", desc: "背部大型推進器狂暴加速" }
+    },
+    skills: {
+      skill1: { name: "高熱電熱鞭抽擊 (Heat Rod)", cd: 4.5, damage: 520, type: "heat_whip", desc: "抽動熾熱電鞭擊暈並引發高溫灼燒。" },
+      skill2: { name: "大型米加加農砲展開射擊", cd: 8, damage: 560, type: "mega_cannon_tallgeese", desc: "加農砲前部展開轟出巨型光束。" },
+      ult: { name: "大型米加加農砲最大出力·一擊滅要塞", cd: 20, damage: 2100, type: "fortress_destroyer", desc: "全出力光束砲全力過載，撕碎整座宇宙要塞級光柱轟殺！" }
+    }
+  },
+  {
+    id: "eren_titan",
+    name: "艾連·葉卡 (始祖進擊之巨人)",
+    title: "為了自由踏平世界的驅逐者",
+    series: "anime",
+    seriesName: "熱血動漫",
+    rarity: 8,
+    cost: 23500,
+    unlockCondition: "消耗 23,500 金幣招募",
+    isFree: false,
+    role: "硬質化巨神",
+    weaponType: "none",
+    canFly: false,
+    baseHp: 2400,
+    baseAtk: 270,
+    baseDef: 105,
+    speed: 7.8,
+    themeColor: "#15803d",
+    auraColor: "rgba(21, 128, 61, 0.95)",
+    attackConfig: {
+      light: { name: "進擊巨拳連擊", desc: "綠色眼芒狂暴重拳四段" },
+      heavy: { name: "硬質化金剛拳破防", desc: "水晶硬質化巨拳破防" },
+      grab: { name: "巨力撕扯砸地", desc: "抓起對手雙腿猛摔" },
+      flight: { name: "地鳴咆哮衝刺", desc: "地面震動狂暴狂奔" }
+    },
+    skills: {
+      skill1: { name: "戰錘巨人硬質化地刺", cd: 5, damage: 600, type: "warhammer_spikes", desc: "地面瞬生數十根巨型水晶地刺貫穿空中目標！" },
+      skill2: { name: "進擊咆哮霸體", cd: 8, damage: 540, type: "titan_roar", desc: "震天戰吼震暈周圍目標並獲得 50% 減傷霸體。" },
+      ult: { name: "「驅逐這世界上所有敵人」終極地鳴天災 (The Rumbling)", cd: 20, damage: 2350, type: "the_rumbling", desc: "千萬超大型巨人降臨踏平大陸，地鳴滅世天崩地裂！" }
+    }
+  },
+  {
+    id: "sora_keyblade",
+    name: "索拉 (王國之心·鍵刃大師)",
+    title: "光之心靈守護勇者",
+    series: "gaming",
+    seriesName: "遊戲傳奇",
+    rarity: 7,
+    cost: 16500,
+    unlockCondition: "消耗 16,500 金幣招募",
+    isFree: false,
+    role: "鍵刃魔法",
+    weaponType: "keyblade",
+    canFly: true,
+    baseHp: 1850,
+    baseAtk: 240,
+    baseDef: 85,
+    speed: 8.4,
+    themeColor: "#facc15",
+    auraColor: "rgba(250, 204, 21, 0.9)",
+    attackConfig: {
+      light: { name: "鍵刃連斬", desc: "金黃鍵刃四段流暢削砍" },
+      heavy: { name: "光之螺旋破防", desc: "鍵刃旋轉聖光破防" },
+      grab: { name: "重力魔法摔投", desc: "重力球吸附重摔" },
+      flight: { name: "滑空浮空 (Glide)", desc: "光之心靈空中滑翔" }
+    },
+    skills: {
+      skill1: { name: "爆炎與雷霆魔法連鎖 (Firaga & Thundaga)", cd: 4.5, damage: 530, type: "magic_chain", desc: "連續轟出追蹤火球與天降雷霆。" },
+      skill2: { name: "音速衝擊突進 (Sonic Blade)", cd: 7.5, damage: 520, type: "sonic_dash", desc: "化身金色光芒連續五次穿刺對手。" },
+      ult: { name: "聖光封印·終極王國之心之光", cd: 20, damage: 2100, type: "kingdom_hearts_light", desc: "鍵刃開啟王國之心大門，無盡璀璨光芒驅散一切黑暗！" }
+    }
+  },
+  {
+    id: "zero_megaman",
+    name: "傑洛 (洛克人 X·特級獵人)",
+    title: "紅色疾風 Z-Saber 傳奇",
+    series: "gaming",
+    seriesName: "遊戲傳奇",
+    rarity: 7,
+    cost: 16800,
+    unlockCondition: "消耗 16,800 金幣招募",
+    isFree: false,
+    role: "光劍三連",
+    weaponType: "z_saber_buster",
+    canFly: true,
+    baseHp: 1850,
+    baseAtk: 245,
+    baseDef: 85,
+    speed: 8.8,
+    themeColor: "#ef4444",
+    auraColor: "rgba(239, 68, 68, 0.9)",
+    attackConfig: {
+      light: { name: "Z-Saber 三連斬", desc: "經典綠色光劍四段帥氣削斬" },
+      heavy: { name: "空圓斬跳劈破防", desc: "空中 360 度光刃破防" },
+      grab: { name: "Z-Buster 零距重砲摔", desc: "掌心重砲轟飛重摔" },
+      flight: { name: "空中衝刺二段跳", desc: "紅色裝甲空中極速衝刺" }
+    },
+    skills: {
+      skill1: { name: "滅閃光 (Messenkou)", cd: 5, damage: 550, type: "ground_lasers", desc: "單拳重砸地面，射出數道垂直沖天光柱！" },
+      skill2: { name: "龍炎刃 (Ryuuenren)", cd: 7.5, damage: 530, type: "flame_uppercut", desc: "烈焰光劍昇龍斬挑飛對手。" },
+      ult: { name: "真·幻夢零 (Genmu Zero)", cd: 20, damage: 2150, type: "genmu_zero_slice", desc: "雙手揮出覆蓋全螢幕的超巨大翠綠半月形極限劍氣！" }
+    }
+  },
+  {
+    id: "ace_fire_fist",
+    name: "波特卡斯·D·艾斯 (火拳)",
+    title: "白鬍子海賊團二番隊隊長",
+    series: "anime",
+    seriesName: "熱血動漫",
+    rarity: 7,
+    cost: 16000,
+    unlockCondition: "消耗 16,000 金幣招募",
+    isFree: false,
+    role: "烈火自然系",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 1800,
+    baseAtk: 240,
+    baseDef: 85,
+    speed: 8.5,
+    themeColor: "#f97316",
+    auraColor: "rgba(249, 115, 22, 0.9)",
+    attackConfig: {
+      light: { name: "火槍連射", desc: "指尖火彈四段速射" },
+      heavy: { name: "火拳直擊破防", desc: "熾熱巨炎重拳破防" },
+      grab: { name: "炎戒重摔", desc: "烈焰鎖死過肩摔" },
+      flight: { name: "火焰推進飛行", desc: "雙腳噴發烈火空中翺翔" }
+    },
+    skills: {
+      skill1: { name: "火拳 (Fire Fist)", cd: 4.5, damage: 550, type: "giant_fire_punch", desc: "揮出直徑 10 米巨大火焰之拳吞噬一切！" },
+      skill2: { name: "螢火·火達磨", cd: 7.5, damage: 510, type: "green_fireflies", desc: "釋放無數綠色螢火光點包圍對手同時爆燃！" },
+      ult: { name: "大炎戒·炎帝 (Great Flame Commandment)", cd: 20, damage: 2100, type: "giant_sun_nova", desc: "頭頂凝聚太陽般巨大的終極烈焰火球，湮滅全場！" }
+    }
+  },
+  {
+    id: "killua_godspeed",
+    name: "奇犽·揍敵客 (神速模式)",
+    title: "揍敵客殺手神童",
+    series: "anime",
+    seriesName: "熱血動漫",
+    rarity: 7,
+    cost: 16500,
+    unlockCondition: "消耗 16,500 金幣招募",
+    isFree: false,
+    role: "電光石火",
+    weaponType: "assassin_yoyos",
+    canFly: true,
+    baseHp: 1750,
+    baseAtk: 245,
+    baseDef: 80,
+    speed: 9.3,
+    themeColor: "#38bdf8",
+    auraColor: "rgba(56, 189, 248, 0.95)",
+    attackConfig: {
+      light: { name: "暗殺利爪四連切", desc: "雙手變形為合金刀爪" },
+      heavy: { name: "千噸重悠悠球破防", desc: "特殊合金悠悠球重擊破防" },
+      grab: { name: "雷電肢曲背摔", desc: "無聲步瞬移至背後重摔" },
+      flight: { name: "電光石火踏空", desc: "銀藍電芒全速穿梭" }
+    },
+    skills: {
+      skill1: { name: "落雷 (Thunderbolt)", cd: 4.5, damage: 530, type: "lightning_strike", desc: "自空中召喚一道神速雷霆劈向對手。" },
+      skill2: { name: "神速·疾風迅雷 (Godspeed Counter)", cd: 7.5, damage: 560, type: "counter_dash", desc: "反射神經完全自動化，閃避並以雷速連環穿心！" },
+      ult: { name: "神速極限·雷掌心臟摘除", cd: 20, damage: 2150, type: "assassin_heart_rip", desc: "銀藍電光撕裂大氣，超光速閃過瞬間摘除敵方防禦核心！" }
+    }
+  },
+  {
+    id: "nier_2b",
+    name: "2B (寄葉二號 B 型)",
+    title: "人類榮光誓死捍衛者",
+    series: "gaming",
+    seriesName: "遊戲傳奇",
+    rarity: 7,
+    cost: 16800,
+    unlockCondition: "消耗 16,800 金幣招募",
+    isFree: false,
+    role: "雙劍浮游砲",
+    weaponType: "dual_katana_pod",
+    canFly: true,
+    baseHp: 1800,
+    baseAtk: 245,
+    baseDef: 85,
+    speed: 8.7,
+    themeColor: "#f8fafc",
+    auraColor: "rgba(248, 250, 252, 0.9)",
+    attackConfig: {
+      light: { name: "白之契約雙刀舞", desc: "懸浮雙長刀四段華麗削砍" },
+      heavy: { name: "百獸之王劍破防", desc: "重劍蓄力跳劈破防" },
+      grab: { name: "輔助機抓取旋轉摔", desc: "輔助機吊起對手旋轉摔砸" },
+      flight: { name: "輔助機滑翔 (Pod Glide)", desc: "雙手抓握輔助機空中滑翔" }
+    },
+    skills: {
+      skill1: { name: "輔助機雷射加農 (Pod Laser)", cd: 4.5, damage: 520, type: "pod_laser", desc: "輔助機 Pod 042 發射高能持續穿透雷射。" },
+      skill2: { name: "懸浮幻影雙刀風暴", cd: 7.5, damage: 550, type: "dual_sword_spin", desc: "雙刀圍繞自身高速旋轉成防禦絞肉圈。" },
+      ult: { name: "自爆協議·義體超載極限連擊", cd: 20, damage: 2120, type: "self_destruct_burst", desc: "脫下裙裝黑盒反應堆全開，雙刀化為漫天銀芒華麗終結！" }
+    }
+  },
+  {
+    id: "shadow_templar",
+    name: "澤拉圖 (暗影聖堂武士·星靈)",
+    title: "奈拉齊姆虛空幽能導師",
+    series: "gaming",
+    seriesName: "遊戲傳奇",
+    rarity: 8,
+    cost: 23500,
+    unlockCondition: "消耗 23,500 金幣招募",
+    isFree: false,
+    role: "隱形光刃",
+    weaponType: "warp_blade",
+    canFly: true,
+    baseHp: 1950,
+    baseAtk: 270,
+    baseDef: 90,
+    speed: 9.0,
+    themeColor: "#10b981",
+    auraColor: "rgba(16, 185, 129, 0.95)",
+    attackConfig: {
+      light: { name: "虛空幽能光刃削斬", desc: "翠綠曲光戰刃四段極速削砍" },
+      heavy: { name: "幽能瞬影重劈破防", desc: "穿梭虛空破防重刺" },
+      grab: { name: "暗影鎖喉重摔", desc: "虛空擒拿重摔" },
+      flight: { name: "虛空穿梭閃爍 (Blink)", desc: "綠色幽能空間折躍飛行" }
+    },
+    skills: {
+      skill1: { name: "虛空禁錮 (Void Prison)", cd: 6, damage: 450, type: "void_prison", desc: "製造綠色時間力場，完全停止力場內目標 2.5 秒！" },
+      skill2: { name: "幽能短距折躍突刺 (Blink Strike)", cd: 5, damage: 580, type: "blink_pierce", desc: "折躍至目標身後，曲光戰刃無情背刺！" },
+      ult: { name: "奈拉齊姆之榮光·虛空風暴狂舞", cd: 20, damage: 2350, type: "void_tempest", desc: "虛空幽能撕裂物質界，化身綠色死神光刃狂潮斬碎一切異端！" }
+    }
+  },
+  {
+    id: "tarnished_elden",
+    name: "褪色者 (艾爾登之王)",
+    title: "交界地命定之死主宰",
+    series: "gaming",
+    seriesName: "遊戲傳奇",
+    rarity: 8,
+    cost: 23500,
+    unlockCondition: "消耗 23,500 金幣招募",
+    isFree: false,
+    role: "月光法術",
+    weaponType: "moonlight_greatsword",
+    canFly: false,
+    baseHp: 2050,
+    baseAtk: 260,
+    baseDef: 95,
+    speed: 8.1,
+    themeColor: "#38bdf8",
+    auraColor: "rgba(56, 189, 248, 0.95)",
+    attackConfig: {
+      light: { name: "暗月大劍四段削斬", desc: "冰藍月光附魔大劍削斬" },
+      heavy: { name: "月光波蓄力重劈破防", desc: "揮出巨型冰藍月牙劍氣破防" },
+      grab: { name: "處決背刺", desc: "大劍穿胸致命處決重摔" },
+      flight: { name: "獵犬步伐 (Bloodhound's Step)", desc: "無敵隱形穿梭滑步" }
+    },
+    skills: {
+      skill1: { name: "彗星亞茲勒 (Comet Azur)", cd: 6, damage: 680, type: "blue_laser_beam", desc: "噴射毀滅一切的超巨型湛藍星空雷射柱！" },
+      skill2: { name: "命定之死·黑劍劍舞", cd: 8, damage: 610, type: "destined_death", desc: "揮動黑紅命定之死，扣除目標最大生命值。" },
+      ult: { name: "菈妮的暗月·艾爾登之王降臨", cd: 20, damage: 2300, type: "ranni_dark_moon", desc: "天空升起巨大的冰冷暗月，滿月墜地冰封碎裂整個宇宙！" }
+    }
+  },
+  {
+    id: "cell_max",
+    name: "賽魯 Max (Cell Max)",
+    title: "紅綠狂暴失控終極生化神",
+    series: "dragonball",
+    seriesName: "七龍珠",
+    rarity: 8,
+    cost: 24500,
+    unlockCondition: "消耗 24,500 金幣招募",
+    isFree: false,
+    role: "巨神泰坦",
+    weaponType: "none",
+    canFly: true,
+    baseHp: 2500,
+    baseAtk: 275,
+    baseDef: 110,
+    speed: 7.8,
+    themeColor: "#dc2626",
+    auraColor: "rgba(220, 38, 38, 0.95)",
+    attackConfig: {
+      light: { name: "紅綠巨拳連擊", desc: "百噸巨拳四段重砸" },
+      heavy: { name: "巨角重撞破防", desc: "頭部巨角俯衝破防" },
+      grab: { name: "巨尾橫掃碾碎", desc: "尾部巨棒橫掃砸地" },
+      flight: { name: "巨翅轟鳴飛行", desc: "巨大雙翼掀起狂風飛行" }
+    },
+    skills: {
+      skill1: { name: "滅世災厄射線 (Disaster Ray)", cd: 5, damage: 620, type: "cell_max_lasers", desc: "全身各處發射數十道狂暴血紅雷射。" },
+      skill2: { name: "巨尾狂暴橫掃", cd: 8, damage: 590, type: "tail_sweep_max", desc: "巨尾 360 度橫掃將所有人震入空中。" },
+      ult: { name: "狂暴核爆天災 (Cataclysmic Explosive Wave)", cd: 20, damage: 2350, type: "cell_max_nova", desc: "頭頂聚集毀滅性巨大紅黑能量球，砸向地面引發全場核爆！" }
+    }
+  },
+  {
+    id: "kang_conqueror",
+    name: "征服者·康 (時間盡頭主宰)",
+    title: "多元宇宙時間線征服者",
     series: "marvel",
     seriesName: "漫威",
     rarity: 9,
-    cost: "不可購買",
-    unlockCondition: "[累積成就] 累計在 PVP 造成 500 萬點總戰鬥傷害解鎖",
+    cost: 99999,
+    unlockCondition: "達成成就【累計造成 500 萬點戰鬥傷害】解鎖",
+    isFree: false,
     isNonPurchasable: true,
-    role: "時空統治者",
-    baseHp: 1980,
-    baseAtk: 425,
-    baseDef: 95,
-    speed: 8.0,
-    themeColor: "#059669",
-    auraColor: "rgba(5, 150, 105, 1)",
-    avatarType: "kang",
-    skills: {
-      skill1: {
-        name: "重力反轉力場",
-        cd: 3,
-        damage: 640,
-        type: "gravity_flip",
-        desc: "操縱量子重力將對手拋向高空並重重砸下，使其滯空 1.5 秒。"
-      },
-      skill2: {
-        name: "召喚時空軍隊突襲",
-        cd: 5.5,
-        damage: 790,
-        type: "quantum_army",
-        desc: "打開 3 道時空門，召喚未來變體戰士手持量子武器集火掃射。"
-      },
-      ult: {
-        name: "量子超空間湮滅光束",
-        cd: 55,
-        rageCost: 100,
-        damage: 3350,
-        type: "quantum_erasure",
-        desc: "手中啟動時間要塞王座核心！釋放橫貫多元宇宙的藍綠量子光束矩陣，將對手從時間線上抹除！"
-      }
+    role: "時間科技",
+    weaponType: "time_chair_cannons",
+    canFly: true,
+    baseHp: 2950,
+    baseAtk: 325,
+    baseDef: 140,
+    speed: 8.8,
+    themeColor: "#10b981",
+    auraColor: "rgba(16, 185, 129, 1.0)",
+    attackConfig: {
+      light: { name: "時間力場射線", desc: "雙手藍綠科技光束四段射擊" },
+      heavy: { name: "重力反轉破防", desc: "反轉局部重力破防" },
+      grab: { name: "時間流放重摔", desc: "短暫傳送對手至過去重摔" },
+      flight: { name: "時間王座懸浮", desc: "藍綠時間力場凌空飛行" }
     },
-    gadget: { name: "多元變體替換", desc: "陣亡瞬間從平行宇宙拉來另一個滿血康繼續戰鬥 (每場 1 次)。" },
-    starPower1: { name: "時空支配者", desc: "每擊敗一個敵方單位，自身全屬性提升 15% (可疊加)。" },
-    starPower2: { name: "量子裝甲矩陣", desc: "受到的所有傷害減少 25%。" },
-    hypercharge: { name: "征服者無盡帝國艦隊", desc: "大招呼叫時空戰艦從次元裂縫轟出軌道量子天火。" },
-    godAuraTitle: "多元征服者"
+    skills: {
+      skill1: { name: "時間停滯光環", cd: 5.5, damage: 710, type: "time_stasis", desc: "將目標鎖定在靜止時間流中 2 秒。" },
+      skill2: { name: "多元時間線變體齊射", cd: 8, damage: 750, type: "variant_barrage", desc: "召喚 4 位康變體從不同維度同時發動毀滅光束！" },
+      ult: { name: "★ 時間線抹除·終極時間盡頭", cd: 20, damage: 3300, type: "timeline_erasure", desc: "剪斷對手所在的時間分支，徹底從整個宇宙歷史中抹去！" }
+    }
   }
 ];
 
-// ─── 為 45 位角色注入差異化招式設定與飛行能力 (Character Action Profiles & Flight Mode) ───
-const FLIGHT_ENABLED_HEROES = [
-  "ironman_mk50", "hulkbuster", "thor", "scarlet_witch", "dr_strange", "dr_strange_supreme",
-  "loki_god", "thanos_gauntlet", "kang",
-  "rx78_2", "char_zaku2", "wing_zero", "barbatos_lupus", "exia", "god_gundam",
-  "strike_freedom", "oo_raiser", "kshatriya", "crossbone_x1", "destiny_specii", "unicorn_crystal",
-  "piccolo", "trunks_future", "vegeta", "frieza_final", "ssj3_goku", "cell_perfect",
-  "gogeta_blue", "kid_buu", "vegito_blue", "broly_lssj", "thanos_gauntlet",
-  "goku_ultra_instinct", "jiren_fullpower", "beerus_god"
-];
-
-CHARACTERS_DATA.forEach(c => {
-  c.canFly = FLIGHT_ENABLED_HEROES.includes(c.id);
-
-  let lightName = "普通拳腳連擊";
-  let heavyName = "蓄力破防重擊";
-  let grabName = "近身抓技摔投";
-  let flightName = c.canFly ? (c.series === "gundam" ? "推進器升空飛行" : (c.series === "dragonball" ? "舞空術飛行" : "懸浮噴射飛行")) : null;
-
-  if (c.series === "gundam") {
-    lightName = "光束軍刀連續斬擊";
-    heavyName = "光束步槍高能破防";
-    grabName = "盾牌擒抱撞摔";
-  } else if (c.series === "dragonball") {
-    lightName = "龜派體術連續打擊";
-    heavyName = "氣合爆發破防";
-    grabName = "瞬間移動重摔";
-  } else if (c.id === "cap_america") {
-    lightName = "振金盾牌格鬥連擊";
-    heavyName = "盾牌迴旋投擲破防";
-    grabName = "特工擒拿抱摔";
-  } else if (c.id === "spiderman_classic") {
-    lightName = "蛛絲體術連續打擊";
-    heavyName = "高壓蛛網纏繞破防";
-    grabName = "蛛絲風車甩投";
-  } else if (c.id === "hulk" || c.id === "hulkbuster") {
-    lightName = "泰坦重拳連續轟擊";
-    heavyName = "浩克砸地衝擊破防";
-    grabName = "狂暴抓摔狂砸 (Smash)";
-  } else if (c.id === "ironman_mk50") {
-    lightName = "掌心脈衝雷射連擊";
-    heavyName = "胸口單束光砲破防";
-    grabName = "推進器火箭擒摔";
-  } else if (c.id === "thor") {
-    lightName = "妙爾尼爾雷霆重擊";
-    heavyName = "召喚九界天雷破防";
-    grabName = "雷神之握重摔";
-  } else if (c.id === "thanos_gauntlet") {
-    lightName = "無限手套泰坦連續拳";
-    heavyName = "力量寶石紫光破防";
-    grabName = "空間重力粉碎摔";
-  }
-
-  c.attackConfig = {
-    light: { name: lightName, icon: "fa-hand-fist", key: "J" },
-    heavy: { name: heavyName, icon: "fa-hammer", key: "K" },
-    grab: { name: grabName, icon: "fa-hand", key: "O" },
-    skill1: { name: c.skills.skill1.name, icon: "fa-bolt", key: "U", cd: c.skills.skill1.cd },
-    skill2: { name: c.skills.skill2.name, icon: "fa-meteor", key: "I", cd: c.skills.skill2.cd },
-    ult: { name: c.skills.ult.name, icon: "fa-dragon", key: "L", cd: c.skills.ult.cd },
-    flight: c.canFly ? { name: flightName, icon: "fa-plane-departure", key: "F" } : null
-  };
-});
-
-if (typeof window !== "undefined") {
-  window.RARITY_TIERS = RARITY_TIERS;
-  window.CHARACTERS_DATA = CHARACTERS_DATA;
-}
 if (typeof module !== "undefined" && module.exports) {
   module.exports = { RARITY_TIERS, CHARACTERS_DATA };
 }
+
+

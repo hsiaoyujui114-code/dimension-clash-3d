@@ -231,12 +231,129 @@ class Arena3DScene {
     }
   }
 
+  // ─── 3D 戰鬥特效系統 (3D Visual Effects: Slashes, Sparks, Ki Blasts & Shockwaves) ───
+  addSlashEffect(pos, rotY, color = 0x38bdf8, scale = 1.0) {
+    if (!this.scene) return;
+    const arcGeo = new THREE.TorusGeometry(2.4 * scale, 0.22 * scale, 8, 24, Math.PI * 0.85);
+    const arcMat = new THREE.MeshBasicMaterial({
+      color: new THREE.Color(color),
+      transparent: true,
+      opacity: 0.95,
+      side: THREE.DoubleSide
+    });
+    const slash = new THREE.Mesh(arcGeo, arcMat);
+    slash.position.set(pos.x, pos.y + 2.0, pos.z);
+    slash.rotation.y = rotY + Math.PI * 0.5;
+    slash.rotation.x = Math.PI * 0.25;
+    this.scene.add(slash);
+
+    if (!this.vfxList) this.vfxList = [];
+    this.vfxList.push({
+      mesh: slash,
+      life: 0.22,
+      maxLife: 0.22,
+      type: "slash"
+    });
+  }
+
+  addHitSpark(pos, color = 0xfacc15, count = 8) {
+    if (!this.scene) return;
+    if (!this.vfxList) this.vfxList = [];
+
+    const sparkGeo = new THREE.BoxGeometry(0.25, 0.25, 0.25);
+    const sparkMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(color) });
+
+    for (let i = 0; i < count; i++) {
+      const spark = new THREE.Mesh(sparkGeo, sparkMat);
+      spark.position.set(pos.x, pos.y + 1.8, pos.z);
+      this.scene.add(spark);
+
+      const vx = (Math.random() - 0.5) * 16;
+      const vy = (Math.random() * 8) + 2;
+      const vz = (Math.random() - 0.5) * 16;
+
+      this.vfxList.push({
+        mesh: spark,
+        vx, vy, vz,
+        life: 0.35,
+        maxLife: 0.35,
+        type: "spark"
+      });
+    }
+  }
+
+  addEnergyBlast(startPos, targetPos, color = 0x38bdf8, radius = 0.8) {
+    if (!this.scene) return;
+    if (!this.vfxList) this.vfxList = [];
+
+    const blastGeo = new THREE.SphereGeometry(radius, 12, 12);
+    const blastMat = new THREE.MeshBasicMaterial({
+      color: new THREE.Color(color),
+      transparent: true,
+      opacity: 0.95
+    });
+    const blast = new THREE.Mesh(blastGeo, blastMat);
+    blast.position.set(startPos.x, startPos.y + 2.0, startPos.z);
+    this.scene.add(blast);
+
+    const dx = targetPos.x - startPos.x;
+    const dy = (targetPos.y + 2.0) - (startPos.y + 2.0);
+    const dz = targetPos.z - startPos.z;
+    const dist = Math.sqrt(dx * dx + dy * dy + dz * dz) || 1;
+    const speed = 40;
+
+    this.vfxList.push({
+      mesh: blast,
+      vx: (dx / dist) * speed,
+      vy: (dy / dist) * speed,
+      vz: (dz / dist) * speed,
+      life: dist / speed,
+      maxLife: dist / speed,
+      type: "energy_orb"
+    });
+  }
+
+  updateVfx(dt) {
+    if (!this.vfxList || this.vfxList.length === 0) return;
+
+    for (let i = this.vfxList.length - 1; i >= 0; i--) {
+      const fx = this.vfxList[i];
+      fx.life -= dt;
+
+      if (fx.life <= 0) {
+        this.scene.remove(fx.mesh);
+        if (fx.mesh.geometry) fx.mesh.geometry.dispose();
+        if (fx.mesh.material) fx.mesh.material.dispose();
+        this.vfxList.splice(i, 1);
+        continue;
+      }
+
+      const progress = fx.life / fx.maxLife;
+
+      if (fx.type === "slash") {
+        fx.mesh.scale.multiplyScalar(1.0 + dt * 4.0);
+        fx.mesh.material.opacity = progress * 0.95;
+      } else if (fx.type === "spark") {
+        fx.mesh.position.x += fx.vx * dt;
+        fx.mesh.position.y += fx.vy * dt;
+        fx.mesh.position.z += fx.vz * dt;
+        fx.vy -= 25 * dt; // 重力
+        fx.mesh.scale.setScalar(progress);
+      } else if (fx.type === "energy_orb") {
+        fx.mesh.position.x += fx.vx * dt;
+        fx.mesh.position.y += fx.vy * dt;
+        fx.mesh.position.z += fx.vz * dt;
+        fx.mesh.scale.multiplyScalar(1.02);
+      }
+    }
+  }
+
   render() {
     if (this.renderer && this.scene && this.camera) {
-      // 緩慢旋轉星空增加動態深度感
       if (this.starfield) {
         this.starfield.rotation.y += 0.0003;
       }
+      this.updateVfx(0.016);
       this.renderer.render(this.scene, this.camera);
     }
   }

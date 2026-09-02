@@ -281,11 +281,23 @@ class Fighter3D {
 
     if (window.soundEngine) window.soundEngine.playHit("light");
 
+    if (window.battleScene3D && window.battleScene3D.addSlashEffect) {
+      window.battleScene3D.addSlashEffect(
+        { x: this.x, y: this.y, z: this.z },
+        this.rotationY,
+        this.charData.themeColor || 0x38bdf8,
+        1.0
+      );
+    }
+
     if (opponent) {
       const dist = this.getDist3D(opponent);
       if (dist <= (this.isFlying ? 12.0 : 8.5)) {
         opponent.takeDamage(Math.round(this.atk * 0.55), this, false, false);
         this.gainRage(10);
+        if (window.battleScene3D && window.battleScene3D.addHitSpark) {
+          window.battleScene3D.addHitSpark({ x: opponent.x, y: opponent.y, z: opponent.z }, this.charData.themeColor || 0xfacc15, 6);
+        }
       }
     }
   }
@@ -317,11 +329,23 @@ class Fighter3D {
 
     if (window.soundEngine) window.soundEngine.playHit("heavy");
 
+    if (window.battleScene3D && window.battleScene3D.addSlashEffect) {
+      window.battleScene3D.addSlashEffect(
+        { x: this.x, y: this.y, z: this.z },
+        this.rotationY,
+        this.charData.themeColor || 0xef4444,
+        isFull ? 1.6 : 1.2
+      );
+    }
+
     if (opponent) {
       const dist = this.getDist3D(opponent);
       if (dist <= 11.5) {
         opponent.takeDamage(Math.round(this.atk * (isFull ? 1.6 : 1.0)), this, isFull, true);
         this.gainRage(20);
+        if (window.battleScene3D && window.battleScene3D.addHitSpark) {
+          window.battleScene3D.addHitSpark({ x: opponent.x, y: opponent.y, z: opponent.z }, 0xef4444, 12);
+        }
       }
     }
   }
@@ -347,6 +371,9 @@ class Fighter3D {
         opponent.vx = fwdX * 24;
         opponent.vz = fwdZ * 24;
         if (window.soundEngine) window.soundEngine.playHit("heavy");
+        if (window.battleScene3D && window.battleScene3D.addHitSpark) {
+          window.battleScene3D.addHitSpark({ x: opponent.x, y: opponent.y, z: opponent.z }, 0xf59e0b, 10);
+        }
       }
     }
   }
@@ -361,6 +388,14 @@ class Fighter3D {
 
     if (opponent) {
       this.rotationY = Math.atan2(opponent.x - this.x, opponent.z - this.z);
+      if (window.battleScene3D && window.battleScene3D.addEnergyBlast) {
+        window.battleScene3D.addEnergyBlast(
+          { x: this.x, y: this.y, z: this.z },
+          { x: opponent.x, y: opponent.y, z: opponent.z },
+          this.charData.themeColor || 0x38bdf8,
+          0.9
+        );
+      }
     }
     if (window.soundEngine) window.soundEngine.playKiBlast();
 
@@ -369,6 +404,9 @@ class Fighter3D {
       if (dist <= 28.0) {
         opponent.takeDamage(Math.round(this.atk * 0.95), this, false, false);
         this.gainRage(14);
+        if (window.battleScene3D && window.battleScene3D.addHitSpark) {
+          window.battleScene3D.addHitSpark({ x: opponent.x, y: opponent.y, z: opponent.z }, this.charData.themeColor || 0x38bdf8, 8);
+        }
       }
     }
   }
@@ -383,6 +421,14 @@ class Fighter3D {
 
     if (opponent) {
       this.rotationY = Math.atan2(opponent.x - this.x, opponent.z - this.z);
+      if (window.battleScene3D && window.battleScene3D.addSlashEffect) {
+        window.battleScene3D.addSlashEffect(
+          { x: this.x, y: this.y, z: this.z },
+          this.rotationY,
+          this.charData.themeColor || 0xfacc15,
+          1.8
+        );
+      }
     }
     if (window.soundEngine) window.soundEngine.playHit("heavy");
 
@@ -392,6 +438,9 @@ class Fighter3D {
         opponent.takeDamage(Math.round(this.atk * 1.3), this, false, true);
         opponent.vy = 15;
         this.gainRage(18);
+        if (window.battleScene3D && window.battleScene3D.addHitSpark) {
+          window.battleScene3D.addHitSpark({ x: opponent.x, y: opponent.y, z: opponent.z }, 0xfacc15, 12);
+        }
       }
     }
   }
@@ -411,9 +460,20 @@ class Fighter3D {
     }
 
     if (opponent) {
+      if (window.battleScene3D && window.battleScene3D.addEnergyBlast) {
+        window.battleScene3D.addEnergyBlast(
+          { x: this.x, y: this.y, z: this.z },
+          { x: opponent.x, y: opponent.y, z: opponent.z },
+          this.charData.themeColor || 0xf43f5e,
+          2.0
+        );
+      }
       setTimeout(() => {
         if (opponent && opponent.hp > 0) {
           opponent.takeDamage(Math.round(this.atk * 3.5), this, true, true);
+          if (window.battleScene3D && window.battleScene3D.addHitSpark) {
+            window.battleScene3D.addHitSpark({ x: opponent.x, y: opponent.y, z: opponent.z }, 0xf43f5e, 24);
+          }
         }
       }, 500);
     }

@@ -86,8 +86,16 @@
 
       <div class="section-header">
         <div>
-          <h2 class="section-title">👥 所有英雄名冊與養成 (45 位跨次元角色)</h2>
+          <h2 class="section-title">👥 所有英雄名冊與養成 (100 位跨次元頂級全明星陣容)</h2>
           <p style="color: #94a3b8; font-size: 13px;">點擊角色可進行 Level 1~100 屬性升級，並自由配置 1~5 隻上場出賽陣容！</p>
+        </div>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+          <button class="btn-secondary roster-filter-btn active" data-series="all">全部陣容 (100)</button>
+          <button class="btn-secondary roster-filter-btn" data-series="dragonball">七龍珠</button>
+          <button class="btn-secondary roster-filter-btn" data-series="marvel">漫威宇宙</button>
+          <button class="btn-secondary roster-filter-btn" data-series="gundam">機動戰士鋼彈</button>
+          <button class="btn-secondary roster-filter-btn" data-series="anime">熱血動漫</button>
+          <button class="btn-secondary roster-filter-btn" data-series="gaming">遊戲傳奇</button>
         </div>
       </div>
       <div id="rosterGrid" class="character-grid"></div>
@@ -272,13 +280,15 @@
       <div class="section-header">
         <div>
           <h2 class="section-title">🛒 英雄招募商店 (Hero Recruitment Shop)</h2>
-          <p style="color: #94a3b8; font-size: 13px;">使用對戰累積的金幣招募來自七龍珠、漫威宇宙與機動戰士鋼彈的強力英雄！</p>
+          <p style="color: #94a3b8; font-size: 13px;">使用對戰累積的金幣招募來自七龍珠、漫威宇宙、機動戰士鋼彈、熱血動漫與遊戲傳奇的強力英雄！</p>
         </div>
         <div style="display: flex; gap: 6px; flex-wrap: wrap;">
           <button class="btn-secondary shop-filter-btn active" data-series="all">全部系列</button>
           <button class="btn-secondary shop-filter-btn" data-series="dragonball">七龍珠</button>
-          <button class="btn-secondary shop-filter-btn" data-series="marvel">漫威英雄</button>
-          <button class="btn-secondary shop-filter-btn" data-series="gundam">機動戰士</button>
+          <button class="btn-secondary shop-filter-btn" data-series="marvel">漫威宇宙</button>
+          <button class="btn-secondary shop-filter-btn" data-series="gundam">機動戰士鋼彈</button>
+          <button class="btn-secondary shop-filter-btn" data-series="anime">熱血動漫</button>
+          <button class="btn-secondary shop-filter-btn" data-series="gaming">遊戲傳奇</button>
         </div>
       </div>
       <div id="shopHeroGrid" class="character-grid"></div>

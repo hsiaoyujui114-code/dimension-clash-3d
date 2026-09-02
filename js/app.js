@@ -16,6 +16,8 @@ class App3D {
     this.p2Team = ["spiderman_classic", "krillin", "rx78_2"];
     this.pickingSlotIndex = 0;
     this.pickingForTeam = 1;
+    this.shopFilterSeries = "all";
+    this.rosterFilterSeries = "all";
 
     this.keys = {};
     this.joystick = { active: false, startX: 0, startY: 0, moveX: 0, moveY: 0 };
@@ -418,6 +420,16 @@ class App3D {
         btn.classList.add("active");
         this.shopFilterSeries = btn.dataset.series;
         this.renderShopView();
+      });
+    });
+
+    // 角色名冊系列篩選按鈕
+    document.querySelectorAll(".roster-filter-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".roster-filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        this.rosterFilterSeries = btn.dataset.series;
+        this.renderRosterView();
       });
     });
 
@@ -916,7 +928,12 @@ class App3D {
 
     if (!grid) return;
 
-    grid.innerHTML = window.CHARACTERS_DATA.map(c => {
+    let rosterList = window.CHARACTERS_DATA;
+    if (this.rosterFilterSeries && this.rosterFilterSeries !== "all") {
+      rosterList = rosterList.filter(c => c.series === this.rosterFilterSeries);
+    }
+
+    grid.innerHTML = rosterList.map(c => {
       const isUnlocked = window.saveSystem.user.unlockedCharacters.includes(c.id);
       const lvl = window.saveSystem.user.characterLevels[c.id] || 1;
       const rarity = window.RARITY_TIERS[c.rarity];
@@ -950,11 +967,13 @@ class App3D {
         }
       }
 
+      const getIcon = (s) => s === 'gundam' ? '🤖' : (s === 'dragonball' ? '⚡' : (s === 'marvel' ? '🦸' : (s === 'anime' ? '⚔️' : '🎮')));
+
       return `
         <div class="character-card ${isUnlocked ? '' : 'locked'}" style="border-top: 3px solid ${rarity.color}">
           <div class="rarity-ribbon" style="background: ${rarity.bg}; color: ${rarity.border}">${rarity.label}</div>
           <div class="card-avatar-box" style="border-color: ${c.themeColor}">
-            ${c.series === 'gundam' ? '🤖' : (c.series === 'dragonball' ? '⚡' : '🦸')}
+            ${getIcon(c.series)}
           </div>
           <div class="card-char-name">${c.name}</div>
           <div class="card-char-title">${c.seriesName} · ${c.role} ${c.canFly ? '✈️' : ''}</div>
@@ -991,10 +1010,11 @@ class App3D {
     const upgradeCost = Math.round(200 * Math.pow(lvl, 1.4));
     const rarity = window.RARITY_TIERS[char.rarity];
     const cfg = char.attackConfig;
+    const getIcon = (s) => s === 'gundam' ? '🤖' : (s === 'dragonball' ? '⚡' : (s === 'marvel' ? '🦸' : (s === 'anime' ? '⚔️' : '🎮')));
 
     container.innerHTML = `
       <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 16px;">
-        <div style="font-size: 48px;">${char.series === 'gundam' ? '🤖' : (char.series === 'dragonball' ? '⚡' : '🦸')}</div>
+        <div style="font-size: 48px;">${getIcon(char.series)}</div>
         <div>
           <h2 style="font-size: 24px; font-weight: 900; color: ${char.themeColor}">${char.name}</h2>
           <div style="color: #94a3b8; font-size: 13px;">${char.seriesName} · ${char.title} · <span style="color: ${rarity.color}">${rarity.name}</span> · ${char.canFly ? '<b style="color:#38bdf8;">✈️ 支援飛行升空</b>' : '地面戰鬥型'}</div>
@@ -1144,6 +1164,8 @@ class App3D {
       purchasable = purchasable.filter(c => c.series === this.shopFilterSeries);
     }
 
+    const getIcon = (s) => s === 'gundam' ? '🤖' : (s === 'dragonball' ? '⚡' : (s === 'marvel' ? '🦸' : (s === 'anime' ? '⚔️' : '🎮')));
+
     grid.innerHTML = purchasable.map(c => {
       const isOwned = window.saveSystem.user.unlockedCharacters.includes(c.id);
       const rarity = window.RARITY_TIERS[c.rarity];
@@ -1151,7 +1173,7 @@ class App3D {
         <div class="character-card" style="border-top: 3px solid ${rarity.color}">
           <div class="rarity-ribbon" style="background: ${rarity.bg}; color: ${rarity.border}">${rarity.label}</div>
           <div class="card-avatar-box" style="border-color: ${c.themeColor}">
-            ${c.series === 'gundam' ? '🤖' : (c.series === 'dragonball' ? '⚡' : '🦸')}
+            ${getIcon(c.series)}
           </div>
           <div class="card-char-name">${c.name}</div>
           <div class="card-char-title">${c.seriesName} · ${c.role} ${c.canFly ? '✈️' : ''}</div>
