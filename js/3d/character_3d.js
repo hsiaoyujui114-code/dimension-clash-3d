@@ -324,27 +324,159 @@ class Character3DModel {
     }
   }
 
-  // ─── 胸前標誌、反應爐與鎧甲特徵 ───
+  // ─── 胸前標誌、反應爐、腰帶與鎧甲特徵 (Canon Movie/Anime/Game Costumes) ───
   buildTorsoEmblem(torso, char, goldMat, darkMat) {
     const cid = char.id;
     const series = char.series;
+    const whiteMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc });
+    const blueMat = new THREE.MeshStandardMaterial({ color: 0x1d4ed8 });
+    const redMat = new THREE.MeshStandardMaterial({ color: 0xdc2626 });
+    const cyanGlowMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+    const greenMat = new THREE.MeshStandardMaterial({ color: 0x15803d });
+    const brownMat = new THREE.MeshStandardMaterial({ color: 0x78350f });
+
     if (cid.includes("ironman")) {
-      const arcReactor = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.1, 16), new THREE.MeshBasicMaterial({ color: 0x38bdf8 }));
+      // 鋼鐵人方舟反應爐 + 金色胸甲飾條
+      const arcReactor = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.28, 0.1, 16), cyanGlowMat);
       arcReactor.rotation.x = Math.PI / 2;
-      arcReactor.position.set(0, 0.3, 0.55);
+      arcReactor.position.set(0, 0.35, 0.55);
       torso.add(arcReactor);
+      const goldTrim = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.15, 0.08), goldMat);
+      goldTrim.position.set(0, 0.7, 0.52);
+      torso.add(goldTrim);
     } else if (cid.includes("cap_america")) {
-      const star = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.4, 0.08), new THREE.MeshStandardMaterial({ color: 0xf8fafc }));
-      star.position.set(0, 0.3, 0.55);
+      // 美國隊長白星 + 紅白條紋腹肌 + 棕色戰術背帶
+      const star = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.42, 0.08), whiteMat);
+      star.position.set(0, 0.45, 0.55);
       torso.add(star);
+      for (let i = -2; i <= 2; i++) {
+        const stripe = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.7, 0.06), i % 2 === 0 ? redMat : whiteMat);
+        stripe.position.set(i * 0.22, -0.4, 0.53);
+        torso.add(stripe);
+      }
+      const belt = new THREE.Mesh(new THREE.BoxGeometry(1.65, 0.2, 1.05), brownMat);
+      belt.position.set(0, -0.85, 0);
+      torso.add(belt);
     } else if (cid.includes("spiderman")) {
-      const emblem = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.3, 0.06), new THREE.MeshStandardMaterial({ color: 0x09090b }));
-      emblem.position.set(0, 0.3, 0.55);
+      // 蜘蛛人胸前蜘蛛圖騰 + 藍色側腹
+      const emblem = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.35, 0.06), new THREE.MeshStandardMaterial({ color: 0x09090b }));
+      emblem.position.set(0, 0.35, 0.55);
       torso.add(emblem);
+      const flankL = new THREE.Mesh(new THREE.BoxGeometry(0.3, 1.4, 1.02), blueMat);
+      flankL.position.set(-0.7, 0, 0);
+      torso.add(flankL);
+      const flankR = new THREE.Mesh(new THREE.BoxGeometry(0.3, 1.4, 1.02), blueMat);
+      flankR.position.set(0.7, 0, 0);
+      torso.add(flankR);
+    } else if (cid.includes("thor")) {
+      // 雷神索爾 6 顆銀色護胸圓盤
+      for (let r = 0; r < 3; r++) {
+        for (let c = -1; c <= 1; c += 2) {
+          const disc = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.06, 12), new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.9 }));
+          disc.rotation.x = Math.PI / 2;
+          disc.position.set(c * 0.4, 0.5 - r * 0.45, 0.55);
+          torso.add(disc);
+        }
+      }
+    } else if (cid.includes("thanos")) {
+      // 滅霸金色戰甲條紋
+      for (let i = -1; i <= 1; i++) {
+        const rib = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.12, 0.1), goldMat);
+        rib.position.set(0, 0.4 - i * 0.35, 0.85);
+        torso.add(rib);
+      }
+    } else if (cid.includes("doctor_strange")) {
+      // 奇異博士阿迦莫度之眼 (Eye of Agamotto)
+      const eyeAmulet = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.06, 12), goldMat);
+      eyeAmulet.rotation.x = Math.PI / 2;
+      eyeAmulet.position.set(0, 0.55, 0.55);
+      torso.add(eyeAmulet);
+      const gem = new THREE.Mesh(new THREE.SphereGeometry(0.08, 8, 8), new THREE.MeshBasicMaterial({ color: 0x22c55e }));
+      gem.position.set(0, 0.55, 0.59);
+      torso.add(gem);
+    } else if (series === "dragonball") {
+      if (cid.includes("vegeta")) {
+        // 達爾賽亞人戰鬥服白胸甲 + 金色肩帶
+        const armorPlate = new THREE.Mesh(new THREE.BoxGeometry(1.4, 1.2, 0.2), whiteMat);
+        armorPlate.position.set(0, 0.3, 0.5);
+        torso.add(armorPlate);
+        const strapL = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.12, 0.9), goldMat);
+        strapL.position.set(-0.6, 0.9, 0);
+        torso.add(strapL);
+        const strapR = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.12, 0.9), goldMat);
+        strapR.position.set(0.6, 0.9, 0);
+        torso.add(strapR);
+      } else {
+        // 悟空深藍色內襯 V 領 + 藍色腰帶
+        const vNeck = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.5, 0.1), blueMat);
+        vNeck.position.set(0, 0.65, 0.52);
+        torso.add(vNeck);
+        const sash = new THREE.Mesh(new THREE.BoxGeometry(1.65, 0.25, 1.05), blueMat);
+        sash.position.set(0, -0.65, 0);
+        torso.add(sash);
+        const kanji = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.04, 16), whiteMat);
+        kanji.rotation.x = Math.PI / 2;
+        kanji.position.set(-0.4, 0.3, 0.54);
+        torso.add(kanji);
+      }
     } else if (series === "gundam") {
-      const hatch = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.5, 0.15), new THREE.MeshStandardMaterial({ color: 0xef4444 }));
-      hatch.position.set(0, 0.2, 0.55);
+      // 鋼彈經典紅色駕駛艙門 + 雙側黃色排氣進氣散熱口
+      const hatch = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.6, 0.2), redMat);
+      hatch.position.set(0, 0.15, 0.55);
       torso.add(hatch);
+      const ventL = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.25, 0.15), goldMat);
+      ventL.position.set(-0.55, 0.35, 0.52);
+      torso.add(ventL);
+      const ventR = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.25, 0.15), goldMat);
+      ventR.position.set(0.55, 0.35, 0.52);
+      torso.add(ventR);
+    } else if (series === "anime") {
+      if (cid.includes("naruto")) {
+        const collar = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.3, 0.95), darkMat);
+        collar.position.set(0, 0.85, 0);
+        torso.add(collar);
+        const spiral = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 0.04, 16), redMat);
+        spiral.rotation.x = Math.PI / 2;
+        spiral.position.set(0, 0.2, -0.55);
+        torso.add(spiral);
+      } else if (cid.includes("luffy")) {
+        const vestCut = new THREE.Mesh(new THREE.BoxGeometry(0.6, 1.3, 0.1), new THREE.MeshStandardMaterial({ color: 0xfed7aa }));
+        vestCut.position.set(0, 0.2, 0.52);
+        torso.add(vestCut);
+        const sash = new THREE.Mesh(new THREE.BoxGeometry(1.65, 0.25, 1.05), goldMat);
+        sash.position.set(0, -0.7, 0);
+        torso.add(sash);
+      } else if (cid.includes("zoro")) {
+        const haramaki = new THREE.Mesh(new THREE.BoxGeometry(1.65, 0.6, 1.05), new THREE.MeshStandardMaterial({ color: 0x22c55e }));
+        haramaki.position.set(0, -0.4, 0);
+        torso.add(haramaki);
+      } else if (cid.includes("levi")) {
+        const cravat = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.4, 0.1), whiteMat);
+        cravat.position.set(0, 0.65, 0.52);
+        torso.add(cravat);
+        const harness = new THREE.Mesh(new THREE.BoxGeometry(1.65, 0.15, 1.05), brownMat);
+        harness.position.set(0, -0.3, 0);
+        torso.add(harness);
+      }
+    } else if (series === "gaming") {
+      if (cid.includes("cloud")) {
+        const strap = new THREE.Mesh(new THREE.BoxGeometry(0.2, 1.8, 1.05), brownMat);
+        strap.rotation.z = Math.PI * 0.2;
+        strap.position.set(0, 0.1, 0.05);
+        torso.add(strap);
+        const pauldron = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.4, 0.7), new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.9 }));
+        pauldron.position.set(-1.1, 0.8, 0);
+        torso.add(pauldron);
+      } else if (cid.includes("kratos")) {
+        const redTattoo = new THREE.Mesh(new THREE.BoxGeometry(0.25, 2.0, 0.1), redMat);
+        redTattoo.rotation.z = Math.PI * 0.18;
+        redTattoo.position.set(-0.2, 0.1, 0.53);
+        torso.add(redTattoo);
+      } else if (cid.includes("link_hero")) {
+        const swordCrest = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.6, 0.06), whiteMat);
+        swordCrest.position.set(0, 0.3, 0.53);
+        torso.add(swordCrest);
+      }
     }
   }
 

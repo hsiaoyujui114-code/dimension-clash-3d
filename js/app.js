@@ -812,15 +812,190 @@ class App3D {
     });
   }
 
+  getCanonHeroAvatarSVG(c) {
+    if (!c) return '';
+    const cid = c.id;
+    const series = c.series;
+    const theme = c.themeColor || '#38bdf8';
+
+    let innerSVG = '';
+
+    if (series === 'gundam') {
+      const isZeon = cid.includes('sazabi') || cid.includes('zaku');
+      const eyeCol = (cid.includes('banshee') || cid.includes('sazabi')) ? '#ef4444' : '#22c55e';
+      const mainCol = isZeon ? '#dc2626' : (cid.includes('banshee') ? '#1e1b4b' : '#f8fafc');
+      innerSVG = `
+        <polygon points="30,85 70,85 80,45 50,25 20,45" fill="${mainCol}" stroke="#0f172a" stroke-width="2"/>
+        <polygon points="40,55 60,55 65,70 35,70" fill="#1e293b"/>
+        <polygon points="36,60 48,60 46,65 37,65" fill="${eyeCol}"/>
+        <polygon points="52,60 64,60 63,65 54,65" fill="${eyeCol}"/>
+        <polygon points="45,72 55,72 53,82 47,82" fill="#ef4444"/>
+        <polygon points="50,32 15,10 25,28 50,38" fill="#facc15" stroke="#ca8a04" stroke-width="1"/>
+        <polygon points="50,32 85,10 75,28 50,38" fill="#facc15" stroke="#ca8a04" stroke-width="1"/>
+        <polygon points="50,26 44,38 56,38" fill="#ef4444"/>
+      `;
+    } else if (cid.includes('spiderman')) {
+      innerSVG = `
+        <ellipse cx="50" cy="52" rx="30" ry="34" fill="#dc2626" stroke="#991b1b" stroke-width="2"/>
+        <line x1="50" y1="18" x2="50" y2="86" stroke="#000" stroke-width="1.2" opacity="0.6"/>
+        <line x1="20" y1="52" x2="80" y2="52" stroke="#000" stroke-width="1.2" opacity="0.6"/>
+        <line x1="26" y1="30" x2="74" y2="74" stroke="#000" stroke-width="1.2" opacity="0.6"/>
+        <line x1="26" y1="74" x2="74" y2="30" stroke="#000" stroke-width="1.2" opacity="0.6"/>
+        <polygon points="26,46 45,56 36,64 24,54" fill="#fff" stroke="#000" stroke-width="2.5"/>
+        <polygon points="74,46 55,56 64,64 76,54" fill="#fff" stroke="#000" stroke-width="2.5"/>
+      `;
+    } else if (cid.includes('ironman')) {
+      innerSVG = `
+        <polygon points="24,30 76,30 84,70 50,90 16,70" fill="#dc2626" stroke="#7f1d1d" stroke-width="2"/>
+        <polygon points="30,42 70,42 76,75 50,86 24,75" fill="#facc15" stroke="#ca8a04" stroke-width="1.5"/>
+        <rect x="34" y="54" width="12" height="4" rx="1" fill="#38bdf8"/>
+        <rect x="54" y="54" width="12" height="4" rx="1" fill="#38bdf8"/>
+        <line x1="40" y1="74" x2="60" y2="74" stroke="#78350f" stroke-width="1.5"/>
+      `;
+    } else if (cid.includes('cap_america')) {
+      innerSVG = `
+        <ellipse cx="50" cy="52" rx="28" ry="32" fill="#1d4ed8" stroke="#1e40af" stroke-width="2"/>
+        <ellipse cx="50" cy="62" rx="20" ry="18" fill="#fed7aa"/>
+        <text x="50" y="38" font-size="18" font-weight="900" font-family="sans-serif" fill="#fff" text-anchor="middle">A</text>
+        <ellipse cx="42" cy="58" rx="3" ry="2" fill="#0f172a"/>
+        <ellipse cx="58" cy="58" rx="3" ry="2" fill="#0f172a"/>
+        <path d="M 30,68 Q 50,88 70,68" stroke="#78350f" stroke-width="3" fill="none"/>
+      `;
+    } else if (cid.includes('wolverine')) {
+      innerSVG = `
+        <polygon points="12,12 30,50 32,80 68,80 70,50 88,12 62,35 38,35" fill="#0f172a" stroke="#000" stroke-width="2"/>
+        <polygon points="32,45 68,45 65,82 35,82" fill="#facc15"/>
+        <ellipse cx="50" cy="65" rx="14" ry="12" fill="#fed7aa"/>
+        <polygon points="36,58 46,62 38,65" fill="#fff" stroke="#000" stroke-width="1"/>
+        <polygon points="64,58 54,62 62,65" fill="#fff" stroke="#000" stroke-width="1"/>
+      `;
+    } else if (series === 'dragonball') {
+      let hairCol = '#0f172a';
+      if (cid.includes('ssj3') || cid === 'goku_ssj1' || cid.includes('gotenks')) hairCol = '#facc15';
+      else if (cid.includes('blue')) hairCol = '#0284c7';
+      else if (cid.includes('rose')) hairCol = '#ec4899';
+      else if (cid.includes('beast') || cid.includes('ultra_instinct')) hairCol = '#e2e8f0';
+      else if (cid.includes('ultra_ego')) hairCol = '#9333ea';
+
+      const isPiccolo = cid.includes('piccolo');
+      const skinCol = isPiccolo ? (cid.includes('orange') ? '#f97316' : '#22c55e') : '#fed7aa';
+
+      innerSVG = `
+        <polygon points="50,8 35,28 20,18 22,40 8,35 15,60 30,55 35,75 50,90 65,75 70,55 85,60 92,35 78,40 80,18 65,28" fill="${hairCol}" stroke="#0f172a" stroke-width="2"/>
+        <polygon points="32,45 68,45 62,78 50,88 38,78" fill="${skinCol}" stroke="#0f172a" stroke-width="1.5"/>
+        <polygon points="36,56 46,60 38,62" fill="#0f172a"/>
+        <polygon points="64,56 54,60 62,62" fill="#0f172a"/>
+        <line x1="44" y1="74" x2="56" y2="74" stroke="#0f172a" stroke-width="1.5"/>
+        <polygon points="20,95 50,78 80,95 50,105" fill="${cid.includes('vegeta') ? '#1e3a8a' : '#ea580c'}"/>
+        <polygon points="40,90 50,80 60,90" fill="#1e3a8a"/>
+      `;
+    } else if (cid.includes('naruto')) {
+      innerSVG = `
+        <polygon points="50,10 32,25 15,20 22,42 10,48 20,68 80,68 90,48 78,42 85,20 68,25" fill="#facc15" stroke="#ca8a04" stroke-width="1.5"/>
+        <rect x="25" y="42" width="50" height="15" rx="3" fill="#1e3a8a"/>
+        <rect x="35" y="44" width="30" height="11" rx="2" fill="#94a3b8" stroke="#475569" stroke-width="1"/>
+        <circle cx="50" cy="49" r="3" fill="none" stroke="#0f172a" stroke-width="1.2"/>
+        <polygon points="30,57 70,57 64,82 50,90 36,82" fill="#fed7aa"/>
+        <line x1="32" y1="68" x2="40" y2="70" stroke="#0f172a" stroke-width="1.2"/>
+        <line x1="32" y1="73" x2="40" y2="74" stroke="#0f172a" stroke-width="1.2"/>
+        <line x1="68" y1="68" x2="60" y2="70" stroke="#0f172a" stroke-width="1.2"/>
+        <line x1="68" y1="73" x2="60" y2="74" stroke="#0f172a" stroke-width="1.2"/>
+        <circle cx="42" cy="65" r="2.5" fill="#0284c7"/>
+        <circle cx="58" cy="65" r="2.5" fill="#0284c7"/>
+        <path d="M 44,78 Q 50,83 56,78" stroke="#0f172a" stroke-width="1.5" fill="none"/>
+      `;
+    } else if (cid.includes('luffy')) {
+      innerSVG = `
+        <ellipse cx="50" cy="35" rx="42" ry="16" fill="#facc15" stroke="#ca8a04" stroke-width="2"/>
+        <path d="M 26,34 Q 50,15 74,34" fill="#eab308"/>
+        <path d="M 26,35 Q 50,22 74,35" stroke="#dc2626" stroke-width="4" fill="none"/>
+        <polygon points="30,42 70,42 76,55 24,55" fill="#0f172a"/>
+        <polygon points="32,46 68,46 62,80 50,88 38,80" fill="#fed7aa"/>
+        <circle cx="42" cy="60" r="3" fill="#0f172a"/>
+        <circle cx="58" cy="60" r="3" fill="#0f172a"/>
+        <path d="M 38,66 L 42,70" stroke="#0f172a" stroke-width="1.5"/>
+        <path d="M 40,74 Q 50,86 60,74" fill="#fff" stroke="#0f172a" stroke-width="1.5"/>
+      `;
+    } else if (cid.includes('zoro')) {
+      innerSVG = `
+        <polygon points="30,25 70,25 78,50 22,50" fill="#16a34a" stroke="#15803d" stroke-width="2"/>
+        <polygon points="32,45 68,45 62,80 50,88 38,80" fill="#fed7aa"/>
+        <line x1="40" y1="52" x2="44" y2="66" stroke="#0f172a" stroke-width="1.5"/>
+        <polygon points="56,58 64,58 60,63" fill="#0f172a"/>
+        <circle cx="28" cy="68" r="2" fill="#facc15"/>
+        <circle cx="28" cy="73" r="2" fill="#facc15"/>
+        <circle cx="28" cy="78" r="2" fill="#facc15"/>
+      `;
+    } else if (cid.includes('gojo') || cid.includes('nier_2b')) {
+      innerSVG = `
+        <polygon points="50,12 30,25 20,40 80,40 70,25" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+        <rect x="22" y="44" width="56" height="18" rx="3" fill="#0f172a"/>
+        <polygon points="34,62 66,62 60,82 50,88 40,82" fill="#fed7aa"/>
+        <path d="M 45,76 Q 50,80 55,76" stroke="#0f172a" stroke-width="1.5" fill="none"/>
+      `;
+    } else if (cid.includes('cloud')) {
+      innerSVG = `
+        <polygon points="50,10 30,22 14,25 22,48 10,55 24,70 76,70 90,55 78,48 86,25 70,22" fill="#facc15" stroke="#ca8a04" stroke-width="1.5"/>
+        <polygon points="32,48 68,48 62,80 50,88 38,80" fill="#fed7aa"/>
+        <polygon points="38,58 46,58 42,63" fill="#0284c7"/>
+        <polygon points="54,58 62,58 58,63" fill="#0284c7"/>
+        <polygon points="15,85 45,75 45,100 15,100" fill="#94a3b8" stroke="#475569" stroke-width="1.5"/>
+        <polygon points="40,80 85,80 85,100 40,100" fill="#312e81"/>
+      `;
+    } else if (cid.includes('sephiroth')) {
+      innerSVG = `
+        <polygon points="50,12 25,25 15,65 18,95 32,80 34,48 66,48 68,80 82,95 85,65 75,25" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
+        <polygon points="34,48 66,48 60,80 50,88 40,80" fill="#fed7aa"/>
+        <polygon points="40,58 48,58 44,62" fill="#10b981"/>
+        <polygon points="52,58 60,58 56,62" fill="#10b981"/>
+        <polygon points="10,80 35,75 35,100 10,100" fill="#94a3b8"/>
+        <polygon points="65,75 90,80 90,100 65,100" fill="#94a3b8"/>
+      `;
+    } else if (cid.includes('kratos')) {
+      innerSVG = `
+        <ellipse cx="50" cy="50" rx="28" ry="32" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+        <path d="M 50,20 Q 32,35 34,60 Q 35,80 25,95" stroke="#dc2626" stroke-width="5" fill="none"/>
+        <polygon points="38,52 46,54 40,58" fill="#0f172a"/>
+        <polygon points="54,54 62,52 60,58" fill="#0f172a"/>
+        <polygon points="30,68 70,68 62,94 50,98 38,94" fill="#1e1b4b"/>
+      `;
+    } else if (cid.includes('master_chief') || cid.includes('doom_slayer')) {
+      const isDoom = cid.includes('doom');
+      innerSVG = `
+        <polygon points="26,30 74,30 82,65 50,88 18,65" fill="${isDoom ? '#15803d' : '#3f6212'}" stroke="#14532d" stroke-width="2"/>
+        <polygon points="30,42 70,42 75,64 50,76 25,64" fill="#f59e0b"/>
+        <line x1="30" y1="52" x2="70" y2="52" stroke="#78350f" stroke-width="1.5"/>
+      `;
+    } else if (cid.includes('link')) {
+      innerSVG = `
+        <polygon points="50,10 15,30 30,55 70,55 85,30" fill="#15803d" stroke="#166534" stroke-width="2"/>
+        <polygon points="25,50 75,50 82,68 18,68" fill="#facc15"/>
+        <polygon points="32,56 68,56 62,80 50,88 38,80" fill="#fed7aa"/>
+        <circle cx="42" cy="68" r="2.5" fill="#0284c7"/>
+        <circle cx="58" cy="68" r="2.5" fill="#0284c7"/>
+      `;
+    } else {
+      innerSVG = `
+        <circle cx="50" cy="45" r="24" fill="${theme}" opacity="0.3"/>
+        <text x="50" y="58" font-size="34" text-anchor="middle">${c.series === 'gundam' ? '🤖' : (c.series === 'dragonball' ? '⚡' : (c.series === 'marvel' ? '🦸' : (c.series === 'anime' ? '⚔️' : '🎮')))}</text>
+      `;
+    }
+
+    return `
+      <svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="display: block; width: 100%; height: 100%;">
+        ${innerSVG}
+      </svg>
+    `;
+  }
+
   getHeroAvatarHTML(c, size = 64) {
     if (!c) return '';
-    const cleanColor = (c.themeColor || "#38bdf8").replace("#", "");
-    const avatarUrl = `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(c.id)}&backgroundColor=${cleanColor}&scale=92`;
     const seriesEmoji = c.series === 'gundam' ? '🤖' : (c.series === 'dragonball' ? '⚡' : (c.series === 'marvel' ? '🦸' : (c.series === 'anime' ? '⚔️' : '🎮')));
+    const svgContent = this.getCanonHeroAvatarSVG(c);
 
     return `
       <div class="card-avatar-wrapper" style="width: ${size}px; height: ${size}px; position: relative; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, ${c.themeColor}33, #0f172a); border: 2px solid ${c.themeColor}; box-shadow: 0 4px 12px rgba(0,0,0,0.5); flex-shrink: 0;">
-        <img src="${avatarUrl}" alt="${c.name}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.onerror=null; this.src='https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(c.id)}';">
+        ${svgContent}
         <span style="position: absolute; bottom: 2px; right: 2px; font-size: ${Math.max(10, Math.round(size * 0.26))}px; background: rgba(15,23,42,0.85); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 1px 3px; line-height: 1;">${seriesEmoji}</span>
       </div>
     `;
