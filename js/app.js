@@ -65,6 +65,56 @@ class App3D {
     requestAnimationFrame((t) => this.gameLoop(t));
   }
 
+  // ─── 每次更換出場角色時，動態更新觸控動作按鈕標籤 ───
+  updateActionButtonsForFighter(charData) {
+    if (!charData) return;
+    const cfg = charData.attackConfig;
+    const flightBtn = document.getElementById("touchBtnFlight");
+    if (flightBtn) {
+      flightBtn.style.display = charData.canFly ? "inline-flex" : "none";
+      const lbl = flightBtn.querySelector(".label");
+      if (lbl) lbl.textContent = "飛行[F]";
+    }
+
+    const setBtnLabel = (id, label) => {
+      const btn = document.getElementById(id);
+      if (btn) {
+        const lbl = btn.querySelector(".label");
+        if (lbl) lbl.textContent = label;
+      }
+    };
+
+    if (cfg) {
+      if (cfg.light) setBtnLabel("touchBtnAtk", `普攻[J]`);
+      if (cfg.heavy) setBtnLabel("touchBtnHeavy", `破防[K]`);
+      if (cfg.grab) setBtnLabel("touchBtnGrab", `抓技[O]`);
+      if (charData.skills && charData.skills.skill1) setBtnLabel("touchBtnSkill1", `技1[U]`);
+      if (charData.skills && charData.skills.skill2) setBtnLabel("touchBtnSkill2", `技2[I]`);
+      if (charData.skills && charData.skills.ult) setBtnLabel("touchBtnUlt", `奧義[L]`);
+    }
+  }
+
+  // ─── 調整隊伍長度以符合 1v1 ~ 5v5 賽制 ───
+  adjustTeamSize() {
+    const defaultAvailable = window.saveSystem.user.unlockedCharacters || ["goku_kid", "cap_america", "gm_rgm79"];
+    while (this.p1Team.length < this.teamSize) {
+      const nextChar = defaultAvailable.find(id => !this.p1Team.includes(id)) || defaultAvailable[0] || "goku_kid";
+      this.p1Team.push(nextChar);
+    }
+    if (this.p1Team.length > this.teamSize) {
+      this.p1Team = this.p1Team.slice(0, this.teamSize);
+    }
+
+    const enemyPool = window.CHARACTERS_DATA.map(c => c.id);
+    while (this.p2Team.length < this.teamSize) {
+      const nextEnemy = enemyPool.find(id => !this.p2Team.includes(id)) || enemyPool[0];
+      this.p2Team.push(nextEnemy);
+    }
+    if (this.p2Team.length > this.teamSize) {
+      this.p2Team = this.p2Team.slice(0, this.teamSize);
+    }
+  }
+
   // ─── 更新頂部狀態列 (含頭像與暱稱) ───
   updateUserStatusBar() {
     const goldElem = document.getElementById("userGoldDisplay");
@@ -183,6 +233,68 @@ class App3D {
     alert(`🎉 Google 登入成功！歡迎【${nickname}】，已為您加載專屬 3D 角色庫！`);
   }
 
+  // ─── 🎁 每日獎勵補給彈窗 ───
+  openDailyRewardModal() {
+    const modal = document.getElementById("dailyRewardModal");
+    const container = document.getElementById("dailyRewardContent");
+    if (!modal || !container) return;
+
+    const u = window.saveSystem.user;
+    const rewards = [
+      { day: 1, gold: 500, desc: "初入戰場禮包" },
+      { day: 2, gold: 800, desc: "雙倍晶石補給" },
+      { day: 3, gold: 1200, desc: "高級能源電池" },
+      { day: 4, gold: 1600, desc: "戰術核芯配件" },
+      { day: 5, gold: 2000, desc: "特級招募補貼" },
+      { day: 6, gold: 3000, desc: "黃金戰士寶箱" },
+      { day: 7, gold: 5000, desc: "★ 史詩英雄神威禮包" }
+    ];
+
+    const currentStreak = u.loginStreak || 1;
+    const canClaim = window.saveSystem.canClaimDaily();
+
+    container.innerHTML = `
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 20px;">
+        ${rewards.map(r => {
+          const isToday = r.day === ((currentStreak - 1) % 7 + 1);
+          const isPast = r.day < ((currentStreak - 1) % 7 + 1);
+          return `
+            <div style="background: rgba(30, 41, 59, 0.8); border: 2px solid ${isToday ? '#facc15' : (isPast ? '#10b981' : 'rgba(255,255,255,0.1)')}; border-radius: 10px; padding: 12px; text-align: center;">
+              <div style="font-size: 11px; font-weight: 800; color: ${isToday ? '#facc15' : '#94a3b8'};">第 ${r.day} 天</div>
+              <div style="font-size: 24px; margin: 4px 0;">${r.day === 7 ? '👑' : '🎁'}</div>
+              <div style="font-size: 13px; font-weight: 800; color: #f8fafc;">+${r.gold.toLocaleString()}</div>
+              <div style="font-size: 10px; color: #94a3b8; margin-top: 2px;">${r.desc}</div>
+              <div style="font-size: 10px; font-weight: 800; margin-top: 6px; color: ${isPast ? '#10b981' : (isToday ? (canClaim ? '#facc15' : '#64748b') : '#64748b')};">
+                ${isPast ? '✅ 已領取' : (isToday ? (canClaim ? '可領取' : '今日已領') : '鎖定中')}
+              </div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+
+      <div style="text-align: center;">
+        <button class="btn-primary" style="padding: 12px 36px; font-size: 16px; font-weight: 900; justify-content: center; ${canClaim ? 'background: linear-gradient(135deg, #10b981, #059669);' : 'opacity: 0.6;'}" onclick="window.app.claimDailyReward()" ${canClaim ? '' : 'disabled'}>
+          <i class="fa-solid fa-gift"></i> ${canClaim ? '立即領取今日獎勵' : '今日已完成簽到，明天再來！'}
+        </button>
+      </div>
+    `;
+
+    modal.classList.add("active");
+  }
+
+  claimDailyReward() {
+    const res = window.saveSystem.claimDailyReward();
+    if (res.success) {
+      if (window.soundEngine) window.soundEngine.playVictory();
+      this.updateUserStatusBar();
+      this.openDailyRewardModal();
+      this.autoSync("領取每日簽到獎勵");
+      alert(`🎉 成功領取每日簽到獎勵 +${res.gold.toLocaleString()} 金幣！連續登入 ${res.streak} 天！`);
+    } else {
+      alert(res.reason || "今日已經領取過每日獎勵囉！");
+    }
+  }
+
   switchTab(tabId) {
     this.activeTab = tabId;
     document.querySelectorAll(".tab-btn").forEach(btn => {
@@ -196,11 +308,19 @@ class App3D {
       if (!window.matchEngine3D.p1Current || window.matchEngine3D.matchState === "standby") {
         this.startSelectedBattle("kof");
       }
+      if (this.sceneManager) {
+        this.sceneManager.onWindowResize();
+      }
       setTimeout(() => {
         if (this.sceneManager) {
           this.sceneManager.onWindowResize();
         }
       }, 50);
+      setTimeout(() => {
+        if (this.sceneManager) {
+          this.sceneManager.onWindowResize();
+        }
+      }, 200);
     }
 
     if (tabId === "roster") this.renderRosterView();
@@ -517,6 +637,9 @@ class App3D {
     };
 
     this.switchTab("battle");
+    if (this.sceneManager) {
+      this.sceneManager.onWindowResize();
+    }
     setTimeout(() => {
       if (this.sceneManager) {
         this.sceneManager.onWindowResize();
@@ -892,7 +1015,7 @@ class App3D {
 
       <h4 style="font-size: 15px; margin-bottom: 8px; color: #38bdf8;">🎮 專屬 3D 招式設定</h4>
       <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px; margin-bottom: 16px;">
-        ${char.canFly ? `<div style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; padding: 8px 12px; border-radius: 6px; color:#38bdf8;"><b>[F] 飛行起飛</b>：${cfg.flight.name} (升空懸浮，可空中四向作戰)</div>` : ''}
+        ${char.canFly ? `<div style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; padding: 8px 12px; border-radius: 6px; color:#38bdf8;"><b>[F] 飛行起飛</b>：${cfg.flight.name} (升空懸浮，可空中全向作戰)</div>` : ''}
         <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[G] 獨立格擋</b>：減免 80% 傷害，消耗格擋條</div>
         <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[J] 普攻連擊</b>：${cfg.light.name}</div>
         <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[K] 破防重擊</b>：${cfg.heavy.name} (CD 2.5s)</div>
