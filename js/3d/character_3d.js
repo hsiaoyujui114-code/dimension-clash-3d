@@ -29,7 +29,7 @@ class Character3DModel {
     const cid = char.id;
 
     const mainColor = new THREE.Color(char.themeColor || 0x38bdf8);
-    const darkColor = new THREE.Color(0x1e293b);
+    const darkColor = new THREE.Color(0x0f172a);
     const goldColor = new THREE.Color(0xfacc15);
 
     // ── 1. Materials ──
@@ -44,7 +44,7 @@ class Character3DModel {
     const isSkinAsh = cid === "kratos_god_of_war" || cid === "jiren_full_power";
     const isSkinSilver = cid === "silver_surfer";
 
-    const skinColor = isSkinSilver ? 0xe2e8f0 : (isSkinGreen ? 0x22c55e : (isSkinPurple ? 0xa855f7 : (isSkinAsh ? 0xd1d5db : 0xfed7aa)));
+    const skinColor = isSkinSilver ? 0xe2e8f0 : (isSkinGreen ? (cid.includes("orange") ? 0xf97316 : 0x22c55e) : (isSkinPurple ? 0xa855f7 : (isSkinAsh ? 0xd1d5db : 0xfed7aa)));
     const skinMat = new THREE.MeshStandardMaterial({
       color: skinColor,
       roughness: isSkinSilver ? 0.1 : 0.7,
@@ -53,9 +53,11 @@ class Character3DModel {
 
     const darkMat = new THREE.MeshStandardMaterial({ color: darkColor, roughness: 0.5 });
     const goldMat = new THREE.MeshStandardMaterial({ color: goldColor, metalness: 0.9, roughness: 0.1 });
-    const glowEnergyMat = new THREE.MeshBasicMaterial({ color: mainColor, transparent: true, opacity: 0.85 });
+    const whiteMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.3 });
+    const redMat = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.4 });
+    const blueMat = new THREE.MeshStandardMaterial({ color: 0x1d4ed8, roughness: 0.4 });
 
-    // ── 2. Torso ──
+    // ── 2. Torso (Pectorals, Abdominals & Belt) ──
     const isLarge = cid === "worldbreaker_hulk" || cid === "thanos_gauntlet" || cid === "jiren_full_power" || cid === "orange_piccolo" || cid === "sazabi_char" || cid === "cell_max" || cid === "eren_titan";
     const isSmall = cid === "goku_kid" || cid === "goten_kid" || cid === "trunks_kid";
 
@@ -63,67 +65,118 @@ class Character3DModel {
     const torsoHeight = isLarge ? 2.8 : (isSmall ? 1.6 : 2.2);
     const torsoDepth = isLarge ? 1.6 : (isSmall ? 0.8 : 1.0);
 
-    const torsoGeo = new THREE.BoxGeometry(torsoWidth, torsoHeight, torsoDepth);
-    const torso = new THREE.Mesh(torsoGeo, bodyMat);
+    const torso = new THREE.Group();
     torso.position.y = isSmall ? 1.8 : (isLarge ? 2.8 : 2.4);
-    torso.castShadow = true;
-    torso.receiveShadow = true;
+
+    // Upper Chest Pectorals
+    const chestGeo = new THREE.BoxGeometry(torsoWidth, torsoHeight * 0.55, torsoDepth * 1.05);
+    const chestMesh = new THREE.Mesh(chestGeo, bodyMat);
+    chestMesh.position.y = torsoHeight * 0.22;
+    chestMesh.castShadow = true;
+    torso.add(chestMesh);
+
+    // Midriff Abdominals
+    const absGeo = new THREE.BoxGeometry(torsoWidth * 0.9, torsoHeight * 0.45, torsoDepth * 0.95);
+    const absMesh = new THREE.Mesh(absGeo, cid.includes("spiderman") ? blueMat : (series === "dragonball" ? bodyMat : darkMat));
+    absMesh.position.y = -torsoHeight * 0.22;
+    absMesh.castShadow = true;
+    torso.add(absMesh);
+
     this.group.add(torso);
     this.limbs.torso = torso;
 
-    // ── 3. Head ──
+    // ── 3. Head & Facial Features ──
     const headSize = isSmall ? 0.9 : (isLarge ? 1.2 : 1.0);
-    const headGeo = new THREE.BoxGeometry(headSize, headSize * 1.1, headSize);
+    const headGeo = new THREE.BoxGeometry(headSize, headSize * 1.05, headSize);
     const head = new THREE.Mesh(headGeo, skinMat);
-    head.position.set(0, torsoHeight * 0.75, 0);
+    head.position.set(0, torsoHeight * 0.72, 0);
     head.castShadow = true;
     torso.add(head);
     this.limbs.head = head;
 
-    // ── 4. Character-Specific Head Accessories & Hair ──
+    // ── 4. Character-Specific Head Accessories, Hair & Chest Emblems ──
     this.buildHeadFeatures(head, char, goldMat, darkMat);
     this.buildTorsoEmblem(torso, char, goldMat, darkMat);
 
-    // ── 5. Limbs (Arms & Legs) ──
-    const armWidth = isLarge ? 0.7 : (isSmall ? 0.4 : 0.5);
+    // ── 5. Limbs (Arms, Pauldrons, Gauntlets & Hands) ──
+    const armWidth = isLarge ? 0.65 : (isSmall ? 0.38 : 0.48);
     const armLen = isLarge ? 2.2 : (isSmall ? 1.3 : 1.8);
-    const armGeo = new THREE.BoxGeometry(armWidth, armLen, armWidth);
 
-    const leftArm = new THREE.Mesh(armGeo, bodyMat);
-    leftArm.position.set(-(torsoWidth * 0.5 + armWidth * 0.6), torsoHeight * 0.2, 0);
-    leftArm.castShadow = true;
-    torso.add(leftArm);
-    this.limbs.leftArm = leftArm;
+    const makeArm = (isLeft) => {
+      const armGroup = new THREE.Group();
+      const posX = (isLeft ? -1 : 1) * (torsoWidth * 0.5 + armWidth * 0.6);
+      armGroup.position.set(posX, torsoHeight * 0.25, 0);
 
-    const rightArm = new THREE.Mesh(armGeo, bodyMat);
-    rightArm.position.set(torsoWidth * 0.5 + armWidth * 0.6, torsoHeight * 0.2, 0);
-    rightArm.castShadow = true;
-    torso.add(rightArm);
-    this.limbs.rightArm = rightArm;
+      // Bicep
+      const bicep = new THREE.Mesh(new THREE.BoxGeometry(armWidth, armLen * 0.5, armWidth), bodyMat);
+      bicep.position.y = armLen * 0.15;
+      bicep.castShadow = true;
+      armGroup.add(bicep);
 
-    const legWidth = isLarge ? 0.8 : (isSmall ? 0.45 : 0.6);
+      // Forearm / Gauntlet / Bracer
+      const forearmColor = series === "gundam" ? whiteMat : (series === "dragonball" ? blueMat : (cid.includes("ironman") ? goldMat : darkMat));
+      const forearm = new THREE.Mesh(new THREE.BoxGeometry(armWidth * 1.1, armLen * 0.5, armWidth * 1.1), forearmColor);
+      forearm.position.y = -armLen * 0.3;
+      forearm.castShadow = true;
+      armGroup.add(forearm);
+
+      // Shoulder Pauldron Guard
+      const pauldronGeo = new THREE.BoxGeometry(armWidth * 1.5, 0.45, armWidth * 1.4);
+      const pauldronMat = series === "gundam" ? bodyMat : (cid.includes("cloud") && isLeft ? new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.9 }) : (cid.includes("vegeta") ? whiteMat : bodyMat));
+      const pauldron = new THREE.Mesh(pauldronGeo, pauldronMat);
+      pauldron.position.set(0, armLen * 0.4, 0);
+      pauldron.castShadow = true;
+      armGroup.add(pauldron);
+
+      torso.add(armGroup);
+      return armGroup;
+    };
+
+    this.limbs.leftArm = makeArm(true);
+    this.limbs.rightArm = makeArm(false);
+
+    // ── 6. Legs, Knees & Boots ──
+    const legWidth = isLarge ? 0.75 : (isSmall ? 0.42 : 0.55);
     const legLen = isLarge ? 2.4 : (isSmall ? 1.4 : 2.0);
-    const legGeo = new THREE.BoxGeometry(legWidth, legLen, legWidth);
 
-    const leftLeg = new THREE.Mesh(legGeo, darkMat);
-    leftLeg.position.set(-torsoWidth * 0.25, -torsoHeight * 0.85, 0);
-    leftLeg.castShadow = true;
-    torso.add(leftLeg);
-    this.limbs.leftLeg = leftLeg;
+    const makeLeg = (isLeft) => {
+      const legGroup = new THREE.Group();
+      const posX = (isLeft ? -1 : 1) * (torsoWidth * 0.25);
+      legGroup.position.set(posX, -torsoHeight * 0.45, 0);
 
-    const rightLeg = new THREE.Mesh(legGeo, darkMat);
-    rightLeg.position.set(torsoWidth * 0.25, -torsoHeight * 0.85, 0);
-    rightLeg.castShadow = true;
-    torso.add(rightLeg);
-    this.limbs.rightLeg = rightLeg;
+      // Thigh Pants
+      const thighColor = cid.includes("spiderman") ? blueMat : (series === "dragonball" ? (cid.includes("vegeta") ? blueMat : bodyMat) : darkMat);
+      const thigh = new THREE.Mesh(new THREE.BoxGeometry(legWidth, legLen * 0.5, legWidth), thighColor);
+      thigh.position.y = -legLen * 0.15;
+      thigh.castShadow = true;
+      legGroup.add(thigh);
 
-    // ── 6. Weapons & Signature Props ──
-    this.buildWeapons(rightArm, leftArm, torso, char);
+      // Knee Armor Cap
+      const knee = new THREE.Mesh(new THREE.BoxGeometry(legWidth * 1.1, 0.35, legWidth * 1.2), goldMat);
+      knee.position.set(0, -legLen * 0.42, legWidth * 0.1);
+      legGroup.add(knee);
 
-    // ── 7. Back Wings, Funnels, Capes & Floating Props ──
+      // Boot / Greave / Foot
+      const bootColor = series === "gundam" ? redMat : (series === "dragonball" ? (cid.includes("vegeta") ? whiteMat : blueMat) : (cid.includes("ironman") ? redMat : darkMat));
+      const boot = new THREE.Mesh(new THREE.BoxGeometry(legWidth * 1.05, legLen * 0.5, legWidth * 1.3), bootColor);
+      boot.position.set(0, -legLen * 0.7, legWidth * 0.15);
+      boot.castShadow = true;
+      legGroup.add(boot);
+
+      torso.add(legGroup);
+      return legGroup;
+    };
+
+    this.limbs.leftLeg = makeLeg(true);
+    this.limbs.rightLeg = makeLeg(false);
+
+    // ── 7. Weapons & Signature Props ──
+    this.buildWeapons(this.limbs.rightArm, this.limbs.leftArm, torso, char);
+
+    // ── 8. Back Wings, Funnels, Capes & Floating Props ──
     this.buildBackAndFloatingProps(torso, char, mainColor);
 
-    // ── 8. Aura & Shield Spheres ──
+    // ── 9. Aura & Shield Spheres ──
     const auraRadius = isLarge ? 3.4 : 2.4;
     const auraGeo = new THREE.SphereGeometry(auraRadius, 16, 16);
     const auraMat = new THREE.MeshBasicMaterial({
@@ -133,8 +186,8 @@ class Character3DModel {
       wireframe: true
     });
     this.auraMesh = new THREE.Mesh(auraGeo, auraMat);
-    this.auraMesh.position.set(0, torso.position.y, 0);
-    this.group.add(this.auraMesh);
+    this.auraMesh.position.set(0, 0, 0);
+    torso.add(this.auraMesh);
 
     const shieldGeo = new THREE.SphereGeometry(auraRadius + 0.5, 24, 24);
     const shieldMat = new THREE.MeshStandardMaterial({
@@ -145,10 +198,10 @@ class Character3DModel {
       roughness: 0.1
     });
     this.shieldMesh = new THREE.Mesh(shieldGeo, shieldMat);
-    this.shieldMesh.position.set(0, torso.position.y, 0);
-    this.group.add(this.shieldMesh);
+    this.shieldMesh.position.set(0, 0, 0);
+    torso.add(this.shieldMesh);
 
-    // ── 9. Flight Jet Propulsion Disc ──
+    // ── 10. Flight Jet Propulsion Disc ──
     if (char.canFly) {
       const ringGeo = new THREE.RingGeometry(0.8, isLarge ? 2.5 : 1.8, 24);
       const ringMat = new THREE.MeshBasicMaterial({
@@ -159,8 +212,7 @@ class Character3DModel {
       });
       this.flightThrusterMesh = new THREE.Mesh(ringGeo, ringMat);
       this.flightThrusterMesh.rotation.x = Math.PI / 2;
-      this.flightThrusterMesh.position.y = -0.1;
-      this.group.add(this.flightThrusterMesh);
+      this.flightThrusterMesh.position.y = -legLen * 1.0;
     }
   }
 
@@ -480,59 +532,128 @@ class Character3DModel {
     }
   }
 
-  // ─── 3D 專屬武器與手部道具建構 ───
+  // ─── 3D 專屬武器與手部道具建構 (High-Fidelity Canon Weapon Meshes) ───
   buildWeapons(rightArm, leftArm, torso, char) {
+    const cid = char.id;
     const wType = char.weaponType || "none";
     const mainColor = new THREE.Color(char.themeColor || 0x38bdf8);
-    const bladeMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, metalness: 0.9, roughness: 0.1 });
+    const bladeMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, metalness: 0.95, roughness: 0.1 });
+    const darkSteelMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.9, roughness: 0.2 });
     const beamEnergyMat = new THREE.MeshBasicMaterial({ color: mainColor });
-    const goldMat = new THREE.MeshStandardMaterial({ color: 0xfacc15, metalness: 0.9 });
+    const goldMat = new THREE.MeshStandardMaterial({ color: 0xfacc15, metalness: 0.95, roughness: 0.1 });
 
     if (wType.includes("sword") || wType.includes("blade") || wType.includes("katana") || wType === "tensa_zangetsu" || wType === "nichirin_sword") {
-      // 🗡️ 單手長劍 / 武士刀 / 斬月
+      // 🗡️ 單手長劍 / 武士刀 / 斬月 / 破壞劍
       const isGiant = wType.includes("buster") || wType.includes("anti_ship") || wType.includes("moonlight") || wType.includes("crucible");
-      const bladeLen = isGiant ? 3.5 : 2.4;
-      const bladeWidth = isGiant ? 0.6 : 0.15;
+      const isSephiroth = cid.includes("sephiroth");
+      const bladeLen = isSephiroth ? 4.2 : (isGiant ? 3.5 : 2.4);
+      const bladeWidth = isGiant ? 0.65 : (isSephiroth ? 0.12 : 0.16);
 
-      const swordGroup = new THREE.Group();
-      const bladeGeo = new THREE.BoxGeometry(bladeWidth, bladeLen, 0.08);
-      const blade = new THREE.Mesh(bladeGeo, wType.includes("beam") || wType.includes("crucible") || wType.includes("moonlight") ? beamEnergyMat : bladeMat);
-      blade.position.set(0, bladeLen * 0.45, 0.4);
-      blade.castShadow = true;
-      swordGroup.add(blade);
+      const createSwordInstance = () => {
+        const group = new THREE.Group();
+        if (cid.includes("cloud")) {
+          // 克勞德經典破壞劍 (Buster Sword) - 雙魔晶石插槽 + 雙面刃
+          const bladeGeo = new THREE.BoxGeometry(bladeWidth, bladeLen, 0.1);
+          const blade = new THREE.Mesh(bladeGeo, bladeMat);
+          blade.position.set(0, bladeLen * 0.45, 0.4);
+          blade.castShadow = true;
+          group.add(blade);
 
-      const hiltGeo = new THREE.CylinderGeometry(0.08, 0.08, 0.6, 8);
-      const hilt = new THREE.Mesh(hiltGeo, goldMat);
-      hilt.position.set(0, -0.2, 0.4);
-      swordGroup.add(hilt);
+          const spineGeo = new THREE.BoxGeometry(bladeWidth * 0.3, bladeLen, 0.12);
+          const spine = new THREE.Mesh(spineGeo, darkSteelMat);
+          spine.position.set(-bladeWidth * 0.35, bladeLen * 0.45, 0.4);
+          group.add(spine);
 
-      swordGroup.position.set(0, -0.8, 0.3);
-      swordGroup.rotation.x = Math.PI * 0.4;
+          // 雙魔晶石 (Green & Red Glowing Materia Orbs)
+          const materiaG = new THREE.Mesh(new THREE.SphereGeometry(0.1, 12, 12), new THREE.MeshBasicMaterial({ color: 0x22c55e }));
+          materiaG.position.set(0, 0.6, 0.46);
+          group.add(materiaG);
+
+          const materiaR = new THREE.Mesh(new THREE.SphereGeometry(0.1, 12, 12), new THREE.MeshBasicMaterial({ color: 0xef4444 }));
+          materiaR.position.set(0, 0.9, 0.46);
+          group.add(materiaR);
+
+          // 黃銅護手十字樑
+          const crossguard = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.15, 0.2), goldMat);
+          crossguard.position.set(0, 0.1, 0.4);
+          group.add(crossguard);
+        } else {
+          const bladeGeo = new THREE.BoxGeometry(bladeWidth, bladeLen, 0.08);
+          const blade = new THREE.Mesh(bladeGeo, wType.includes("beam") || wType.includes("crucible") || wType.includes("moonlight") ? beamEnergyMat : bladeMat);
+          blade.position.set(0, bladeLen * 0.45, 0.4);
+          blade.castShadow = true;
+          group.add(blade);
+
+          const guardGeo = new THREE.CylinderGeometry(0.22, 0.22, 0.06, 12);
+          const guard = new THREE.Mesh(guardGeo, goldMat);
+          guard.rotation.x = Math.PI / 2;
+          guard.position.set(0, 0, 0.4);
+          group.add(guard);
+        }
+
+        const hiltGeo = new THREE.CylinderGeometry(0.08, 0.08, isGiant ? 0.9 : 0.6, 8);
+        const hiltMat = new THREE.MeshStandardMaterial({ color: 0x78350f });
+        const hilt = new THREE.Mesh(hiltGeo, hiltMat);
+        hilt.position.set(0, -0.25, 0.4);
+        group.add(hilt);
+
+        group.position.set(0, -0.8, 0.3);
+        group.rotation.x = Math.PI * 0.4;
+        return group;
+      };
+
+      const swordGroup = createSwordInstance();
       rightArm.add(swordGroup);
       this.weaponMesh = swordGroup;
 
       if (wType.includes("dual") || wType === "three_swords" || wType === "dual_odm_blades") {
-        const leftSword = swordGroup.clone();
+        const leftSword = createSwordInstance();
         leftArm.add(leftSword);
         this.leftWeaponMesh = leftSword;
       }
     } else if (wType === "shield" || wType.includes("master_sword_shield")) {
       // 🛡️ 圓形振金盾牌 / 海利亞盾
-      const shieldGeo = new THREE.CylinderGeometry(1.2, 1.2, 0.12, 24);
-      const shieldMat = new THREE.MeshStandardMaterial({ color: 0x3b82f6, metalness: 0.9, roughness: 0.1 });
-      const shield = new THREE.Mesh(shieldGeo, shieldMat);
-      shield.rotation.z = Math.PI / 2;
-      shield.position.set(-0.3, -0.4, 0);
-      leftArm.add(shield);
-      this.leftWeaponMesh = shield;
+      const shieldGroup = new THREE.Group();
+      if (cid.includes("cap_america")) {
+        // 美國隊長同心圓星盾 (Concentric Rings + Raised Star)
+        const baseDisc = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.2, 0.1, 24), new THREE.MeshStandardMaterial({ color: 0xdc2626, metalness: 0.9 }));
+        baseDisc.rotation.z = Math.PI / 2;
+        shieldGroup.add(baseDisc);
+
+        const whiteRing = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 0.11, 24), new THREE.MeshStandardMaterial({ color: 0xf8fafc, metalness: 0.9 }));
+        whiteRing.rotation.z = Math.PI / 2;
+        shieldGroup.add(whiteRing);
+
+        const innerRed = new THREE.Mesh(new THREE.CylinderGeometry(0.65, 0.65, 0.12, 24), new THREE.MeshStandardMaterial({ color: 0xdc2626, metalness: 0.9 }));
+        innerRed.rotation.z = Math.PI / 2;
+        shieldGroup.add(innerRed);
+
+        const centerBlue = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 0.13, 24), new THREE.MeshStandardMaterial({ color: 0x1d4ed8, metalness: 0.9 }));
+        centerBlue.rotation.z = Math.PI / 2;
+        shieldGroup.add(centerBlue);
+
+        const star = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.3, 0.3), new THREE.MeshStandardMaterial({ color: 0xf8fafc }));
+        star.position.set(-0.08, 0, 0);
+        shieldGroup.add(star);
+      } else {
+        const shieldGeo = new THREE.CylinderGeometry(1.2, 1.2, 0.12, 24);
+        const shieldMat = new THREE.MeshStandardMaterial({ color: 0x3b82f6, metalness: 0.9, roughness: 0.1 });
+        const shield = new THREE.Mesh(shieldGeo, shieldMat);
+        shield.rotation.z = Math.PI / 2;
+        shieldGroup.add(shield);
+      }
+
+      shieldGroup.position.set(-0.3, -0.4, 0);
+      leftArm.add(shieldGroup);
+      this.leftWeaponMesh = shieldGroup;
     } else if (wType.includes("claws") || wType === "adamantium_claws" || wType === "vibranium_claws") {
       // 🐾 雙手鋼爪 / 振金利爪
       const makeClaws = () => {
         const clawGroup = new THREE.Group();
         for (let i = -1; i <= 1; i++) {
-          const clawGeo = new THREE.BoxGeometry(0.06, 0.9, 0.04);
+          const clawGeo = new THREE.BoxGeometry(0.06, 1.1, 0.04);
           const claw = new THREE.Mesh(clawGeo, bladeMat);
-          claw.position.set(i * 0.15, 0.4, 0.3);
+          claw.position.set(i * 0.16, 0.45, 0.35);
           clawGroup.add(claw);
         }
         clawGroup.position.set(0, -0.8, 0);
@@ -544,7 +665,7 @@ class Character3DModel {
       // 🔨 雷神之鎚 / 戰斧 / 巨型錘矛
       const maceGroup = new THREE.Group();
       const handleGeo = new THREE.CylinderGeometry(0.1, 0.1, 2.8, 8);
-      const handle = new THREE.Mesh(handleGeo, bladeMat);
+      const handle = new THREE.Mesh(handleGeo, darkSteelMat);
       maceGroup.add(handle);
 
       const headGeo = new THREE.BoxGeometry(0.9, 1.2, 0.9);
@@ -557,12 +678,33 @@ class Character3DModel {
       rightArm.add(maceGroup);
       this.weaponMesh = maceGroup;
     } else if (wType === "infinity_gauntlet") {
-      // 👑 滅霸無限手套
-      const gauntletGeo = new THREE.BoxGeometry(0.65, 1.2, 0.65);
+      // 👑 滅霸無限手套 (金裝手套 + 6 顆發光無限寶石)
+      const gauntletGroup = new THREE.Group();
+      const gauntletGeo = new THREE.BoxGeometry(0.68, 1.2, 0.68);
       const gauntlet = new THREE.Mesh(gauntletGeo, goldMat);
-      gauntlet.position.set(0, -0.4, 0);
-      leftArm.add(gauntlet);
-      this.leftWeaponMesh = gauntlet;
+      gauntletGroup.add(gauntlet);
+
+      // 6 顆無限寶石 (Power, Space, Reality, Soul, Time, Mind)
+      const gemColors = [0x9333ea, 0x0284c7, 0xef4444, 0xf97316, 0x22c55e, 0xfacc15];
+      const gemPositions = [
+        [-0.2, 0.4, 0.36],
+        [-0.07, 0.45, 0.36],
+        [0.07, 0.45, 0.36],
+        [0.2, 0.4, 0.36],
+        [0.25, 0.1, 0.36],
+        [0, 0.15, 0.36] // Mind Stone in center
+      ];
+
+      gemColors.forEach((col, idx) => {
+        const gem = new THREE.Mesh(new THREE.SphereGeometry(idx === 5 ? 0.12 : 0.08, 8, 8), new THREE.MeshBasicMaterial({ color: col }));
+        const [gx, gy, gz] = gemPositions[idx];
+        gem.position.set(gx, gy, gz);
+        gauntletGroup.add(gem);
+      });
+
+      gauntletGroup.position.set(0, -0.4, 0);
+      leftArm.add(gauntletGroup);
+      this.leftWeaponMesh = gauntletGroup;
     } else if (wType === "ten_rings") {
       // 🟡 尚氣十環 (懸浮金環)
       for (let i = 0; i < 5; i++) {
