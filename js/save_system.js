@@ -9,11 +9,11 @@ const STORAGE_KEY = "DIMENSION_CLASH_ONLINE_SAVE_V3";
 class SaveSystem {
   constructor() {
     this.user = {
-      isLoggedIn: false,
+      isLoggedIn: true,
       uid: "PLAYER_" + Math.floor(100000 + Math.random() * 900000),
-      nickname: "次元格鬥家",
+      nickname: "次元戰神",
       email: "player@gmail.com",
-      avatar: "https://lh3.googleusercontent.com/a/default-user=s96-c",
+      avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=DimensionGamer",
       gold: 1500, // 初始贈送 1500 金幣
       trophies: 1000,
       pvpWins: 0,

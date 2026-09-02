@@ -1354,7 +1354,15 @@ class App3D {
   }
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  window.app = new App3D();
-  window.app.init();
-});
+if (typeof window !== "undefined") {
+  window.App3D = App3D;
+  if (document.readyState === "loading") {
+    window.addEventListener("DOMContentLoaded", () => {
+      window.app = new App3D();
+      window.app.init();
+    });
+  } else {
+    window.app = new App3D();
+    window.app.init();
+  }
+}

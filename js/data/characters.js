@@ -3157,6 +3157,10 @@ const CHARACTERS_DATA = [
   }
 ];
 
+if (typeof window !== "undefined") {
+  window.RARITY_TIERS = RARITY_TIERS;
+  window.CHARACTERS_DATA = CHARACTERS_DATA;
+}
 if (typeof module !== "undefined" && module.exports) {
   module.exports = { RARITY_TIERS, CHARACTERS_DATA };
 }
