@@ -82,6 +82,7 @@ class Character3DModel {
 
     // ── 4. Character-Specific Head Accessories & Hair ──
     this.buildHeadFeatures(head, char, goldMat, darkMat);
+    this.buildTorsoEmblem(torso, char, goldMat, darkMat);
 
     // ── 5. Limbs (Arms & Legs) ──
     const armWidth = isLarge ? 0.7 : (isSmall ? 0.4 : 0.5);
@@ -167,9 +168,25 @@ class Character3DModel {
   buildHeadFeatures(head, char, goldMat, darkMat) {
     const cid = char.id;
     const series = char.series;
+    const whiteMat = new THREE.MeshStandardMaterial({ color: 0xffffff });
+    const blackMat = new THREE.MeshStandardMaterial({ color: 0x09090b });
+    const cyanGlowMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+    const redGlowMat = new THREE.MeshBasicMaterial({ color: 0xef4444 });
+    const goldGlowMat = new THREE.MeshBasicMaterial({ color: 0xfacc15 });
+
+    // 通用眼睛 (Eyes / Visors)
+    if (series !== "gundam" && !cid.includes("spiderman") && !cid.includes("ironman") && !cid.includes("master_chief") && !cid.includes("doom_slayer")) {
+      const eyeL = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.1, 0.08), cid.includes("ultra_instinct") ? cyanGlowMat : (cid.includes("sasuke") || cid.includes("sukuna") ? redGlowMat : blackMat));
+      eyeL.position.set(-0.25, 0.1, 0.52);
+      head.add(eyeL);
+
+      const eyeR = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.1, 0.08), cid.includes("ultra_instinct") ? cyanGlowMat : (cid.includes("sasuke") || cid.includes("sukuna") ? redGlowMat : blackMat));
+      eyeR.position.set(0.25, 0.1, 0.52);
+      head.add(eyeR);
+    }
 
     if (series === "gundam") {
-      // 鋼彈經典 V-Fin 雙天線與綠色眼睛
+      // 鋼彈經典 V-Fin 雙天線與發光雙眼
       const vFinGeo = new THREE.ConeGeometry(0.18, 1.3, 4);
       const vFinL = new THREE.Mesh(vFinGeo, goldMat);
       vFinL.position.set(-0.45, 0.75, 0.4);
@@ -212,12 +229,25 @@ class Character3DModel {
         head.add(halo);
       }
     } else if (series === "marvel") {
-      if (cid.includes("ironman")) {
+      if (cid.includes("spiderman")) {
+        const eyeLensGeo = new THREE.BoxGeometry(0.35, 0.25, 0.05);
+        const eyeLensL = new THREE.Mesh(eyeLensGeo, whiteMat);
+        eyeLensL.position.set(-0.25, 0.1, 0.52);
+        eyeLensL.rotation.z = -0.2;
+        head.add(eyeLensL);
+        const eyeLensR = new THREE.Mesh(eyeLensGeo, whiteMat);
+        eyeLensR.position.set(0.25, 0.1, 0.52);
+        eyeLensR.rotation.z = 0.2;
+        head.add(eyeLensR);
+      } else if (cid.includes("ironman")) {
         const maskGeo = new THREE.BoxGeometry(0.85, 0.9, 0.2);
         const maskMat = new THREE.MeshStandardMaterial({ color: 0xfacc15, metalness: 0.9 });
         const mask = new THREE.Mesh(maskGeo, maskMat);
         mask.position.set(0, 0, 0.45);
         head.add(mask);
+        const arcEyes = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.1, 0.05), cyanGlowMat);
+        arcEyes.position.set(0, 0.12, 0.56);
+        head.add(arcEyes);
       } else if (cid.includes("wolverine")) {
         const finGeo = new THREE.ConeGeometry(0.3, 1.2, 3);
         const finMat = new THREE.MeshStandardMaterial({ color: 0x0f172a });
@@ -250,19 +280,71 @@ class Character3DModel {
         const band = new THREE.Mesh(bandGeo, bandMat);
         band.position.set(0, 0.3, 0);
         head.add(band);
+        const yellowHair = new THREE.Mesh(new THREE.ConeGeometry(0.85, 1.4, 6), new THREE.MeshStandardMaterial({ color: 0xfacc15 }));
+        yellowHair.position.set(0, 0.9, -0.1);
+        head.add(yellowHair);
       } else if (cid.includes("luffy")) {
         const hatGeo = new THREE.CylinderGeometry(1.2, 1.2, 0.1, 16);
         const hatMat = new THREE.MeshStandardMaterial({ color: 0xfacc15 });
         const hat = new THREE.Mesh(hatGeo, hatMat);
         hat.position.set(0, 0.6, 0);
         head.add(hat);
-      } else if (cid.includes("sephiroth") || cid.includes("dante") || cid.includes("vergil") || cid.includes("nier_2b")) {
+      } else if (cid.includes("zoro")) {
+        const greenHair = new THREE.Mesh(new THREE.SphereGeometry(0.65, 8, 8), new THREE.MeshStandardMaterial({ color: 0x16a34a }));
+        greenHair.position.set(0, 0.65, 0);
+        head.add(greenHair);
+      } else if (cid.includes("gojo") || cid.includes("nier_2b")) {
+        const blindfold = new THREE.Mesh(new THREE.BoxGeometry(1.04, 0.3, 1.04), blackMat);
+        blindfold.position.set(0, 0.1, 0);
+        head.add(blindfold);
+        const whiteHair = new THREE.Mesh(new THREE.ConeGeometry(0.9, 1.6, 6), new THREE.MeshStandardMaterial({ color: 0xf8fafc }));
+        whiteHair.position.set(0, 0.9, -0.1);
+        head.add(whiteHair);
+      } else if (cid.includes("master_chief") || cid.includes("doom_slayer")) {
+        const visor = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.25, 0.2), goldGlowMat);
+        visor.position.set(0, 0.1, 0.5);
+        head.add(visor);
+      } else if (cid.includes("link_hero")) {
+        const hat = new THREE.Mesh(new THREE.ConeGeometry(0.7, 1.8, 4), new THREE.MeshStandardMaterial({ color: 0x15803d }));
+        hat.position.set(0, 0.9, -0.4);
+        hat.rotation.x = -0.6;
+        head.add(hat);
+      } else if (cid.includes("cloud_strife")) {
+        const spikeHair = new THREE.Mesh(new THREE.ConeGeometry(0.9, 1.7, 5), new THREE.MeshStandardMaterial({ color: 0xfacc15 }));
+        spikeHair.position.set(0, 0.95, -0.1);
+        spikeHair.rotation.z = -0.2;
+        head.add(spikeHair);
+      } else if (cid.includes("sephiroth") || cid.includes("dante") || cid.includes("vergil")) {
         const hairGeo = new THREE.ConeGeometry(0.9, 1.8, 6);
         const hairMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.3 });
         const hair = new THREE.Mesh(hairGeo, hairMat);
         hair.position.set(0, 0.8, -0.2);
         head.add(hair);
       }
+    }
+  }
+
+  // ─── 胸前標誌、反應爐與鎧甲特徵 ───
+  buildTorsoEmblem(torso, char, goldMat, darkMat) {
+    const cid = char.id;
+    const series = char.series;
+    if (cid.includes("ironman")) {
+      const arcReactor = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.1, 16), new THREE.MeshBasicMaterial({ color: 0x38bdf8 }));
+      arcReactor.rotation.x = Math.PI / 2;
+      arcReactor.position.set(0, 0.3, 0.55);
+      torso.add(arcReactor);
+    } else if (cid.includes("cap_america")) {
+      const star = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.4, 0.08), new THREE.MeshStandardMaterial({ color: 0xf8fafc }));
+      star.position.set(0, 0.3, 0.55);
+      torso.add(star);
+    } else if (cid.includes("spiderman")) {
+      const emblem = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.3, 0.06), new THREE.MeshStandardMaterial({ color: 0x09090b }));
+      emblem.position.set(0, 0.3, 0.55);
+      torso.add(emblem);
+    } else if (series === "gundam") {
+      const hatch = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.5, 0.15), new THREE.MeshStandardMaterial({ color: 0xef4444 }));
+      hatch.position.set(0, 0.2, 0.55);
+      torso.add(hatch);
     }
   }
 

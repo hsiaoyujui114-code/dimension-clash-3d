@@ -181,7 +181,7 @@ class Fighter3D {
     this.updatePosition();
 
     const isMoving = Math.abs(this.vx) > 0.5 || Math.abs(this.vz) > 0.5;
-    this.model.updateAnimation(dt, this.state, isMoving, this.baseSpeed, this.isCharging, this.isFlying);
+    this.model.updateAnimation(dt, this.state, isMoving, this.isFlying, this.chargeTime, this.state === "guard");
   }
 
   updatePosition() {
@@ -767,7 +767,13 @@ class MatchEngine3D {
   }
 
   update(dt) {
-    if (this.matchState === "standby" || this.matchState === "pre_match" || this.matchState.startsWith("waiting")) return;
+    if (this.p1Current && this.p2Current && (this.matchState === "pre_match" || this.matchState === "standby" || this.matchState.startsWith("waiting"))) {
+      this.p1Current.updatePosition();
+      this.p2Current.updatePosition();
+      this.p1Current.model.updateAnimation(dt, "idle", false, this.p1Current.isFlying, 0, false);
+      this.p2Current.model.updateAnimation(dt, "idle", false, this.p2Current.isFlying, 0, false);
+      return;
+    }
 
     if (this.assistCooldown > 0) {
       this.assistCooldown = Math.max(0, this.assistCooldown - dt);

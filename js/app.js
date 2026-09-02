@@ -812,6 +812,20 @@ class App3D {
     });
   }
 
+  getHeroAvatarHTML(c, size = 64) {
+    if (!c) return '';
+    const cleanColor = (c.themeColor || "#38bdf8").replace("#", "");
+    const avatarUrl = `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(c.id)}&backgroundColor=${cleanColor}&scale=92`;
+    const seriesEmoji = c.series === 'gundam' ? '🤖' : (c.series === 'dragonball' ? '⚡' : (c.series === 'marvel' ? '🦸' : (c.series === 'anime' ? '⚔️' : '🎮')));
+
+    return `
+      <div class="card-avatar-wrapper" style="width: ${size}px; height: ${size}px; position: relative; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, ${c.themeColor}33, #0f172a); border: 2px solid ${c.themeColor}; box-shadow: 0 4px 12px rgba(0,0,0,0.5); flex-shrink: 0;">
+        <img src="${avatarUrl}" alt="${c.name}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.onerror=null; this.src='https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(c.id)}';">
+        <span style="position: absolute; bottom: 2px; right: 2px; font-size: ${Math.max(10, Math.round(size * 0.26))}px; background: rgba(15,23,42,0.85); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 1px 3px; line-height: 1;">${seriesEmoji}</span>
+      </div>
+    `;
+  }
+
   renderTeamSelectors() {
     const p1Container = document.getElementById("p1TeamSlots");
     const p2Container = document.getElementById("p2TeamSlots");
@@ -821,10 +835,13 @@ class App3D {
       const char = window.CHARACTERS_DATA.find(c => c.id === charId) || window.CHARACTERS_DATA[0];
       const lvl = window.saveSystem.user.characterLevels[charId] || 1;
       return `
-        <div class="team-slot-card" onclick="window.app.openHeroPicker(${idx}, 1)">
-          <div class="slot-badge">${idx + 1} 號位 ${idx === 0 ? '(首發)' : ''}</div>
-          <div class="slot-char-name" style="color: ${char.themeColor}">${char.name}</div>
-          <div class="slot-char-lvl">Lv.${lvl}</div>
+        <div class="team-slot-card" onclick="window.app.openHeroPicker(${idx}, 1)" style="display: flex; gap: 10px; align-items: center;">
+          ${this.getHeroAvatarHTML(char, 46)}
+          <div>
+            <div class="slot-badge">${idx + 1} 號位 ${idx === 0 ? '(首發)' : ''}</div>
+            <div class="slot-char-name" style="color: ${char.themeColor}">${char.name}</div>
+            <div class="slot-char-lvl">Lv.${lvl}</div>
+          </div>
         </div>
       `;
     }).join("");
@@ -832,10 +849,13 @@ class App3D {
     p2Container.innerHTML = this.p2Team.map((charId, idx) => {
       const char = window.CHARACTERS_DATA.find(c => c.id === charId) || window.CHARACTERS_DATA[0];
       return `
-        <div class="team-slot-card" onclick="window.app.openHeroPicker(${idx}, 2)">
-          <div class="slot-badge">${idx + 1} 號位</div>
-          <div class="slot-char-name" style="color: ${char.themeColor}">${char.name}</div>
-          <div class="slot-char-lvl">Lv.${char.rarity * 10}</div>
+        <div class="team-slot-card" onclick="window.app.openHeroPicker(${idx}, 2)" style="display: flex; gap: 10px; align-items: center;">
+          ${this.getHeroAvatarHTML(char, 46)}
+          <div>
+            <div class="slot-badge">${idx + 1} 號位</div>
+            <div class="slot-char-name" style="color: ${char.themeColor}">${char.name}</div>
+            <div class="slot-char-lvl">Lv.${char.rarity * 10}</div>
+          </div>
         </div>
       `;
     }).join("");
@@ -853,9 +873,12 @@ class App3D {
       : window.CHARACTERS_DATA;
 
     grid.innerHTML = list.map(c => `
-      <div class="picker-card" onclick="window.app.selectHeroForSlot('${c.id}')">
-        <div style="font-weight: 800; color: ${c.themeColor}">${c.name}</div>
-        <div style="font-size: 11px; color: #94a3b8">${c.seriesName} · ${c.role}</div>
+      <div class="picker-card" onclick="window.app.selectHeroForSlot('${c.id}')" style="display: flex; gap: 10px; align-items: center;">
+        ${this.getHeroAvatarHTML(c, 44)}
+        <div>
+          <div style="font-weight: 800; color: ${c.themeColor}">${c.name}</div>
+          <div style="font-size: 11px; color: #94a3b8">${c.seriesName} · ${c.role}</div>
+        </div>
       </div>
     `).join("");
 
@@ -914,10 +937,13 @@ class App3D {
               const char = window.CHARACTERS_DATA.find(c => c.id === id) || window.CHARACTERS_DATA[0];
               const lvl = window.saveSystem.user.characterLevels[id] || 1;
               return `
-                <div style="background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 12px; min-width: 130px;">
-                  <div style="font-size: 11px; font-weight: 800; color: #facc15;">${idx + 1} 號位 ${idx === 0 ? '(首發)' : ''}</div>
-                  <div style="font-weight: 800; color: ${char.themeColor}; font-size: 14px;">${char.name}</div>
-                  <div style="font-size: 11px; color: #94a3b8;">Lv.${lvl} / 100 ${char.canFly ? '✈️ 具備飛行' : ''}</div>
+                <div style="background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 12px; min-width: 140px; display: flex; gap: 10px; align-items: center;">
+                  ${this.getHeroAvatarHTML(char, 44)}
+                  <div>
+                    <div style="font-size: 11px; font-weight: 800; color: #facc15;">${idx + 1} 號位 ${idx === 0 ? '(首發)' : ''}</div>
+                    <div style="font-weight: 800; color: ${char.themeColor}; font-size: 14px;">${char.name}</div>
+                    <div style="font-size: 11px; color: #94a3b8;">Lv.${lvl} / 100 ${char.canFly ? '✈️ 飛行' : ''}</div>
+                  </div>
                 </div>
               `;
             }).join("")}
@@ -967,16 +993,16 @@ class App3D {
         }
       }
 
-      const getIcon = (s) => s === 'gundam' ? '🤖' : (s === 'dragonball' ? '⚡' : (s === 'marvel' ? '🦸' : (s === 'anime' ? '⚔️' : '🎮')));
-
       return `
         <div class="character-card ${isUnlocked ? '' : 'locked'}" style="border-top: 3px solid ${rarity.color}">
           <div class="rarity-ribbon" style="background: ${rarity.bg}; color: ${rarity.border}">${rarity.label}</div>
-          <div class="card-avatar-box" style="border-color: ${c.themeColor}">
-            ${getIcon(c.series)}
+          <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 8px;">
+            ${this.getHeroAvatarHTML(c, 62)}
+            <div>
+              <div class="card-char-name" style="color: ${c.themeColor}">${c.name}</div>
+              <div class="card-char-title" style="margin-bottom: 0;">${c.seriesName} · ${c.role} ${c.canFly ? '✈️' : ''}</div>
+            </div>
           </div>
-          <div class="card-char-name">${c.name}</div>
-          <div class="card-char-title">${c.seriesName} · ${c.role} ${c.canFly ? '✈️' : ''}</div>
           <div class="card-stats-row">
             <span>${isUnlocked ? `Lv.${lvl} / 100` : '🔒 未解鎖'}</span>
             <span style="color: ${c.themeColor}">ATK ${Math.round(c.baseAtk * (1 + (lvl - 1) * 0.02))}</span>
@@ -1010,11 +1036,10 @@ class App3D {
     const upgradeCost = Math.round(200 * Math.pow(lvl, 1.4));
     const rarity = window.RARITY_TIERS[char.rarity];
     const cfg = char.attackConfig;
-    const getIcon = (s) => s === 'gundam' ? '🤖' : (s === 'dragonball' ? '⚡' : (s === 'marvel' ? '🦸' : (s === 'anime' ? '⚔️' : '🎮')));
 
     container.innerHTML = `
       <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 16px;">
-        <div style="font-size: 48px;">${getIcon(char.series)}</div>
+        ${this.getHeroAvatarHTML(char, 76)}
         <div>
           <h2 style="font-size: 24px; font-weight: 900; color: ${char.themeColor}">${char.name}</h2>
           <div style="color: #94a3b8; font-size: 13px;">${char.seriesName} · ${char.title} · <span style="color: ${rarity.color}">${rarity.name}</span> · ${char.canFly ? '<b style="color:#38bdf8;">✈️ 支援飛行升空</b>' : '地面戰鬥型'}</div>
@@ -1172,11 +1197,13 @@ class App3D {
       return `
         <div class="character-card" style="border-top: 3px solid ${rarity.color}">
           <div class="rarity-ribbon" style="background: ${rarity.bg}; color: ${rarity.border}">${rarity.label}</div>
-          <div class="card-avatar-box" style="border-color: ${c.themeColor}">
-            ${getIcon(c.series)}
+          <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 8px;">
+            ${this.getHeroAvatarHTML(c, 62)}
+            <div>
+              <div class="card-char-name" style="color: ${c.themeColor}">${c.name}</div>
+              <div class="card-char-title" style="margin-bottom: 0;">${c.seriesName} · ${c.role} ${c.canFly ? '✈️' : ''}</div>
+            </div>
           </div>
-          <div class="card-char-name">${c.name}</div>
-          <div class="card-char-title">${c.seriesName} · ${c.role} ${c.canFly ? '✈️' : ''}</div>
           <div style="margin-top: 12px;">
             ${isOwned ? `<div style="color: #4ade80; font-weight: 800; font-size: 12px; text-align: center; padding: 6px;">✅ 英雄已招募</div>` : `
               <button class="btn-primary" style="width: 100%; font-size: 12px; padding: 8px 10px; justify-content: center;" onclick="window.app.buyHero('${c.id}', ${c.cost})">
