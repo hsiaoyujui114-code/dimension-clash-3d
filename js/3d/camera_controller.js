@@ -116,7 +116,12 @@ class CameraController3D {
   }
 
   update(dt) {
-    if (!this.camera || !this.target) return;
+    if (!this.camera) return;
+    if (!this.target) {
+      this.camera.position.set(0, 16, 28);
+      this.camera.lookAt(0, 2, 0);
+      return;
+    }
 
     const targetPos = this.target.position;
     let desiredCameraPos = new THREE.Vector3();

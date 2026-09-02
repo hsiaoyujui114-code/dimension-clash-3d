@@ -535,6 +535,7 @@ class Character3DModel {
   // ─── 3D 專屬武器與手部道具建構 (High-Fidelity Canon Weapon Meshes) ───
   buildWeapons(rightArm, leftArm, torso, char) {
     const cid = char.id;
+    const series = char.series || "";
     const wType = char.weaponType || "none";
     const mainColor = new THREE.Color(char.themeColor || 0x38bdf8);
     const bladeMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, metalness: 0.95, roughness: 0.1 });
@@ -903,7 +904,7 @@ class Character3DModel {
     } else if (cid.includes("saitama") || cid.includes("thor") || cid.includes("doctor_strange") || cid.includes("magneto")) {
       // 英雄紅色/白色披風
       const capeColor = cid.includes("saitama") ? 0xffffff : (cid.includes("magneto") ? 0x9333ea : 0xdc2626);
-      const capeGeo = new THREE.PlaneGeometry(1.6, 2.6);
+      const capeGeo = new THREE.BoxGeometry(1.6, 2.6, 0.04);
       const capeMat = new THREE.MeshStandardMaterial({ color: capeColor, side: THREE.DoubleSide });
       const cape = new THREE.Mesh(capeGeo, capeMat);
       cape.position.set(0, 0, -0.55);
