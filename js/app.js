@@ -1,6 +1,6 @@
 /**
  * 跨次元大亂鬥 3D (Dimension Clash Online 3D) - 主應用協調器
- * (Dynamic Action Configurations, Flight Controller, Strict Genesis Unlocks, User Avatar, 1v1~5v5, Victory/Defeat Settlement, AI Difficulty Tiers & P2P Multiplayer)
+ * (Separated Quests & Shop Views, Dedicated Non-conflicting Controls, Cooldown Timers & 3D Solid Collision)
  */
 
 class App3D {
@@ -11,6 +11,7 @@ class App3D {
 
     this.teamSize = 3;
     this.aiDifficulty = "medium"; // "easy", "medium", "hard"
+    this.shopFilterSeries = "all";
     this.p1Team = window.saveSystem.user.selectedTeam || ["goku_kid", "cap_america", "gm_rgm79"];
     this.p2Team = ["spiderman_classic", "krillin", "rx78_2"];
     this.pickingSlotIndex = 0;
@@ -56,7 +57,7 @@ class App3D {
       this.switchTab("roster");
     }
 
-    // ── 每 5 分鐘自動同步與存檔 (Auto-Sync every 5 minutes) ──
+    // ── 每 5 分鐘自動同步與存檔 ──
     setInterval(() => {
       this.autoSync("5 分鐘定時自動同步");
     }, 5 * 60 * 1000);
@@ -79,7 +80,7 @@ class App3D {
     }
   }
 
-  // ─── 🔄 手動立即更新 (Manual Instant Sync) ───
+  // ─── 🔄 手動立即更新 ───
   manualSync() {
     const spinIcon = document.getElementById("syncSpinIcon");
     if (spinIcon) spinIcon.classList.add("spinning");
@@ -98,7 +99,7 @@ class App3D {
     }, 600);
   }
 
-  // ─── 🔄 事件完成與定時自動同步 (Auto Sync) ───
+  // ─── 🔄 事件完成與定時自動同步 ───
   autoSync(source = "事件自動同步") {
     window.saveSystem.save();
     this.updateUserStatusBar();
@@ -203,7 +204,7 @@ class App3D {
     }
 
     if (tabId === "roster") this.renderRosterView();
-    if (tabId === "workshop") this.renderWorkshopView();
+    if (tabId === "quests") this.renderQuestsView();
     if (tabId === "shop") this.renderShopView();
     if (tabId === "boss_rush") this.renderBossRushView();
   }
@@ -290,6 +291,16 @@ class App3D {
       });
     });
 
+    // 商店系列篩選按鈕
+    document.querySelectorAll(".shop-filter-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".shop-filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        this.shopFilterSeries = btn.dataset.series;
+        this.renderShopView();
+      });
+    });
+
     const muteBtn = document.getElementById("muteToggleBtn");
     if (muteBtn) {
       muteBtn.addEventListener("click", () => {
@@ -303,104 +314,7 @@ class App3D {
     });
   }
 
-  updateActionButtonsForFighter(charData) {
-    if (!charData || !charData.attackConfig) return;
-    const cfg = charData.attackConfig;
-
-    const setBtn = (id, labelText) => {
-      const elem = document.getElementById(id);
-      if (elem) {
-        const labelElem = elem.querySelector(".label");
-        if (labelElem) labelElem.textContent = labelText;
-      }
-    };
-
-    setBtn("touchBtnAtk", `普攻[J]`);
-    setBtn("touchBtnHeavy", `破防[K]`);
-    setBtn("touchBtnGrab", `抓技[O]`);
-    setBtn("touchBtnSkill1", `${cfg.skill1.name.slice(0, 4)}[U]`);
-    setBtn("touchBtnSkill2", `${cfg.skill2.name.slice(0, 4)}[I]`);
-    setBtn("touchBtnUlt", `${cfg.ult.name.slice(0, 4)}[L]`);
-
-    const flightBtn = document.getElementById("touchBtnFlight");
-    if (flightBtn) {
-      if (charData.canFly) {
-        flightBtn.style.display = "flex";
-        flightBtn.querySelector(".label").textContent = "飛行[F]";
-      } else {
-        flightBtn.style.display = "none";
-      }
-    }
-  }
-
-  openDailyRewardModal() {
-    const modal = document.getElementById("dailyRewardModal");
-    const container = document.getElementById("dailyRewardContent");
-    if (!modal || !container) return;
-
-    const streak = window.saveSystem.user.dailyReward.streakDay || 1;
-    const isClaimed = window.saveSystem.user.dailyReward.claimedToday;
-
-    const rewards = [
-      { day: 1, gold: 500, gift: "仙豆補給包" },
-      { day: 2, gold: 1000, gift: "綠階召募券" },
-      { day: 3, gold: 1500, gift: "振金編織內襯" },
-      { day: 4, gold: 2000, gift: "初鋼改裝零件" },
-      { day: 5, gold: 3000, gift: "2顆感應結晶" },
-      { day: 6, gold: 4000, gift: "特南克斯碎片" },
-      { day: 7, gold: 10000, gift: "史詩自選箱！" }
-    ];
-
-    container.innerHTML = `
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px; margin-bottom: 20px;">
-        ${rewards.map(r => `
-          <div style="background: ${r.day === streak ? 'rgba(56, 189, 248, 0.25)' : 'rgba(15, 23, 42, 0.6)'}; border: 1px solid ${r.day === streak ? '#38bdf8' : 'rgba(255,255,255,0.1)'}; border-radius: 8px; padding: 10px 6px; text-align: center;">
-            <div style="font-size: 11px; font-weight: 800; color: #94a3b8;">第 ${r.day} 天</div>
-            <div style="font-size: 18px; margin: 4px 0;">🎁</div>
-            <div style="font-size: 12px; font-weight: 800; color: #facc15;">+${r.gold} 金幣</div>
-            <div style="font-size: 10px; color: #cbd5e1; margin-top: 2px;">${r.gift}</div>
-            ${r.day < streak ? `<div style="font-size: 10px; color: #4ade80; margin-top: 4px;">✅ 已領</div>` : (r.day === streak && isClaimed ? `<div style="font-size: 10px; color: #4ade80; margin-top: 4px;">✅ 今日已領</div>` : '')}
-          </div>
-        `).join("")}
-      </div>
-
-      <button class="btn-primary" style="width: 100%; padding: 12px; font-size: 16px; justify-content: center;" ${isClaimed ? 'disabled' : ''} onclick="window.app.claimDailyReward()">
-        ${isClaimed ? '✅ 今日獎勵已領取 (明天再來！)' : '🎁 立即領取今日登入獎勵！'}
-      </button>
-    `;
-
-    modal.classList.add("active");
-  }
-
-  claimDailyReward() {
-    const res = window.saveSystem.claimDailyReward();
-    if (res.success) {
-      if (window.soundEngine) window.soundEngine.playLevelUp();
-      this.updateUserStatusBar();
-      this.openDailyRewardModal();
-      this.autoSync("領取每日獎勵");
-      alert(`🎉 成功領取第 ${res.reward.day} 天獎勵：\n${res.reward.desc} (+${res.reward.gold} 金幣)！`);
-    } else {
-      alert(res.reason);
-    }
-  }
-
-  adjustTeamSize() {
-    while (this.p1Team.length < this.teamSize) {
-      const avail = window.saveSystem.user.unlockedCharacters.find(id => !this.p1Team.includes(id)) || window.saveSystem.user.unlockedCharacters[0] || "goku_kid";
-      this.p1Team.push(avail);
-    }
-    while (this.p1Team.length > this.teamSize) this.p1Team.pop();
-    window.saveSystem.setTeam(this.p1Team);
-
-    const enemies = ["rx78_2", "spiderman_classic", "krillin", "char_zaku2", "hulk", "vegeta", "thor", "ironman_mark3", "piccolo", "wing_zero_ew"];
-    while (this.p2Team.length < this.teamSize) {
-      const e = enemies[Math.floor(Math.random() * enemies.length)];
-      this.p2Team.push(e);
-    }
-    while (this.p2Team.length > this.teamSize) this.p2Team.pop();
-  }
-
+  // ─── 專屬獨立動作按鍵設定 (各動作獨立按鍵，絕不重疊衝突) ───
   setupKeyboard() {
     window.addEventListener("keydown", (e) => {
       if (e.repeat) return;
@@ -418,10 +332,12 @@ class App3D {
       if (!p1 || window.matchEngine3D.matchState !== "fighting") return;
       const p2 = window.matchEngine3D.p2Current;
 
+      // 1. 飛行起飛 / 降落 [F]
       if (e.key.toLowerCase() === "f") {
         p1.toggleFlight();
       }
 
+      // 2. 視角切換 [V]
       if (e.key.toLowerCase() === "v") {
         if (this.cameraController) {
           this.cameraController.cycleViewMode();
@@ -432,22 +348,27 @@ class App3D {
         }
       }
 
+      // 3. 跳躍 [Space]
       if (e.code === "Space") {
         p1.jump();
       }
 
-      if (e.key === "Shift" || e.code === "ShiftLeft") {
+      // 4. 閃避翻滾 [Shift] (CD 1.2s)
+      if (e.key === "Shift" || e.code === "ShiftLeft" || e.code === "ShiftRight") {
         p1.dodge();
       }
 
-      if (e.key.toLowerCase() === "s") {
+      // 5. 獨立格擋防禦 [G] (不使用 S 鍵，避免與後退移動衝突)
+      if (e.key.toLowerCase() === "g") {
         p1.guard(true);
       }
 
+      // 6. 輕擊普攻 [J] (無 CD)
       if (e.key.toLowerCase() === "j") {
         p1.lightAttack(p2);
       }
 
+      // 7. 蓄力破防重擊 [K] (CD 2.5s)
       if (e.key.toLowerCase() === "k") {
         p1.startHeavyCharge();
         setTimeout(() => {
@@ -455,26 +376,32 @@ class App3D {
         }, 700);
       }
 
+      // 8. 摔投抓技 [O] (CD 3.5s)
       if (e.key.toLowerCase() === "o") {
         p1.grab(p2);
       }
 
+      // 9. 戰術小招 1 [U] (CD 6~10s)
       if (e.key.toLowerCase() === "u") {
         p1.useSkill1(p2);
       }
 
+      // 10. 戰術小招 2 [I] (CD 8~14s)
       if (e.key.toLowerCase() === "i") {
         p1.useSkill2(p2);
       }
 
+      // 11. 終極奧義大招 [L] (CD 20s + 100% 怒氣)
       if (e.key.toLowerCase() === "l") {
         p1.useUlt(p2);
       }
 
+      // 12. 援護出擊 [Q] 或 [E] (CD 20s)
       if (e.key.toLowerCase() === "q" || e.key.toLowerCase() === "e") {
         window.matchEngine3D.callAssist();
       }
 
+      // 13. 極限爆氣脫身 [B] (CD 12s + 50% 怒氣)
       if (e.key.toLowerCase() === "b") {
         p1.useBurst(p2);
       }
@@ -485,7 +412,7 @@ class App3D {
       this.keys[e.code] = false;
 
       const p1 = window.matchEngine3D.p1Current;
-      if (p1 && e.key.toLowerCase() === "s") {
+      if (p1 && e.key.toLowerCase() === "g") {
         p1.guard(false);
       }
     });
@@ -565,7 +492,7 @@ class App3D {
       const base = window.CHARACTERS_DATA.find(c => c.id === id) || window.CHARACTERS_DATA[0];
       return Object.assign({}, base, {
         userLevel: window.saveSystem.user.characterLevels[id] || 1,
-        equippedGear: (window.saveSystem.user.equippedGear[id] || []).map(gid => window.EQUIPMENT_DATA.find(e => e.id === gid))
+        equippedGear: []
       });
     });
 
@@ -577,9 +504,7 @@ class App3D {
       });
     });
 
-    // 只有在自由 PVE 對決時允許使用自訂難度，其他天梯/魔王塔模式難度鎖定
     const appliedDifficulty = mode === "kof" ? this.aiDifficulty : "medium";
-
     window.matchEngine3D.startMatch(p1RosterData, p2RosterData, mode, isRanked, bossFloor, appliedDifficulty);
 
     if (this.cameraController && window.matchEngine3D.p1Current) {
@@ -599,7 +524,7 @@ class App3D {
     }, 50);
   }
 
-  // ─── 🏆 戰鬥勝負結算彈窗 (你贏了 / 你輸了 + 🔄 重新開始按鈕) ───
+  // ─── 🏆 戰鬥勝負結算彈窗 ───
   handleMatchResult(result) {
     const isWin = result.winner === "player";
     const isBossRush = result.mode === "boss_rush";
@@ -694,7 +619,7 @@ class App3D {
     this.autoSync("戰鬥結束重置回到首頁");
   }
 
-  // ─── 🌐 跨裝置 P2P 房間建立與加入 ───
+  // ─── 🌐 跨裝置 P2P 房間 ───
   createP2PRoom() {
     const banner = document.getElementById("p2pStatusBanner");
     if (banner) banner.textContent = "⏳ 正在初始化 WebRTC P2P 房間...";
@@ -815,7 +740,6 @@ class App3D {
     this.autoSync("更換出場英雄");
   }
 
-  // ─── 自由指派出場順序 [ 1 ] / [ 2 ] / [ 3 ] ───
   setHeroToTeamSlot(charId, slotIndex = 0) {
     if (slotIndex < this.p1Team.length) {
       this.p1Team[slotIndex] = charId;
@@ -874,7 +798,6 @@ class App3D {
       const lvl = window.saveSystem.user.characterLevels[c.id] || 1;
       const rarity = window.RARITY_TIERS[c.rarity];
 
-      // ─── 自由選人按鈕：1, 2, 3 號位 ───
       const slotButtons = [];
       if (isUnlocked) {
         for (let s = 0; s < this.teamSize; s++) {
@@ -970,9 +893,10 @@ class App3D {
       <h4 style="font-size: 15px; margin-bottom: 8px; color: #38bdf8;">🎮 專屬 3D 招式設定</h4>
       <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px; margin-bottom: 16px;">
         ${char.canFly ? `<div style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; padding: 8px 12px; border-radius: 6px; color:#38bdf8;"><b>[F] 飛行起飛</b>：${cfg.flight.name} (升空懸浮，可空中四向作戰)</div>` : ''}
+        <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[G] 獨立格擋</b>：減免 80% 傷害，消耗格擋條</div>
         <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[J] 普攻連擊</b>：${cfg.light.name}</div>
-        <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[K] 破防重擊</b>：${cfg.heavy.name}</div>
-        <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[O] 近身抓技</b>：${cfg.grab.name}</div>
+        <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[K] 破防重擊</b>：${cfg.heavy.name} (CD 2.5s)</div>
+        <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[O] 近身抓技</b>：${cfg.grab.name} (CD 3.5s)</div>
         <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[U] 小招 1【${char.skills.skill1.name}】</b> (CD ${char.skills.skill1.cd}s)：${char.skills.skill1.desc}</div>
         <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px;"><b>[I] 小招 2【${char.skills.skill2.name}】</b> (CD ${char.skills.skill2.cd}s)：${char.skills.skill2.desc}</div>
         <div style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px; border-left: 3px solid #facc15;"><b>[L] 奧義大招【${char.skills.ult.name}】</b> (CD ${char.skills.ult.cd}s + 100% 怒氣)：${char.skills.ult.desc}</div>
@@ -1005,114 +929,13 @@ class App3D {
     }
   }
 
-  renderWorkshopView() {
-    const select = document.getElementById("workshopHeroSelect");
-    const container = document.getElementById("workshopSlotsContainer");
-    if (!select || !container) return;
-
-    const unlocked = window.saveSystem.user.unlockedCharacters;
-    select.innerHTML = unlocked.map(id => {
-      const c = window.CHARACTERS_DATA.find(x => x.id === id) || window.CHARACTERS_DATA[0];
-      return `<option value="${id}">${c.name} (${c.seriesName})</option>`;
-    }).join("");
-
-    this.selectedCharForWorkshop = select.value || unlocked[0];
-    select.onchange = (e) => {
-      this.selectedCharForWorkshop = e.target.value;
-      this.renderWorkshopSlots();
-    };
-    this.renderWorkshopSlots();
-  }
-
-  renderWorkshopSlots() {
-    const container = document.getElementById("workshopSlotsContainer");
-    if (!container) return;
-
-    const charId = this.selectedCharForWorkshop;
-    const equipped = window.saveSystem.user.equippedGear[charId] || [null, null, null, null];
-
-    container.innerHTML = [1, 2, 3, 4].map(slotNum => {
-      const slotDef = window.EQUIPMENT_SLOTS[slotNum];
-      const gearId = equipped[slotNum - 1];
-      const gear = gearId ? window.EQUIPMENT_DATA.find(g => g.id === gearId) : null;
-
-      return `
-        <div class="workshop-slot-card" style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px;">
-          <div style="font-size: 13px; font-weight: 800; color: #38bdf8; margin-bottom: 8px;">
-            ${slotDef.icon} 插槽 ${slotNum}：${slotDef.name}
-          </div>
-          ${gear ? `
-            <div style="background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(56, 189, 248, 0.4); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
-              <div style="font-weight: 800; color: #fde047;">${gear.name}</div>
-              <div style="font-size: 11px; color: #cbd5e1; margin-top: 4px;">${gear.perkDesc}</div>
-            </div>
-            <button class="btn-secondary" style="font-size: 11px; padding: 4px 10px;" onclick="window.app.unequipGear('${charId}', ${slotNum})">卸下配件</button>
-          ` : `
-            <div style="color: #64748b; font-size: 12px; margin-bottom: 10px;">[ 未安裝配件 ]</div>
-            <button class="btn-primary" style="font-size: 11px; padding: 4px 10px;" onclick="window.app.openGearEquipModal('${charId}', ${slotNum})">安裝配件</button>
-          `}
-        </div>
-      `;
-    }).join("");
-  }
-
-  unequipGear(charId, slotNum) {
-    window.saveSystem.unequipItem(charId, slotNum);
-    this.renderWorkshopSlots();
-    this.autoSync("卸下裝備配件");
-  }
-
-  openGearEquipModal(charId, slotNum) {
-    const modal = document.getElementById("gearPickerModal");
-    const listContainer = document.getElementById("gearPickerList");
-    if (!modal || !listContainer) return;
-
-    const availableGears = window.EQUIPMENT_DATA.filter(g => g.slot === slotNum);
-    listContainer.innerHTML = availableGears.map(g => `
-      <div style="background: rgba(30, 41, 59, 0.8); padding: 12px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
-        <div>
-          <div style="font-weight: 800; color: #38bdf8;">${g.icon} ${g.name} (${g.seriesName})</div>
-          <div style="font-size: 11px; color: #94a3b8;">${g.perkDesc}</div>
-        </div>
-        <button class="btn-primary" style="font-size: 12px; padding: 6px 12px;" onclick="window.app.confirmEquipGear('${charId}', ${slotNum}, '${g.id}')">裝備</button>
-      </div>
-    `).join("");
-
-    modal.classList.add("active");
-  }
-
-  confirmEquipGear(charId, slotNum, gearId) {
-    window.saveSystem.equipItem(charId, slotNum, gearId);
-    this.closeModal();
-    this.renderWorkshopSlots();
-    this.autoSync("安裝裝備配件");
-  }
-
-  renderShopView() {
-    const grid = document.getElementById("shopHeroGrid");
+  // ─── 📜 5. 獨立任務與成就挑戰視圖 (Quests View) ───
+  renderQuestsView() {
     const genesisList = document.getElementById("genesisChallengesList");
-    if (!grid || !genesisList) return;
+    const achList = document.getElementById("achievementsMilestoneList");
+    if (!genesisList || !achList) return;
 
-    const purchasable = window.CHARACTERS_DATA.filter(c => !c.isFree && !c.isNonPurchasable);
-    grid.innerHTML = purchasable.map(c => {
-      const isOwned = window.saveSystem.user.unlockedCharacters.includes(c.id);
-      const rarity = window.RARITY_TIERS[c.rarity];
-      return `
-        <div class="character-card" style="border-top: 3px solid ${rarity.color}">
-          <div class="rarity-ribbon" style="background: ${rarity.bg}; color: ${rarity.border}">${rarity.label}</div>
-          <div class="card-char-name">${c.name}</div>
-          <div class="card-char-title">${c.seriesName} · ${c.role}</div>
-          <div style="margin-top: 12px;">
-            ${isOwned ? `<div style="color: #4ade80; font-weight: 800; font-size: 12px;">✅ 已招募</div>` : `
-              <button class="btn-primary" style="width: 100%; font-size: 12px; padding: 6px 10px;" onclick="window.app.buyHero('${c.id}', ${c.cost})">
-                💰 招募 (${c.cost.toLocaleString()} 金幣)
-              </button>
-            `}
-          </div>
-        </div>
-      `;
-    }).join("");
-
+    // 1. 六大創世神級挑戰
     const genesisHeroes = window.CHARACTERS_DATA.filter(c => c.rarity === 9);
     genesisList.innerHTML = genesisHeroes.map(g => {
       const isUnlocked = window.saveSystem.user.unlockedCharacters.includes(g.id);
@@ -1141,6 +964,84 @@ class App3D {
         </div>
       `;
     }).join("");
+
+    // 2. 里程碑成就列表
+    const achievements = window.ACHIEVEMENTS_DATA ? window.ACHIEVEMENTS_DATA.filter(a => !a.id.startsWith("ach_genesis")) : [];
+    achList.innerHTML = achievements.map(ach => {
+      const prog = window.saveSystem.getAchievementProgress(ach);
+      return `
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid ${prog.claimed ? 'rgba(255,255,255,0.1)' : (prog.achieved ? '#38bdf8' : 'rgba(255,255,255,0.15)')}; border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-weight: 800; font-size: 14px; color: #f8fafc;">${ach.title}</span>
+              <span style="font-size: 11px; font-weight: 800; color: #facc15;">+${ach.rewardGold.toLocaleString()} 金幣</span>
+            </div>
+            <div style="font-size: 12px; color: #94a3b8; margin-bottom: 8px;">${ach.desc}</div>
+            <div style="background: rgba(0,0,0,0.4); height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 8px;">
+              <div style="background: ${prog.claimed ? '#64748b' : '#38bdf8'}; height: 100%; width: ${prog.percent}%;"></div>
+            </div>
+          </div>
+
+          <div>
+            ${prog.claimed ? `
+              <div style="font-size: 11px; color: #64748b; font-weight: 700; text-align: right;">✅ 已領取獎勵</div>
+            ` : (prog.achieved ? `
+              <button class="btn-primary" style="width: 100%; font-size: 12px; padding: 6px 12px; justify-content: center; background: linear-gradient(135deg, #10b981, #059669);" onclick="window.app.claimQuestAchievement('${ach.id}')">
+                🎁 領取 +${ach.rewardGold} 金幣
+              </button>
+            ` : `
+              <div style="font-size: 11px; color: #94a3b8; text-align: right;">進度: ${prog.current.toLocaleString()} / ${prog.target.toLocaleString()} (${prog.percent}%)</div>
+            `)}
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  claimQuestAchievement(achId) {
+    const res = window.saveSystem.claimAchievement(achId);
+    if (res.success) {
+      if (window.soundEngine) window.soundEngine.playLevelUp();
+      this.updateUserStatusBar();
+      this.renderQuestsView();
+      this.autoSync("領取成就獎勵");
+      alert(`🎉 恭喜成功領取成就獎勵 +${res.rewardGold.toLocaleString()} 金幣！`);
+    } else {
+      alert(res.reason);
+    }
+  }
+
+  // ─── 🛒 6. 純淨英雄招募商店 (Shop View) ───
+  renderShopView() {
+    const grid = document.getElementById("shopHeroGrid");
+    if (!grid) return;
+
+    let purchasable = window.CHARACTERS_DATA.filter(c => !c.isFree && !c.isNonPurchasable);
+    if (this.shopFilterSeries !== "all") {
+      purchasable = purchasable.filter(c => c.series === this.shopFilterSeries);
+    }
+
+    grid.innerHTML = purchasable.map(c => {
+      const isOwned = window.saveSystem.user.unlockedCharacters.includes(c.id);
+      const rarity = window.RARITY_TIERS[c.rarity];
+      return `
+        <div class="character-card" style="border-top: 3px solid ${rarity.color}">
+          <div class="rarity-ribbon" style="background: ${rarity.bg}; color: ${rarity.border}">${rarity.label}</div>
+          <div class="card-avatar-box" style="border-color: ${c.themeColor}">
+            ${c.series === 'gundam' ? '🤖' : (c.series === 'dragonball' ? '⚡' : '🦸')}
+          </div>
+          <div class="card-char-name">${c.name}</div>
+          <div class="card-char-title">${c.seriesName} · ${c.role} ${c.canFly ? '✈️' : ''}</div>
+          <div style="margin-top: 12px;">
+            ${isOwned ? `<div style="color: #4ade80; font-weight: 800; font-size: 12px; text-align: center; padding: 6px;">✅ 英雄已招募</div>` : `
+              <button class="btn-primary" style="width: 100%; font-size: 12px; padding: 8px 10px; justify-content: center;" onclick="window.app.buyHero('${c.id}', ${c.cost})">
+                💰 招募 (${c.cost.toLocaleString()} 金幣)
+              </button>
+            `}
+          </div>
+        </div>
+      `;
+    }).join("");
   }
 
   buyHero(charId, cost) {
@@ -1161,7 +1062,7 @@ class App3D {
     const res = window.saveSystem.tryStrictGenesisUnlock(charId);
     if (res.success) {
       if (window.soundEngine) window.soundEngine.playVictory();
-      this.renderShopView();
+      this.renderQuestsView();
       this.renderRosterView();
       this.autoSync("解鎖創世英雄");
       alert(`👑 恭喜達成極限神級成就！創世級【${charId}】已成功降臨！`);
@@ -1197,7 +1098,7 @@ class App3D {
   renderAllViews() {
     this.renderTeamSelectors();
     this.renderRosterView();
-    this.renderWorkshopView();
+    this.renderQuestsView();
     this.renderShopView();
     this.renderBossRushView();
   }
@@ -1254,6 +1155,7 @@ class App3D {
     }
   }
 
+  // ─── 即時更新戰鬥 HUD 與各招式 CD 冷卻狀態 ───
   updateHUD() {
     const p1 = window.matchEngine3D ? window.matchEngine3D.p1Current : null;
     const p2 = window.matchEngine3D ? window.matchEngine3D.p2Current : null;
@@ -1268,6 +1170,29 @@ class App3D {
       if (p1RageFill) p1RageFill.style.width = `${p1.rage}%`;
       if (p1Name) p1Name.textContent = p1.charData.name + (p1.isFlying ? ' [✈️飛行中]' : '');
       if (p1Lvl) p1Lvl.textContent = `Lv.${p1.level}`;
+
+      // 更新觸控按鈕上的 CD 冷卻秒數顯示
+      const updateBtnCD = (btnId, cd, label) => {
+        const btn = document.getElementById(btnId);
+        if (!btn) return;
+        const labelElem = btn.querySelector(".label");
+        if (cd > 0) {
+          btn.style.opacity = "0.5";
+          if (labelElem) labelElem.textContent = `${label} (${cd.toFixed(1)}s)`;
+        } else {
+          btn.style.opacity = "1";
+          if (labelElem) labelElem.textContent = label;
+        }
+      };
+
+      updateBtnCD("touchBtnSkill1", p1.skill1Cd, "技1[U]");
+      updateBtnCD("touchBtnSkill2", p1.skill2Cd, "技2[I]");
+      updateBtnCD("touchBtnUlt", p1.ultCd, p1.rage >= 100 ? "奧義[L]" : `奧義(${Math.round(p1.rage)}%)`);
+      updateBtnCD("touchBtnHeavy", p1.heavyCd, "破防[K]");
+      updateBtnCD("touchBtnGrab", p1.grabCd, "抓技[O]");
+      updateBtnCD("touchBtnRoll", p1.dodgeCd, "閃避[Shift]");
+      updateBtnCD("touchBtnBurst", p1.burstCd, p1.rage >= 50 ? "爆發[B]" : "爆發");
+      updateBtnCD("touchBtnAssist", window.matchEngine3D.assistCooldown, "援護[Q]");
     }
 
     if (p2) {

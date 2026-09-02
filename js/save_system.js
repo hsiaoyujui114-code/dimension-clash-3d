@@ -211,6 +211,46 @@ class SaveSystem {
     return { success: true, charId };
   }
 
+  getAchievementProgress(ach) {
+    const u = this.user;
+    let current = 0;
+    if (ach.type === "pvp_wins" || ach.type === "wins") current = u.pvpWins || 0;
+    else if (ach.type === "total_damage") current = u.totalDamage || 0;
+    else if (ach.type === "rank_trophies") current = u.trophies || 0;
+    else if (ach.type === "boss_floor") current = u.bossRushMaxFloor || 0;
+    else if (ach.type === "combo") current = u.maxCombo || 0;
+    else current = 0;
+
+    const achieved = current >= ach.target;
+    const claimed = (u.achievementsClaimed || []).includes(ach.id);
+    const percent = Math.min(100, Math.round((current / (ach.target || 1)) * 100));
+
+    return { current, target: ach.target, achieved, claimed, percent };
+  }
+
+  claimAchievement(achId) {
+    if (!this.user.achievementsClaimed) this.user.achievementsClaimed = [];
+    if (this.user.achievementsClaimed.includes(achId)) {
+      return { success: false, reason: "該成就獎勵已領取過！" };
+    }
+
+    const ach = window.ACHIEVEMENTS_DATA ? window.ACHIEVEMENTS_DATA.find(a => a.id === achId) : null;
+    if (!ach) return { success: false, reason: "找不到該成就" };
+
+    const prog = this.getAchievementProgress(ach);
+    if (!prog.achieved) {
+      return { success: false, reason: `尚未達成目標進度 (${prog.current} / ${prog.target})` };
+    }
+
+    this.user.achievementsClaimed.push(achId);
+    this.addGold(ach.rewardGold || 1000);
+    if (ach.unlockedHero) {
+      this.unlockCharacter(ach.unlockedHero);
+    }
+    this.save();
+    return { success: true, rewardGold: ach.rewardGold, unlockedHero: ach.unlockedHero };
+  }
+
   setTeam(teamArray) {
     this.user.selectedTeam = teamArray.slice(0, 5);
     this.save();

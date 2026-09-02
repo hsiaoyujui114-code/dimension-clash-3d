@@ -49,6 +49,10 @@ class Fighter3D {
     this.skill1Cd = 0;
     this.skill2Cd = 0;
     this.ultCd = 0;
+    this.heavyCd = 0;
+    this.grabCd = 0;
+    this.dodgeCd = 0;
+    this.burstCd = 0;
     this.gadgetUses = 2;
 
     // 3D Visual Mesh
@@ -96,6 +100,10 @@ class Fighter3D {
     if (this.skill1Cd > 0) this.skill1Cd = Math.max(0, this.skill1Cd - dt);
     if (this.skill2Cd > 0) this.skill2Cd = Math.max(0, this.skill2Cd - dt);
     if (this.ultCd > 0) this.ultCd = Math.max(0, this.ultCd - dt);
+    if (this.heavyCd > 0) this.heavyCd = Math.max(0, this.heavyCd - dt);
+    if (this.grabCd > 0) this.grabCd = Math.max(0, this.grabCd - dt);
+    if (this.dodgeCd > 0) this.dodgeCd = Math.max(0, this.dodgeCd - dt);
+    if (this.burstCd > 0) this.burstCd = Math.max(0, this.burstCd - dt);
     if (this.invulnerableTimer > 0) this.invulnerableTimer = Math.max(0, this.invulnerableTimer - dt);
     if (this.spawnShieldTimer > 0) this.spawnShieldTimer = Math.max(0, this.spawnShieldTimer - dt);
 
@@ -237,7 +245,8 @@ class Fighter3D {
   }
 
   dodge() {
-    if (this.state === "hit" || this.state === "dizzy" || this.state === "ko" || this.state === "dodge") return;
+    if (this.dodgeCd > 0 || this.state === "hit" || this.state === "dizzy" || this.state === "ko" || this.state === "dodge") return;
+    this.dodgeCd = 1.2;
     this.state = "dodge";
     this.stateTimer = 0.35;
     this.invulnerableTimer = 0.3;
@@ -281,9 +290,9 @@ class Fighter3D {
     }
   }
 
-  // ─── [K] 蓄力破防重擊 ───
+  // ─── [K] 蓄力破防重擊 (CD 2.5s) ───
   startHeavyCharge() {
-    if (this.state === "hit" || this.state === "dizzy" || this.state === "ko") return;
+    if (this.heavyCd > 0 || this.state === "hit" || this.state === "dizzy" || this.state === "ko") return;
     this.isCharging = true;
     this.chargeTime = 0;
     this.state = "heavy_charge";
@@ -292,6 +301,7 @@ class Fighter3D {
   releaseHeavyCharge(opponent) {
     if (!this.isCharging) return;
     this.isCharging = false;
+    this.heavyCd = 2.5;
     const isFull = this.chargeTime >= 0.6;
     this.state = "heavy_release";
     this.stateTimer = 0.4;
@@ -316,9 +326,10 @@ class Fighter3D {
     }
   }
 
-  // ─── [O] 近身抓技摔投 ───
+  // ─── [O] 近身抓技摔投 (CD 3.5s) ───
   grab(opponent) {
-    if (this.state === "hit" || this.state === "dizzy" || this.state === "ko") return;
+    if (this.grabCd > 0 || this.state === "hit" || this.state === "dizzy" || this.state === "ko") return;
+    this.grabCd = 3.5;
     this.state = "grab";
     this.stateTimer = 0.45;
 
@@ -385,12 +396,12 @@ class Fighter3D {
     }
   }
 
-  // ─── [L] 終極奧義大招 ───
+  // ─── [L] 終極奧義大招 (CD 20s + 100% Rage) ───
   useUlt(opponent) {
     if (this.rage < 100 || this.ultCd > 0 || this.state === "hit" || this.state === "dizzy" || this.state === "ko") return;
     const ult = this.charData.skills.ult;
     this.rage = 0;
-    this.ultCd = ult.cd;
+    this.ultCd = ult.cd || 20;
     this.state = "ult";
     this.stateTimer = 1.4;
     this.invulnerableTimer = 1.4;
@@ -408,10 +419,11 @@ class Fighter3D {
     }
   }
 
-  // ─── [B] 極限爆發脫身 ───
+  // ─── [B] 極限爆發脫身 (CD 12s + 50% Rage) ───
   useBurst(opponent) {
-    if (this.rage < 50 || this.state === "ko") return;
+    if (this.burstCd > 0 || this.rage < 50 || this.state === "ko") return;
     this.rage -= 50;
+    this.burstCd = 12.0;
     this.state = "burst";
     this.stateTimer = 0.4;
     this.invulnerableTimer = 0.8;
@@ -662,6 +674,38 @@ class MatchEngine3D {
     }
   }
 
+  // ─── 🛡️ 實體 3D 碰撞防穿透運算 (Solid Body Collision Resolution) ───
+  resolveBodyCollision(f1, f2) {
+    if (!f1 || !f2 || f1.state === "ko" || f2.state === "ko") return;
+
+    const dx = f2.x - f1.x;
+    const dy = f2.y - f1.y;
+    const dz = f2.z - f1.z;
+
+    const horizontalDist = Math.sqrt(dx * dx + dz * dz);
+    const minCollisionRadius = 2.4; // 角色實體碰撞半徑
+
+    // 只有在處於相近高度層級時才進行阻擋排斥，防止空中與地面正常穿掠
+    if (Math.abs(dy) < 3.5 && horizontalDist < minCollisionRadius) {
+      const overlap = minCollisionRadius - horizontalDist;
+      let nx = dx / (horizontalDist || 0.001);
+      let nz = dz / (horizontalDist || 0.001);
+      if (horizontalDist < 0.001) {
+        nx = 1;
+        nz = 0;
+      }
+
+      const pushDistance = overlap * 0.5;
+      f1.x -= nx * pushDistance;
+      f1.z -= nz * pushDistance;
+      f2.x += nx * pushDistance;
+      f2.z += nz * pushDistance;
+
+      f1.updatePosition();
+      f2.updatePosition();
+    }
+  }
+
   update(dt) {
     if (this.matchState === "standby" || this.matchState === "pre_match" || this.matchState.startsWith("waiting")) return;
 
@@ -672,6 +716,9 @@ class MatchEngine3D {
     if (this.p1Current && this.p2Current && this.matchState === "fighting") {
       this.p1Current.update(dt, this.p2Current);
       this.p2Current.update(dt, this.p1Current);
+
+      // 執行實體防穿透排斥碰撞
+      this.resolveBodyCollision(this.p1Current, this.p2Current);
 
       if (this.p1Current.hp <= 0) {
         if (this.p1Index + 1 < this.team1Roster.length) {
