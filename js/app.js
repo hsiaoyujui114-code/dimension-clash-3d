@@ -820,165 +820,315 @@ class App3D {
 
     let innerSVG = '';
 
+    // 1. GUNDAM SERIES (🤖)
     if (series === 'gundam') {
-      const isZeon = cid.includes('sazabi') || cid.includes('zaku');
-      const eyeCol = (cid.includes('banshee') || cid.includes('sazabi')) ? '#ef4444' : '#22c55e';
-      const mainCol = isZeon ? '#dc2626' : (cid.includes('banshee') ? '#1e1b4b' : '#f8fafc');
-      innerSVG = `
-        <polygon points="30,85 70,85 80,45 50,25 20,45" fill="${mainCol}" stroke="#0f172a" stroke-width="2"/>
-        <polygon points="40,55 60,55 65,70 35,70" fill="#1e293b"/>
-        <polygon points="36,60 48,60 46,65 37,65" fill="${eyeCol}"/>
-        <polygon points="52,60 64,60 63,65 54,65" fill="${eyeCol}"/>
-        <polygon points="45,72 55,72 53,82 47,82" fill="#ef4444"/>
-        <polygon points="50,32 15,10 25,28 50,38" fill="#facc15" stroke="#ca8a04" stroke-width="1"/>
-        <polygon points="50,32 85,10 75,28 50,38" fill="#facc15" stroke="#ca8a04" stroke-width="1"/>
-        <polygon points="50,26 44,38 56,38" fill="#ef4444"/>
-      `;
-    } else if (cid.includes('spiderman')) {
-      innerSVG = `
-        <ellipse cx="50" cy="52" rx="30" ry="34" fill="#dc2626" stroke="#991b1b" stroke-width="2"/>
-        <line x1="50" y1="18" x2="50" y2="86" stroke="#000" stroke-width="1.2" opacity="0.6"/>
-        <line x1="20" y1="52" x2="80" y2="52" stroke="#000" stroke-width="1.2" opacity="0.6"/>
-        <line x1="26" y1="30" x2="74" y2="74" stroke="#000" stroke-width="1.2" opacity="0.6"/>
-        <line x1="26" y1="74" x2="74" y2="30" stroke="#000" stroke-width="1.2" opacity="0.6"/>
-        <polygon points="26,46 45,56 36,64 24,54" fill="#fff" stroke="#000" stroke-width="2.5"/>
-        <polygon points="74,46 55,56 64,64 76,54" fill="#fff" stroke="#000" stroke-width="2.5"/>
-      `;
-    } else if (cid.includes('ironman')) {
-      innerSVG = `
-        <polygon points="24,30 76,30 84,70 50,90 16,70" fill="#dc2626" stroke="#7f1d1d" stroke-width="2"/>
-        <polygon points="30,42 70,42 76,75 50,86 24,75" fill="#facc15" stroke="#ca8a04" stroke-width="1.5"/>
-        <rect x="34" y="54" width="12" height="4" rx="1" fill="#38bdf8"/>
-        <rect x="54" y="54" width="12" height="4" rx="1" fill="#38bdf8"/>
-        <line x1="40" y1="74" x2="60" y2="74" stroke="#78350f" stroke-width="1.5"/>
-      `;
-    } else if (cid.includes('cap_america')) {
-      innerSVG = `
-        <ellipse cx="50" cy="52" rx="28" ry="32" fill="#1d4ed8" stroke="#1e40af" stroke-width="2"/>
-        <ellipse cx="50" cy="62" rx="20" ry="18" fill="#fed7aa"/>
-        <text x="50" y="38" font-size="18" font-weight="900" font-family="sans-serif" fill="#fff" text-anchor="middle">A</text>
-        <ellipse cx="42" cy="58" rx="3" ry="2" fill="#0f172a"/>
-        <ellipse cx="58" cy="58" rx="3" ry="2" fill="#0f172a"/>
-        <path d="M 30,68 Q 50,88 70,68" stroke="#78350f" stroke-width="3" fill="none"/>
-      `;
-    } else if (cid.includes('wolverine')) {
-      innerSVG = `
-        <polygon points="12,12 30,50 32,80 68,80 70,50 88,12 62,35 38,35" fill="#0f172a" stroke="#000" stroke-width="2"/>
-        <polygon points="32,45 68,45 65,82 35,82" fill="#facc15"/>
-        <ellipse cx="50" cy="65" rx="14" ry="12" fill="#fed7aa"/>
-        <polygon points="36,58 46,62 38,65" fill="#fff" stroke="#000" stroke-width="1"/>
-        <polygon points="64,58 54,62 62,65" fill="#fff" stroke="#000" stroke-width="1"/>
-      `;
-    } else if (series === 'dragonball') {
-      let hairCol = '#0f172a';
-      if (cid.includes('ssj3') || cid === 'goku_ssj1' || cid.includes('gotenks')) hairCol = '#facc15';
-      else if (cid.includes('blue')) hairCol = '#0284c7';
-      else if (cid.includes('rose')) hairCol = '#ec4899';
-      else if (cid.includes('beast') || cid.includes('ultra_instinct')) hairCol = '#e2e8f0';
-      else if (cid.includes('ultra_ego')) hairCol = '#9333ea';
+      if (cid.includes('sazabi')) {
+        innerSVG = `
+          <polygon points="30,85 70,85 82,45 50,22 18,45" fill="#b91c1c" stroke="#7f1d1d" stroke-width="2"/>
+          <line x1="50" y1="22" x2="50" y2="8" stroke="#facc15" stroke-width="3"/>
+          <rect x="35" y="52" width="30" height="12" rx="2" fill="#0f172a"/>
+          <circle cx="50" cy="58" r="4.5" fill="#22c55e" filter="drop-shadow(0 0 4px #22c55e)"/>
+          <polygon points="45,68 55,68 53,78 47,78" fill="#facc15"/>
+        `;
+      } else if (cid.includes('barbatos')) {
+        innerSVG = `
+          <polygon points="28,85 72,85 80,45 50,25 20,45" fill="#f8fafc" stroke="#0f172a" stroke-width="2"/>
+          <polygon points="50,30 18,12 28,30 50,38" fill="#facc15"/>
+          <polygon points="50,30 82,12 72,30 50,38" fill="#facc15"/>
+          <polygon points="36,58 48,58 44,64 36,64" fill="#ef4444"/>
+          <polygon points="52,58 64,58 64,64 56,64" fill="#ef4444"/>
+          <polygon points="44,70 56,70 54,80 46,80" fill="#dc2626"/>
+        `;
+      } else if (cid.includes('banshee')) {
+        innerSVG = `
+          <polygon points="30,85 70,85 80,45 50,25 20,45" fill="#1e1b4b" stroke="#0f172a" stroke-width="2"/>
+          <polygon points="50,32 10,8 25,28 50,38" fill="#facc15"/>
+          <polygon points="50,32 90,8 75,28 50,38" fill="#facc15"/>
+          <polygon points="36,60 48,60 46,65 37,65" fill="#ef4444"/>
+          <polygon points="52,60 64,60 63,65 54,65" fill="#ef4444"/>
+          <polygon points="45,72 55,72 53,82 47,82" fill="#facc15"/>
+        `;
+      } else {
+        // Standard Gundams (RX-78, Strike Freedom, Nu, Wing, Exia, etc.)
+        const vFinCol = cid.includes('strike_freedom') ? '#facc15' : '#facc15';
+        const eyeCol = cid.includes('exia') ? '#38bdf8' : '#22c55e';
+        innerSVG = `
+          <polygon points="30,85 70,85 80,45 50,25 20,45" fill="#f8fafc" stroke="#0f172a" stroke-width="2"/>
+          <polygon points="40,55 60,55 65,70 35,70" fill="#1e293b"/>
+          <polygon points="36,60 48,60 46,65 37,65" fill="${eyeCol}"/>
+          <polygon points="52,60 64,60 63,65 54,65" fill="${eyeCol}"/>
+          <polygon points="45,72 55,72 53,82 47,82" fill="#ef4444"/>
+          <polygon points="50,32 12,8 24,28 50,38" fill="${vFinCol}" stroke="#ca8a04" stroke-width="1"/>
+          <polygon points="50,32 88,8 76,28 50,38" fill="${vFinCol}" stroke="#ca8a04" stroke-width="1"/>
+          <polygon points="50,26 44,38 56,38" fill="#ef4444"/>
+        `;
+      }
+    }
+    // 2. DRAGON BALL SERIES (⚡)
+    else if (series === 'dragonball') {
+      if (cid.includes('whis')) {
+        innerSVG = `
+          <ellipse cx="50" cy="20" rx="32" ry="6" fill="none" stroke="#38bdf8" stroke-width="3"/>
+          <polygon points="32,45 68,45 62,80 50,88 38,80" fill="#a5f3fc"/>
+          <polygon points="35,15 65,15 72,45 28,45" fill="#f8fafc"/>
+          <circle cx="42" cy="60" r="2.5" fill="#0284c7"/>
+          <circle cx="58" cy="60" r="2.5" fill="#0284c7"/>
+          <polygon points="20,95 50,78 80,95 50,105" fill="#0f766e"/>
+        `;
+      } else if (cid.includes('beerus')) {
+        innerSVG = `
+          <polygon points="25,40 15,5 38,30" fill="#a855f7" stroke="#7e22ce" stroke-width="1.5"/>
+          <polygon points="75,40 85,5 62,30" fill="#a855f7" stroke="#7e22ce" stroke-width="1.5"/>
+          <polygon points="34,35 66,35 60,78 50,86 40,78" fill="#c084fc"/>
+          <polygon points="38,54 46,58 40,62" fill="#facc15"/>
+          <polygon points="62,54 54,58 60,62" fill="#facc15"/>
+          <polygon points="20,95 50,78 80,95 50,105" fill="#0284c7"/>
+        `;
+      } else if (cid.includes('piccolo')) {
+        const isOrange = cid.includes('orange');
+        innerSVG = `
+          <polygon points="32,40 68,40 62,80 50,88 38,80" fill="${isOrange ? '#f97316' : '#22c55e'}"/>
+          <line x1="38" y1="35" x2="25" y2="15" stroke="${isOrange ? '#f97316' : '#22c55e'}" stroke-width="3"/>
+          <line x1="62" y1="35" x2="75" y2="15" stroke="${isOrange ? '#f97316' : '#22c55e'}" stroke-width="3"/>
+          <polygon points="36,54 46,58 38,60" fill="#0f172a"/>
+          <polygon points="64,54 54,58 62,60" fill="#0f172a"/>
+          <polygon points="20,95 50,78 80,95 50,105" fill="#7e22ce"/>
+        `;
+      } else if (cid.includes('trunks')) {
+        innerSVG = `
+          <polygon points="50,15 30,25 18,35 25,60 75,60 82,35 70,25" fill="#c084fc" stroke="#9333ea" stroke-width="1.5"/>
+          <polygon points="32,46 68,46 62,80 50,88 38,80" fill="#fed7aa"/>
+          <circle cx="42" cy="62" r="2.5" fill="#0284c7"/>
+          <circle cx="58" cy="62" r="2.5" fill="#0284c7"/>
+          <polygon points="20,95 50,78 80,95 50,105" fill="#4338ca"/>
+        `;
+      } else {
+        // Goku, Vegeta, Gohan, Broly, etc.
+        let hairCol = '#0f172a';
+        if (cid.includes('ssj3') || cid === 'goku_ssj1' || cid.includes('gotenks') || cid.includes('broly')) hairCol = '#facc15';
+        else if (cid.includes('blue')) hairCol = '#0284c7';
+        else if (cid.includes('rose')) hairCol = '#ec4899';
+        else if (cid.includes('beast') || cid.includes('ultra_instinct')) hairCol = '#e2e8f0';
+        else if (cid.includes('ultra_ego')) hairCol = '#9333ea';
 
-      const isPiccolo = cid.includes('piccolo');
-      const skinCol = isPiccolo ? (cid.includes('orange') ? '#f97316' : '#22c55e') : '#fed7aa';
-
-      innerSVG = `
-        <polygon points="50,8 35,28 20,18 22,40 8,35 15,60 30,55 35,75 50,90 65,75 70,55 85,60 92,35 78,40 80,18 65,28" fill="${hairCol}" stroke="#0f172a" stroke-width="2"/>
-        <polygon points="32,45 68,45 62,78 50,88 38,78" fill="${skinCol}" stroke="#0f172a" stroke-width="1.5"/>
-        <polygon points="36,56 46,60 38,62" fill="#0f172a"/>
-        <polygon points="64,56 54,60 62,62" fill="#0f172a"/>
-        <line x1="44" y1="74" x2="56" y2="74" stroke="#0f172a" stroke-width="1.5"/>
-        <polygon points="20,95 50,78 80,95 50,105" fill="${cid.includes('vegeta') ? '#1e3a8a' : '#ea580c'}"/>
-        <polygon points="40,90 50,80 60,90" fill="#1e3a8a"/>
-      `;
-    } else if (cid.includes('naruto')) {
-      innerSVG = `
-        <polygon points="50,10 32,25 15,20 22,42 10,48 20,68 80,68 90,48 78,42 85,20 68,25" fill="#facc15" stroke="#ca8a04" stroke-width="1.5"/>
-        <rect x="25" y="42" width="50" height="15" rx="3" fill="#1e3a8a"/>
-        <rect x="35" y="44" width="30" height="11" rx="2" fill="#94a3b8" stroke="#475569" stroke-width="1"/>
-        <circle cx="50" cy="49" r="3" fill="none" stroke="#0f172a" stroke-width="1.2"/>
-        <polygon points="30,57 70,57 64,82 50,90 36,82" fill="#fed7aa"/>
-        <line x1="32" y1="68" x2="40" y2="70" stroke="#0f172a" stroke-width="1.2"/>
-        <line x1="32" y1="73" x2="40" y2="74" stroke="#0f172a" stroke-width="1.2"/>
-        <line x1="68" y1="68" x2="60" y2="70" stroke="#0f172a" stroke-width="1.2"/>
-        <line x1="68" y1="73" x2="60" y2="74" stroke="#0f172a" stroke-width="1.2"/>
-        <circle cx="42" cy="65" r="2.5" fill="#0284c7"/>
-        <circle cx="58" cy="65" r="2.5" fill="#0284c7"/>
-        <path d="M 44,78 Q 50,83 56,78" stroke="#0f172a" stroke-width="1.5" fill="none"/>
-      `;
-    } else if (cid.includes('luffy')) {
-      innerSVG = `
-        <ellipse cx="50" cy="35" rx="42" ry="16" fill="#facc15" stroke="#ca8a04" stroke-width="2"/>
-        <path d="M 26,34 Q 50,15 74,34" fill="#eab308"/>
-        <path d="M 26,35 Q 50,22 74,35" stroke="#dc2626" stroke-width="4" fill="none"/>
-        <polygon points="30,42 70,42 76,55 24,55" fill="#0f172a"/>
-        <polygon points="32,46 68,46 62,80 50,88 38,80" fill="#fed7aa"/>
-        <circle cx="42" cy="60" r="3" fill="#0f172a"/>
-        <circle cx="58" cy="60" r="3" fill="#0f172a"/>
-        <path d="M 38,66 L 42,70" stroke="#0f172a" stroke-width="1.5"/>
-        <path d="M 40,74 Q 50,86 60,74" fill="#fff" stroke="#0f172a" stroke-width="1.5"/>
-      `;
-    } else if (cid.includes('zoro')) {
-      innerSVG = `
-        <polygon points="30,25 70,25 78,50 22,50" fill="#16a34a" stroke="#15803d" stroke-width="2"/>
-        <polygon points="32,45 68,45 62,80 50,88 38,80" fill="#fed7aa"/>
-        <line x1="40" y1="52" x2="44" y2="66" stroke="#0f172a" stroke-width="1.5"/>
-        <polygon points="56,58 64,58 60,63" fill="#0f172a"/>
-        <circle cx="28" cy="68" r="2" fill="#facc15"/>
-        <circle cx="28" cy="73" r="2" fill="#facc15"/>
-        <circle cx="28" cy="78" r="2" fill="#facc15"/>
-      `;
-    } else if (cid.includes('gojo') || cid.includes('nier_2b')) {
-      innerSVG = `
-        <polygon points="50,12 30,25 20,40 80,40 70,25" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
-        <rect x="22" y="44" width="56" height="18" rx="3" fill="#0f172a"/>
-        <polygon points="34,62 66,62 60,82 50,88 40,82" fill="#fed7aa"/>
-        <path d="M 45,76 Q 50,80 55,76" stroke="#0f172a" stroke-width="1.5" fill="none"/>
-      `;
-    } else if (cid.includes('cloud')) {
-      innerSVG = `
-        <polygon points="50,10 30,22 14,25 22,48 10,55 24,70 76,70 90,55 78,48 86,25 70,22" fill="#facc15" stroke="#ca8a04" stroke-width="1.5"/>
-        <polygon points="32,48 68,48 62,80 50,88 38,80" fill="#fed7aa"/>
-        <polygon points="38,58 46,58 42,63" fill="#0284c7"/>
-        <polygon points="54,58 62,58 58,63" fill="#0284c7"/>
-        <polygon points="15,85 45,75 45,100 15,100" fill="#94a3b8" stroke="#475569" stroke-width="1.5"/>
-        <polygon points="40,80 85,80 85,100 40,100" fill="#312e81"/>
-      `;
-    } else if (cid.includes('sephiroth')) {
-      innerSVG = `
-        <polygon points="50,12 25,25 15,65 18,95 32,80 34,48 66,48 68,80 82,95 85,65 75,25" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
-        <polygon points="34,48 66,48 60,80 50,88 40,80" fill="#fed7aa"/>
-        <polygon points="40,58 48,58 44,62" fill="#10b981"/>
-        <polygon points="52,58 60,58 56,62" fill="#10b981"/>
-        <polygon points="10,80 35,75 35,100 10,100" fill="#94a3b8"/>
-        <polygon points="65,75 90,80 90,100 65,100" fill="#94a3b8"/>
-      `;
-    } else if (cid.includes('kratos')) {
-      innerSVG = `
-        <ellipse cx="50" cy="50" rx="28" ry="32" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
-        <path d="M 50,20 Q 32,35 34,60 Q 35,80 25,95" stroke="#dc2626" stroke-width="5" fill="none"/>
-        <polygon points="38,52 46,54 40,58" fill="#0f172a"/>
-        <polygon points="54,54 62,52 60,58" fill="#0f172a"/>
-        <polygon points="30,68 70,68 62,94 50,98 38,94" fill="#1e1b4b"/>
-      `;
-    } else if (cid.includes('master_chief') || cid.includes('doom_slayer')) {
-      const isDoom = cid.includes('doom');
-      innerSVG = `
-        <polygon points="26,30 74,30 82,65 50,88 18,65" fill="${isDoom ? '#15803d' : '#3f6212'}" stroke="#14532d" stroke-width="2"/>
-        <polygon points="30,42 70,42 75,64 50,76 25,64" fill="#f59e0b"/>
-        <line x1="30" y1="52" x2="70" y2="52" stroke="#78350f" stroke-width="1.5"/>
-      `;
-    } else if (cid.includes('link')) {
-      innerSVG = `
-        <polygon points="50,10 15,30 30,55 70,55 85,30" fill="#15803d" stroke="#166534" stroke-width="2"/>
-        <polygon points="25,50 75,50 82,68 18,68" fill="#facc15"/>
-        <polygon points="32,56 68,56 62,80 50,88 38,80" fill="#fed7aa"/>
-        <circle cx="42" cy="68" r="2.5" fill="#0284c7"/>
-        <circle cx="58" cy="68" r="2.5" fill="#0284c7"/>
-      `;
-    } else {
-      innerSVG = `
-        <circle cx="50" cy="45" r="24" fill="${theme}" opacity="0.3"/>
-        <text x="50" y="58" font-size="34" text-anchor="middle">${c.series === 'gundam' ? '🤖' : (c.series === 'dragonball' ? '⚡' : (c.series === 'marvel' ? '🦸' : (c.series === 'anime' ? '⚔️' : '🎮')))}</text>
-      `;
+        const isVegeta = cid.includes('vegeta');
+        innerSVG = `
+          <polygon points="50,6 35,28 18,15 22,40 6,32 15,60 30,55 35,75 50,90 65,75 70,55 85,60 94,32 78,40 82,15 65,28" fill="${hairCol}" stroke="#0f172a" stroke-width="2"/>
+          <polygon points="32,45 68,45 62,78 50,88 38,78" fill="#fed7aa" stroke="#0f172a" stroke-width="1.5"/>
+          <polygon points="36,56 46,60 38,62" fill="#0f172a"/>
+          <polygon points="64,56 54,60 62,62" fill="#0f172a"/>
+          <line x1="44" y1="74" x2="56" y2="74" stroke="#0f172a" stroke-width="1.5"/>
+          <polygon points="20,95 50,78 80,95 50,105" fill="${isVegeta ? '#1e3a8a' : '#ea580c'}"/>
+          <polygon points="40,90 50,80 60,90" fill="#1e3a8a"/>
+        `;
+      }
+    }
+    // 3. MARVEL HEROES (🦸)
+    else if (series === 'marvel') {
+      if (cid.includes('spiderman')) {
+        const isSymbiote = cid.includes('symbiote');
+        const isMiles = cid.includes('miles');
+        const is2099 = cid.includes('2099');
+        const maskColor = isSymbiote ? '#0f172a' : (isMiles ? '#18181b' : (is2099 ? '#1e3a8a' : '#dc2626'));
+        const webColor = isMiles ? '#dc2626' : '#000000';
+        innerSVG = `
+          <ellipse cx="50" cy="52" rx="30" ry="34" fill="${maskColor}" stroke="#000" stroke-width="2"/>
+          <line x1="50" y1="18" x2="50" y2="86" stroke="${webColor}" stroke-width="1.2" opacity="0.6"/>
+          <line x1="20" y1="52" x2="80" y2="52" stroke="${webColor}" stroke-width="1.2" opacity="0.6"/>
+          <line x1="26" y1="30" x2="74" y2="74" stroke="${webColor}" stroke-width="1.2" opacity="0.6"/>
+          <line x1="26" y1="74" x2="74" y2="30" stroke="${webColor}" stroke-width="1.2" opacity="0.6"/>
+          <polygon points="26,46 45,56 36,64 24,54" fill="${is2099 ? '#ef4444' : '#fff'}" stroke="#000" stroke-width="2.5"/>
+          <polygon points="74,46 55,56 64,64 76,54" fill="${is2099 ? '#ef4444' : '#fff'}" stroke="#000" stroke-width="2.5"/>
+        `;
+      } else if (cid.includes('ironman')) {
+        const isHulkbuster = cid.includes('hulkbuster');
+        innerSVG = `
+          <polygon points="${isHulkbuster ? '16,25 84,25 88,75 50,92 12,75' : '24,30 76,30 84,70 50,90 16,70'}" fill="#dc2626" stroke="#7f1d1d" stroke-width="2"/>
+          <polygon points="30,42 70,42 76,75 50,86 24,75" fill="#facc15" stroke="#ca8a04" stroke-width="1.5"/>
+          <rect x="34" y="54" width="12" height="4" rx="1" fill="#38bdf8"/>
+          <rect x="54" y="54" width="12" height="4" rx="1" fill="#38bdf8"/>
+          <line x1="40" y1="74" x2="60" y2="74" stroke="#78350f" stroke-width="1.5"/>
+        `;
+      } else if (cid.includes('deadpool')) {
+        innerSVG = `
+          <ellipse cx="50" cy="52" rx="28" ry="32" fill="#dc2626" stroke="#991b1b" stroke-width="2"/>
+          <ellipse cx="38" cy="52" rx="12" ry="16" fill="#0f172a"/>
+          <ellipse cx="62" cy="52" rx="12" ry="16" fill="#0f172a"/>
+          <ellipse cx="38" cy="52" rx="4" ry="5" fill="#ffffff"/>
+          <ellipse cx="62" cy="52" rx="4" ry="5" fill="#ffffff"/>
+        `;
+      } else if (cid.includes('loki')) {
+        innerSVG = `
+          <polygon points="20,10 32,38 68,38 80,10 60,30 40,30" fill="#facc15" stroke="#ca8a04" stroke-width="1.5"/>
+          <polygon points="32,40 68,40 62,78 50,86 38,78" fill="#fed7aa"/>
+          <circle cx="42" cy="58" r="2.5" fill="#15803d"/>
+          <circle cx="58" cy="58" r="2.5" fill="#15803d"/>
+          <polygon points="20,95 50,78 80,95 50,105" fill="#15803d"/>
+        `;
+      } else if (cid.includes('thanos')) {
+        innerSVG = `
+          <polygon points="22,30 78,30 82,65 50,88 18,65" fill="#facc15" stroke="#ca8a04" stroke-width="2"/>
+          <polygon points="32,45 68,45 62,82 50,90 38,82" fill="#a855f7"/>
+          <line x1="45" y1="76" x2="45" y2="86" stroke="#581c87" stroke-width="1.5"/>
+          <line x1="50" y1="76" x2="50" y2="88" stroke="#581c87" stroke-width="1.5"/>
+          <line x1="55" y1="76" x2="55" y2="86" stroke="#581c87" stroke-width="1.5"/>
+        `;
+      } else if (cid.includes('black_panther')) {
+        innerSVG = `
+          <polygon points="25,25 18,10 35,22 65,22 82,10 75,25 80,65 50,88 20,65" fill="#0f172a" stroke="#475569" stroke-width="2"/>
+          <polygon points="36,52 46,55 38,58" fill="#e2e8f0"/>
+          <polygon points="64,52 54,55 62,58" fill="#e2e8f0"/>
+          <line x1="30" y1="80" x2="70" y2="80" stroke="#9333ea" stroke-width="2"/>
+        `;
+      } else {
+        // Captain America, Thor, Wolverine, Doctor Strange, etc.
+        innerSVG = `
+          <ellipse cx="50" cy="52" rx="28" ry="32" fill="#1d4ed8" stroke="#1e40af" stroke-width="2"/>
+          <ellipse cx="50" cy="62" rx="20" ry="18" fill="#fed7aa"/>
+          <text x="50" y="38" font-size="18" font-weight="900" font-family="sans-serif" fill="#fff" text-anchor="middle">A</text>
+          <ellipse cx="42" cy="58" rx="3" ry="2" fill="#0f172a"/>
+          <ellipse cx="58" cy="58" rx="3" ry="2" fill="#0f172a"/>
+          <path d="M 30,68 Q 50,88 70,68" stroke="#78350f" stroke-width="3" fill="none"/>
+        `;
+      }
+    }
+    // 4. ANIME & GAMING HEROES (⚔️ / 🎮)
+    else {
+      if (cid.includes('sasuke')) {
+        innerSVG = `
+          <polygon points="50,10 28,25 15,20 22,45 10,50 20,70 80,70 90,50 78,45 85,20 72,25" fill="#0f172a" stroke="#000" stroke-width="1.5"/>
+          <polygon points="32,48 68,48 62,80 50,88 38,80" fill="#fed7aa"/>
+          <circle cx="42" cy="62" r="3" fill="#ef4444"/>
+          <circle cx="58" cy="62" r="3" fill="#a855f7"/>
+          <polygon points="20,95 50,78 80,95 50,105" fill="#312e81"/>
+        `;
+      } else if (cid.includes('tanjiro')) {
+        innerSVG = `
+          <polygon points="30,22 70,22 78,48 22,48" fill="#991b1b"/>
+          <polygon points="32,45 68,45 62,80 50,88 38,80" fill="#fed7aa"/>
+          <polygon points="38,48 44,46 42,54 36,52" fill="#dc2626"/>
+          <rect x="24" y="66" width="6" height="12" fill="#16a34a" stroke="#000"/>
+          <rect x="70" y="66" width="6" height="12" fill="#16a34a" stroke="#000"/>
+          <circle cx="42" cy="62" r="2.5" fill="#7f1d1d"/>
+          <circle cx="58" cy="62" r="2.5" fill="#7f1d1d"/>
+        `;
+      } else if (cid.includes('sukuna')) {
+        innerSVG = `
+          <polygon points="50,12 30,25 16,35 24,55 76,55 84,35 70,25" fill="#f472b6" stroke="#db2777" stroke-width="1.5"/>
+          <polygon points="32,48 68,48 62,80 50,88 38,80" fill="#fed7aa"/>
+          <line x1="50" y1="50" x2="50" y2="60" stroke="#0f172a" stroke-width="2"/>
+          <line x1="36" y1="70" x2="42" y2="72" stroke="#0f172a" stroke-width="1.5"/>
+          <line x1="64" y1="70" x2="58" y2="72" stroke="#0f172a" stroke-width="1.5"/>
+          <circle cx="42" cy="60" r="2.5" fill="#dc2626"/>
+          <circle cx="58" cy="60" r="2.5" fill="#dc2626"/>
+          <line x1="38" y1="66" x2="44" y2="66" stroke="#dc2626" stroke-width="1.2"/>
+          <line x1="56" y1="66" x2="62" y2="66" stroke="#dc2626" stroke-width="1.2"/>
+        `;
+      } else if (cid.includes('ichigo')) {
+        innerSVG = `
+          <polygon points="50,8 30,22 14,25 22,48 10,55 24,70 76,70 90,55 78,48 86,25 70,22" fill="#ea580c" stroke="#c2410c" stroke-width="1.5"/>
+          <polygon points="32,48 68,48 62,80 50,88 38,80" fill="#fed7aa"/>
+          <polygon points="38,58 46,58 42,63" fill="#854d0e"/>
+          <polygon points="54,58 62,58 58,63" fill="#854d0e"/>
+          <polygon points="20,95 50,78 80,95 50,105" fill="#0f172a"/>
+        `;
+      } else if (cid.includes('sora')) {
+        innerSVG = `
+          <polygon points="50,10 25,20 12,30 20,52 80,52 88,30 75,20" fill="#78350f" stroke="#451a03" stroke-width="1.5"/>
+          <polygon points="32,48 68,48 62,80 50,88 38,80" fill="#fed7aa"/>
+          <circle cx="42" cy="62" r="3" fill="#0284c7"/>
+          <circle cx="58" cy="62" r="3" fill="#0284c7"/>
+          <polygon points="46,88 54,88 50,84" fill="#facc15"/>
+        `;
+      } else if (cid.includes('nier_2b') || cid.includes('gojo')) {
+        innerSVG = `
+          <polygon points="50,12 30,25 20,40 80,40 70,25" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+          <rect x="22" y="44" width="56" height="18" rx="3" fill="#0f172a"/>
+          <polygon points="34,62 66,62 60,82 50,88 40,82" fill="#fed7aa"/>
+          <circle cx="42" cy="80" r="1" fill="#0f172a"/>
+        `;
+      } else if (cid.includes('cloud')) {
+        innerSVG = `
+          <polygon points="50,10 30,22 14,25 22,48 10,55 24,70 76,70 90,55 78,48 86,25 70,22" fill="#facc15" stroke="#ca8a04" stroke-width="1.5"/>
+          <polygon points="32,48 68,48 62,80 50,88 38,80" fill="#fed7aa"/>
+          <polygon points="38,58 46,58 42,63" fill="#0284c7"/>
+          <polygon points="54,58 62,58 58,63" fill="#0284c7"/>
+          <polygon points="15,85 45,75 45,100 15,100" fill="#94a3b8" stroke="#475569" stroke-width="1.5"/>
+          <polygon points="40,80 85,80 85,100 40,100" fill="#312e81"/>
+        `;
+      } else if (cid.includes('sephiroth')) {
+        innerSVG = `
+          <polygon points="50,12 25,25 15,65 18,95 32,80 34,48 66,48 68,80 82,95 85,65 75,25" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
+          <polygon points="34,48 66,48 60,80 50,88 40,80" fill="#fed7aa"/>
+          <polygon points="40,58 48,58 44,62" fill="#10b981"/>
+          <polygon points="52,58 60,58 56,62" fill="#10b981"/>
+          <polygon points="10,80 35,75 35,100 10,100" fill="#94a3b8"/>
+          <polygon points="65,75 90,80 90,100 65,100" fill="#94a3b8"/>
+        `;
+      } else if (cid.includes('kratos')) {
+        innerSVG = `
+          <ellipse cx="50" cy="50" rx="28" ry="32" fill="#d1d5db" stroke="#9ca3af" stroke-width="1.5"/>
+          <path d="M 50,20 Q 32,35 34,60 Q 35,80 25,95" stroke="#dc2626" stroke-width="5" fill="none"/>
+          <polygon points="38,52 46,54 40,58" fill="#0f172a"/>
+          <polygon points="54,54 62,52 60,58" fill="#0f172a"/>
+          <polygon points="30,68 70,68 62,94 50,98 38,94" fill="#1e1b4b"/>
+        `;
+      } else if (cid.includes('master_chief') || cid.includes('doom_slayer')) {
+        const isDoom = cid.includes('doom');
+        innerSVG = `
+          <polygon points="26,30 74,30 82,65 50,88 18,65" fill="${isDoom ? '#15803d' : '#3f6212'}" stroke="#14532d" stroke-width="2"/>
+          <polygon points="30,42 70,42 75,64 50,76 25,64" fill="#f59e0b"/>
+          <line x1="30" y1="52" x2="70" y2="52" stroke="#78350f" stroke-width="1.5"/>
+        `;
+      } else if (cid.includes('link')) {
+        innerSVG = `
+          <polygon points="50,10 15,30 30,55 70,55 85,30" fill="#15803d" stroke="#166534" stroke-width="2"/>
+          <polygon points="25,50 75,50 82,68 18,68" fill="#facc15"/>
+          <polygon points="32,56 68,56 62,80 50,88 38,80" fill="#fed7aa"/>
+          <circle cx="42" cy="68" r="2.5" fill="#0284c7"/>
+          <circle cx="58" cy="68" r="2.5" fill="#0284c7"/>
+        `;
+      } else if (cid.includes('naruto')) {
+        innerSVG = `
+          <polygon points="50,10 32,25 15,20 22,42 10,48 20,68 80,68 90,48 78,42 85,20 68,25" fill="#facc15" stroke="#ca8a04" stroke-width="1.5"/>
+          <rect x="25" y="42" width="50" height="15" rx="3" fill="#1e3a8a"/>
+          <rect x="35" y="44" width="30" height="11" rx="2" fill="#94a3b8" stroke="#475569" stroke-width="1"/>
+          <circle cx="50" cy="49" r="3" fill="none" stroke="#0f172a" stroke-width="1.2"/>
+          <polygon points="30,57 70,57 64,82 50,90 36,82" fill="#fed7aa"/>
+          <line x1="32" y1="68" x2="40" y2="70" stroke="#0f172a" stroke-width="1.2"/>
+          <line x1="32" y1="73" x2="40" y2="74" stroke="#0f172a" stroke-width="1.2"/>
+          <line x1="68" y1="68" x2="60" y2="70" stroke="#0f172a" stroke-width="1.2"/>
+          <line x1="68" y1="73" x2="60" y2="74" stroke="#0f172a" stroke-width="1.2"/>
+          <circle cx="42" cy="65" r="2.5" fill="#0284c7"/>
+          <circle cx="58" cy="65" r="2.5" fill="#0284c7"/>
+        `;
+      } else if (cid.includes('luffy')) {
+        innerSVG = `
+          <ellipse cx="50" cy="35" rx="42" ry="16" fill="#facc15" stroke="#ca8a04" stroke-width="2"/>
+          <path d="M 26,34 Q 50,15 74,34" fill="#eab308"/>
+          <path d="M 26,35 Q 50,22 74,35" stroke="#dc2626" stroke-width="4" fill="none"/>
+          <polygon points="30,42 70,42 76,55 24,55" fill="#0f172a"/>
+          <polygon points="32,46 68,46 62,80 50,88 38,80" fill="#fed7aa"/>
+          <circle cx="42" cy="60" r="3" fill="#0f172a"/>
+          <circle cx="58" cy="60" r="3" fill="#0f172a"/>
+          <path d="M 38,66 L 42,70" stroke="#0f172a" stroke-width="1.5"/>
+        `;
+      } else if (cid.includes('zoro')) {
+        innerSVG = `
+          <polygon points="30,25 70,25 78,50 22,50" fill="#16a34a" stroke="#15803d" stroke-width="2"/>
+          <polygon points="32,45 68,45 62,80 50,88 38,80" fill="#fed7aa"/>
+          <line x1="40" y1="52" x2="44" y2="66" stroke="#0f172a" stroke-width="1.5"/>
+          <polygon points="56,58 64,58 60,63" fill="#0f172a"/>
+          <circle cx="28" cy="68" r="2" fill="#facc15"/>
+          <circle cx="28" cy="73" r="2" fill="#facc15"/>
+          <circle cx="28" cy="78" r="2" fill="#facc15"/>
+        `;
+      } else {
+        innerSVG = `
+          <circle cx="50" cy="45" r="24" fill="${theme}" opacity="0.3"/>
+          <text x="50" y="58" font-size="34" text-anchor="middle">${c.series === 'gundam' ? '🤖' : (c.series === 'dragonball' ? '⚡' : (c.series === 'marvel' ? '🦸' : (c.series === 'anime' ? '⚔️' : '🎮')))}</text>
+        `;
+      }
     }
 
     return `

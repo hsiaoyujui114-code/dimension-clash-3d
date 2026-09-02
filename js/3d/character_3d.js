@@ -542,14 +542,109 @@ class Character3DModel {
     const beamEnergyMat = new THREE.MeshBasicMaterial({ color: mainColor });
     const goldMat = new THREE.MeshStandardMaterial({ color: 0xfacc15, metalness: 0.95, roughness: 0.1 });
 
-    if (wType.includes("sword") || wType.includes("blade") || wType.includes("katana") || wType === "tensa_zangetsu" || wType === "nichirin_sword") {
-      // 🗡️ 單手長劍 / 武士刀 / 斬月 / 破壞劍
+    if (cid.includes("goku_kid")) {
+      // 🥢 如意棒 (Power Pole / Nyoi-bo)
+      const poleGroup = new THREE.Group();
+      const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 3.2, 12), new THREE.MeshStandardMaterial({ color: 0xdc2626 }));
+      poleGroup.add(pole);
+      const capTop = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.15, 12), goldMat);
+      capTop.position.y = 1.6;
+      poleGroup.add(capTop);
+      const capBot = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.15, 12), goldMat);
+      capBot.position.y = -1.6;
+      poleGroup.add(capBot);
+      poleGroup.position.set(0, -0.6, 0.3);
+      poleGroup.rotation.x = Math.PI * 0.35;
+      rightArm.add(poleGroup);
+      this.weaponMesh = poleGroup;
+    } else if (cid.includes("whis")) {
+      // 🪄 天使神杖 (Whis Angel Staff)
+      const staffGroup = new THREE.Group();
+      const staff = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 3.6, 12), goldMat);
+      staffGroup.add(staff);
+      const orb = new THREE.Mesh(new THREE.SphereGeometry(0.25, 16, 16), new THREE.MeshBasicMaterial({ color: 0x38bdf8 }));
+      orb.position.y = 1.9;
+      staffGroup.add(orb);
+      staffGroup.position.set(0, -0.6, 0.3);
+      rightArm.add(staffGroup);
+      this.weaponMesh = staffGroup;
+    } else if (cid.includes("naruto")) {
+      // 🌀 螺旋丸 (Rasengan Rotating Cyan Energy Sphere)
+      const rOrb = new THREE.Mesh(new THREE.SphereGeometry(0.38, 16, 16), new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.85, wireframe: true }));
+      const core = new THREE.Mesh(new THREE.SphereGeometry(0.2, 12, 12), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+      rOrb.add(core);
+      rOrb.position.set(0, -0.7, 0.3);
+      rightArm.add(rOrb);
+      this.weaponMesh = rOrb;
+    } else if (cid.includes("sasuke") && !wType.includes("sword")) {
+      // ⚡ 千鳥 (Chidori Lightning Blade)
+      const chidori = new THREE.Mesh(new THREE.ConeGeometry(0.4, 0.8, 6), new THREE.MeshBasicMaterial({ color: 0x60a5fa, wireframe: true }));
+      chidori.position.set(0, -0.8, 0.3);
+      rightArm.add(chidori);
+      this.weaponMesh = chidori;
+    } else if (cid.includes("doctor_strange")) {
+      // 🔯 塞拉芬之盾 / 艾爾德里奇魔法陣 (Eldritch Magic Mandalas)
+      const makeMandala = () => {
+        const mg = new THREE.Group();
+        const outer = new THREE.Mesh(new THREE.RingGeometry(0.4, 1.2, 24), new THREE.MeshBasicMaterial({ color: 0xf97316, side: THREE.DoubleSide, transparent: true, opacity: 0.85 }));
+        mg.add(outer);
+        const star = new THREE.Mesh(new THREE.RingGeometry(0.2, 0.4, 6), new THREE.MeshBasicMaterial({ color: 0xfacc15, side: THREE.DoubleSide }));
+        mg.add(star);
+        mg.position.set(0, -0.8, 0.2);
+        return mg;
+      };
+      rightArm.add(makeMandala());
+      leftArm.add(makeMandala());
+    } else if (cid.includes("ironman")) {
+      // 💠 掌心脈衝砲 (Repulsor Palm Emitters)
+      const repulsorR = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.05, 16), new THREE.MeshBasicMaterial({ color: 0x38bdf8 }));
+      repulsorR.rotation.x = Math.PI / 2;
+      repulsorR.position.set(0, -0.8, 0.25);
+      rightArm.add(repulsorR);
+      const repulsorL = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.05, 16), new THREE.MeshBasicMaterial({ color: 0x38bdf8 }));
+      repulsorL.rotation.x = Math.PI / 2;
+      repulsorL.position.set(0, -0.8, 0.25);
+      leftArm.add(repulsorL);
+    } else if (cid.includes("green_goblin")) {
+      // 🎃 南瓜炸彈 (Pumpkin Bomb)
+      const bomb = new THREE.Mesh(new THREE.SphereGeometry(0.25, 12, 12), new THREE.MeshStandardMaterial({ color: 0xea580c, roughness: 0.2 }));
+      const glowEyes = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.08, 0.26), new THREE.MeshBasicMaterial({ color: 0xfacc15 }));
+      bomb.add(glowEyes);
+      bomb.position.set(0, -0.7, 0.3);
+      rightArm.add(bomb);
+      this.weaponMesh = bomb;
+    } else if (series === "gundam" && (wType.includes("rifle") || wType.includes("gun") || wType === "beam_rifle")) {
+      // 🔫 鋼彈專屬高出力光束步槍 (High-Energy Beam Rifle)
+      const rifleGroup = new THREE.Group();
+      const barrel = new THREE.Mesh(new THREE.BoxGeometry(0.15, 2.2, 0.3), darkSteelMat);
+      barrel.position.set(0, 0.6, 0);
+      rifleGroup.add(barrel);
+      const scope = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.3, 12), goldMat);
+      scope.rotation.x = Math.PI / 2;
+      scope.position.set(0, 0.8, 0.25);
+      rifleGroup.add(scope);
+      rifleGroup.position.set(0, -0.7, 0.3);
+      rifleGroup.rotation.x = Math.PI * 0.4;
+      rightArm.add(rifleGroup);
+      this.weaponMesh = rifleGroup;
+    } else if (series === "dragonball" && !wType.includes("sword")) {
+      // ⚡ 賽亞人氣功彈 / 龜派氣功能量蓄力球 (Ki Blast Energy Spheres)
+      const kiOrb = new THREE.Mesh(new THREE.SphereGeometry(0.32, 16, 16), new THREE.MeshBasicMaterial({ color: mainColor, transparent: true, opacity: 0.85, wireframe: true }));
+      kiOrb.position.set(0, -0.7, 0.3);
+      rightArm.add(kiOrb);
+      this.weaponMesh = kiOrb;
+    } else if (wType.includes("sword") || wType.includes("blade") || wType.includes("katana") || wType === "tensa_zangetsu" || wType === "nichirin_sword") {
+      // 🗡️ 單手長劍 / 武士刀 / 斬月 / 破壞劍 / 鑰刃
       const isGiant = wType.includes("buster") || wType.includes("anti_ship") || wType.includes("moonlight") || wType.includes("crucible");
       const isSephiroth = cid.includes("sephiroth");
+      const isKeyblade = cid.includes("sora");
+      const isCrucible = cid.includes("doom_slayer");
+      const isTanjiro = cid.includes("tanjiro");
+
       const bladeLen = isSephiroth ? 4.2 : (isGiant ? 3.5 : 2.4);
       const bladeWidth = isGiant ? 0.65 : (isSephiroth ? 0.12 : 0.16);
 
-      const createSwordInstance = () => {
+      const createSwordInstance = (isLeft = false) => {
         const group = new THREE.Group();
         if (cid.includes("cloud")) {
           // 克勞德經典破壞劍 (Buster Sword) - 雙魔晶石插槽 + 雙面刃
@@ -573,13 +668,37 @@ class Character3DModel {
           materiaR.position.set(0, 0.9, 0.46);
           group.add(materiaR);
 
-          // 黃銅護手十字樑
           const crossguard = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.15, 0.2), goldMat);
           crossguard.position.set(0, 0.1, 0.4);
           group.add(crossguard);
+        } else if (isKeyblade) {
+          // 🗝️ 索拉王國之心鑰刃 (Kingdom Keyblade)
+          const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 2.4, 12), bladeMat);
+          shaft.position.set(0, 1.0, 0.4);
+          group.add(shaft);
+          const crownTeeth = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.5, 0.08), goldMat);
+          crownTeeth.position.set(0.2, 2.0, 0.4);
+          group.add(crownTeeth);
+          const crownGuard = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.06, 8, 16), goldMat);
+          crownGuard.position.set(0, 0, 0.4);
+          group.add(crownGuard);
+        } else if (isCrucible) {
+          // 🩸 毀滅戰士裁決劍 (The Crucible Blood-Red Energy Broadsword)
+          const cBlade = new THREE.Mesh(new THREE.BoxGeometry(0.5, 3.2, 0.08), new THREE.MeshBasicMaterial({ color: 0xef4444 }));
+          cBlade.position.set(0, 1.4, 0.4);
+          group.add(cBlade);
+        } else if (isTanjiro) {
+          // 🗡️ 炭治郎日輪刀 (漆黑刀身 + 火焰刀鐔)
+          const nBlade = new THREE.Mesh(new THREE.BoxGeometry(0.14, 2.4, 0.06), new THREE.MeshStandardMaterial({ color: 0x09090b, roughness: 0.1 }));
+          nBlade.position.set(0, 1.1, 0.4);
+          group.add(nBlade);
+          const tsuba = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 0.04, 16), new THREE.MeshBasicMaterial({ color: 0xdc2626 }));
+          tsuba.rotation.x = Math.PI / 2;
+          tsuba.position.set(0, 0, 0.4);
+          group.add(tsuba);
         } else {
           const bladeGeo = new THREE.BoxGeometry(bladeWidth, bladeLen, 0.08);
-          const blade = new THREE.Mesh(bladeGeo, wType.includes("beam") || wType.includes("crucible") || wType.includes("moonlight") ? beamEnergyMat : bladeMat);
+          const blade = new THREE.Mesh(bladeGeo, wType.includes("beam") || wType.includes("moonlight") ? beamEnergyMat : bladeMat);
           blade.position.set(0, bladeLen * 0.45, 0.4);
           blade.castShadow = true;
           group.add(blade);
@@ -592,7 +711,7 @@ class Character3DModel {
         }
 
         const hiltGeo = new THREE.CylinderGeometry(0.08, 0.08, isGiant ? 0.9 : 0.6, 8);
-        const hiltMat = new THREE.MeshStandardMaterial({ color: 0x78350f });
+        const hiltMat = new THREE.MeshStandardMaterial({ color: isSephiroth ? 0xf8fafc : 0x78350f });
         const hilt = new THREE.Mesh(hiltGeo, hiltMat);
         hilt.position.set(0, -0.25, 0.4);
         group.add(hilt);
@@ -602,12 +721,12 @@ class Character3DModel {
         return group;
       };
 
-      const swordGroup = createSwordInstance();
+      const swordGroup = createSwordInstance(false);
       rightArm.add(swordGroup);
       this.weaponMesh = swordGroup;
 
       if (wType.includes("dual") || wType === "three_swords" || wType === "dual_odm_blades") {
-        const leftSword = createSwordInstance();
+        const leftSword = createSwordInstance(true);
         leftArm.add(leftSword);
         this.leftWeaponMesh = leftSword;
       }
@@ -664,14 +783,29 @@ class Character3DModel {
     } else if (wType.includes("hammer") || wType.includes("axe") || wType.includes("giant_mace")) {
       // 🔨 雷神之鎚 / 戰斧 / 巨型錘矛
       const maceGroup = new THREE.Group();
-      const handleGeo = new THREE.CylinderGeometry(0.1, 0.1, 2.8, 8);
-      const handle = new THREE.Mesh(handleGeo, darkSteelMat);
-      maceGroup.add(handle);
+      if (cid.includes("barbatos")) {
+        // 巴巴托斯超大型鐵槌 (Giant Flanged Iron Mace)
+        const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 3.8, 8), darkSteelMat);
+        maceGroup.add(handle);
+        for (let i = 0; i < 4; i++) {
+          const flange = new THREE.Mesh(new THREE.BoxGeometry(0.1, 1.8, 0.6), darkSteelMat);
+          flange.rotation.y = (Math.PI / 2) * i;
+          flange.position.set(0, 1.2, 0);
+          maceGroup.add(flange);
+        }
+        const pileBunker = new THREE.Mesh(new THREE.ConeGeometry(0.15, 0.8, 8), darkSteelMat);
+        pileBunker.position.set(0, 2.4, 0);
+        maceGroup.add(pileBunker);
+      } else {
+        const handleGeo = new THREE.CylinderGeometry(0.1, 0.1, 2.8, 8);
+        const handle = new THREE.Mesh(handleGeo, darkSteelMat);
+        maceGroup.add(handle);
 
-      const headGeo = new THREE.BoxGeometry(0.9, 1.2, 0.9);
-      const maceHead = new THREE.Mesh(headGeo, goldMat);
-      maceHead.position.set(0, 1.2, 0);
-      maceGroup.add(maceHead);
+        const headGeo = new THREE.BoxGeometry(0.9, 1.2, 0.9);
+        const maceHead = new THREE.Mesh(headGeo, goldMat);
+        maceHead.position.set(0, 1.2, 0);
+        maceGroup.add(maceHead);
+      }
 
       maceGroup.position.set(0, -0.7, 0.4);
       maceGroup.rotation.x = Math.PI * 0.35;
