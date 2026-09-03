@@ -214,6 +214,81 @@ class Character3DModel {
       this.flightThrusterMesh.rotation.x = Math.PI / 2;
       this.flightThrusterMesh.position.y = -legLen * 1.0;
     }
+
+    // ── 11. 漫畫/電影/卡通/3D遊戲真實尺寸縮小 1 比 24 (1:24 Canonical Lore Scale) ──
+    const canonScale = this.getCanonLoreScale(char);
+    this.canonScale = canonScale;
+    this.group.scale.set(canonScale, canonScale, canonScale);
+  }
+
+  // ─── 計算角色在漫畫/電影/卡通/3D遊戲真實尺寸縮小 1:24 比例 ───
+  getCanonLoreScale(char) {
+    const cid = (char.id || "").toLowerCase();
+    const series = (char.series || "").toLowerCase();
+
+    // 1. 機動戰士鋼彈系列 / 巨大人形機體 / 巨人 (15m ~ 26m 原作真實設定)
+    if (series === "gundam" || cid.includes("titan") || cid.includes("cell_max")) {
+      if (cid.includes("sazabi")) return 2.15; // 25.6m 沙薩比
+      if (cid.includes("nu_gundam")) return 2.0; // 22.0m ν 鋼彈
+      if (cid.includes("cell_max")) return 2.3; // 30.0m 賽魯 MAX
+      if (cid.includes("eren_titan")) return 1.85; // 15.0m 進擊的巨人
+      return 1.8; // 18.0m 初鋼、自由、獵魔等標準機動戰士
+    }
+
+    // 2. 超重裝 / 巨漢 / 巨型魔王 (2.2m ~ 3.5m 原作真實設定)
+    if (cid.includes("hulkbuster")) return 1.68; // 3.35m 反浩克裝甲
+    if (cid.includes("hulk")) return 1.5; // 2.74m 綠巨人浩克
+    if (cid.includes("broly")) return 1.55; // 3.00m 傳說超賽布羅利
+    if (cid.includes("thanos")) return 1.4; // 2.52m 滅霸
+    if (cid.includes("orange_piccolo")) return 1.38; // 2.45m 橙色比克
+    if (cid.includes("jiren")) return 1.28; // 2.20m 吉連
+    if (cid.includes("all_might")) return 1.28; // 2.20m 歐爾麥特
+    if (cid.includes("whis")) return 1.28; // 2.20m 天使維斯
+    if (cid.includes("piccolo")) return 1.3; // 2.26m 比克大魔王
+    if (cid.includes("master_chief")) return 1.24; // 2.18m 士官長雷神錘裝甲
+    if (cid.includes("doom_slayer")) return 1.2; // 2.05m 毀滅戰士
+    if (cid.includes("kratos")) return 1.18; // 2.00m 奎托斯
+    if (cid.includes("sephiroth")) return 1.18; // 2.00m 賽菲羅斯
+    if (cid.includes("thor")) return 1.14; // 1.98m 雷神索爾
+    if (cid.includes("ironman")) return 1.14; // 1.98m 鋼鐵人奈米戰甲
+
+    // 3. 幼年 / 矮小 / 少年英雄 (1.0m ~ 1.35m 原作真實設定)
+    if (cid === "goku_kid") return 0.68; // 1.20m 少年孫悟空
+    if (cid === "goten_kid") return 0.70; // 1.23m 幼年悟天
+    if (cid === "trunks_kid") return 0.72; // 1.29m 幼年特南克斯
+    if (cid === "krillin") return 0.74; // 1.30m 克林
+    if (cid === "kid_buu") return 0.76; // 1.35m 純粹小普烏
+    if (cid === "nezuko") return 0.68; // 1.20m 縮小禰豆子
+    if (cid === "megaman") return 0.75; // 1.32m 洛克人
+
+    // 4. 標準人型英雄 (1.60m ~ 1.90m 原作真實設定)
+    if (cid.includes("vegeta")) return 0.94; // 1.64m 達爾
+    if (cid.includes("levi")) return 0.92; // 1.60m 里維兵長
+    if (cid.includes("wolverine")) return 0.92; // 1.60m 金鋼狼 (漫畫原設 5 呎 3 吋)
+    if (cid.includes("sora")) return 0.92; // 1.60m 索拉
+    if (cid.includes("tanjiro")) return 0.95; // 1.65m 炭治郎
+    if (cid.includes("deku")) return 0.95; // 1.66m 綠谷出久
+    if (cid.includes("nier_2b")) return 0.96; // 1.68m 2B
+    if (cid.includes("link")) return 0.97; // 1.70m 林克
+    if (cid.includes("beerus")) return 0.97; // 1.70m 比魯斯
+    if (cid.includes("future_trunks")) return 0.97; // 1.70m 未來特南克斯
+    if (cid.includes("cloud")) return 0.99; // 1.73m 克勞德
+    if (cid.includes("sukuna")) return 0.99; // 1.73m 宿儺
+    if (cid.includes("luffy")) return 1.0; // 1.74m 魯夫
+    if (cid.includes("goku")) return 1.0; // 1.75m 成年孫悟空 (基準 1.0)
+    if (cid.includes("gohan")) return 1.01; // 1.76m 孫悟飯
+    if (cid.includes("spiderman")) return 1.02; // 1.78m 蜘蛛人
+    if (cid.includes("naruto")) return 1.03; // 1.80m 漩渦鳴人
+    if (cid.includes("zoro")) return 1.03; // 1.81m 索隆
+    if (cid.includes("sasuke")) return 1.04; // 1.82m 佐助
+    if (cid.includes("black_panther")) return 1.05; // 1.83m 黑豹
+    if (cid.includes("cap_america")) return 1.07; // 1.88m 美國隊長
+    if (cid.includes("doctor_strange")) return 1.07; // 1.88m 奇異博士
+    if (cid.includes("deadpool")) return 1.07; // 1.88m 死侍
+    if (cid.includes("gojo")) return 1.08; // 1.90m 五條悟
+    if (cid.includes("dante") || cid.includes("vergil")) return 1.08; // 1.90m 但丁 / 維吉爾
+
+    return 1.0;
   }
 
   // ─── 髮型、面具、頭盔與頭部飾品 ───
