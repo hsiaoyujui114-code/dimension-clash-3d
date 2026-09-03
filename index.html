@@ -359,30 +359,65 @@
     </section>
   </main>
 
-  <!-- ── 模態彈窗：Google 帳號登入 (強制登入關卡) ── -->
+  <!-- ── 模態彈窗：跨次元量子神經網絡・Google 帳號星門授權儀 (Quantum Google Auth Portal) ── -->
   <div id="googleLoginModal" class="modal-backdrop">
-    <div class="modal-content" style="max-width: 440px; text-align: center;">
-      <div style="font-size: 40px; margin-bottom: 10px; color: #4285f4;"><i class="fa-brands fa-google"></i></div>
-      <h2 style="font-size: 22px; font-weight: 900; color: #f8fafc; margin-bottom: 6px;">Google 帳號登入</h2>
-      <p style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">登入後即可同步雲端存檔、自訂出賽陣容並領取新手禮包！</p>
-
-      <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; text-align: left;">
-        <div>
-          <label style="font-size: 12px; font-weight: 700; color: #cbd5e1;">Google 信箱 (Email)：</label>
-          <input type="email" id="googleEmailInput" value="player@gmail.com" style="width: 100%; background: #0f172a; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 14px; border-radius: 8px; font-size: 14px; margin-top: 4px;">
-        </div>
-        <div>
-          <label style="font-size: 12px; font-weight: 700; color: #cbd5e1;">自訂玩家暱稱 (Gamer Tag)：</label>
-          <input type="text" id="googleNickInput" value="次元戰神" style="width: 100%; background: #0f172a; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 14px; border-radius: 8px; font-size: 14px; margin-top: 4px;">
+    <div class="quantum-google-card">
+      <!-- 旋轉 Google 四色光環 (Google Colors Rainbow Hologram Ring) -->
+      <div class="google-stargate-ring">
+        <div class="google-stargate-inner">
+          <i class="fa-brands fa-google" style="background: linear-gradient(135deg, #4285f4, #ea4335, #fbbc05, #34a853); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
         </div>
       </div>
 
-      <div style="background: rgba(30, 41, 59, 0.6); padding: 10px; border-radius: 8px; margin-bottom: 20px; font-size: 12px; color: #38bdf8;">
-        🎁 登入即贈：1,500 金幣 + 少年悟空 + 美國隊長 + 初代吉姆！
+      <h2 style="font-size: 22px; font-weight: 900; color: #f8fafc; margin-bottom: 4px; letter-spacing: 0.5px;">
+        跨次元量子神經網絡
+      </h2>
+      <p style="font-size: 13px; color: #94a3b8; margin-bottom: 16px;">
+        連結 Google 帳戶 ⇄ 即時同步 100 位跨次元英雄、天梯階級與雲端存檔
+      </p>
+
+      <!-- 官方 Google 一鍵快速授權按鈕 (GIS Button Slot / Official Google OAuth) -->
+      <div style="margin-bottom: 16px;">
+        <div id="googleGisBtnSlot"></div>
+        <button class="google-oauth-btn" id="instantGoogleAuthBtn" onclick="window.app.triggerOneTapGoogleAuth()">
+          <svg width="20" height="20" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.03 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+          </svg>
+          <span>使用 Google 帳戶一鍵快速授權登入</span>
+        </button>
       </div>
 
-      <button class="btn-primary" id="confirmGoogleLoginBtn" style="width: 100%; padding: 12px; font-size: 16px; justify-content: center;">
-        <i class="fa-brands fa-google"></i> 一鍵快速登入 Google 帳號
+      <!-- 帳號詳細自訂與手動綁定 -->
+      <div style="background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px; margin-bottom: 16px; text-align: left;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 11px; font-weight: 800; color: #38bdf8;"><i class="fa-solid fa-sliders"></i> 自訂 Google 帳號與戰神暱稱</span>
+          <span class="cloud-sync-badge"><i class="fa-solid fa-shield-halved"></i> 量子加密防護</span>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div>
+            <label style="font-size: 11px; color: #cbd5e1;">Google 信箱 (Gmail)：</label>
+            <input type="email" id="googleCustomEmailInput" value="dimension.hero@gmail.com" placeholder="例如: yourname@gmail.com" style="width: 100%; background: #0f172a; border: 1px solid rgba(66, 133, 244, 0.3); color: #f8fafc; padding: 8px 12px; border-radius: 8px; font-size: 13px; margin-top: 3px; outline: none;">
+          </div>
+          <div>
+            <label style="font-size: 11px; color: #cbd5e1;">遊戲暱稱 (Gamer Tag)：</label>
+            <input type="text" id="googleCustomNickInput" value="次元戰神" placeholder="請輸入您的自訂戰神暱稱" style="width: 100%; background: #0f172a; border: 1px solid rgba(66, 133, 244, 0.3); color: #f8fafc; padding: 8px 12px; border-radius: 8px; font-size: 13px; margin-top: 3px; outline: none;">
+          </div>
+        </div>
+      </div>
+
+      <!-- 🎁 登入特典提示 -->
+      <div style="display: flex; justify-content: space-around; background: rgba(16, 185, 129, 0.1); border: 1px dashed rgba(16, 185, 129, 0.4); border-radius: 10px; padding: 8px 10px; margin-bottom: 16px; font-size: 11px; color: #6ee7b7;">
+        <span>🎁 +1,500 金幣</span>
+        <span>⚡ 3 位初始英雄</span>
+        <span>☁️ Google 雲端存檔</span>
+      </div>
+
+      <button class="btn-primary" style="width: 100%; justify-content: center; padding: 12px; font-size: 15px; font-weight: 900; background: linear-gradient(135deg, #4285f4, #1d4ed8); box-shadow: 0 0 20px rgba(66,133,244,0.4);" onclick="window.app.submitCustomGoogleLogin()">
+        <i class="fa-solid fa-arrow-right-to-bracket"></i> 進入 3D 次元大亂鬥世界
       </button>
     </div>
   </div>
@@ -435,18 +470,18 @@
   </div>
 
   <!-- Game Scripts -->
-  <script src="js/data/characters.js?v=20260903_google_quantum_v9"></script>
-  <script src="js/data/equipment.js?v=20260903_google_quantum_v9"></script>
-  <script src="js/data/achievements.js?v=20260903_google_quantum_v9"></script>
-  <script src="js/engine/audio.js?v=20260903_google_quantum_v9"></script>
-  <script src="js/engine/effects.js?v=20260903_google_quantum_v9"></script>
-  <script src="js/3d/three_scene.js?v=20260903_google_quantum_v9"></script>
-  <script src="js/3d/camera_controller.js?v=20260903_google_quantum_v9"></script>
-  <script src="js/3d/character_3d.js?v=20260903_google_quantum_v9"></script>
-  <script src="js/3d/combat_3d.js?v=20260903_google_quantum_v9"></script>
-  <script src="js/3d/ai_3d.js?v=20260903_google_quantum_v9"></script>
-  <script src="js/network/p2p.js?v=20260903_google_quantum_v9"></script>
-  <script src="js/save_system.js?v=20260903_google_quantum_v9"></script>
-  <script src="js/app.js?v=20260903_google_quantum_v9"></script>
+  <script src="js/data/characters.js?v=20260903_quantum_auth_v10"></script>
+  <script src="js/data/equipment.js?v=20260903_quantum_auth_v10"></script>
+  <script src="js/data/achievements.js?v=20260903_quantum_auth_v10"></script>
+  <script src="js/engine/audio.js?v=20260903_quantum_auth_v10"></script>
+  <script src="js/engine/effects.js?v=20260903_quantum_auth_v10"></script>
+  <script src="js/3d/three_scene.js?v=20260903_quantum_auth_v10"></script>
+  <script src="js/3d/camera_controller.js?v=20260903_quantum_auth_v10"></script>
+  <script src="js/3d/character_3d.js?v=20260903_quantum_auth_v10"></script>
+  <script src="js/3d/combat_3d.js?v=20260903_quantum_auth_v10"></script>
+  <script src="js/3d/ai_3d.js?v=20260903_quantum_auth_v10"></script>
+  <script src="js/network/p2p.js?v=20260903_quantum_auth_v10"></script>
+  <script src="js/save_system.js?v=20260903_quantum_auth_v10"></script>
+  <script src="js/app.js?v=20260903_quantum_auth_v10"></script>
 </body>
 </html>
