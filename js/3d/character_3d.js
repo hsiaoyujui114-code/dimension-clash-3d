@@ -219,133 +219,225 @@ class Character3DModel {
   // ─── 髮型、面具、頭盔與頭部飾品 ───
   buildHeadFeatures(head, char, goldMat, darkMat) {
     const cid = char.id;
-    const series = char.series;
+    const series = char.series || "";
     const whiteMat = new THREE.MeshStandardMaterial({ color: 0xffffff });
     const blackMat = new THREE.MeshStandardMaterial({ color: 0x09090b });
     const cyanGlowMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
     const redGlowMat = new THREE.MeshBasicMaterial({ color: 0xef4444 });
     const goldGlowMat = new THREE.MeshBasicMaterial({ color: 0xfacc15 });
+    const purpleGlowMat = new THREE.MeshBasicMaterial({ color: 0xa855f7 });
+    const greenGlowMat = new THREE.MeshBasicMaterial({ color: 0x22c55e });
 
-    // 通用眼睛 (Eyes / Visors)
-    if (series !== "gundam" && !cid.includes("spiderman") && !cid.includes("ironman") && !cid.includes("master_chief") && !cid.includes("doom_slayer")) {
-      const eyeL = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.1, 0.08), cid.includes("ultra_instinct") ? cyanGlowMat : (cid.includes("sasuke") || cid.includes("sukuna") ? redGlowMat : blackMat));
+    // ── 通用雙眼與眼部特徵 (Canon Eye Aesthetics) ──
+    if (series !== "gundam" && !cid.includes("spiderman") && !cid.includes("ironman") && !cid.includes("master_chief") && !cid.includes("doom_slayer") && !cid.includes("nier_2b") && !cid.includes("gojo")) {
+      const eyeL = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.1, 0.08), cid.includes("ultra_instinct") ? cyanGlowMat : (cid.includes("sasuke") || cid.includes("sukuna") || cid.includes("gohan_beast") ? redGlowMat : blackMat));
       eyeL.position.set(-0.25, 0.1, 0.52);
       head.add(eyeL);
 
-      const eyeR = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.1, 0.08), cid.includes("ultra_instinct") ? cyanGlowMat : (cid.includes("sasuke") || cid.includes("sukuna") ? redGlowMat : blackMat));
+      const eyeR = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.1, 0.08), cid.includes("ultra_instinct") ? cyanGlowMat : (cid.includes("sasuke") ? purpleGlowMat : (cid.includes("sukuna") || cid.includes("gohan_beast") ? redGlowMat : blackMat)));
       eyeR.position.set(0.25, 0.1, 0.52);
       head.add(eyeR);
     }
 
+    // 1. 🤖 GUNDAM SERIES (鋼彈系列機體頭部天線與光學傳感器)
     if (series === "gundam") {
-      // 鋼彈經典 V-Fin 雙天線與發光雙眼
-      const vFinGeo = new THREE.ConeGeometry(0.18, 1.3, 4);
-      const vFinL = new THREE.Mesh(vFinGeo, goldMat);
-      vFinL.position.set(-0.45, 0.75, 0.4);
-      vFinL.rotation.z = Math.PI * 0.25;
-      vFinL.rotation.x = Math.PI * 0.1;
-      head.add(vFinL);
+      if (cid.includes("barbatos")) {
+        // 巴巴托斯惡魔四叉金色天線 + 紅色下巴飾塊
+        const vFinL = new THREE.Mesh(new THREE.ConeGeometry(0.16, 1.4, 4), goldMat);
+        vFinL.position.set(-0.45, 0.8, 0.4);
+        vFinL.rotation.z = Math.PI * 0.3;
+        head.add(vFinL);
+        const vFinR = new THREE.Mesh(new THREE.ConeGeometry(0.16, 1.4, 4), goldMat);
+        vFinR.position.set(0.45, 0.8, 0.4);
+        vFinR.rotation.z = -Math.PI * 0.3;
+        head.add(vFinR);
+        const chin = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.3, 0.2), new THREE.MeshStandardMaterial({ color: 0xdc2626 }));
+        chin.position.set(0, -0.4, 0.52);
+        head.add(chin);
+      } else if (cid.includes("sazabi")) {
+        // 沙薩比長型指揮官天線 + 綠色單眼傳感器
+        const crest = new THREE.Mesh(new THREE.ConeGeometry(0.12, 1.6, 4), new THREE.MeshStandardMaterial({ color: 0xdc2626 }));
+        crest.position.set(0, 0.9, 0.3);
+        crest.rotation.x = Math.PI * 0.15;
+        head.add(crest);
+        const monoEye = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.12, 0.2), greenGlowMat);
+        monoEye.position.set(0, 0.05, 0.52);
+        head.add(monoEye);
+      } else if (cid.includes("unicorn") || cid.includes("banshee")) {
+        // 獨角獸一角天線 / 報喪女妖獅子金色冠頂
+        const horn = new THREE.Mesh(new THREE.ConeGeometry(0.12, 1.5, 4), cid.includes("banshee") ? goldMat : whiteMat);
+        horn.position.set(0, 0.9, 0.4);
+        horn.rotation.x = Math.PI * 0.12;
+        head.add(horn);
+      } else {
+        // 經典鋼彈 V-Fin 雙天線 + 紅色中央菱形寶石
+        const vFinGeo = new THREE.ConeGeometry(0.18, 1.3, 4);
+        const vFinL = new THREE.Mesh(vFinGeo, goldMat);
+        vFinL.position.set(-0.45, 0.75, 0.4);
+        vFinL.rotation.z = Math.PI * 0.25;
+        vFinL.rotation.x = Math.PI * 0.1;
+        head.add(vFinL);
+        const vFinR = new THREE.Mesh(vFinGeo, goldMat);
+        vFinR.position.set(0.45, 0.75, 0.4);
+        vFinR.rotation.z = -Math.PI * 0.25;
+        vFinR.rotation.x = Math.PI * 0.1;
+        head.add(vFinR);
+        const jewel = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.25, 0.15), new THREE.MeshStandardMaterial({ color: 0xdc2626 }));
+        jewel.position.set(0, 0.45, 0.54);
+        head.add(jewel);
+      }
 
-      const vFinR = new THREE.Mesh(vFinGeo, goldMat);
-      vFinR.position.set(0.45, 0.75, 0.4);
-      vFinR.rotation.z = -Math.PI * 0.25;
-      vFinR.rotation.x = Math.PI * 0.1;
-      head.add(vFinR);
-
-      const eyeGeo = new THREE.BoxGeometry(0.6, 0.15, 0.2);
-      const eyeMat = new THREE.MeshBasicMaterial({ color: cid.includes("banshee") || cid.includes("sazabi") ? 0xef4444 : 0x22c55e });
-      const eyes = new THREE.Mesh(eyeGeo, eyeMat);
+      const eyes = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.15, 0.2), new THREE.MeshBasicMaterial({ color: cid.includes("banshee") || cid.includes("sazabi") ? 0xef4444 : 0x22c55e }));
       eyes.position.set(0, 0, 0.52);
       head.add(eyes);
-    } else if (series === "dragonball") {
+    }
+    // 2. ⚡ DRAGON BALL SERIES (七龍珠賽亞人變身與神祇特徵)
+    else if (series === "dragonball") {
       let hairColor = 0x0f172a;
-      if (cid.includes("ssj3") || cid === "goku_ssj1" || cid.includes("gotenks")) hairColor = 0xfacc15;
+      if (cid.includes("ssj3") || cid === "goku_ssj1" || cid.includes("gotenks") || cid.includes("broly")) hairColor = 0xfacc15;
       else if (cid.includes("blue")) hairColor = 0x0284c7;
       else if (cid.includes("rose")) hairColor = 0xec4899;
       else if (cid.includes("beast") || cid.includes("ultra_instinct")) hairColor = 0xe2e8f0;
       else if (cid.includes("ultra_ego")) hairColor = 0x9333ea;
       else if (cid.includes("ssj4")) hairColor = 0x1e1b4b;
 
-      const hairMat = new THREE.MeshStandardMaterial({ color: hairColor, roughness: 0.3 });
-      const hairGeo = new THREE.ConeGeometry(cid.includes("ssj3") || cid.includes("beast") ? 1.1 : 0.85, cid.includes("ssj3") || cid.includes("beast") ? 2.2 : 1.4, 5);
-      const hair = new THREE.Mesh(hairGeo, hairMat);
-      hair.position.set(0, 0.95, -0.1);
-      head.add(hair);
-
-      if (cid === "whis_angel") {
-        const haloGeo = new THREE.TorusGeometry(0.7, 0.08, 16, 32);
-        const haloMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
-        const halo = new THREE.Mesh(haloGeo, haloMat);
+      if (cid.includes("whis")) {
+        // 維斯天使高聳白色髮型 + 天使藍色光環
+        const hair = new THREE.Mesh(new THREE.ConeGeometry(0.7, 1.8, 8), new THREE.MeshStandardMaterial({ color: 0xffffff }));
+        hair.position.set(0, 0.9, -0.1);
+        head.add(hair);
+        const halo = new THREE.Mesh(new THREE.TorusGeometry(0.7, 0.08, 16, 32), new THREE.MeshBasicMaterial({ color: 0x38bdf8 }));
         halo.rotation.x = Math.PI / 2;
         halo.position.set(0, 1.4, 0);
         head.add(halo);
+      } else if (cid.includes("beerus")) {
+        // 比魯斯紫色斯芬克斯長貓耳
+        const earL = new THREE.Mesh(new THREE.ConeGeometry(0.2, 1.1, 4), new THREE.MeshStandardMaterial({ color: 0xa855f7 }));
+        earL.position.set(-0.5, 0.7, 0);
+        earL.rotation.z = 0.2;
+        head.add(earL);
+        const earR = new THREE.Mesh(new THREE.ConeGeometry(0.2, 1.1, 4), new THREE.MeshStandardMaterial({ color: 0xa855f7 }));
+        earR.position.set(0.5, 0.7, 0);
+        earR.rotation.z = -0.2;
+        head.add(earR);
+      } else if (cid.includes("piccolo")) {
+        // 比克綠色/橙色觸角雙根
+        const isOrange = cid.includes("orange");
+        const antL = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.8, 8), new THREE.MeshStandardMaterial({ color: isOrange ? 0xf97316 : 0x22c55e }));
+        antL.position.set(-0.35, 0.6, 0.3);
+        antL.rotation.z = 0.4;
+        head.add(antL);
+        const antR = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.8, 8), new THREE.MeshStandardMaterial({ color: isOrange ? 0xf97316 : 0x22c55e }));
+        antR.position.set(0.35, 0.6, 0.3);
+        antR.rotation.z = -0.4;
+        head.add(antR);
+      } else if (cid.includes("frieza")) {
+        // 弗利沙紫色光澤頭頂寶石
+        const dome = new THREE.Mesh(new THREE.SphereGeometry(0.55, 12, 12), new THREE.MeshStandardMaterial({ color: 0x9333ea, roughness: 0.1 }));
+        dome.position.set(0, 0.5, 0);
+        head.add(dome);
+      } else if (cid.includes("cell")) {
+        // 賽魯雙重黑色冠角
+        const hornL = new THREE.Mesh(new THREE.BoxGeometry(0.18, 1.2, 0.4), blackMat);
+        hornL.position.set(-0.55, 0.6, 0);
+        hornL.rotation.z = 0.25;
+        head.add(hornL);
+        const hornR = new THREE.Mesh(new THREE.BoxGeometry(0.18, 1.2, 0.4), blackMat);
+        hornR.position.set(0.55, 0.6, 0);
+        hornR.rotation.z = -0.25;
+        head.add(hornR);
+      } else {
+        // 賽亞人經典向上尖刺髮型 (超級賽亞人、悟飯 Beast 超長銀髮、貝吉塔火焰髮)
+        const isBeast = cid.includes("beast");
+        const isSSJ3 = cid.includes("ssj3");
+        const hairMat = new THREE.MeshStandardMaterial({ color: hairColor, roughness: 0.3 });
+        const hairGeo = new THREE.ConeGeometry(isSSJ3 || isBeast ? 1.2 : 0.85, isSSJ3 || isBeast ? 2.6 : 1.4, 5);
+        const hair = new THREE.Mesh(hairGeo, hairMat);
+        hair.position.set(0, isSSJ3 || isBeast ? 1.3 : 0.95, -0.1);
+        head.add(hair);
       }
-    } else if (series === "marvel") {
+    }
+    // 3. 🦸 MARVEL HEROES & VILLAINS (漫威英雄與反派)
+    else if (series === "marvel") {
       if (cid.includes("spiderman")) {
-        const eyeLensGeo = new THREE.BoxGeometry(0.35, 0.25, 0.05);
-        const eyeLensL = new THREE.Mesh(eyeLensGeo, whiteMat);
+        const is2099 = cid.includes("2099");
+        const isSymbiote = cid.includes("symbiote");
+        const lensMat = is2099 ? redGlowMat : (isSymbiote ? whiteMat : whiteMat);
+        const eyeLensL = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.25, 0.05), lensMat);
         eyeLensL.position.set(-0.25, 0.1, 0.52);
         eyeLensL.rotation.z = -0.2;
         head.add(eyeLensL);
-        const eyeLensR = new THREE.Mesh(eyeLensGeo, whiteMat);
+        const eyeLensR = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.25, 0.05), lensMat);
         eyeLensR.position.set(0.25, 0.1, 0.52);
         eyeLensR.rotation.z = 0.2;
         head.add(eyeLensR);
       } else if (cid.includes("ironman")) {
-        const maskGeo = new THREE.BoxGeometry(0.85, 0.9, 0.2);
-        const maskMat = new THREE.MeshStandardMaterial({ color: 0xfacc15, metalness: 0.9 });
-        const mask = new THREE.Mesh(maskGeo, maskMat);
+        const mask = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.9, 0.2), new THREE.MeshStandardMaterial({ color: 0xfacc15, metalness: 0.9 }));
         mask.position.set(0, 0, 0.45);
         head.add(mask);
         const arcEyes = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.1, 0.05), cyanGlowMat);
         arcEyes.position.set(0, 0.12, 0.56);
         head.add(arcEyes);
       } else if (cid.includes("wolverine")) {
-        const finGeo = new THREE.ConeGeometry(0.3, 1.2, 3);
         const finMat = new THREE.MeshStandardMaterial({ color: 0x0f172a });
-        const finL = new THREE.Mesh(finGeo, finMat);
+        const finL = new THREE.Mesh(new THREE.ConeGeometry(0.3, 1.2, 3), finMat);
         finL.position.set(-0.6, 0.5, 0);
         finL.rotation.z = 0.4;
         head.add(finL);
-        const finR = new THREE.Mesh(finGeo, finMat);
+        const finR = new THREE.Mesh(new THREE.ConeGeometry(0.3, 1.2, 3), finMat);
         finR.position.set(0.6, 0.5, 0);
         finR.rotation.z = -0.4;
         head.add(finR);
       } else if (cid.includes("loki")) {
-        const hornGeo = new THREE.TorusGeometry(0.6, 0.08, 8, 16, Math.PI * 0.7);
-        const hornL = new THREE.Mesh(hornGeo, goldMat);
+        const hornL = new THREE.Mesh(new THREE.TorusGeometry(0.6, 0.08, 8, 16, Math.PI * 0.7), goldMat);
         hornL.position.set(-0.5, 0.6, 0.2);
         hornL.rotation.y = -0.5;
         head.add(hornL);
       } else if (cid.includes("ghost_rider")) {
-        const flameGeo = new THREE.SphereGeometry(0.9, 8, 8);
-        const flameMat = new THREE.MeshBasicMaterial({ color: 0xea580c, wireframe: true });
-        const flame = new THREE.Mesh(flameGeo, flameMat);
+        const flame = new THREE.Mesh(new THREE.SphereGeometry(0.9, 8, 8), new THREE.MeshBasicMaterial({ color: 0xea580c, wireframe: true }));
         flame.position.set(0, 0.5, 0);
         head.add(flame);
+      } else if (cid.includes("black_panther")) {
+        const earL = new THREE.Mesh(new THREE.ConeGeometry(0.15, 0.4, 4), blackMat);
+        earL.position.set(-0.4, 0.6, 0);
+        head.add(earL);
+        const earR = new THREE.Mesh(new THREE.ConeGeometry(0.15, 0.4, 4), blackMat);
+        earR.position.set(0.4, 0.6, 0);
+        head.add(earR);
       }
-    } else {
-      // Anime & Gaming Heroes
+    }
+    // 4. ⚔️ ANIME & 🎮 GAMING HEROES (動漫與遊戲全明星)
+    else {
       if (cid.includes("naruto")) {
-        const bandGeo = new THREE.BoxGeometry(1.02, 0.25, 1.02);
-        const bandMat = new THREE.MeshStandardMaterial({ color: 0x475569 });
-        const band = new THREE.Mesh(bandGeo, bandMat);
+        // 鳴人護額 + 黃色尖刺金髮
+        const band = new THREE.Mesh(new THREE.BoxGeometry(1.02, 0.25, 1.02), new THREE.MeshStandardMaterial({ color: 0x475569 }));
         band.position.set(0, 0.3, 0);
         head.add(band);
         const yellowHair = new THREE.Mesh(new THREE.ConeGeometry(0.85, 1.4, 6), new THREE.MeshStandardMaterial({ color: 0xfacc15 }));
         yellowHair.position.set(0, 0.9, -0.1);
         head.add(yellowHair);
       } else if (cid.includes("luffy")) {
-        const hatGeo = new THREE.CylinderGeometry(1.2, 1.2, 0.1, 16);
-        const hatMat = new THREE.MeshStandardMaterial({ color: 0xfacc15 });
-        const hat = new THREE.Mesh(hatGeo, hatMat);
-        hat.position.set(0, 0.6, 0);
-        head.add(hat);
-      } else if (cid.includes("zoro")) {
-        const greenHair = new THREE.Mesh(new THREE.SphereGeometry(0.65, 8, 8), new THREE.MeshStandardMaterial({ color: 0x16a34a }));
-        greenHair.position.set(0, 0.65, 0);
-        head.add(greenHair);
+        if (cid.includes("gear5")) {
+          // 魯夫五檔純白雲朵飄逸髮型
+          const cloudHair = new THREE.Mesh(new THREE.SphereGeometry(0.85, 8, 8), new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.2 }));
+          cloudHair.position.set(0, 0.7, 0);
+          head.add(cloudHair);
+        } else {
+          // 草帽
+          const hat = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.2, 0.1, 16), new THREE.MeshStandardMaterial({ color: 0xfacc15 }));
+          hat.position.set(0, 0.6, 0);
+          head.add(hat);
+        }
+      } else if (cid.includes("tanjiro")) {
+        // 炭治郎暗紅短髮 + 額頭斑紋
+        const hair = new THREE.Mesh(new THREE.SphereGeometry(0.7, 8, 8), new THREE.MeshStandardMaterial({ color: 0x7f1d1d }));
+        hair.position.set(0, 0.65, 0);
+        head.add(hair);
+        const scar = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.25, 0.05), redGlowMat);
+        scar.position.set(-0.3, 0.3, 0.52);
+        head.add(scar);
       } else if (cid.includes("gojo") || cid.includes("nier_2b")) {
+        // 五條悟眼罩 / 2B 黑色眼罩
         const blindfold = new THREE.Mesh(new THREE.BoxGeometry(1.04, 0.3, 1.04), blackMat);
         blindfold.position.set(0, 0.1, 0);
         head.add(blindfold);
@@ -356,22 +448,20 @@ class Character3DModel {
         const visor = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.25, 0.2), goldGlowMat);
         visor.position.set(0, 0.1, 0.5);
         head.add(visor);
-      } else if (cid.includes("link_hero")) {
-        const hat = new THREE.Mesh(new THREE.ConeGeometry(0.7, 1.8, 4), new THREE.MeshStandardMaterial({ color: 0x15803d }));
-        hat.position.set(0, 0.9, -0.4);
-        hat.rotation.x = -0.6;
-        head.add(hat);
-      } else if (cid.includes("cloud_strife")) {
+      } else if (cid.includes("cloud")) {
         const spikeHair = new THREE.Mesh(new THREE.ConeGeometry(0.9, 1.7, 5), new THREE.MeshStandardMaterial({ color: 0xfacc15 }));
         spikeHair.position.set(0, 0.95, -0.1);
         spikeHair.rotation.z = -0.2;
         head.add(spikeHair);
       } else if (cid.includes("sephiroth") || cid.includes("dante") || cid.includes("vergil")) {
-        const hairGeo = new THREE.ConeGeometry(0.9, 1.8, 6);
-        const hairMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.3 });
-        const hair = new THREE.Mesh(hairGeo, hairMat);
+        const hair = new THREE.Mesh(new THREE.ConeGeometry(0.9, 1.8, 6), new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.3 }));
         hair.position.set(0, 0.8, -0.2);
         head.add(hair);
+      } else if (cid.includes("link")) {
+        const hat = new THREE.Mesh(new THREE.ConeGeometry(0.7, 1.8, 4), new THREE.MeshStandardMaterial({ color: 0x15803d }));
+        hat.position.set(0, 0.9, -0.4);
+        hat.rotation.x = -0.6;
+        head.add(hat);
       }
     }
   }
@@ -379,7 +469,7 @@ class Character3DModel {
   // ─── 胸前標誌、反應爐、腰帶與鎧甲特徵 (Canon Movie/Anime/Game Costumes) ───
   buildTorsoEmblem(torso, char, goldMat, darkMat) {
     const cid = char.id;
-    const series = char.series;
+    const series = char.series || "";
     const whiteMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc });
     const blueMat = new THREE.MeshStandardMaterial({ color: 0x1d4ed8 });
     const redMat = new THREE.MeshStandardMaterial({ color: 0xdc2626 });
@@ -459,7 +549,7 @@ class Character3DModel {
         strapR.position.set(0.6, 0.9, 0);
         torso.add(strapR);
       } else {
-        // 悟空深藍色內襯 V 領 + 藍色腰帶
+        // 悟空深藍色內襯 V 領 + 藍色腰帶 + 悟字標誌
         const vNeck = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.5, 0.1), blueMat);
         vNeck.position.set(0, 0.65, 0.52);
         torso.add(vNeck);
@@ -482,6 +572,25 @@ class Character3DModel {
       const ventR = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.25, 0.15), goldMat);
       ventR.position.set(0.55, 0.35, 0.52);
       torso.add(ventR);
+    } else if (cid.includes("cloud")) {
+      // 克勞德左肩鐵質巨型肩鎧 (Silver Bolted Pauldron)
+      const pauldron = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.8, 0.9), new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.9 }));
+      pauldron.position.set(-1.1, 0.8, 0);
+      torso.add(pauldron);
+    } else if (cid.includes("kratos")) {
+      // 奎托斯紅色戰神刺青條紋
+      const redTattoo = new THREE.Mesh(new THREE.BoxGeometry(0.25, 2.0, 0.1), redMat);
+      redTattoo.rotation.z = Math.PI * 0.18;
+      redTattoo.position.set(-0.2, 0.1, 0.53);
+      torso.add(redTattoo);
+    } else if (cid.includes("tanjiro")) {
+      // 炭治郎綠黑方格羽織 (Checkered Haori Trim)
+      const haoriL = new THREE.Mesh(new THREE.BoxGeometry(0.4, 1.8, 1.05), greenMat);
+      haoriL.position.set(-0.8, 0, 0);
+      torso.add(haoriL);
+      const haoriR = new THREE.Mesh(new THREE.BoxGeometry(0.4, 1.8, 1.05), greenMat);
+      haoriR.position.set(0.8, 0, 0);
+      torso.add(haoriR);
     } else if (series === "anime") {
       if (cid.includes("naruto")) {
         const collar = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.3, 0.95), darkMat);

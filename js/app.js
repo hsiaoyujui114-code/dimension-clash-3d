@@ -1384,10 +1384,71 @@ class App3D {
           <circle cx="28" cy="73" r="2" fill="#facc15"/>
           <circle cx="28" cy="78" r="2" fill="#facc15"/>
         `;
+      } else if (cid.includes('saitama')) {
+        innerSVG = `
+          <ellipse cx="50" cy="50" rx="26" ry="30" fill="#fed7aa" stroke="#fcd34d" stroke-width="2"/>
+          <line x1="32" y1="44" x2="44" y2="46" stroke="#0f172a" stroke-width="2.5"/>
+          <line x1="68" y1="44" x2="56" y2="46" stroke="#0f172a" stroke-width="2.5"/>
+          <ellipse cx="40" cy="52" rx="3" ry="2" fill="#0f172a"/>
+          <ellipse cx="60" cy="52" rx="3" ry="2" fill="#0f172a"/>
+          <polygon points="20,95 50,78 80,95 50,105" fill="#eab308"/>
+          <polygon points="12,85 30,82 25,100" fill="#ffffff"/>
+          <polygon points="88,85 70,82 75,100" fill="#ffffff"/>
+        `;
+      } else if (cid.includes('genos')) {
+        innerSVG = `
+          <polygon points="50,10 32,22 18,25 25,48 15,55 26,70 74,70 85,55 75,48 82,25 68,22" fill="#facc15" stroke="#ca8a04" stroke-width="1.5"/>
+          <polygon points="32,48 68,48 62,80 50,88 38,80" fill="#fed7aa"/>
+          <rect x="36" y="56" width="10" height="7" fill="#09090b"/>
+          <circle cx="41" cy="59" r="2" fill="#facc15"/>
+          <rect x="54" y="56" width="10" height="7" fill="#09090b"/>
+          <circle cx="59" cy="59" r="2" fill="#facc15"/>
+          <polygon points="20,95 50,78 80,95 50,105" fill="#334155"/>
+        `;
+      } else if (cid.includes('levi')) {
+        innerSVG = `
+          <polygon points="30,25 70,25 78,55 68,60 32,60 22,55" fill="#0f172a"/>
+          <polygon points="32,48 68,48 62,80 50,88 38,80" fill="#fed7aa"/>
+          <line x1="36" y1="58" x2="46" y2="60" stroke="#0f172a" stroke-width="2"/>
+          <line x1="64" y1="58" x2="54" y2="60" stroke="#0f172a" stroke-width="2"/>
+          <circle cx="42" cy="64" r="2" fill="#0f172a"/>
+          <circle cx="58" cy="64" r="2" fill="#0f172a"/>
+          <polygon points="44,82 56,82 50,92" fill="#ffffff"/>
+          <polygon points="20,95 50,78 80,95 50,105" fill="#15803d"/>
+        `;
+      } else if (cid.includes('eren')) {
+        innerSVG = `
+          <polygon points="50,12 25,25 15,65 18,95 32,80 34,48 66,48 68,80 82,95 85,65 75,25" fill="#451a03" stroke="#270e02" stroke-width="1.5"/>
+          <polygon points="34,48 66,48 60,80 50,88 40,80" fill="#fed7aa"/>
+          <circle cx="42" cy="60" r="3" fill="#22c55e"/>
+          <circle cx="58" cy="60" r="3" fill="#22c55e"/>
+          <line x1="38" y1="74" x2="62" y2="74" stroke="#dc2626" stroke-width="1.5"/>
+        `;
+      } else if (cid.includes('dante') || cid.includes('vergil')) {
+        const isDante = cid.includes('dante');
+        innerSVG = `
+          <polygon points="50,10 30,22 18,25 25,48 15,55 26,70 74,70 85,55 75,48 82,25 68,22" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+          <polygon points="32,48 68,48 62,80 50,88 38,80" fill="#fed7aa"/>
+          <circle cx="42" cy="60" r="2.5" fill="#0284c7"/>
+          <circle cx="58" cy="60" r="2.5" fill="#0284c7"/>
+          <polygon points="20,95 50,78 80,95 50,105" fill="${isDante ? '#dc2626' : '#1e3a8a'}"/>
+        `;
+      } else if (cid.includes('megaman') || cid.includes('zero')) {
+        const isZero = cid.includes('zero');
+        innerSVG = `
+          <polygon points="24,25 76,25 84,65 50,88 16,65" fill="${isZero ? '#dc2626' : '#0284c7'}" stroke="#0369a1" stroke-width="2"/>
+          <circle cx="50" cy="35" r="5" fill="${isZero ? '#22c55e' : '#38bdf8'}"/>
+          <polygon points="32,48 68,48 62,80 50,88 38,80" fill="#fed7aa"/>
+          <circle cx="42" cy="62" r="2.5" fill="#0284c7"/>
+          <circle cx="58" cy="62" r="2.5" fill="#0284c7"/>
+        `;
       } else {
         innerSVG = `
-          <circle cx="50" cy="45" r="24" fill="${theme}" opacity="0.3"/>
-          <text x="50" y="58" font-size="34" text-anchor="middle">${c.series === 'gundam' ? '🤖' : (c.series === 'dragonball' ? '⚡' : (c.series === 'marvel' ? '🦸' : (c.series === 'anime' ? '⚔️' : '🎮')))}</text>
+          <polygon points="50,12 30,24 16,35 24,55 76,55 84,35 70,24" fill="${theme}" stroke="#0f172a" stroke-width="1.5"/>
+          <polygon points="32,46 68,46 62,80 50,88 38,80" fill="#fed7aa"/>
+          <circle cx="42" cy="62" r="2.5" fill="#0f172a"/>
+          <circle cx="58" cy="62" r="2.5" fill="#0f172a"/>
+          <polygon points="20,95 50,78 80,95 50,105" fill="${theme}"/>
         `;
       }
     }
