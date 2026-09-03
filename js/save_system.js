@@ -77,13 +77,74 @@ class SaveSystem {
     }
   }
 
-  loginWithGoogle(email = "player@gmail.com", nickname = "超次元戰神", avatar = "https://api.dicebear.com/7.x/bottts/svg?seed=DimensionGamer") {
+  loginWithGoogle(email = "player@gmail.com", nickname = "超次元戰神", avatar = "", googleUid = "") {
+    const cleanEmail = (email || "player@gmail.com").trim();
+    const cleanNick = (nickname || cleanEmail.split("@")[0] || "次元戰神").trim();
+    const cleanAvatar = avatar || ("https://api.dicebear.com/7.x/bottts/svg?seed=" + encodeURIComponent(cleanNick));
+    const cleanUid = googleUid || ("G_" + Math.abs(this.hashCode(cleanEmail)));
+
+    // 儲存至特定帳號的專屬存檔槽 (Account-specific persistence)
+    const userSaveKey = `${STORAGE_KEY}_USER_${cleanEmail.toLowerCase()}`;
+    try {
+      const savedUserData = localStorage.getItem(userSaveKey);
+      if (savedUserData) {
+        const parsed = JSON.parse(savedUserData);
+        this.user = Object.assign(this.user, parsed);
+      }
+    } catch (e) {
+      console.warn("Failed loading user specific save", e);
+    }
+
     this.user.isLoggedIn = true;
-    this.user.email = email;
-    this.user.nickname = nickname;
-    this.user.avatar = avatar || "https://api.dicebear.com/7.x/bottts/svg?seed=" + encodeURIComponent(nickname);
+    this.user.email = cleanEmail;
+    this.user.nickname = cleanNick;
+    this.user.avatar = cleanAvatar;
+    this.user.uid = cleanUid;
     this.user.lastSyncedAt = new Date().toISOString();
+
+    // 記錄至最近登入的 Google 帳號清單 (Recent Accounts Cache)
+    this.recordRecentAccount({
+      email: cleanEmail,
+      nickname: cleanNick,
+      avatar: cleanAvatar,
+      uid: cleanUid,
+      lastLoginAt: this.user.lastSyncedAt,
+      trophies: this.user.trophies || 1000,
+      gold: this.user.gold || 1500
+    });
+
     this.save();
+    try {
+      localStorage.setItem(userSaveKey, JSON.stringify(this.user));
+    } catch (err) {}
+  }
+
+  hashCode(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = (hash << 5) - hash + str.charCodeAt(i);
+      hash |= 0;
+    }
+    return hash;
+  }
+
+  recordRecentAccount(acc) {
+    try {
+      let recents = this.getRecentGoogleAccounts();
+      recents = recents.filter(a => a.email.toLowerCase() !== acc.email.toLowerCase());
+      recents.unshift(acc);
+      if (recents.length > 4) recents = recents.slice(0, 4);
+      localStorage.setItem(`${STORAGE_KEY}_RECENT_ACCOUNTS`, JSON.stringify(recents));
+    } catch (e) {}
+  }
+
+  getRecentGoogleAccounts() {
+    try {
+      const data = localStorage.getItem(`${STORAGE_KEY}_RECENT_ACCOUNTS`);
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      return [];
+    }
   }
 
   setAvatar(avatarUrl) {

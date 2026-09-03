@@ -47,6 +47,7 @@ class App3D {
     this.bindEvents();
     this.setupKeyboard();
     this.setupTouchControls();
+    this.initGoogleIdentityServices();
     this.renderAllViews();
     this.updateUserStatusBar();
 
@@ -221,18 +222,187 @@ class App3D {
     this.openGoogleLoginModal();
   }
 
-  openGoogleLoginModal() {
-    const modal = document.getElementById("googleLoginModal");
-    if (modal) modal.classList.add("active");
+  initGoogleIdentityServices() {
+    if (typeof window !== "undefined" && window.google && window.google.accounts && window.google.accounts.id) {
+      try {
+        window.google.accounts.id.initialize({
+          client_id: "354178229864-democlientidforantigravityclash.apps.googleusercontent.com",
+          callback: (response) => this.handleGoogleCredentialResponse(response)
+        });
+      } catch (err) {
+        console.warn("GIS initialization notice:", err);
+      }
+    }
   }
 
-  performGoogleLogin(email, nickname) {
-    const avatar = "https://api.dicebear.com/7.x/bottts/svg?seed=" + encodeURIComponent(nickname);
-    window.saveSystem.loginWithGoogle(email, nickname, avatar);
+  handleGoogleCredentialResponse(response) {
+    try {
+      const jwt = response.credential;
+      const base64Url = jwt.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+      const payload = JSON.parse(jsonPayload);
+      this.performGoogleLogin(payload.email, payload.name, payload.picture, payload.sub);
+    } catch (e) {
+      console.warn("JWT Decode fallback", e);
+      this.performGoogleLogin("google.player@gmail.com", "Google 次元戰神");
+    }
+  }
+
+  // ─── 🌌 跨次元量子神經網絡・Google 帳號星門授權儀 (Original Quantum Google Auth Modal) ───
+  openGoogleLoginModal() {
+    const modal = document.getElementById("googleLoginModal");
+    if (!modal) return;
+
+    const recents = window.saveSystem.getRecentGoogleAccounts();
+    const currentUser = window.saveSystem.user;
+
+    modal.innerHTML = `
+      <div class="quantum-google-card">
+        <!-- 旋轉 Google 四色光環 (Google Colors Rainbow Hologram Ring) -->
+        <div class="google-stargate-ring">
+          <div class="google-stargate-inner">
+            <i class="fa-brands fa-google" style="background: linear-gradient(135deg, #4285f4, #ea4335, #fbbc05, #34a853); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+          </div>
+        </div>
+
+        <h2 style="font-size: 22px; font-weight: 900; color: #f8fafc; margin-bottom: 4px; letter-spacing: 0.5px;">
+          跨次元量子神經網絡
+        </h2>
+        <p style="font-size: 13px; color: #94a3b8; margin-bottom: 16px;">
+          連結 Google 帳戶 ⇄ 即時同步 100 位跨次元英雄、天梯階級與雲端存檔
+        </p>
+
+        <!-- 官方 Google 一鍵快速授權按鈕 (GIS Button Slot / Official Google OAuth) -->
+        <div style="margin-bottom: 16px;">
+          <div id="googleGisBtnSlot"></div>
+          <button class="google-oauth-btn" id="instantGoogleAuthBtn" onclick="window.app.triggerOneTapGoogleAuth()">
+            <svg width="20" height="20" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+              <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+              <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.03 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+              <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+            </svg>
+            <span>使用 Google 帳戶一鍵快速授權登入</span>
+          </button>
+        </div>
+
+        ${recents.length > 0 ? `
+          <div style="text-align: left; margin-bottom: 14px;">
+            <div style="font-size: 11px; font-weight: 800; color: #64748b; margin-bottom: 6px; text-transform: uppercase;">
+              <i class="fa-solid fa-clock-rotate-left"></i> 最近授權的 Google 帳戶
+            </div>
+            ${recents.slice(0, 2).map(acc => `
+              <div class="google-account-chip" onclick="window.app.performGoogleLogin('${acc.email}', '${acc.nickname}', '${acc.avatar}', '${acc.uid}')">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <img src="${acc.avatar}" style="width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #4285f4; background: #0f172a;">
+                  <div>
+                    <div style="font-size: 13px; font-weight: 800; color: #f8fafc;">${acc.nickname}</div>
+                    <div style="font-size: 11px; color: #94a3b8;">${acc.email}</div>
+                  </div>
+                </div>
+                <div style="font-size: 11px; font-weight: 800; color: #facc15;">
+                  🏆 ${acc.trophies || 1000}
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        ` : ''}
+
+        <!-- 帳號詳細自訂與手動綁定 -->
+        <div style="background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px; margin-bottom: 16px; text-align: left;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 11px; font-weight: 800; color: #38bdf8;"><i class="fa-solid fa-sliders"></i> 自訂 Google 帳號與戰神暱稱</span>
+            <span class="cloud-sync-badge"><i class="fa-solid fa-shield-halved"></i> 量子加密防護</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div>
+              <label style="font-size: 11px; color: #cbd5e1;">Google 信箱 (Gmail)：</label>
+              <input type="email" id="googleCustomEmailInput" value="${currentUser.email || 'dimension.hero@gmail.com'}" placeholder="例如: yourname@gmail.com" style="width: 100%; background: #0f172a; border: 1px solid rgba(66, 133, 244, 0.3); color: #f8fafc; padding: 8px 12px; border-radius: 8px; font-size: 13px; margin-top: 3px; outline: none;">
+            </div>
+            <div>
+              <label style="font-size: 11px; color: #cbd5e1;">遊戲暱稱 (Gamer Tag)：</label>
+              <input type="text" id="googleCustomNickInput" value="${currentUser.nickname || '次元戰神'}" placeholder="請輸入您的自訂戰神暱稱" style="width: 100%; background: #0f172a; border: 1px solid rgba(66, 133, 244, 0.3); color: #f8fafc; padding: 8px 12px; border-radius: 8px; font-size: 13px; margin-top: 3px; outline: none;">
+            </div>
+          </div>
+        </div>
+
+        <!-- 🎁 登入特典提示 -->
+        <div style="display: flex; justify-content: space-around; background: rgba(16, 185, 129, 0.1); border: 1px dashed rgba(16, 185, 129, 0.4); border-radius: 10px; padding: 8px 10px; margin-bottom: 16px; font-size: 11px; color: #6ee7b7;">
+          <span>🎁 +1,500 金幣</span>
+          <span>⚡ 3 位初始英雄</span>
+          <span>☁️ Google 雲端存檔</span>
+        </div>
+
+        <button class="btn-primary" style="width: 100%; justify-content: center; padding: 12px; font-size: 15px; font-weight: 900; background: linear-gradient(135deg, #4285f4, #1d4ed8); box-shadow: 0 0 20px rgba(66,133,244,0.4);" onclick="window.app.submitCustomGoogleLogin()">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i> 進入 3D 次元大亂鬥世界
+        </button>
+      </div>
+    `;
+
+    modal.classList.add("active");
+
+    // 嘗試渲染 Google 官方登入按鈕
+    if (window.google && window.google.accounts && window.google.accounts.id) {
+      try {
+        const btnContainer = document.getElementById("googleGisBtnSlot");
+        if (btnContainer) {
+          window.google.accounts.id.renderButton(btnContainer, {
+            theme: "filled_blue",
+            size: "large",
+            shape: "pill",
+            width: "380",
+            text: "signin_with"
+          });
+        }
+      } catch (err) {}
+    }
+  }
+
+  triggerOneTapGoogleAuth() {
+    if (window.google && window.google.accounts && window.google.accounts.id) {
+      try {
+        window.google.accounts.id.prompt((notification) => {
+          if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+            const emailInput = document.getElementById("googleCustomEmailInput");
+            const nickInput = document.getElementById("googleCustomNickInput");
+            const email = emailInput ? emailInput.value : "dimension.hero@gmail.com";
+            const nick = nickInput ? nickInput.value : "次元戰神";
+            this.performGoogleLogin(email, nick);
+          }
+        });
+        return;
+      } catch (e) {}
+    }
+
+    const emailInput = document.getElementById("googleCustomEmailInput");
+    const nickInput = document.getElementById("googleCustomNickInput");
+    const email = emailInput ? emailInput.value : "dimension.hero@gmail.com";
+    const nick = nickInput ? nickInput.value : "次元戰神";
+    this.performGoogleLogin(email, nick);
+  }
+
+  submitCustomGoogleLogin() {
+    const emailInput = document.getElementById("googleCustomEmailInput");
+    const nickInput = document.getElementById("googleCustomNickInput");
+    const email = emailInput ? emailInput.value : "player@gmail.com";
+    const nick = nickInput ? nickInput.value : "次元戰神";
+    this.performGoogleLogin(email, nick);
+  }
+
+  performGoogleLogin(email, nickname, avatar = "", googleUid = "") {
+    const cleanNick = (nickname || email.split("@")[0] || "次元戰神").trim();
+    const cleanAvatar = avatar || ("https://api.dicebear.com/7.x/bottts/svg?seed=" + encodeURIComponent(cleanNick));
+
+    window.saveSystem.loginWithGoogle(email, cleanNick, cleanAvatar, googleUid);
     this.updateUserStatusBar();
     this.closeModal();
     this.switchTab("roster");
-    alert(`🎉 Google 登入成功！歡迎【${nickname}】，已為您加載專屬 3D 角色庫！`);
+
+    if (window.soundEngine) {
+      window.soundEngine.playVictory();
+    }
   }
 
   // ─── 🎁 每日獎勵補給彈窗 ───

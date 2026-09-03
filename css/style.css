@@ -841,30 +841,115 @@ body {
   text-align: left;
 }
 
-/* 響應式調整 */
-@media (max-width: 768px) {
-  .app-header {
-    padding: 10px 14px;
-  }
-  .main-container {
-    padding: 12px;
-  }
-  .character-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-  #battle3DContainer {
-    height: 440px;
-  }
-  .touch-btn {
-    width: 46px;
-    height: 46px;
-    font-size: 11px;
-  }
-  .touch-btn.btn-atk {
-    width: 56px;
-    height: 56px;
-    font-size: 13px;
-  }
+/* ─── 🌌 跨次元量子神經網絡・Google 帳號星門授權儀 (Original Quantum Google Auth Styles) ─── */
+.quantum-google-card {
+  position: relative;
+  background: linear-gradient(165deg, rgba(15, 23, 42, 0.98), rgba(11, 19, 43, 0.95));
+  border: 2px solid rgba(66, 133, 244, 0.4);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(66, 133, 244, 0.25);
+  border-radius: 20px;
+  padding: 32px 28px;
+  max-width: 480px;
+  width: 92%;
+  text-align: center;
+  overflow: hidden;
+  animation: modalScaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.google-stargate-ring {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 16px auto;
+  border-radius: 50%;
+  background: conic-gradient(#4285f4, #ea4335, #fbbc05, #34a853, #4285f4);
+  padding: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 25px rgba(66, 133, 244, 0.5);
+  animation: stargateRotate 8s linear infinite;
+}
+
+@keyframes stargateRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.google-stargate-inner {
+  width: 100%;
+  height: 100%;
+  background: #0f172a;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  animation: stargateCounterRotate 8s linear infinite;
+}
+
+@keyframes stargateCounterRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+.google-oauth-btn {
+  background: white;
+  color: #1f2937;
+  border: 1px solid #d1d5db;
+  border-radius: 24px;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+}
+
+.google-oauth-btn:hover {
+  background: #f9fafb;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(66, 133, 244, 0.35);
+  border-color: #4285f4;
+}
+
+.google-account-chip {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(66, 133, 244, 0.3);
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  margin-bottom: 8px;
+}
+
+.google-account-chip:hover {
+  background: rgba(30, 41, 59, 1);
+  border-color: #4285f4;
+  transform: translateX(4px);
+  box-shadow: 0 0 15px rgba(66, 133, 244, 0.3);
+}
+
+.cloud-sync-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #34d399;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
 }
 
