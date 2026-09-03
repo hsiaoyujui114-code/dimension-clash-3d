@@ -166,6 +166,27 @@
         </div>
       </div>
 
+      <!-- ⌨️ 電腦鍵盤快捷鍵指示條 (PC Hotkeys Quick Legend) -->
+      <div class="pc-key-hints" style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; align-items: center; background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 10px 16px; margin-top: 10px; font-size: 11px; color: #cbd5e1; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+        <span style="color: #facc15; font-weight: 800;"><i class="fa-solid fa-keyboard"></i> 鍵盤熱鍵對照：</span>
+        <span><kbd style="background:#1e293b; border:1px solid #475569; padding:2px 5px; border-radius:4px; color:#38bdf8; font-weight:700;">W A S D</kbd> 360°走位</span>
+        <span><kbd style="background:#1e293b; border:1px solid #475569; padding:2px 5px; border-radius:4px; color:#38bdf8; font-weight:700;">Space</kbd> 跳躍</span>
+        <span><kbd style="background:#1e293b; border:1px solid #475569; padding:2px 5px; border-radius:4px; color:#38bdf8; font-weight:700;">F</kbd> 飛行模式</span>
+        <span><kbd style="background:#1e293b; border:1px solid #475569; padding:2px 5px; border-radius:4px; color:#38bdf8; font-weight:700;">Shift / Z</kbd> 翻滾閃避</span>
+        <span><kbd style="background:#1e293b; border:1px solid #475569; padding:2px 5px; border-radius:4px; color:#38bdf8; font-weight:700;">G / H</kbd> 格擋防禦</span>
+        <span><kbd style="background:#1e293b; border:1px solid #475569; padding:2px 5px; border-radius:4px; color:#38bdf8; font-weight:700;">J</kbd> 普攻</span>
+        <span><kbd style="background:#1e293b; border:1px solid #475569; padding:2px 5px; border-radius:4px; color:#38bdf8; font-weight:700;">K / X</kbd> 蓄力破防</span>
+        <span><kbd style="background:#1e293b; border:1px solid #475569; padding:2px 5px; border-radius:4px; color:#38bdf8; font-weight:700;">O / T</kbd> 抓技摔投</span>
+        <span><kbd style="background:#1e293b; border:1px solid #475569; padding:2px 5px; border-radius:4px; color:#38bdf8; font-weight:700;">U</kbd> 戰術技1</span>
+        <span><kbd style="background:#1e293b; border:1px solid #475569; padding:2px 5px; border-radius:4px; color:#38bdf8; font-weight:700;">I</kbd> 戰術技2</span>
+        <span><kbd style="background:#1e293b; border:1px solid #475569; padding:2px 5px; border-radius:4px; color:#facc15; font-weight:700;">L</kbd> 奧義大招</span>
+        <span><kbd style="background:#1e293b; border:1px solid #475569; padding:2px 5px; border-radius:4px; color:#c084fc; font-weight:700;">B</kbd> 爆氣脫身</span>
+        <span><kbd style="background:#1e293b; border:1px solid #475569; padding:2px 5px; border-radius:4px; color:#38bdf8; font-weight:700;">Q / E</kbd> 隊友援護</span>
+        <span><kbd style="background:#1e293b; border:1px solid #475569; padding:2px 5px; border-radius:4px; color:#38bdf8; font-weight:700;">V / C</kbd> 視角切換</span>
+        <span><kbd style="background:#1e293b; border:1px solid #475569; padding:2px 5px; border-radius:4px; color:#10b981; font-weight:700;">1~7</kbd> 切換分頁</span>
+        <span><kbd style="background:#1e293b; border:1px solid #475569; padding:2px 5px; border-radius:4px; color:#ef4444; font-weight:700;">Esc</kbd> 關閉彈窗</span>
+      </div>
+
       <!-- 戰鬥準備與隊伍編組面板 -->
       <div style="background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 20px; margin-top: 24px;">
         <div class="section-header">
@@ -411,18 +432,18 @@
   </div>
 
   <!-- Game Scripts -->
-  <script src="js/data/characters.js?v=20260902_canon_render_fix_v7"></script>
-  <script src="js/data/equipment.js?v=20260902_canon_render_fix_v7"></script>
-  <script src="js/data/achievements.js?v=20260902_canon_render_fix_v7"></script>
-  <script src="js/engine/audio.js?v=20260902_canon_render_fix_v7"></script>
-  <script src="js/engine/effects.js?v=20260902_canon_render_fix_v7"></script>
-  <script src="js/3d/three_scene.js?v=20260902_canon_render_fix_v7"></script>
-  <script src="js/3d/camera_controller.js?v=20260902_canon_render_fix_v7"></script>
-  <script src="js/3d/character_3d.js?v=20260902_canon_render_fix_v7"></script>
-  <script src="js/3d/combat_3d.js?v=20260902_canon_render_fix_v7"></script>
-  <script src="js/3d/ai_3d.js?v=20260902_canon_render_fix_v7"></script>
-  <script src="js/network/p2p.js?v=20260902_canon_render_fix_v7"></script>
-  <script src="js/save_system.js?v=20260902_canon_render_fix_v7"></script>
-  <script src="js/app.js?v=20260902_canon_render_fix_v7"></script>
+  <script src="js/data/characters.js?v=20260903_keyboard_complete_v8"></script>
+  <script src="js/data/equipment.js?v=20260903_keyboard_complete_v8"></script>
+  <script src="js/data/achievements.js?v=20260903_keyboard_complete_v8"></script>
+  <script src="js/engine/audio.js?v=20260903_keyboard_complete_v8"></script>
+  <script src="js/engine/effects.js?v=20260903_keyboard_complete_v8"></script>
+  <script src="js/3d/three_scene.js?v=20260903_keyboard_complete_v8"></script>
+  <script src="js/3d/camera_controller.js?v=20260903_keyboard_complete_v8"></script>
+  <script src="js/3d/character_3d.js?v=20260903_keyboard_complete_v8"></script>
+  <script src="js/3d/combat_3d.js?v=20260903_keyboard_complete_v8"></script>
+  <script src="js/3d/ai_3d.js?v=20260903_keyboard_complete_v8"></script>
+  <script src="js/network/p2p.js?v=20260903_keyboard_complete_v8"></script>
+  <script src="js/save_system.js?v=20260903_keyboard_complete_v8"></script>
+  <script src="js/app.js?v=20260903_keyboard_complete_v8"></script>
 </body>
 </html>

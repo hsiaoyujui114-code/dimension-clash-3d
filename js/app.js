@@ -446,31 +446,99 @@ class App3D {
     });
   }
 
-  // ─── 專屬獨立動作按鍵設定 (各動作獨立按鍵，絕不重疊衝突) ───
+  // ─── 專屬獨立動作按鍵設定 (各動作獨立按鍵，絕不重疊衝突，全功能覆蓋) ───
   setupKeyboard() {
     window.addEventListener("keydown", (e) => {
-      if (e.repeat) return;
-      this.keys[e.key.toLowerCase()] = true;
-      this.keys[e.code] = true;
+      const isInput = e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.isContentEditable);
+      const key = e.key.toLowerCase();
+      const code = e.code;
 
-      if (e.key === "Enter" || e.code === "Enter") {
-        if (window.matchEngine3D) {
-          window.matchEngine3D.confirmStartMatch();
-        }
-        return;
+      // 阻止遊戲快捷鍵引發網頁滾動或跳轉 (Space, 方向鍵, Tab 等)
+      if (!isInput && ["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Tab"].includes(code)) {
+        e.preventDefault();
       }
 
-      const p1 = window.matchEngine3D.p1Current;
+      if (e.repeat) return;
+      this.keys[key] = true;
+      this.keys[code] = true;
+
+      // ── 🌐 全域功能快捷鍵 (免切換，隨時可用) ──
+      if (!isInput) {
+        // 1~7 數字鍵直接切換主功能分頁
+        if (key === "1" || code === "Digit1") { this.switchTab("roster"); return; }
+        if (key === "2" || code === "Digit2") { this.switchTab("battle"); return; }
+        if (key === "3" || code === "Digit3") { this.switchTab("ranked"); return; }
+        if (key === "4" || code === "Digit4") { this.switchTab("boss_rush"); return; }
+        if (key === "5" || code === "Digit5") { this.switchTab("quests"); return; }
+        if (key === "6" || code === "Digit6") { this.switchTab("shop"); return; }
+        if (key === "7" || code === "Digit7") { this.switchTab("guide"); return; }
+
+        // Escape 鍵關閉所有開啟中彈窗
+        if (key === "escape" || code === "Escape") {
+          this.closeModal();
+          return;
+        }
+
+        // M 鍵切換音效靜音
+        if (key === "m") {
+          if (window.soundEngine) {
+            const muted = window.soundEngine.toggleMute();
+            const muteBtn = document.getElementById("muteToggleBtn");
+            if (muteBtn) {
+              muteBtn.innerHTML = muted ? `<i class="fa-solid fa-volume-xmark"></i> 靜音` : `<i class="fa-solid fa-volume-high"></i> 音效`;
+            }
+          }
+          return;
+        }
+
+        // R 鍵手動同步存檔 (非 Ctrl+R 刷新)
+        if (key === "r" && !e.ctrlKey && !e.metaKey && this.activeTab !== "battle") {
+          this.manualSync();
+          return;
+        }
+
+        // V / C 鍵切換 3D 相機視角 (第三人稱身後 / 第一人稱 / 上方俯瞰)
+        if (key === "v" || (key === "c" && this.activeTab !== "battle")) {
+          if (this.cameraController) {
+            this.cameraController.cycleViewMode();
+            const cameraBtn = document.getElementById("cameraViewBtn");
+            if (cameraBtn) {
+              cameraBtn.innerHTML = `<i class="fa-solid fa-video"></i> ${this.cameraController.getViewModeLabel()}`;
+            }
+          }
+          return;
+        }
+      }
+
+      // ── ⚔️ 3D 戰鬥即時操作響應 ──
+      if (window.matchEngine3D) {
+        const mState = window.matchEngine3D.matchState;
+
+        // 若處於準備狀態或換人等待，按 Enter、Space 或任一戰鬥按鍵自動啟動對決
+        const isActionKey = ["enter", "space", "w", "a", "s", "d", "j", "k", "u", "i", "l", "o", "f", "g", "h", "b", "q", "e", "z", "x", "shift"].includes(key) || ["Space", "ShiftLeft", "ShiftRight"].includes(code);
+
+        if (isActionKey && (mState === "pre_match" || mState === "standby" || mState === "waiting_spawn_p1" || mState === "waiting_spawn_p2")) {
+          window.matchEngine3D.confirmStartMatch();
+          return;
+        }
+
+        if (key === "enter" || code === "Enter" || code === "NumpadEnter") {
+          window.matchEngine3D.confirmStartMatch();
+          return;
+        }
+      }
+
+      const p1 = window.matchEngine3D ? window.matchEngine3D.p1Current : null;
       if (!p1 || window.matchEngine3D.matchState !== "fighting") return;
       const p2 = window.matchEngine3D.p2Current;
 
       // 1. 飛行起飛 / 降落 [F]
-      if (e.key.toLowerCase() === "f") {
+      if (key === "f") {
         p1.toggleFlight();
       }
 
-      // 2. 視角切換 [V]
-      if (e.key.toLowerCase() === "v") {
+      // 2. 視角切換 [V] 或 [C]
+      if (key === "v" || key === "c") {
         if (this.cameraController) {
           this.cameraController.cycleViewMode();
           const cameraBtn = document.getElementById("cameraViewBtn");
@@ -480,72 +548,83 @@ class App3D {
         }
       }
 
-      // 3. 跳躍 [Space]
-      if (e.code === "Space") {
+      // 3. 3D 跳躍 / 二段跳 [Space]
+      if (code === "Space") {
         p1.jump();
       }
 
-      // 4. 閃避翻滾 [Shift] (CD 1.2s)
-      if (e.key === "Shift" || e.code === "ShiftLeft" || e.code === "ShiftRight") {
+      // 4. 閃避翻滾 [Shift] / [Z] (CD 1.2s)
+      if (key === "shift" || code === "ShiftLeft" || code === "ShiftRight" || key === "z") {
         p1.dodge();
       }
 
-      // 5. 獨立格擋防禦 [G] (不使用 S 鍵，避免與後退移動衝突)
-      if (e.key.toLowerCase() === "g") {
+      // 5. 獨立格擋防禦 [G] 或 [H] (不佔用 S 鍵，避免後退衝突)
+      if (key === "g" || key === "h") {
         p1.guard(true);
       }
 
-      // 6. 輕擊普攻 [J] (無 CD)
-      if (e.key.toLowerCase() === "j") {
+      // 6. 輕擊普通攻擊 [J] (無 CD 磁性追擊連招)
+      if (key === "j") {
         p1.lightAttack(p2);
       }
 
-      // 7. 蓄力破防重擊 [K] (CD 2.5s)
-      if (e.key.toLowerCase() === "k") {
+      // 7. 蓄力破防重擊 [K] 或 [X] (CD 2.5s)
+      if (key === "k" || key === "x") {
         p1.startHeavyCharge();
         setTimeout(() => {
           if (p1 && p1.isCharging) p1.releaseHeavyCharge(p2);
         }, 700);
       }
 
-      // 8. 摔投抓技 [O] (CD 3.5s)
-      if (e.key.toLowerCase() === "o") {
+      // 8. 摔投抓技 [O] 或 [T] (CD 3.5s)
+      if (key === "o" || key === "t") {
         p1.grab(p2);
       }
 
       // 9. 戰術小招 1 [U] (CD 6~10s)
-      if (e.key.toLowerCase() === "u") {
+      if (key === "u") {
         p1.useSkill1(p2);
       }
 
       // 10. 戰術小招 2 [I] (CD 8~14s)
-      if (e.key.toLowerCase() === "i") {
+      if (key === "i") {
         p1.useSkill2(p2);
       }
 
       // 11. 終極奧義大招 [L] (CD 20s + 100% 怒氣)
-      if (e.key.toLowerCase() === "l") {
+      if (key === "l") {
         p1.useUlt(p2);
       }
 
-      // 12. 援護出擊 [Q] 或 [E] (CD 20s)
-      if (e.key.toLowerCase() === "q" || e.key.toLowerCase() === "e") {
+      // 12. 援護出擊 [Q] 或 [E] 或 [Y] (CD 20s)
+      if (key === "q" || key === "e" || key === "y") {
         window.matchEngine3D.callAssist();
       }
 
       // 13. 極限爆氣脫身 [B] (CD 12s + 50% 怒氣)
-      if (e.key.toLowerCase() === "b") {
+      if (key === "b") {
         p1.useBurst(p2);
       }
     });
 
     window.addEventListener("keyup", (e) => {
-      this.keys[e.key.toLowerCase()] = false;
-      this.keys[e.code] = false;
+      const key = e.key.toLowerCase();
+      const code = e.code;
+      this.keys[key] = false;
+      this.keys[code] = false;
 
-      const p1 = window.matchEngine3D.p1Current;
-      if (p1 && e.key.toLowerCase() === "g") {
-        p1.guard(false);
+      const p1 = window.matchEngine3D ? window.matchEngine3D.p1Current : null;
+      const p2 = window.matchEngine3D ? window.matchEngine3D.p2Current : null;
+
+      if (p1) {
+        // 放開 G / H 鍵停止格擋
+        if (key === "g" || key === "h") {
+          p1.guard(false);
+        }
+        // 放開 K / X 鍵立即釋放蓄力破防重擊
+        if ((key === "k" || key === "x") && p1.isCharging) {
+          p1.releaseHeavyCharge(p2);
+        }
       }
     });
   }
