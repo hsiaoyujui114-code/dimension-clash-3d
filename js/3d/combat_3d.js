@@ -813,38 +813,92 @@ class MatchEngine3D {
       else window.soundEngine.playKO();
     }
 
-    const isSweep = this.p1Index === 0 && this.team2Roster.length >= 3;
-    const isSweep1v5 = isPlayerWinner && this.p1Index === 0 && this.team2Roster.length >= 5;
+    const team1Total = this.team1Roster.length;
+    const team2Total = this.team2Roster.length;
+    const p1Deaths = Math.min(team1Total, this.p1Index);
+    const p1Survived = isPlayerWinner ? Math.max(1, team1Total - p1Deaths) : 0;
+    const p2Defeated = isPlayerWinner ? team2Total : Math.min(team2Total, this.p2Index);
 
-    let baseGold = 800;
-    let trophiesDelta = 35;
+    const isSweep = isPlayerWinner && p1Deaths === 0 && team2Total >= 2;
+    const isSweep1v5 = isPlayerWinner && p1Deaths === 0 && team2Total >= 5;
+
+    // ── 1. 基礎獎勵依難度大幅提升 (Base Rewards Scaled by Difficulty) ──
+    let baseGold = 2500;
+    let trophiesDelta = 45;
     let crystalReward = 0;
+    let summonTickets = 1;
+    let gearCrates = 1;
+    let matchGrade = "S";
 
     if (this.mode === "boss_rush") {
-      baseGold = 1500;
-      trophiesDelta = 50;
-      crystalReward = isPlayerWinner ? 1 : 0;
+      baseGold = 5000 + (this.currentBossFloor * 1200);
+      trophiesDelta = 80;
+      crystalReward = isPlayerWinner ? Math.min(5, Math.ceil(this.currentBossFloor / 2)) : 1;
+      gearCrates = 2;
     } else if (this.mode === "ranked" || this.mode === "p2p") {
-      baseGold = isPlayerWinner ? 1200 : 300;
-      trophiesDelta = isPlayerWinner ? 30 : -15;
+      baseGold = isPlayerWinner ? 4500 : 1200;
+      trophiesDelta = isPlayerWinner ? 55 : -15;
+      crystalReward = isPlayerWinner ? (Math.random() < 0.5 ? 1 : 0) : 0;
+      gearCrates = 2;
     } else {
-      // 自由 AI 對決：簡單 / 中等 / 困難
+      // 自由 AI 對決
       if (this.difficulty === "easy") {
-        baseGold = isPlayerWinner ? 400 : 100;
-        trophiesDelta = isPlayerWinner ? 15 : -8;
+        baseGold = isPlayerWinner ? 1800 : 500;
+        trophiesDelta = isPlayerWinner ? 25 : -5;
+        gearCrates = 1;
       } else if (this.difficulty === "hard") {
-        baseGold = isPlayerWinner ? 1800 : 400;
-        trophiesDelta = isPlayerWinner ? 75 : -25;
-        if (isPlayerWinner && Math.random() < 0.6) crystalReward = 1;
+        baseGold = isPlayerWinner ? 8500 : 2000;
+        trophiesDelta = isPlayerWinner ? 150 : -20;
+        crystalReward = isPlayerWinner ? (Math.floor(Math.random() * 3) + 1) : 0; // 困難勝場必掉 1~3 顆結晶
+        summonTickets = isPlayerWinner ? 3 : 1;
+        gearCrates = 3;
       } else {
         // "medium"
-        baseGold = isPlayerWinner ? 800 : 200;
-        trophiesDelta = isPlayerWinner ? 35 : -15;
+        baseGold = isPlayerWinner ? 3800 : 1000;
+        trophiesDelta = isPlayerWinner ? 60 : -10;
+        crystalReward = isPlayerWinner ? (Math.random() < 0.4 ? 1 : 0) : 0;
+        gearCrates = 2;
       }
     }
 
-    let rewardGold = baseGold;
-    if (isSweep) rewardGold *= 2;
+    // ── 2. 依陣亡人數與生還表現加成 (Casualty & Flawless Multipliers) ──
+    let casualtyMultiplier = 1.0;
+    let casualtyTitle = "標準戰果";
+
+    if (isPlayerWinner) {
+      if (p1Deaths === 0) {
+        // 👑 零傷亡完封 (全員無損存活) -> SSS 評級，金幣 2.5 倍
+        casualtyMultiplier = 2.5;
+        matchGrade = "SSS";
+        casualtyTitle = `👑 零傷亡完封！${p1Survived}/${team1Total} 全員生還 (金幣 x2.5)`;
+        baseGold += 2000;
+        if (this.difficulty === "hard") crystalReward += 1;
+      } else if (p1Deaths === 1 && team1Total >= 2) {
+        // 🎖️ 輕微戰損 -> SS 評級，金幣 1.8 倍
+        casualtyMultiplier = 1.8;
+        matchGrade = "SS";
+        casualtyTitle = `🎖️ 輕度戰損 (${p1Deaths} 英雄力竭 / ${p1Survived} 人生還, 金幣 x1.8)`;
+        baseGold += 1000;
+      } else {
+        // ⚔️ 浴血逆轉 -> S 評級，金幣 1.3 倍
+        casualtyMultiplier = 1.3;
+        matchGrade = "S";
+        casualtyTitle = `⚔️ 浴血逆轉勝 (${p1Deaths} 英雄力竭 / 殘血反殺, 金幣 x1.3)`;
+        baseGold += 500;
+      }
+    } else {
+      // 戰敗撫慰補貼
+      matchGrade = "A";
+      const killBonus = p2Defeated * 400;
+      baseGold += killBonus;
+      casualtyTitle = `🛡️ 頑強死鬥 (擊倒敵方 ${p2Defeated} 名英雄，撫慰補貼 +${killBonus} 金幣)`;
+    }
+
+    let finalGold = Math.round(baseGold * (isPlayerWinner ? casualtyMultiplier : 1.0));
+    if (isSweep1v5) {
+      finalGold += 5000;
+      crystalReward += 2;
+    }
 
     if (this.onMatchEnd) {
       this.onMatchEnd({
@@ -854,11 +908,18 @@ class MatchEngine3D {
         bossFloor: this.currentBossFloor,
         mode: this.mode,
         difficulty: this.difficulty,
-        gold: rewardGold,
-        trophiesDelta: isPlayerWinner ? trophiesDelta : (this.mode === "ranked" ? -15 : (this.difficulty === "hard" ? -25 : -10)),
+        gold: finalGold,
+        trophiesDelta: isPlayerWinner ? trophiesDelta : (this.mode === "ranked" ? -15 : (this.difficulty === "hard" ? -20 : -8)),
         crystalReward,
-        p1DefeatedCount: this.p2Index,
-        p2DefeatedCount: this.p1Index
+        summonTickets,
+        gearCrates,
+        matchGrade,
+        casualtyTitle,
+        p1Deaths,
+        p1Survived,
+        p1TeamTotal: team1Total,
+        p2Defeated,
+        p2TeamTotal: team2Total
       });
     }
   }

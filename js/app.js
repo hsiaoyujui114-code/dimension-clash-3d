@@ -991,50 +991,64 @@ class App3D {
     const isWin = result.winner === "player";
     container.className = `modal-content settlement-card ${isWin ? 'victory-theme' : 'defeat-theme'}`;
 
-    const sweepNotice = result.isSweep1v5 ? `<div style="color: #facc15; font-weight: 900; font-size: 14px; margin-top: 6px;">👑【神級成就達成】首發先鋒 1 穿 5 完封大滿貫！</div>` : (result.isSweep ? `<div style="color: #38bdf8; font-weight: 800; font-size: 13px; margin-top: 6px;">🔥【一挑多連勝】獲得雙倍金幣獎勵！</div>` : '');
+    const sweepNotice = result.isSweep1v5 ? `<div style="color: #facc15; font-weight: 900; font-size: 14px; margin: 8px 0; padding: 6px 12px; background: rgba(250, 204, 21, 0.15); border: 1px solid #facc15; border-radius: 8px;">👑【神級成就達成】首發先鋒 1 穿 5 完封大滿貫！額外 +5,000 金幣 + 2 顆結晶！</div>` : (result.isSweep ? `<div style="color: #38bdf8; font-weight: 800; font-size: 13px; margin: 8px 0; padding: 6px 12px; background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; border-radius: 8px;">🔥【完封連勝】達成零傷亡全員生還！</div>` : '');
 
-    const diffLabel = result.difficulty === "easy" ? "🟢 簡單 (Easy)" : (result.difficulty === "hard" ? "🔴 困難 (Hard)" : "🟡 中等 (Normal)");
+    const diffLabel = result.difficulty === "easy" ? "🟢 簡單模式 (Easy)" : (result.difficulty === "hard" ? "🔴 困難極限模式 (Hard)" : "🟡 中等標準模式 (Normal)");
+
+    const gradeColor = result.matchGrade === "SSS" ? "#facc15" : (result.matchGrade === "SS" ? "#38bdf8" : (result.matchGrade === "S" ? "#10b981" : "#a855f7"));
 
     container.innerHTML = `
-      <div style="font-size: 52px; margin-bottom: 8px;">
-        ${isWin ? '🏆' : '💀'}
+      <div style="position: relative; text-align: center; margin-bottom: 12px;">
+        <div style="display: inline-flex; align-items: center; justify-content: center; width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, ${gradeColor}33, #0f172a); border: 3px solid ${gradeColor}; box-shadow: 0 0 25px ${gradeColor}66; margin-bottom: 6px;">
+          <span style="font-size: 32px; font-weight: 900; color: ${gradeColor}; font-family: Impact, sans-serif;">${result.matchGrade || (isWin ? 'S' : 'A')}</span>
+        </div>
+        <h2 style="font-size: 28px; font-weight: 900; color: ${isWin ? '#10b981' : '#ef4444'}; text-shadow: 0 0 20px ${isWin ? 'rgba(16,185,129,0.6)' : 'rgba(239,68,68,0.6)'};">
+          ${isWin ? '戰鬥勝利！(VICTORY)' : '對決結束 (DEFEATED)'}
+        </h2>
+        <div style="font-size: 13px; font-weight: 700; color: #facc15; margin-top: 2px;">
+          ${result.casualtyTitle || (isWin ? '恭喜獲得本次跨次元對決勝利！' : '全體出賽英雄已力竭倒下')}
+        </div>
       </div>
-      <h2 style="font-size: 30px; font-weight: 900; color: ${isWin ? '#10b981' : '#ef4444'}; margin-bottom: 4px; text-shadow: 0 0 20px ${isWin ? 'rgba(16,185,129,0.6)' : 'rgba(239,68,68,0.6)'};">
-        ${isWin ? '你贏了！(VICTORY)' : '你輸了 (DEFEATED)'}
-      </h2>
-      <p style="font-size: 14px; color: #cbd5e1; margin-bottom: 12px;">
-        ${isWin ? '恭喜獲得本次跨次元 3D 對決勝利！' : '全體出賽英雄已力竭倒下，請再接再厲！'}
-      </p>
+
       ${sweepNotice}
 
-      <div class="settlement-stat-box">
-        <div style="display: flex; justify-content: space-between;">
+      <!-- 戰績與傷亡數據盒 (Casualty & Lore Breakdown) -->
+      <div class="settlement-stat-box" style="display: flex; flex-direction: column; gap: 8px; background: rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px; text-align: left; font-size: 13px;">
+        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 6px;">
           <span style="color: #94a3b8;">🎮 對戰賽制與難度：</span>
-          <b style="color: #38bdf8;">${result.mode === 'boss_rush' ? `魔王塔第 ${result.bossFloor} 層` : (result.mode === 'ranked' ? '天梯標準公平排位' : diffLabel)}</b>
+          <b style="color: #38bdf8;">${result.mode === 'boss_rush' ? `魔王挑戰塔第 ${result.bossFloor} 層` : (result.mode === 'ranked' ? '天梯公平排位' : diffLabel)}</b>
         </div>
-        <div style="display: flex; justify-content: space-between;">
-          <span style="color: #94a3b8;">💰 結算金幣獎勵：</span>
-          <b style="color: #facc15; font-size: 15px;">+${result.gold.toLocaleString()} 金幣</b>
+        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 6px;">
+          <span style="color: #94a3b8;">👥 我方戰損與生還：</span>
+          <b style="color: ${result.p1Deaths === 0 ? '#10b981' : '#f87171'};">
+            ${result.p1Deaths === 0 ? '🌟 全員無傷生還 (0 陣亡)' : `💀 陣亡 ${result.p1Deaths || 0} 位 ｜ 生還 ${result.p1Survived || 0} 位`}
+          </b>
         </div>
-        <div style="display: flex; justify-content: space-between;">
-          <span style="color: #94a3b8;">🏆 天梯積分結算：</span>
-          <b style="color: ${result.trophiesDelta > 0 ? '#34d399' : '#f87171'}; font-size: 15px;">${result.trophiesDelta > 0 ? `+${result.trophiesDelta}` : result.trophiesDelta} 獎盃</b>
+        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 6px;">
+          <span style="color: #94a3b8;">⚔️ 殲滅敵方英雄數：</span>
+          <b style="color: #facc15;">${result.p2Defeated || 1} / ${result.p2TeamTotal || 3} 位 (全數擊潰)</b>
         </div>
-        ${result.crystalReward > 0 ? `
-          <div style="display: flex; justify-content: space-between; border-top: 1px dashed rgba(255,255,255,0.2); padding-top: 6px;">
-            <span style="color: #f472b6;">💎 稀有掉落物：</span>
-            <b style="color: #f472b6;">+${result.crystalReward} 顆感應骨架結晶！</b>
+
+        <!-- 🎁 豐厚獎品清單 (Rich Rewards Bundle) -->
+        <div style="background: rgba(16, 185, 129, 0.1); border: 1px dashed rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 10px; margin-top: 4px;">
+          <div style="font-size: 12px; font-weight: 800; color: #34d399; margin-bottom: 6px;"><i class="fa-solid fa-gift"></i> 結算獲得豐富戰利品明細：</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 13px;">
+            <div>💰 獲得金幣：<b style="color: #facc15;">+${result.gold.toLocaleString()}</b></div>
+            <div>🏆 獲得獎盃：<b style="color: ${result.trophiesDelta > 0 ? '#34d399' : '#f87171'};">${result.trophiesDelta > 0 ? `+${result.trophiesDelta}` : result.trophiesDelta}</b></div>
+            ${result.crystalReward > 0 ? `<div style="color: #f472b6;">💎 感應結晶：<b style="color: #f472b6;">+${result.crystalReward} 顆！</b></div>` : ''}
+            <div>📦 補給箱：<b style="color: #38bdf8;">+${result.gearCrates || 1} 個</b></div>
           </div>
-        ` : ''}
-        <div style="display: flex; justify-content: space-between;">
-          <span style="color: #94a3b8;">⚔️ 擊敗敵方角色數：</span>
-          <b style="color: #f8fafc;">${result.p1DefeatedCount !== undefined ? result.p1DefeatedCount + (isWin ? 1 : 0) : 1} 位</b>
         </div>
       </div>
 
-      <button class="btn-primary" style="width: 100%; font-size: 18px; font-weight: 900; padding: 14px 28px; justify-content: center; background: linear-gradient(135deg, #10b981, #059669); margin-top: 16px; box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);" onclick="window.app.restartToRoster()">
-        <i class="fa-solid fa-rotate-left"></i> 🔄 重新開始 (回到我的角色)
-      </button>
+      <div style="display: flex; gap: 10px; margin-top: 16px;">
+        <button class="btn-primary" style="flex: 1; font-size: 15px; font-weight: 900; padding: 12px; justify-content: center; background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);" onclick="window.app.startSelectedBattle('kof')">
+          <i class="fa-solid fa-play"></i> 再戰一場
+        </button>
+        <button class="btn-secondary" style="font-size: 14px; font-weight: 800; padding: 12px 18px; justify-content: center;" onclick="window.app.restartToRoster()">
+          <i class="fa-solid fa-house"></i> 回名冊
+        </button>
+      </div>
     `;
 
     modal.classList.add("active");
