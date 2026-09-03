@@ -108,14 +108,51 @@ class App3D {
       this.p1Team = this.p1Team.slice(0, this.teamSize);
     }
 
-    const enemyPool = window.CHARACTERS_DATA.map(c => c.id);
-    while (this.p2Team.length < this.teamSize) {
-      const nextEnemy = enemyPool.find(id => !this.p2Team.includes(id)) || enemyPool[0];
-      this.p2Team.push(nextEnemy);
+    // 電腦對手陣容依難度隨機抽角 (Difficulty-Based Random Drafting)
+    this.draftComputerTeam(this.aiDifficulty, this.teamSize);
+  }
+
+  // ─── 🤖 依遊戲難度動態隨機抽角 (Difficulty-Based Dynamic Drafting) ───
+  draftComputerTeam(difficulty = this.aiDifficulty, count = this.teamSize) {
+    if (!window.CHARACTERS_DATA || window.CHARACTERS_DATA.length === 0) return;
+
+    let pool = [];
+    if (difficulty === "easy") {
+      // 🟢 簡單難度：隨機抽選 凡品(白階 1)、優秀(綠階 2)、稀有(藍階 3) 初階英雄
+      pool = window.CHARACTERS_DATA.filter(c => c.rarity <= 3);
+      if (pool.length < count) pool = window.CHARACTERS_DATA.filter(c => c.rarity <= 4);
+    } else if (difficulty === "hard") {
+      // 🔴 困難難度：隨機抽選 傳奇(金階 6)、神話(紅階 7)、幻界(彩階 8)、創世/概念(9階) 頂級魔王神祇
+      pool = window.CHARACTERS_DATA.filter(c => c.rarity >= 6);
+      if (pool.length < count) pool = window.CHARACTERS_DATA.filter(c => c.rarity >= 5);
+    } else {
+      // 🟡 中等難度：隨機抽選 稀有(藍階 3)、特級(紫階 4)、史詩(粉階 5)、傳奇(金階 6) 全明星陣容
+      pool = window.CHARACTERS_DATA.filter(c => c.rarity >= 3 && c.rarity <= 6);
+      if (pool.length < count) pool = window.CHARACTERS_DATA;
     }
-    if (this.p2Team.length > this.teamSize) {
-      this.p2Team = this.p2Team.slice(0, this.teamSize);
+
+    // 隨機亂序洗牌 (Fisher-Yates Shuffle)
+    const shuffled = [...pool].sort(() => 0.5 - Math.random());
+    this.p2Team = [];
+    for (let c of shuffled) {
+      if (!this.p2Team.includes(c.id)) {
+        this.p2Team.push(c.id);
+      }
+      if (this.p2Team.length >= count) break;
     }
+
+    // 若依然不足，從全英雄庫補齊
+    if (this.p2Team.length < count) {
+      const allShuffled = [...window.CHARACTERS_DATA].sort(() => 0.5 - Math.random());
+      for (let c of allShuffled) {
+        if (!this.p2Team.includes(c.id)) {
+          this.p2Team.push(c.id);
+        }
+        if (this.p2Team.length >= count) break;
+      }
+    }
+
+    this.renderTeamSelectors();
   }
 
   // ─── 更新頂部狀態列 (含頭像與暱稱) ───
@@ -572,7 +609,7 @@ class App3D {
       });
     });
 
-    // 🤖 AI 難度分級選擇切換 (簡單 / 中等 / 困難)
+    // 🤖 AI 難度分級選擇切換 (簡單 / 中等 / 困難) -> 自動隨機重抽符合該難度階級的電腦陣容
     document.querySelectorAll(".diff-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         document.querySelectorAll(".diff-btn").forEach(b => b.classList.remove("active"));
@@ -581,17 +618,19 @@ class App3D {
         const hint = document.getElementById("difficultyRewardHint");
         if (hint) {
           if (this.aiDifficulty === "easy") {
-            hint.innerHTML = `<b style="color:#22c55e;">[簡單]</b>：AI 攻擊頻率較低、反應較慢 ｜ 勝場 +400 金幣 / +15 獎盃`;
+            hint.innerHTML = `<b style="color:#22c55e;">[簡單]</b>：AI 隨機抽取白~藍階(T1~T3)英雄 ｜ 勝場 +400 金幣 / +15 獎盃`;
           } else if (this.aiDifficulty === "hard") {
-            hint.innerHTML = `<b style="color:#ef4444;">[困難]</b>：AI 幀級極速反擊、空中制空、主動破防 ｜ 勝場 +1,800 金幣 / +75 獎盃 / 掉落感應結晶！`;
+            hint.innerHTML = `<b style="color:#ef4444;">[困難]</b>：AI 隨機抽取金~創世階(T6~T9)魔王神祇 ｜ 勝場 +1,800 金幣 / +75 獎盃 / 掉落感應結晶！`;
           } else {
-            hint.innerHTML = `<b style="color:#eab308;">[中等]</b>：AI 標準反應與戰術連招 ｜ 勝場 +800 金幣 / +35 獎盃`;
+            hint.innerHTML = `<b style="color:#eab308;">[中等]</b>：AI 隨機抽取藍~金階(T3~T6)全明星陣容 ｜ 勝場 +800 金幣 / +35 獎盃`;
           }
         }
         if (window.fighterAI3D) {
           window.fighterAI3D.setDifficulty(this.aiDifficulty);
         }
-        this.autoSync(`調整 AI 難度為 ${this.aiDifficulty}`);
+        // 即時依所選難度重抽電腦陣容
+        this.draftComputerTeam(this.aiDifficulty, this.teamSize);
+        this.autoSync(`調整 AI 難度為 ${this.aiDifficulty} 並重新隨機抽角`);
       });
     });
 
@@ -1493,15 +1532,22 @@ class App3D {
       `;
     }).join("");
 
+    const diffTag = this.aiDifficulty === "easy" ? "🟢 簡單池 (T1~T3)" : (this.aiDifficulty === "hard" ? "🔴 困難神祇 (T6~T9)" : "🟡 中等全明星 (T3~T6)");
+    const p2Header = document.getElementById("p2TeamHeaderTitle");
+    if (p2Header) {
+      p2Header.innerHTML = `🔴 電腦對手陣容 <span style="font-size: 11px; font-weight: 700; color: #facc15;">(${diffTag})</span>`;
+    }
+
     p2Container.innerHTML = this.p2Team.map((charId, idx) => {
       const char = window.CHARACTERS_DATA.find(c => c.id === charId) || window.CHARACTERS_DATA[0];
+      const rInfo = window.RARITY_TIERS[char.rarity] || { name: `${char.rarity}階`, color: "#38bdf8" };
       return `
         <div class="team-slot-card" onclick="window.app.openHeroPicker(${idx}, 2)" style="display: flex; gap: 10px; align-items: center;">
           ${this.getHeroAvatarHTML(char, 46)}
           <div>
-            <div class="slot-badge">${idx + 1} 號位</div>
+            <div class="slot-badge">${idx + 1} 號位 <span style="color:${rInfo.color}; font-size:10px;">[${rInfo.label || rInfo.name}]</span></div>
             <div class="slot-char-name" style="color: ${char.themeColor}">${char.name}</div>
-            <div class="slot-char-lvl">Lv.${char.rarity * 10}</div>
+            <div class="slot-char-lvl">${char.seriesName} · Lv.${char.rarity * 10}</div>
           </div>
         </div>
       `;

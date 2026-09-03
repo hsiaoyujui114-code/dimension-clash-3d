@@ -228,7 +228,10 @@
           </div>
           <!-- P2 Team -->
           <div>
-            <h4 style="font-size: 14px; font-weight: 800; color: #ef4444; margin-bottom: 10px;">🔴 對手方陣容 (敵方出場順序)</h4>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <h4 style="font-size: 14px; font-weight: 800; color: #ef4444;" id="p2TeamHeaderTitle">🔴 電腦對手陣容 (依難度隨機抽角)</h4>
+              <button class="btn-secondary" id="rerollAiTeamBtn" style="font-size: 11px; padding: 4px 10px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #fca5a5; cursor: pointer;" onclick="window.app.draftComputerTeam()"><i class="fa-solid fa-dice"></i> 隨機重抽電腦陣容</button>
+            </div>
             <div id="p2TeamSlots" style="display: flex; flex-direction: column; gap: 8px;"></div>
           </div>
         </div>
@@ -470,18 +473,18 @@
   </div>
 
   <!-- Game Scripts -->
-  <script src="js/data/characters.js?v=20260903_canon_art_complete_v11"></script>
-  <script src="js/data/equipment.js?v=20260903_canon_art_complete_v11"></script>
-  <script src="js/data/achievements.js?v=20260903_canon_art_complete_v11"></script>
-  <script src="js/engine/audio.js?v=20260903_canon_art_complete_v11"></script>
-  <script src="js/engine/effects.js?v=20260903_canon_art_complete_v11"></script>
-  <script src="js/3d/three_scene.js?v=20260903_canon_art_complete_v11"></script>
-  <script src="js/3d/camera_controller.js?v=20260903_canon_art_complete_v11"></script>
-  <script src="js/3d/character_3d.js?v=20260903_canon_art_complete_v11"></script>
-  <script src="js/3d/combat_3d.js?v=20260903_canon_art_complete_v11"></script>
-  <script src="js/3d/ai_3d.js?v=20260903_canon_art_complete_v11"></script>
-  <script src="js/network/p2p.js?v=20260903_canon_art_complete_v11"></script>
-  <script src="js/save_system.js?v=20260903_canon_art_complete_v11"></script>
-  <script src="js/app.js?v=20260903_canon_art_complete_v11"></script>
+  <script src="js/data/characters.js?v=20260903_difficulty_draft_v12"></script>
+  <script src="js/data/equipment.js?v=20260903_difficulty_draft_v12"></script>
+  <script src="js/data/achievements.js?v=20260903_difficulty_draft_v12"></script>
+  <script src="js/engine/audio.js?v=20260903_difficulty_draft_v12"></script>
+  <script src="js/engine/effects.js?v=20260903_difficulty_draft_v12"></script>
+  <script src="js/3d/three_scene.js?v=20260903_difficulty_draft_v12"></script>
+  <script src="js/3d/camera_controller.js?v=20260903_difficulty_draft_v12"></script>
+  <script src="js/3d/character_3d.js?v=20260903_difficulty_draft_v12"></script>
+  <script src="js/3d/combat_3d.js?v=20260903_difficulty_draft_v12"></script>
+  <script src="js/3d/ai_3d.js?v=20260903_difficulty_draft_v12"></script>
+  <script src="js/network/p2p.js?v=20260903_difficulty_draft_v12"></script>
+  <script src="js/save_system.js?v=20260903_difficulty_draft_v12"></script>
+  <script src="js/app.js?v=20260903_difficulty_draft_v12"></script>
 </body>
 </html>
