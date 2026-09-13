@@ -6,10 +6,13 @@
 
 import { SKILLS, ARCHETYPES } from './data/skills.js';
 import { SKINS } from './data/skins.js';
+import { STAGES, getStageById, getRandomStage } from './data/stages.js';
 import { saveSystem } from './save_system.js';
 import { soundEngine } from './engine/audio.js';
 import { characterRenderer } from './engine/character_renderer.js';
 import { combatEngine } from './engine/combat.js';
+import { stageRenderer } from './engine/stage_renderer.js';
+import { announcerEngine } from './engine/announcer.js';
 import { aiController } from './engine/ai.js';
 import { p2pNetwork } from './network/p2p.js';
 
@@ -24,15 +27,24 @@ class CyberStrikerApp {
 
     // 戰鬥狀態
     this.isFighting = false;
-    this.matchMode = 'ai'; // 'ai', 'local_2p', 'p2p', 'training'
+    this.matchMode = 'ai'; // 'ai', 'local_2p', 'p2p', 'training', 'arcade'
     this.aiDifficulty = 'normal';
     this.loadoutSelection = ['SK-01', 'SK-02', 'SK-09'];
     this.loadoutTimer = 15;
     this.loadoutInterval = null;
 
+    // 主題戰鬥場景與單人街機闖關
+    this.selectedStageId = 'random';
+    this.currentStage = STAGES[0];
+    this.arcadeMode = false;
+    this.arcadeStage = 1;
+    this.arcadeMaxStages = 5;
+    this.arcadeScore = 0;
+    this.arcadeStreakWins = 0;
+
     // 按鍵映射
     this.keys = {};
-    this.mobileInputs = { x: 0, y: 0, punch: false, kick: false, guard: false, skill1: false, skill2: false, skill3: false, burst: false };
+    this.mobileInputs = { x: 0, y: 0, punch: false, kick: false, guard: false, skill1: false, skill2: false, skill3: false, burst: false, superMove: false };
 
     // 畫布
     this.canvas = null;
@@ -622,9 +634,31 @@ class CyberStrikerApp {
     this.aiDifficulty = diff;
     aiController.setDifficulty(diff);
 
+    // 主題場景挑選 (隨機或指定)
+    if (this.selectedStageId === 'random') {
+      this.currentStage = getRandomStage();
+    } else {
+      this.currentStage = getStageById(this.selectedStageId);
+    }
+
     this.openLoadoutModal(() => {
       this._launchMatch();
     });
+  }
+
+  startArcadeMode() {
+    this.arcadeMode = true;
+    this.arcadeStage = 1;
+    this.arcadeScore = 0;
+    this.arcadeStreakWins = 0;
+    this.startBattle('arcade', 'normal');
+  }
+
+  nextArcadeStage() {
+    const endModal = document.getElementById('matchEndModal');
+    if (endModal) endModal.classList.remove('active');
+    this.arcadeStage++;
+    this._launchMatch();
   }
 
   _launchMatch() {
@@ -637,8 +671,53 @@ class CyberStrikerApp {
 
     const p1Skin = this.getEquippedSkin();
     let p2Skin = SKINS[1]; // 預設對手
-    if (this.aiDifficulty === 'hard') p2Skin = SKINS[2];
-    if (this.aiDifficulty === 'nightmare') p2Skin = SKINS[4];
+    let p2Name = `AI (${this.aiDifficulty.toUpperCase()})`;
+    let p2Diff = this.aiDifficulty;
+
+    const arcadeBadge = document.getElementById('arcadeStageBadge');
+
+    if (this.matchMode === 'arcade') {
+      if (arcadeBadge) {
+        arcadeBadge.style.display = 'block';
+        arcadeBadge.innerHTML = `<i class="fa-solid fa-trophy"></i> STAGE ${this.arcadeStage} / ${this.arcadeMaxStages}`;
+      }
+
+      // 5 大關卡對手與經典主題場景規劃
+      if (this.arcadeStage === 1) {
+        p2Skin = SKINS.find(s => s.id === 'skin_spiderman') || SKINS[1];
+        p2Name = '第 1 關：彼得帕克・蜘蛛人';
+        p2Diff = 'normal';
+        this.currentStage = getStageById('stage_stark_tower');
+      } else if (this.arcadeStage === 2) {
+        p2Skin = SKINS.find(s => s.id === 'skin_piccolo') || SKINS[2];
+        p2Name = '第 2 關：魔族大師・比克';
+        p2Diff = 'hard';
+        this.currentStage = getStageById('stage_namek');
+      } else if (this.arcadeStage === 3) {
+        p2Skin = SKINS.find(s => s.id === 'skin_trunks_future') || SKINS[3];
+        p2Name = '第 3 關：未來希望・特南克斯';
+        p2Diff = 'hard';
+        this.currentStage = getStageById('stage_tenkaichi');
+      } else if (this.arcadeStage === 4) {
+        p2Skin = SKINS.find(s => s.id === 'skin_vegeta_ssj') || SKINS[4];
+        p2Name = '第 4 關：賽亞人王子・達爾';
+        p2Diff = 'nightmare';
+        this.currentStage = getStageById('stage_cyber_matrix');
+      } else {
+        p2Skin = SKINS.find(s => s.id === 'skin_thanos') || SKINS.find(s => s.id === 'skin_omega_emperor') || SKINS[5];
+        p2Name = '👑 最終魔王：宇宙霸主・薩諾斯';
+        p2Diff = 'nightmare';
+        this.currentStage = getStageById('stage_stark_tower');
+      }
+      this.aiDifficulty = p2Diff;
+      aiController.setDifficulty(p2Diff);
+    } else {
+      if (arcadeBadge) arcadeBadge.style.display = 'none';
+      if (this.aiDifficulty === 'hard') p2Skin = SKINS[2];
+      if (this.aiDifficulty === 'nightmare') p2Skin = SKINS[4];
+      if (this.matchMode === 'training') p2Name = '練習木樁假人';
+      else if (this.matchMode === 'local_2p') p2Name = 'Player 2';
+    }
 
     const p1Data = {
       name: saveSystem.currentUser ? saveSystem.currentUser.nickname : 'Player 1',
@@ -647,7 +726,7 @@ class CyberStrikerApp {
     };
 
     const p2Data = {
-      name: this.matchMode === 'training' ? '練習木樁假人' : (this.matchMode === 'local_2p' ? 'Player 2' : `AI (${this.aiDifficulty.toUpperCase()})`),
+      name: p2Name,
       skin: p2Skin,
       loadout: ['SK-01', 'SK-02', 'SK-09']
     };
@@ -660,9 +739,17 @@ class CyberStrikerApp {
 
     combatEngine.initMatch(p1Data, p2Data, this.matchMode === 'training');
 
+    // 街機闖關第 2~5 關生命值恢復機制 (+350 HP 獎勵)
+    if (this.matchMode === 'arcade' && this.arcadeStage > 1) {
+      combatEngine.p1.hp = Math.min(combatEngine.p1.maxHp, 650 + 350);
+    }
+
     this.isFighting = true;
     soundEngine.playUI('fight');
     soundEngine.startBgm();
+
+    // 觸發熱血開場倒數播報與橫幅 (ROUND 1 -> FIGHT!)
+    announcerEngine.startRoundIntro(1);
 
     // 更新技能快捷鍵 HUD 圖標與頂部角色標籤
     const p1NameEl = document.getElementById('p1NameDisplay');
@@ -671,7 +758,7 @@ class CyberStrikerApp {
     if (p1NameEl) p1NameEl.textContent = p1Data.name;
     if (p2NameEl) p2NameEl.textContent = p2Data.name;
     if (p2RoleTag) {
-      const p2Text = this.matchMode === 'local_2p' ? '2P 對手' : (this.matchMode === 'training' ? '訓練木樁' : '電腦對手 / AI');
+      const p2Text = this.matchMode === 'local_2p' ? '2P 對手' : (this.matchMode === 'training' ? '訓練木樁' : (this.matchMode === 'arcade' ? `街機對手 (STAGE ${this.arcadeStage})` : '電腦對手 / AI'));
       p2RoleTag.innerHTML = `<i class="fa-solid fa-robot"></i> ${p2Text}`;
     }
     this._updateSkillActionBar();
@@ -698,9 +785,13 @@ class CyberStrikerApp {
         <i class="fa-solid fa-shield-halved" style="font-size: 20px; color: #38bdf8;"></i>
         <span style="font-size: 10px; font-weight: 900; color: #38bdf8;">[L] 護盾</span>
       </div>
-      <div class="burst-hud-card" id="burstHudBtn">
+      <div class="burst-hud-card" id="burstHudBtn" title="受擊時脫身爆發 [B]">
         <span style="font-size: 11px;">BURST</span>
         <span style="font-size: 9px; opacity: 0.8;">[B]</span>
+      </div>
+      <div class="burst-hud-card" id="superHudBtn" style="background: linear-gradient(135deg, #ffd700, #ff007f); border-color: #ffd700;" title="滿能量或殘血時發動終極奧義 [P]">
+        <span style="font-size: 11px; font-weight: 900; color: #fff;">SUPER</span>
+        <span style="font-size: 9px; opacity: 0.9; color: #ffd700;">[P] 奧義</span>
       </div>
     `;
 
@@ -712,6 +803,24 @@ class CyberStrikerApp {
       guardBtn.onmouseleave = () => { this.keys['KeyL'] = false; };
       guardBtn.ontouchstart = (e) => { e.preventDefault(); this.mobileInputs.guard = true; };
       guardBtn.ontouchend = (e) => { e.preventDefault(); this.mobileInputs.guard = false; };
+    }
+
+    // 綁定終極奧義 HUD 按鈕點擊事件
+    const superBtn = document.getElementById('superHudBtn');
+    if (superBtn) {
+      superBtn.onclick = (e) => {
+        e.preventDefault();
+        this.keys['KeyP'] = true;
+        setTimeout(() => { this.keys['KeyP'] = false; }, 80);
+      };
+      superBtn.ontouchstart = (e) => {
+        e.preventDefault();
+        this.mobileInputs.superMove = true;
+      };
+      superBtn.ontouchend = (e) => {
+        e.preventDefault();
+        this.mobileInputs.superMove = false;
+      };
     }
 
     // 訓練營控制工具列
@@ -811,12 +920,13 @@ class CyberStrikerApp {
       skill1: !!(k['KeyU'] || m.skill1),
       skill2: !!(k['KeyI'] || m.skill2),
       skill3: !!(k['KeyO'] || m.skill3),
-      burst: !!(k['KeyB'] || m.burst)
+      burst: !!(k['KeyB'] || m.burst),
+      superMove: !!(k['KeyP'] || m.superMove)
     };
   }
 
   _gatherInputsP2() {
-    // 本地雙人同機對決 2P 鍵位 (方向鍵 + 數字鍵盤 1/2/4/5/6)
+    // 本地雙人同機對決 2P 鍵位 (方向鍵 + 數字鍵盤 1/2/4/5/6/3)
     const k = this.keys;
     let x = 0;
     let y = 0;
@@ -834,7 +944,8 @@ class CyberStrikerApp {
       skill1: !!(k['Numpad4'] || k['Digit4']),
       skill2: !!(k['Numpad5'] || k['Digit5']),
       skill3: !!(k['Numpad6'] || k['Digit6']),
-      burst: !!(k['NumpadPlus'] || k['NumpadEnter'] || k['Digit7'])
+      burst: !!(k['NumpadPlus'] || k['NumpadEnter'] || k['Digit7']),
+      superMove: !!(k['Numpad3'] || k['Digit3'])
     };
   }
 
@@ -844,9 +955,8 @@ class CyberStrikerApp {
     const w = this.canvas.width;
     const h = this.canvas.height;
 
-    // 1. 清空畫布與背景漸層
-    ctx.fillStyle = '#050814';
-    ctx.fillRect(0, 0, w, h);
+    // 1. 繪製多主題經典戰鬥場景 (Multi-Themed Battle Stage: 天下第一武道會、斯塔克大樓天台、那美克星、賽博矩陣)
+    stageRenderer.drawStage(ctx, this.currentStage, w, h, combatEngine.floorY);
 
     // 儲存戰鬥世界視口 (World Matrix)
     ctx.save();
@@ -856,23 +966,10 @@ class CyberStrikerApp {
       ctx.translate(combatEngine.screenShake.x, combatEngine.screenShake.y);
     }
 
-    // 2. 賽博擂台擂面格線與地面
     const groundY = combatEngine.floorY;
-    ctx.strokeStyle = 'rgba(0, 243, 255, 0.15)';
-    ctx.lineWidth = 1;
-    for (let x = 0; x < w; x += 40) {
-      ctx.beginPath();
-      ctx.moveTo(x, groundY);
-      ctx.lineTo(x, h);
-      ctx.stroke();
-    }
 
-    // 地面反光發光條
-    ctx.fillStyle = 'rgba(0, 243, 255, 0.6)';
-    ctx.fillRect(0, groundY, w, 3);
-
-    // 瑪利歐風格高低懸浮空中戰鬥平台
-    this._drawPlatforms(ctx);
+    // 2. 繪製與場景主題深度融合之高低懸浮空中戰鬥平台
+    stageRenderer.drawPlatforms(ctx, combatEngine.platforms, this.currentStage);
 
     // 3. 繪製角色腳底發光光環 (地面定位圈)
     this._drawFighterFloorRings(ctx, groundY);
@@ -1211,13 +1308,60 @@ class CyberStrikerApp {
       ctx.restore();
     });
 
-    // 7. 繪製衝擊波與巨砲 (Shockwaves & Beams)
+    // 7. 繪製衝擊波與巨砲 (Shockwaves, Super Beams & K.O. Rings)
     combatEngine.shockwaves.forEach(s => {
       ctx.save();
       ctx.strokeStyle = s.color || '#00f3ff';
       ctx.shadowColor = s.color || '#00f3ff';
       ctx.shadowBlur = 20;
-      if (s.isBeam) {
+
+      if (s.isSuperBeam) {
+        // 終極必殺巨型全屏光柱與衝擊波
+        const beamH = s.height || 80;
+        // 外層漫射發光層
+        ctx.fillStyle = s.color;
+        ctx.globalAlpha = 0.35;
+        ctx.fillRect(0, s.y - beamH * 0.75, w, beamH * 1.5);
+
+        // 主光柱
+        ctx.globalAlpha = 0.85;
+        ctx.fillRect(0, s.y - beamH / 2, w, beamH);
+
+        // 核心白熾光核
+        ctx.fillStyle = s.coreColor || '#ffffff';
+        ctx.globalAlpha = 0.95;
+        ctx.fillRect(0, s.y - beamH * 0.25, w, beamH * 0.5);
+
+        // 螺旋雷霆光環 (Spiral Helix & Lightning Arcs)
+        const tNow = Date.now() / 60;
+        ctx.strokeStyle = s.coreColor || '#ffffff';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        for (let lx = 0; lx < w; lx += 25) {
+          const ly = s.y + Math.sin(tNow + lx * 0.05) * (beamH * 0.45);
+          if (lx === 0) ctx.moveTo(lx, ly);
+          else ctx.lineTo(lx, ly);
+        }
+        ctx.stroke();
+      } else if (s.isKO) {
+        // K.O. 終結巨型震撼擴散金芒環
+        const progress = Math.min(1, s.radius / s.maxRadius);
+        ctx.globalAlpha = Math.max(0, 1 - progress);
+        ctx.lineWidth = Math.max(2, (1 - progress) * 14);
+        ctx.strokeStyle = s.color || '#ffd700';
+        ctx.shadowColor = s.color || '#ffd700';
+        ctx.shadowBlur = 35;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+        ctx.stroke();
+
+        if (progress < 0.4) {
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, (1 - progress * 2.5) * 80, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      } else if (s.isBeam) {
         ctx.fillStyle = s.color;
         ctx.fillRect(s.x - s.width / 2, s.y - s.height / 2, s.width, s.height);
       } else {
@@ -1253,6 +1397,9 @@ class CyberStrikerApp {
     if (combatEngine.isOver && !combatEngine.isTraining) {
       this._drawVictoryBanner(ctx, w, h);
     }
+
+    // 12. 戰鬥播報語音與華麗動態文字橫幅 (Announcer & Combat Banners)
+    announcerEngine.draw(ctx, w, h);
   }
 
   // ─── 打擊爆裂火花與斬芒特效 (Hit Sparks & Impact Rays) ───
@@ -1866,6 +2013,37 @@ class CyberStrikerApp {
         touchGuardBtn.classList.remove('active');
       }
     }
+
+    // 7. 終極必殺能量槽與按鈕狀態即時更新
+    const super1El = document.getElementById('p1SuperFill');
+    const super2El = document.getElementById('p2SuperFill');
+    const superBtn = document.getElementById('superHudBtn');
+    const touchSuperBtn = document.getElementById('touchSuperBtn');
+    const isP1SuperReady = (combatEngine.p1.superMeter >= combatEngine.p1.superMax) || (combatEngine.p1.hp <= 350 && !combatEngine.p1.usedCrisisSuper);
+
+    if (super1El) {
+      const super1Ratio = isP1SuperReady ? 1 : (combatEngine.p1.superMeter / combatEngine.p1.superMax);
+      super1El.style.width = `${Math.min(100, Math.round(super1Ratio * 100))}%`;
+      super1El.style.background = isP1SuperReady
+        ? 'linear-gradient(90deg, #ffd700, #ff007f)'
+        : 'linear-gradient(90deg, #38bdf8, #818cf8)';
+    }
+    if (super2El) {
+      const super2Ratio = (combatEngine.p2.superMeter / combatEngine.p2.superMax);
+      super2El.style.width = `${Math.min(100, Math.round(super2Ratio * 100))}%`;
+    }
+    if (superBtn) {
+      if (isP1SuperReady) {
+        superBtn.style.opacity = '1';
+        superBtn.style.boxShadow = '0 0 16px #ffd700';
+      } else {
+        superBtn.style.opacity = '0.45';
+        superBtn.style.boxShadow = 'none';
+      }
+    }
+    if (touchSuperBtn) {
+      touchSuperBtn.style.opacity = isP1SuperReady ? '1' : '0.45';
+    }
   }
 
   // ─── 對決結束與結算面板彈出 ───
@@ -1873,21 +2051,69 @@ class CyberStrikerApp {
     soundEngine.stopBgm();
 
     const won = combatEngine.winner === 1;
-    const isAi = this.matchMode === 'ai';
+    const isAi = this.matchMode === 'ai' || this.matchMode === 'arcade';
     const reward = saveSystem.recordBattleResult(won, this.aiDifficulty, isAi);
 
-    // 彈出結算面板 (背後擂台持續播放冠軍慶祝姿態)
     const endModal = document.getElementById('matchEndModal');
     const resultTitle = document.getElementById('matchResultTitle');
     const creditsReward = document.getElementById('matchRewardAmount');
+    const playAgainBtn = document.getElementById('matchPlayAgainBtn');
+    const nextStageBtn = document.getElementById('matchNextStageBtn');
 
-    if (resultTitle) {
-      resultTitle.textContent = won ? 'VICTORY 戰鬥勝利' : 'DEFEAT 戰鬥落敗';
-      resultTitle.style.color = won ? '#00f3ff' : '#ff007f';
+    if (this.matchMode === 'arcade') {
+      if (won) {
+        this.arcadeScore += 18000 + Math.round(combatEngine.p1.hp * 12);
+        this.arcadeStreakWins++;
+        if (this.arcadeStage < this.arcadeMaxStages) {
+          // 闖過當前關卡，準備進入下一關
+          if (resultTitle) {
+            resultTitle.textContent = `STAGE ${this.arcadeStage} CLEAR!`;
+            resultTitle.style.color = '#ffd700';
+          }
+          if (creditsReward) {
+            creditsReward.innerHTML = `+${reward.gained} 能量幣<div style="font-size: 13px; color: #00ff88; margin-top: 4px;">生命值恢復 +350！即將迎戰第 ${this.arcadeStage + 1} 關</div>`;
+          }
+          if (nextStageBtn) nextStageBtn.style.display = 'flex';
+          if (playAgainBtn) playAgainBtn.style.display = 'none';
+        } else {
+          // 全破街機 5 連關！彈出大榮譽獎盃對話框
+          if (endModal) endModal.classList.remove('active');
+          const trophyModal = document.getElementById('arcadeTrophyModal');
+          const trophyScore = document.getElementById('arcadeTrophyScore');
+          if (trophyScore) trophyScore.textContent = `${this.arcadeScore.toLocaleString()} PTS`;
+          saveSystem.addCredits(2500);
+          soundEngine.playHit('super');
+          if (trophyModal) trophyModal.classList.add('active');
+          this.updateUserHUD();
+          return;
+        }
+      } else {
+        // 街機闖關失敗
+        if (resultTitle) {
+          resultTitle.textContent = `STAGE ${this.arcadeStage} FAILED`;
+          resultTitle.style.color = '#ff007f';
+        }
+        if (creditsReward) creditsReward.textContent = `+${reward.gained} 能量幣 (闖關止步於第 ${this.arcadeStage} 關)`;
+        if (nextStageBtn) nextStageBtn.style.display = 'none';
+        if (playAgainBtn) {
+          playAgainBtn.style.display = 'flex';
+          playAgainBtn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> 重試本關';
+        }
+      }
+    } else {
+      if (nextStageBtn) nextStageBtn.style.display = 'none';
+      if (playAgainBtn) {
+        playAgainBtn.style.display = 'flex';
+        playAgainBtn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> 再玩一次';
+      }
+      if (resultTitle) {
+        resultTitle.textContent = won ? 'VICTORY 戰鬥勝利' : 'DEFEAT 戰鬥落敗';
+        resultTitle.style.color = won ? '#00f3ff' : '#ff007f';
+      }
+      if (creditsReward) creditsReward.textContent = `+${reward.gained} 能量幣`;
     }
-    if (creditsReward) creditsReward.textContent = `+${reward.gained} 能量幣`;
-    if (endModal) endModal.classList.add('active');
 
+    if (endModal) endModal.classList.add('active');
     this.updateUserHUD();
   }
 
@@ -1966,6 +2192,43 @@ class CyberStrikerApp {
         this.startBattle('local_2p');
       };
     }
+
+    // 模式選擇：單人街機闖關模式 (Arcade Mode)
+    const startArcadeBtn = document.getElementById('startArcadeModeBtn');
+    if (startArcadeBtn) {
+      startArcadeBtn.onclick = () => {
+        document.getElementById('modeSelectModal').classList.remove('active');
+        this.startArcadeMode();
+      };
+    }
+
+    // 街機闖關進入下一關按鈕
+    const matchNextBtn = document.getElementById('matchNextStageBtn');
+    if (matchNextBtn) {
+      matchNextBtn.onclick = () => {
+        this.nextArcadeStage();
+      };
+    }
+
+    // 街機通關王者獎盃對話框領取獎勵
+    const trophyClaimBtn = document.getElementById('arcadeTrophyClaimBtn');
+    if (trophyClaimBtn) {
+      trophyClaimBtn.onclick = () => {
+        const tModal = document.getElementById('arcadeTrophyModal');
+        if (tModal) tModal.classList.remove('active');
+        this.exitBattleToLobby();
+      };
+    }
+
+    // 戰鬥主題場景選擇按鈕
+    document.querySelectorAll('.stage-select-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.stage-select-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        this.selectedStageId = btn.dataset.stage;
+        soundEngine.playUI('click');
+      });
+    });
 
     // 模式選擇：自由格鬥訓練營
     const trainingBtn = document.getElementById('selectTrainingBtn');
@@ -2319,6 +2582,7 @@ class CyberStrikerApp {
     bindTouchBtn('touchSkill2Btn', 'skill2');
     bindTouchBtn('touchSkill3Btn', 'skill3');
     bindTouchBtn('touchBurstBtn', 'burst');
+    bindTouchBtn('touchSuperBtn', 'superMove');
   }
 
   _updateJoystick(dx, dy) {

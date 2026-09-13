@@ -1251,6 +1251,389 @@
       vfxType: meta.vfxType
     };
   }
+  function getSkinSuperMeta(skin) {
+    const id = skin ? skin.id : "skin_cyber_warrior";
+    const supers = {
+      // ── 科技與未來原創系列 (15款) ──
+      skin_cyber_warrior: {
+        name: "\u91CF\u5B50\u8D85\u5F26\u6E6E\u6EC5\u5203",
+        title: "\u91CF\u5B50\u5148\u92D2\u30FB\u8D85\u9AD8\u983B\u5168\u606F\u5F26\u5203\u98A8\u66B4",
+        type: "beam",
+        color: "#00f3ff",
+        coreColor: "#ffffff",
+        beamWidth: 75,
+        sound: "super"
+      },
+      skin_neon_shadow: {
+        name: "\u6697\u5F71\u6AFB\u843D\u77AC\u7344\u6BBA",
+        title: "\u6697\u591C\u9713\u8679\u30FB\u516B\u65B9\u6AFB\u82B1\u6B21\u5143\u65AC",
+        type: "slash",
+        color: "#ff007f",
+        coreColor: "#c084fc",
+        beamWidth: 70,
+        sound: "super"
+      },
+      skin_pulse_enforcer: {
+        name: "\u8108\u885D\u8D85\u8F09\u5BE9\u5224\u9663",
+        title: "\u8108\u885D\u57F7\u6CD5\u5B98\u30FB\u8D85\u9AD8\u58D3\u96FB\u78C1\u62D8\u675F\u7262\u7C60",
+        type: "shockwave",
+        color: "#3b82f6",
+        coreColor: "#60a5fa",
+        beamWidth: 75,
+        sound: "super"
+      },
+      skin_cosmic_ronin: {
+        name: "\u661F\u8FB0\u5C45\u5408\u767E\u82B1\u65AC",
+        title: "\u661F\u969B\u6D6A\u4EBA\u30FB\u9280\u6CB3\u661F\u8ECC\u5C45\u5408\u5967\u7FA9",
+        type: "slash",
+        color: "#a855f7",
+        coreColor: "#f43f5e",
+        beamWidth: 75,
+        sound: "super"
+      },
+      skin_volt_ranger: {
+        name: "\u8D85\u5C0E\u96F7\u96FB\u72D9\u6BBA\u77E2",
+        title: "\u8D85\u5C0E\u5DE1\u8B66\u30FB\u842C\u4F0F\u7279\u78C1\u66B4\u9023\u9396\u7BAD\u5E55",
+        type: "lightning",
+        color: "#facc15",
+        coreColor: "#ffffff",
+        beamWidth: 75,
+        sound: "super"
+      },
+      skin_abyssal_ghost: {
+        name: "\u6DF1\u6DF5\u6B7B\u57DF\u6697\u5F71\u6CE2",
+        title: "\u6DF1\u6DF5\u5E7D\u9748\u30FB\u5E7D\u51A5\u6697\u5F71\u6CE2\u9577\u7206\u6563",
+        type: "shockwave",
+        color: "#6366f1",
+        coreColor: "#818cf8",
+        beamWidth: 70,
+        sound: "super"
+      },
+      skin_dark_hacker: {
+        name: "\u77E9\u9663\u5D29\u6F70\u4EE3\u78BC\u6D41",
+        title: "\u6697\u9ED1\u9ED1\u5BA2\u30FB\u96F6\u65E5\u6F0F\u6D1E\u7D42\u7AEF\u5F37\u5236\u95DC\u9589",
+        type: "beam",
+        color: "#00ff66",
+        coreColor: "#34d399",
+        beamWidth: 75,
+        sound: "super"
+      },
+      skin_nano_cyborg: {
+        name: "\u5341\u5104\u5948\u7C73\u767E\u5203\u5929\u846C",
+        title: "\u5948\u7C73\u751F\u5316\u6230\u8B66\u30FB\u6DB2\u614B\u91D1\u5C6C\u66B4\u98A8\u7A7F\u523A",
+        type: "slash",
+        color: "#84cc16",
+        coreColor: "#bef264",
+        beamWidth: 75,
+        sound: "super"
+      },
+      skin_crimson_tyrant: {
+        name: "\u5730\u6838\u7194\u5CA9\u8D85\u8F09\u91CD\u8F5F",
+        title: "\u8D64\u7D05\u66B4\u541B\u30FB\u842C\u5EA6\u706B\u5C71\u5730\u88C2\u5DE8\u8F5F",
+        type: "sphere",
+        color: "#ef4444",
+        coreColor: "#f97316",
+        beamWidth: 85,
+        sound: "super"
+      },
+      skin_cryo_maiden: {
+        name: "\u7D55\u5C0D\u96F6\u5EA6\u51B0\u6CB3\u5C01\u795E",
+        title: "\u6975\u5BD2\u8D85\u5C0E\u6B66\u59EC\u30FB\u842C\u4E08\u947D\u77F3\u51B0\u9B44\u5DE8\u523A",
+        type: "beam",
+        color: "#38bdf8",
+        coreColor: "#bae6fd",
+        beamWidth: 80,
+        sound: "super"
+      },
+      skin_void_devourer: {
+        name: "\u6697\u7269\u8CEA\u5947\u9EDE\u541E\u566C",
+        title: "\u865B\u7A7A\u541E\u566C\u8005\u30FB\u4E8B\u4EF6\u8996\u754C\u5F15\u529B\u574D\u7E2E\u9ED1\u6D1E",
+        type: "sphere",
+        color: "#9333ea",
+        coreColor: "#c084fc",
+        beamWidth: 90,
+        sound: "super"
+      },
+      skin_solar_valkyrie: {
+        name: "\u71BE\u967D\u8000\u6591\u9CF3\u51F0\u5929\u6607",
+        title: "\u592A\u967D\u5973\u6B66\u795E\u30FB\u842C\u4E08\u6046\u661F\u8056\u706B\u70C8\u7130\u88C1\u6C7A",
+        type: "beam",
+        color: "#ff4500",
+        coreColor: "#fbbf24",
+        beamWidth: 90,
+        sound: "super"
+      },
+      skin_cyber_diva: {
+        name: "\u72C2\u71B1\u7B49\u5316\u5668\u5168\u606F\u66B4\u98A8",
+        title: "\u8CFD\u535A\u6B4C\u59EC\u30FB\u97F3\u6D6A\u5171\u632F\u4E03\u5F69\u6975\u5149\u97F3\u7206",
+        type: "shockwave",
+        color: "#14b8a6",
+        coreColor: "#f43f5e",
+        beamWidth: 80,
+        sound: "super"
+      },
+      skin_archangel_judicator: {
+        name: "\u5929\u570B\u8056\u88C1\u30FB\u516D\u7FFC\u5149\u5B50\u8056\u5F8B",
+        title: "\u66DC\u767D\u88C1\u6C7A\u8056\u4F7F\u30FB\u81F3\u7D14\u5149\u5B50\u5BE9\u5224\u9577\u77DB",
+        type: "beam",
+        color: "#f8fafc",
+        coreColor: "#38bdf8",
+        beamWidth: 88,
+        sound: "super"
+      },
+      skin_omega_emperor: {
+        name: "\u59CB\u7956\u6A5F\u7687\u30FB\u5B87\u5B99\u91D1\u8F2A\u6838\u7206",
+        title: "\u9EC3\u91D1\u7D42\u6975\u6A5F\u795E\u30FB\u4E5D\u4E94\u81F3\u5C0A\u6EC5\u4E16\u795E\u5A01\u91D1\u8292",
+        type: "sphere",
+        color: "#eab308",
+        coreColor: "#ffffff",
+        beamWidth: 95,
+        sound: "super"
+      },
+      // ── 漫威宇宙經典系列 (6款) ──
+      skin_iron_man: {
+        name: "\u8CEA\u5B50\u5DE8\u7832 UNIBEAM",
+        title: "\u92FC\u9435\u4EBA\u30FB\u99AC\u514B85\u80F8\u53E3\u65B9\u821F\u5DE8\u578B\u7B49\u96E2\u5B50\u96F7\u5C04",
+        type: "beam",
+        color: "#00f3ff",
+        coreColor: "#ef4444",
+        beamWidth: 85,
+        sound: "super"
+      },
+      skin_spiderman: {
+        name: "\u72C2\u66B4\u86DB\u7DB2\u5DE8\u6454 WEB CYCLONE",
+        title: "\u8718\u86DB\u4EBA\u30FB\u5F7C\u5F97\u5E15\u514B\u5168\u5C4F\u86DB\u7DB2\u72C2\u66B4\u5927\u8FF4\u65CB",
+        type: "cyclone",
+        color: "#ffffff",
+        coreColor: "#ef4444",
+        beamWidth: 65,
+        sound: "super"
+      },
+      skin_captain_america: {
+        name: "\u6C4E\u5408\u91D1\u661F\u8292\u82F1\u52C7\u885D\u64CA",
+        title: "\u7F8E\u570B\u968A\u9577\u30FB\u81EA\u7531\u4E4B\u76FE\u8D85\u97F3\u901F\u97F3\u7206\u885D\u64CA",
+        type: "charge",
+        color: "#38bdf8",
+        coreColor: "#ef4444",
+        beamWidth: 70,
+        sound: "super"
+      },
+      skin_thor: {
+        name: "\u96F7\u795E\u5929\u7F70\u30FB\u4E5D\u754C\u795E\u96F7",
+        title: "\u96F7\u795E\u7D22\u723E\u30FB\u5999\u723E\u5C3C\u723E\u5929\u5D29\u5730\u88C2\u72C2\u96F7\u5F15",
+        type: "lightning",
+        color: "#38bdf8",
+        coreColor: "#ffffff",
+        beamWidth: 90,
+        sound: "super"
+      },
+      skin_thanos: {
+        name: "\u7121\u9650\u624B\u5957\u30FB\u516D\u5BF6\u77F3\u5B87\u5B99\u5C04\u7DDA",
+        title: "\u85A9\u8AFE\u65AF\u30FB\u516D\u5927\u7121\u9650\u539F\u77F3\u5B87\u5B99\u7D42\u7109\u5C04\u7DDA",
+        type: "infinity",
+        color: "#ffd700",
+        coreColor: "#a855f7",
+        beamWidth: 90,
+        sound: "super"
+      },
+      skin_hawkeye: {
+        name: "\u91CF\u5B50\u795E\u7BAD\u30FB\u591A\u91CD\u7206\u7834\u7375\u6BBA",
+        title: "\u9DF9\u773C\u30FB\u767E\u6B65\u7A7F\u694A\u5168\u5C4F\u5149\u5B50\u66B4\u98A8\u7BAD\u9663",
+        type: "beam",
+        color: "#8b5cf6",
+        coreColor: "#c084fc",
+        beamWidth: 75,
+        sound: "super"
+      },
+      // ── 七龍珠超傳奇系列 (5款) ──
+      skin_goku_ssj: {
+        name: "\u8D85\u30FB\u9F9C\u6D3E\u6C23\u529F\u6CE2",
+        title: "\u5B6B\u609F\u7A7A\u30FB\u8D85\u8D8A\u6975\u9650\u91D1\u9EC3\u72C2\u66B4\u5DE8\u6D6A\u9F9C\u6D3E\u6C23\u529F",
+        type: "beam",
+        color: "#00bfff",
+        coreColor: "#fde047",
+        beamWidth: 90,
+        sound: "super"
+      },
+      skin_vegeta_ssj: {
+        name: "\u7D42\u6975\u9583\u5149 FINAL FLASH",
+        title: "\u8C9D\u5409\u5854\u30FB\u8CFD\u4E9E\u4EBA\u738B\u5B50\u5168\u5C4F\u9EC3\u91D1\u7206\u88C2\u9583\u5149",
+        type: "beam",
+        color: "#facc15",
+        coreColor: "#ffffff",
+        beamWidth: 90,
+        sound: "super"
+      },
+      skin_trunks_future: {
+        name: "\u71C3\u71D2\u4E4B\u65AC BURNING SLASH",
+        title: "\u672A\u4F86\u7279\u5357\u514B\u65AF\u30FB\u5E0C\u671B\u52C7\u8005\u4E4B\u528D\u5341\u5B57\u7834\u7A7A\u65AC",
+        type: "slash",
+        color: "#a855f7",
+        coreColor: "#fde047",
+        beamWidth: 75,
+        sound: "super"
+      },
+      skin_piccolo: {
+        name: "\u9B54\u8CAB\u5149\u6BBA\u7832",
+        title: "\u6BD4\u514B\u5927\u9B54\u738B\u30FB\u96D9\u87BA\u65CB\u8D85\u7A7F\u900F\u87BA\u65CB\u5149\u6BBA\u7832",
+        type: "spiral",
+        color: "#84cc16",
+        coreColor: "#f43f5e",
+        beamWidth: 70,
+        sound: "super"
+      },
+      skin_golden_frieza: {
+        name: "\u8D85\u65B0\u661F\u6BC0\u6EC5\u5F48 DEATH BALL",
+        title: "\u9EC3\u91D1\u5F17\u5229\u6C99\u30FB\u5E1D\u7687\u7329\u7D05\u5DE8\u578B\u6BC0\u6EC5\u9ED1\u5F48",
+        type: "sphere",
+        color: "#ffd700",
+        coreColor: "#ef4444",
+        beamWidth: 95,
+        sound: "super"
+      },
+      // 兼容舊別名
+      skin_ironman: {
+        name: "\u8CEA\u5B50\u5DE8\u7832 UNIBEAM",
+        title: "\u92FC\u9435\u4EBA\u30FB\u99AC\u514B85\u80F8\u53E3\u65B9\u821F\u5DE8\u578B\u7B49\u96E2\u5B50\u96F7\u5C04",
+        type: "beam",
+        color: "#00f3ff",
+        coreColor: "#ef4444",
+        beamWidth: 85,
+        sound: "super"
+      },
+      skin_captain: {
+        name: "\u6C4E\u5408\u91D1\u661F\u8292\u82F1\u52C7\u885D\u64CA",
+        title: "\u7F8E\u570B\u968A\u9577\u30FB\u81EA\u7531\u4E4B\u76FE\u8D85\u97F3\u901F\u97F3\u7206\u885D\u64CA",
+        type: "charge",
+        color: "#38bdf8",
+        coreColor: "#ef4444",
+        beamWidth: 70,
+        sound: "super"
+      },
+      skin_goku: {
+        name: "\u8D85\u30FB\u9F9C\u6D3E\u6C23\u529F\u6CE2",
+        title: "\u5B6B\u609F\u7A7A\u30FB\u8D85\u8D8A\u6975\u9650\u91D1\u9EC3\u72C2\u66B4\u5DE8\u6D6A\u9F9C\u6D3E\u6C23\u529F",
+        type: "beam",
+        color: "#00bfff",
+        coreColor: "#fde047",
+        beamWidth: 90,
+        sound: "super"
+      },
+      skin_vegeta: {
+        name: "\u7D42\u6975\u9583\u5149 FINAL FLASH",
+        title: "\u8C9D\u5409\u5854\u30FB\u8CFD\u4E9E\u4EBA\u738B\u5B50\u5168\u5C4F\u9EC3\u91D1\u7206\u88C2\u9583\u5149",
+        type: "beam",
+        color: "#facc15",
+        coreColor: "#ffffff",
+        beamWidth: 90,
+        sound: "super"
+      },
+      skin_trunks: {
+        name: "\u71C3\u71D2\u4E4B\u65AC BURNING SLASH",
+        title: "\u672A\u4F86\u7279\u5357\u514B\u65AF\u30FB\u5E0C\u671B\u52C7\u8005\u4E4B\u528D\u5341\u5B57\u7834\u7A7A\u65AC",
+        type: "slash",
+        color: "#a855f7",
+        coreColor: "#fde047",
+        beamWidth: 75,
+        sound: "super"
+      },
+      skin_frieza: {
+        name: "\u8D85\u65B0\u661F\u6BC0\u6EC5\u5F48 DEATH BALL",
+        title: "\u9EC3\u91D1\u5F17\u5229\u6C99\u30FB\u5E1D\u7687\u7329\u7D05\u5DE8\u578B\u6BC0\u6EC5\u9ED1\u5F48",
+        type: "sphere",
+        color: "#ffd700",
+        coreColor: "#ef4444",
+        beamWidth: 95,
+        sound: "super"
+      }
+    };
+    const selected = supers[id] || {
+      name: "\u91CF\u5B50\u8D85\u80FD\u7C92\u5B50\u5DE8\u7832",
+      title: "\u91CF\u5B50\u77E9\u9663\u30FB\u9AD8\u983B\u7C92\u5B50\u8CAB\u901A\u66B4\u64CA",
+      type: "beam",
+      color: skin && skin.themeColor ? skin.themeColor : "#00f3ff",
+      coreColor: "#ffffff",
+      beamWidth: 75,
+      sound: "super"
+    };
+    return {
+      ...selected,
+      damage: 220,
+      startup: 16,
+      duration: 65
+    };
+  }
+
+  // js/data/stages.js
+  var STAGES = [
+    {
+      id: "stage_cyber_matrix",
+      name: "\u8CFD\u535A\u91CF\u5B50\u7A7A\u9593",
+      subtitle: "Cyber Matrix / Quantum Void",
+      series: "cyber",
+      icon: "fa-solid fa-microchip",
+      themeColor: "#00f3ff",
+      secondaryColor: "#ff007f",
+      description: "\u6DF1\u9083\u91CF\u5B50\u77E9\u9663\u865B\u7A7A\uFF0C\u5168\u606F\u7ACB\u9AD4\u7DB2\u683C\u64C2\u53F0\u8207\u65CB\u8F49 3D \u9713\u8679\u591A\u9762\u9AD4\u3002",
+      skyColors: ["#040714", "#0a1026", "#101a38"],
+      gridColor: "rgba(0, 243, 255, 0.2)",
+      groundColor: "#0c142b",
+      glowColor: "#00f3ff",
+      musicStyle: "cyber"
+    },
+    {
+      id: "stage_tenkaichi",
+      name: "\u5929\u4E0B\u7B2C\u4E00\u6B66\u9053\u6703",
+      subtitle: "World Martial Arts Tournament Ring",
+      series: "dragonball",
+      icon: "fa-solid fa-dragon",
+      themeColor: "#eab308",
+      secondaryColor: "#ef4444",
+      description: "\u4E03\u9F8D\u73E0\u50B3\u5947\u6B66\u9053\u64C2\u53F0\uFF0C\u6674\u7A7A\u767D\u96F2\u3001\u9060\u65B9\u9752\u5C71\u8207\u98C4\u63DA\u7684\u300C\u6B66\u300D\u5B57\u9326\u65D7\u3002",
+      skyColors: ["#1e40af", "#38bdf8", "#bae6fd"],
+      gridColor: "rgba(234, 179, 8, 0.25)",
+      groundColor: "#ca8a04",
+      glowColor: "#ffd700",
+      musicStyle: "martial"
+    },
+    {
+      id: "stage_stark_tower",
+      name: "\u65AF\u5854\u514B\u5927\u6A13\u5929\u53F0",
+      subtitle: "Stark Tower Rooftop / NYC Skyline",
+      series: "marvel",
+      icon: "fa-solid fa-building",
+      themeColor: "#f43f5e",
+      secondaryColor: "#38bdf8",
+      description: "\u6F2B\u5A01\u7D10\u7D04\u5348\u591C\u5929\u969B\u7DDA\uFF0C\u5FA9\u4EC7\u8005 A \u6A19\u8A8C\u505C\u6A5F\u576A\u3001\u7D30\u96E8\u9761\u970F\u8207\u9060\u65B9\u96F7\u9706\u9583\u96FB\u3002",
+      skyColors: ["#050814", "#0f172a", "#1e293b"],
+      gridColor: "rgba(244, 63, 94, 0.2)",
+      groundColor: "#1e293b",
+      glowColor: "#38bdf8",
+      musicStyle: "heroic"
+    },
+    {
+      id: "stage_namek",
+      name: "\u90A3\u7F8E\u514B\u661F",
+      subtitle: "Planet Namek / Green Sky & Alien Sea",
+      series: "dragonball",
+      icon: "fa-solid fa-globe",
+      themeColor: "#10b981",
+      secondaryColor: "#06b6d4",
+      description: "\u4E03\u9F8D\u73E0\u7570\u661F\u8056\u5730\uFF0C\u9752\u6AB8\u7DA0\u8272\u5929\u7A7A\u3001\u96D9\u5B50\u5916\u661F\u660E\u6708\u3001\u4E9E\u5947\u85A9\u795E\u6728\u8207\u9752\u78A7\u6D77\u6D0B\u3002",
+      skyColors: ["#365314", "#65a30d", "#a3e635"],
+      gridColor: "rgba(16, 185, 129, 0.25)",
+      groundColor: "#064e3b",
+      glowColor: "#34d399",
+      musicStyle: "alien"
+    }
+  ];
+  function getStageById(id) {
+    return STAGES.find((s) => s.id === id) || STAGES[0];
+  }
+  function getRandomStage() {
+    const idx = Math.floor(Math.random() * STAGES.length);
+    return STAGES[idx];
+  }
 
   // js/save_system.js
   var STORAGE_KEY_CURRENT = "cyberstriker_current_session";
@@ -2378,6 +2761,24 @@
         }
         case "bomb_drop": {
           this._playNoise(t, 0.3, 350, 0.8);
+          break;
+        }
+        case "super": {
+          const freqs = [130.81, 196, 261.63, 392, 523.25];
+          freqs.forEach((freq, idx) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = "sawtooth";
+            osc.frequency.setValueAtTime(freq * 0.7, t);
+            osc.frequency.exponentialRampToValueAtTime(freq * 1.5, t + 0.35);
+            gain.gain.setValueAtTime(0.35, t);
+            gain.gain.exponentialRampToValueAtTime(1e-3, t + 0.9);
+            osc.connect(gain);
+            gain.connect(this.sfxGain);
+            osc.start(t + idx * 0.04);
+            osc.stop(t + 0.9);
+          });
+          this._playNoise(t, 0.45, 1200, 0.6);
           break;
         }
         case "ko": {
@@ -7385,6 +7786,48 @@
           defaultPose.backArm.foreAngle = 0.4;
           return defaultPose;
         }
+        case "super_move": {
+          const isCharging = t < 22;
+          if (isCharging) {
+            defaultPose.torso.y = -68;
+            defaultPose.torso.angle = -0.15;
+            defaultPose.frontArm.upperAngle = 0.8;
+            defaultPose.frontArm.foreAngle = 2.1;
+            defaultPose.backArm.upperAngle = 0.7;
+            defaultPose.backArm.foreAngle = 2;
+            defaultPose.frontLeg.thighAngle = 0.35;
+            defaultPose.frontLeg.shinAngle = 0.25;
+            defaultPose.backLeg.thighAngle = -0.45;
+            defaultPose.backLeg.shinAngle = 0.4;
+            defaultPose.vfx = {
+              type: "super_charge",
+              color: char.skin && char.skin.themeColor ? char.skin.themeColor : "#00f3ff",
+              x: 0,
+              y: -74,
+              time: t
+            };
+          } else {
+            defaultPose.torso.y = -72;
+            defaultPose.torso.angle = 0.22;
+            defaultPose.frontArm.upperAngle = -0.15;
+            defaultPose.frontArm.foreAngle = 0.05;
+            defaultPose.backArm.upperAngle = -0.22;
+            defaultPose.backArm.foreAngle = 0.08;
+            defaultPose.frontLeg.thighAngle = 0.55;
+            defaultPose.frontLeg.shinAngle = 0.45;
+            defaultPose.backLeg.thighAngle = -0.65;
+            defaultPose.backLeg.shinAngle = 0.2;
+            defaultPose.vfx = {
+              type: "super_blast",
+              color: char.skin && char.skin.themeColor ? char.skin.themeColor : "#00f3ff",
+              action: char.currentAction,
+              x: 52,
+              y: -74,
+              time: t
+            };
+          }
+          return defaultPose;
+        }
         default:
           return defaultPose;
       }
@@ -8052,6 +8495,52 @@
         ctx.arc(starX, starY, 4.5, 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
+      } else if (vfx.type === "super_charge") {
+        const time = vfx.time || 0;
+        const themeCol = vfx.color || "#00f3ff";
+        const rad = 14 + Math.sin(time * 0.3) * 4;
+        ctx.save();
+        ctx.shadowColor = themeCol;
+        ctx.shadowBlur = 24;
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.arc(vfx.x - 4, vfx.y - 2, rad * 0.6, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = themeCol;
+        ctx.beginPath();
+        ctx.arc(vfx.x - 4, vfx.y - 2, rad, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 2;
+        for (let i = 0; i < 4; i++) {
+          const ang = time * 0.15 + i * (Math.PI / 2);
+          const dist = 28 - time % 14;
+          ctx.beginPath();
+          ctx.moveTo(vfx.x - 4 + Math.cos(ang) * (dist + 8), vfx.y - 2 + Math.sin(ang) * (dist + 8));
+          ctx.lineTo(vfx.x - 4 + Math.cos(ang) * dist, vfx.y - 2 + Math.sin(ang) * dist);
+          ctx.stroke();
+        }
+        ctx.restore();
+      } else if (vfx.type === "super_blast") {
+        const time = vfx.time || 0;
+        const themeCol = vfx.color || "#00f3ff";
+        ctx.save();
+        ctx.shadowColor = themeCol;
+        ctx.shadowBlur = 32;
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.arc(vfx.x, vfx.y, 24 + Math.sin(time * 0.4) * 6, -Math.PI / 2, Math.PI / 2);
+        ctx.stroke();
+        ctx.fillStyle = themeCol;
+        ctx.beginPath();
+        ctx.arc(vfx.x + 8, vfx.y, 18, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.arc(vfx.x + 8, vfx.y, 10, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
       }
       ctx.restore();
     }
@@ -8101,6 +8590,310 @@
   };
   var characterRenderer = new CharacterRenderer();
 
+  // js/engine/announcer.js
+  var AnnouncerEngine = class {
+    constructor() {
+      this.speechAvailable = typeof window !== "undefined" && "speechSynthesis" in window;
+      this.voice = null;
+      this.activeBanners = [];
+      this.roundIntro = null;
+      this.superCutIn = null;
+      if (this.speechAvailable) {
+        this._initVoice();
+      }
+    }
+    _initVoice() {
+      try {
+        const updateVoices = () => {
+          const voices = window.speechSynthesis.getVoices();
+          this.voice = voices.find((v) => v.lang.startsWith("en") && (v.name.includes("Google") || v.name.includes("Natural") || v.name.includes("Daniel") || v.name.includes("Alex"))) || voices.find((v) => v.lang.startsWith("en")) || voices[0];
+        };
+        updateVoices();
+        if (typeof window.speechSynthesis.onvoiceschanged !== "undefined") {
+          window.speechSynthesis.onvoiceschanged = updateVoices;
+        }
+      } catch (e) {
+      }
+    }
+    /**
+     * 語音播報核心 (非同步零阻塞)
+     */
+    speak(text, { pitch = 1.05, rate = 1.1, volume = 0.9 } = {}) {
+      if (!this.speechAvailable || !window.speechSynthesis) return;
+      try {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        if (this.voice) utter.voice = this.voice;
+        utter.pitch = pitch;
+        utter.rate = rate;
+        utter.volume = volume;
+        utter.lang = "en-US";
+        window.speechSynthesis.speak(utter);
+      } catch (e) {
+      }
+    }
+    // ─── 標誌性格鬥語音觸發 ───
+    startRoundIntro(round = 1, onFightStart = null) {
+      this.roundIntro = {
+        phase: "round",
+        text: `ROUND ${round}`,
+        timer: 45,
+        maxTimer: 45,
+        roundNumber: round,
+        onFightStart
+      };
+      this.speak(`Round ${round}`, { pitch: 1, rate: 1 });
+      soundEngine.playUI("countdown");
+    }
+    announceCounterHit() {
+      this.triggerBanner({
+        type: "counter",
+        text: "COUNTER HIT!",
+        subText: "\u2605 \u622A\u64CA\u7834\u62DB \u2605",
+        color: "#ff3366",
+        duration: 36
+      });
+      this.speak("Counter!", { pitch: 1.25, rate: 1.3 });
+      soundEngine.playHit("heavy");
+    }
+    announceBurst() {
+      this.triggerBanner({
+        type: "burst",
+        text: "BURST REVERSAL!",
+        subText: "\u2605 \u91CF\u5B50\u9006\u8F49\u812B\u8EAB \u2605",
+        color: "#ffd700",
+        duration: 40
+      });
+      this.speak("Burst!", { pitch: 1.15, rate: 1.2 });
+      soundEngine.playHit("burst");
+    }
+    announceCombo(hits) {
+      if (hits < 3) return;
+      let label = "GREAT COMBO!";
+      let sub = "\u9023\u7E8C\u6253\u64CA";
+      let voiceText = "Great!";
+      let col = "#00f3ff";
+      if (hits >= 7) {
+        label = "\u2605 QUANTUM ULTRA! \u2605";
+        sub = "\u795E\u4E4E\u5176\u6280 \u7D42\u6975\u9023\u6BB5";
+        voiceText = "Quantum Ultra!";
+        col = "#ffd700";
+      } else if (hits >= 5) {
+        label = "\u2605 MARVELOUS! \u2605";
+        sub = "\u83EF\u9E97\u7834\u9632 \u9023\u74B0\u58D3\u5236";
+        voiceText = "Marvelous!";
+        col = "#ff007f";
+      }
+      this.triggerBanner({
+        type: "combo",
+        text: `${hits} HITS! ${label}`,
+        subText: sub,
+        color: col,
+        duration: 38
+      });
+      this.speak(voiceText, { pitch: 1.2, rate: 1.25 });
+    }
+    announceSuper(charName, moveName, themeColor = "#00f3ff") {
+      this.superCutIn = {
+        charName,
+        moveName,
+        color: themeColor,
+        timer: 42,
+        maxTimer: 42
+      };
+      this.speak("Super Move!", { pitch: 1.1, rate: 1.15 });
+      soundEngine.playHit("super");
+    }
+    announceKO() {
+      this.triggerBanner({
+        type: "ko",
+        text: "K. O. !",
+        subText: "\u2605 \u6C7A\u5B9A\u6027\u64CA\u5012 \u2605",
+        color: "#ff0055",
+        duration: 70
+      });
+      this.speak("K. O.!", { pitch: 0.9, rate: 0.95 });
+      soundEngine.playHit("ko");
+    }
+    announceVictory(winnerName) {
+      this.speak("Winner!", { pitch: 1.1, rate: 1.05 });
+    }
+    // ─── 橫幅堆疊管理 ───
+    triggerBanner(banner) {
+      this.activeBanners.push({
+        ...banner,
+        timer: banner.duration || 35,
+        maxTimer: banner.duration || 35
+      });
+    }
+    update() {
+      if (this.roundIntro) {
+        this.roundIntro.timer--;
+        if (this.roundIntro.timer <= 0) {
+          if (this.roundIntro.phase === "round") {
+            this.roundIntro.phase = "fight";
+            this.roundIntro.text = "FIGHT !";
+            this.roundIntro.timer = 40;
+            this.roundIntro.maxTimer = 40;
+            this.speak("Fight!", { pitch: 1.2, rate: 1.15 });
+            soundEngine.playUI("fight");
+            if (this.roundIntro.onFightStart) {
+              this.roundIntro.onFightStart();
+            }
+          } else {
+            this.roundIntro = null;
+          }
+        }
+      }
+      if (this.superCutIn) {
+        this.superCutIn.timer--;
+        if (this.superCutIn.timer <= 0) {
+          this.superCutIn = null;
+        }
+      }
+      for (let i = this.activeBanners.length - 1; i >= 0; i--) {
+        const b = this.activeBanners[i];
+        b.timer--;
+        if (b.timer <= 0) {
+          this.activeBanners.splice(i, 1);
+        }
+      }
+    }
+    // ─── 畫布渲染橫幅 (Draw on Canvas) ───
+    draw(ctx, w, h) {
+      if (this.roundIntro) {
+        this._drawRoundIntro(ctx, w, h, this.roundIntro);
+      }
+      if (this.superCutIn) {
+        this._drawSuperCutIn(ctx, w, h, this.superCutIn);
+      }
+      this._drawActiveBanners(ctx, w, h);
+    }
+    _drawRoundIntro(ctx, w, h, intro) {
+      const progress = 1 - intro.timer / intro.maxTimer;
+      let scale = 1;
+      let alpha = 1;
+      if (progress < 0.2) {
+        scale = 1.8 - progress * 4;
+        alpha = progress * 5;
+      } else if (progress > 0.8) {
+        alpha = (1 - progress) * 5;
+        scale = 1 + (progress - 0.8) * 1.2;
+      }
+      ctx.save();
+      ctx.translate(w / 2, h * 0.38);
+      ctx.scale(scale, scale);
+      ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      const isFight = intro.phase === "fight";
+      const mainColor = isFight ? "#ff007f" : "#00f3ff";
+      const glowColor = isFight ? "#ffd700" : "#00f3ff";
+      const beamW = Math.min(w * 0.9, 680);
+      const grad = ctx.createLinearGradient(-beamW / 2, 0, beamW / 2, 0);
+      grad.addColorStop(0, "rgba(0,0,0,0)");
+      grad.addColorStop(0.5, "rgba(5, 8, 22, 0.88)");
+      grad.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = grad;
+      ctx.fillRect(-beamW / 2, -45, beamW, 90);
+      ctx.fillStyle = glowColor;
+      ctx.fillRect(-beamW * 0.4, -45, beamW * 0.8, 2.5);
+      ctx.fillRect(-beamW * 0.4, 43, beamW * 0.8, 2.5);
+      ctx.font = '900 68px "Orbitron", sans-serif';
+      ctx.fillStyle = "#ffffff";
+      ctx.shadowColor = mainColor;
+      ctx.shadowBlur = 32;
+      ctx.fillText(intro.text, 0, 0);
+      ctx.strokeStyle = mainColor;
+      ctx.lineWidth = 3;
+      ctx.strokeText(intro.text, 0, 0);
+      ctx.restore();
+    }
+    _drawSuperCutIn(ctx, w, h, cutIn) {
+      const progress = 1 - cutIn.timer / cutIn.maxTimer;
+      ctx.save();
+      ctx.fillStyle = "rgba(2, 4, 12, 0.75)";
+      ctx.fillRect(0, 0, w, h);
+      const midY = h * 0.42;
+      const bannerH = 120;
+      ctx.fillStyle = "rgba(11, 17, 32, 0.95)";
+      ctx.beginPath();
+      ctx.moveTo(0, midY - bannerH / 2 - 20);
+      ctx.lineTo(w, midY - bannerH / 2 + 20);
+      ctx.lineTo(w, midY + bannerH / 2 + 20);
+      ctx.lineTo(0, midY + bannerH / 2 - 20);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = cutIn.color || "#00f3ff";
+      ctx.lineWidth = 4;
+      ctx.shadowColor = cutIn.color || "#00f3ff";
+      ctx.shadowBlur = 24;
+      ctx.beginPath();
+      ctx.moveTo(0, midY - bannerH / 2 - 20);
+      ctx.lineTo(w, midY - bannerH / 2 + 20);
+      ctx.moveTo(0, midY + bannerH / 2 - 20);
+      ctx.lineTo(w, midY + bannerH / 2 + 20);
+      ctx.stroke();
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.font = '900 22px "Orbitron", sans-serif';
+      ctx.fillStyle = "#ffd700";
+      ctx.shadowColor = "#ffd700";
+      ctx.shadowBlur = 14;
+      ctx.fillText(`\u26A1 CLIMAX SUPER MOVE \u2022 \u7D42\u6975\u5967\u7FA9 \u26A1`, w / 2, midY - 24);
+      ctx.font = '900 42px "Noto Sans TC", "Orbitron", sans-serif';
+      ctx.fillStyle = "#ffffff";
+      ctx.shadowColor = cutIn.color || "#00f3ff";
+      ctx.shadowBlur = 28;
+      ctx.fillText(`${cutIn.charName}\uFF1A${cutIn.moveName}`, w / 2, midY + 18);
+      ctx.restore();
+    }
+    _drawActiveBanners(ctx, w, h) {
+      if (this.activeBanners.length === 0) return;
+      this.activeBanners.forEach((b, idx) => {
+        const progress = 1 - b.timer / b.maxTimer;
+        const alpha = progress < 0.15 ? progress / 0.15 : progress > 0.8 ? (1 - progress) / 0.2 : 1;
+        const scale = progress < 0.15 ? 0.7 + progress / 0.15 * 0.3 : 1;
+        const posY = Math.max(120, h * 0.26) + idx * 56;
+        ctx.save();
+        ctx.translate(w / 2, posY);
+        ctx.scale(scale, scale);
+        ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        const bw = Math.min(w * 0.75, 420);
+        const bh = 42;
+        ctx.fillStyle = "rgba(11, 17, 32, 0.88)";
+        ctx.strokeStyle = b.color || "#00f3ff";
+        ctx.lineWidth = 2;
+        ctx.shadowColor = b.color || "#00f3ff";
+        ctx.shadowBlur = 18;
+        if (ctx.roundRect) {
+          ctx.beginPath();
+          ctx.roundRect(-bw / 2, -bh / 2, bw, bh, 8);
+          ctx.fill();
+          ctx.stroke();
+        } else {
+          ctx.fillRect(-bw / 2, -bh / 2, bw, bh);
+          ctx.strokeRect(-bw / 2, -bh / 2, bw, bh);
+        }
+        ctx.font = '900 20px "Orbitron", sans-serif';
+        ctx.fillStyle = b.color || "#ffffff";
+        ctx.shadowColor = b.color || "#00f3ff";
+        ctx.shadowBlur = 12;
+        ctx.fillText(b.text, 0, -3);
+        if (b.subText) {
+          ctx.font = 'bold 10px "Noto Sans TC", sans-serif';
+          ctx.fillStyle = "#cbd5e1";
+          ctx.shadowBlur = 0;
+          ctx.fillText(b.subText, 0, 13);
+        }
+        ctx.restore();
+      });
+    }
+  };
+  var announcerEngine = new AnnouncerEngine();
+
   // js/engine/combat.js
   var CombatEngine = class {
     constructor() {
@@ -8115,6 +8908,8 @@
       this.floatingTexts = [];
       this.hitSparks = [];
       this.hitStop = 0;
+      this.superFreeze = 0;
+      this.slowMoTimer = 0;
       this.screenShake = { x: 0, y: 0, intensity: 0 };
       this.roundTime = 99;
       this.timerAcc = 0;
@@ -8162,6 +8957,8 @@
       this.floatingTexts = [];
       this.hitSparks = [];
       this.hitStop = 0;
+      this.superFreeze = 0;
+      this.slowMoTimer = 0;
       this.screenShake = { x: 0, y: 0, intensity: 0 };
       if (isTraining && trainingOpts) {
         this.trainingSettings = { ...this.trainingSettings, ...trainingOpts };
@@ -8189,7 +8986,7 @@
         maxHp: 1e3,
         hp: 1e3,
         state: "idle",
-        // idle, walk_fwd, walk_back, jump, crouch, high_guard, low_guard, light_punch, heavy_kick, ranged_attack, skill, hit_stun, knockdown, wakeup
+        // idle, walk_fwd, walk_back, jump, crouch, high_guard, low_guard, light_punch, heavy_kick, ranged_attack, skill, hit_stun, knockdown, wakeup, super_move
         stateTime: 0,
         stateDuration: 0,
         currentAction: null,
@@ -8198,6 +8995,10 @@
         // 'high' 或 'low'
         invincibleTimer: 0,
         rangedCooldown: 0,
+        // 終極必殺量表 (Super Gauge - 滿 1000 或殘血逆境覺醒時可發動奧義)
+        superMeter: 300,
+        superMax: 1e3,
+        usedCrisisSuper: false,
         // 量子逆轉爆發 (Burst)
         burstMeter: 500,
         // 滿 500 點可施展
@@ -8226,6 +9027,23 @@
         this._updateFloatingTexts();
         return;
       }
+      if (this.superFreeze > 0) {
+        this.superFreeze--;
+        announcerEngine.update();
+        this._updateFloatingTexts();
+        return;
+      }
+      if (this.slowMoTimer > 0) {
+        this.slowMoTimer--;
+        if (this.slowMoTimer % 3 !== 0) {
+          this._updateHitSparks();
+          this._updateFloatingTexts();
+          this._updateShockwaves();
+          announcerEngine.update();
+          return;
+        }
+      }
+      announcerEngine.update();
       if (this.isTraining) {
         if (this.trainingSettings.instantCd) {
           this.p1.cooldowns = [0, 0, 0];
@@ -8273,22 +9091,43 @@
         if (this.p1.hp <= 0 && this.p2.hp <= 0) {
           this.isOver = true;
           this.winner = 0;
-          soundEngine.playHit("ko");
+          this.slowMoTimer = 45;
+          this.hitStop = 18;
+          this.triggerScreenShake(16);
+          announcerEngine.announceKO();
           this._triggerMatchEndStates();
         } else if (this.p1.hp <= 0) {
           this.isOver = true;
           this.winner = 2;
-          soundEngine.playHit("ko");
+          this.slowMoTimer = 45;
+          this.hitStop = 18;
+          this.triggerScreenShake(16);
+          announcerEngine.announceKO();
           this._triggerMatchEndStates();
         } else if (this.p2.hp <= 0) {
           this.isOver = true;
           this.winner = 1;
-          soundEngine.playHit("ko");
+          this.slowMoTimer = 45;
+          this.hitStop = 18;
+          this.triggerScreenShake(16);
+          announcerEngine.announceKO();
           this._triggerMatchEndStates();
         }
       }
     }
     _triggerMatchEndStates() {
+      const targetX = this.winner === 1 ? this.p2.x : this.winner === 2 ? this.p1.x : (this.p1.x + this.p2.x) / 2;
+      const targetY = this.winner === 1 ? this.p2.y - 60 : this.winner === 2 ? this.p1.y - 60 : 350;
+      this.shockwaves.push({
+        x: targetX,
+        y: targetY,
+        radius: 10,
+        maxRadius: 420,
+        color: "#ffd700",
+        duration: 50,
+        lineWidth: 8,
+        isKO: true
+      });
       if (this.winner === 1) {
         this.p1.state = "victory";
         this.p1.stateTime = 0;
@@ -8451,6 +9290,9 @@
         case "skill":
           this._updateAttackAction(char, opp);
           break;
+        case "super_move":
+          this._updateSuperAction(char, opp);
+          break;
         case "hit_stun":
           if (char.stateTime >= char.stateDuration) {
             char.state = "idle";
@@ -8483,6 +9325,10 @@
       }
       if (char.isGrounded) {
         char.facing = char.x < opp.x ? 1 : -1;
+      }
+      if (input.superMove && (char.superMeter >= char.superMax || char.hp <= 350 && !char.usedCrisisSuper)) {
+        this._executeSuperMove(char, opp);
+        return;
       }
       if (input.skill1 && char.cooldowns[0] <= 0) {
         this._executeSkill(char, opp, 0);
@@ -8571,6 +9417,7 @@
       char.stateTime = 0;
       char.invincibleTimer = 10;
       soundEngine.playHit("burst");
+      announcerEngine.announceBurst();
       this._triggerHaptic(80);
       this.shockwaves.push({
         x: char.x,
@@ -8594,6 +9441,112 @@
           color: "#ffd700",
           life: 45
         });
+      }
+    }
+    // ─── 角色專屬終極必殺大絕招 (Cinematic Super Moves - 26 外觀各自專屬奧義) ───
+    _executeSuperMove(char, opp) {
+      char.superMeter = 0;
+      if (char.hp <= 350) char.usedCrisisSuper = true;
+      const meta = getSkinSuperMeta(char.skin);
+      this.superFreeze = 42;
+      char.invincibleTimer = 55;
+      char.state = "super_move";
+      char.stateTime = 0;
+      char.stateDuration = meta.duration || 65;
+      char.vx = 0;
+      this.triggerScreenShake(14);
+      soundEngine.playHit("super");
+      this._triggerHaptic(90);
+      announcerEngine.announceSuper(char.skin.name, meta.name, char.skin.themeColor);
+      char.currentAction = {
+        id: "SUPER",
+        type: "super_move",
+        name: meta.name,
+        meta,
+        hitChecked: false,
+        hitsDone: 0,
+        totalHits: 10,
+        damagePerHit: 22,
+        // 10 hits * 22 = 220 點傷害，對稱公平
+        color: meta.color,
+        coreColor: meta.coreColor,
+        beamWidth: meta.beamWidth
+      };
+    }
+    _updateSuperAction(char, opp) {
+      const action = char.currentAction;
+      if (!action) return;
+      const t = char.stateTime;
+      if (t === 22) {
+        this.triggerScreenShake(10);
+        soundEngine.playHit("heavy");
+        this.shockwaves.push({
+          ownerId: char.id,
+          x: char.x + char.facing * (this.arenaWidth / 2),
+          y: char.y - 74,
+          width: this.arenaWidth,
+          height: action.beamWidth || 80,
+          isSuperBeam: true,
+          beamType: action.meta.type,
+          color: action.color,
+          coreColor: action.coreColor,
+          facing: char.facing,
+          duration: 34
+        });
+      }
+      if (t >= 22 && t <= 50 && t % 3 === 0 && action.hitsDone < action.totalHits) {
+        action.hitsDone++;
+        const isInFront = char.facing === 1 && opp.x >= char.x - 20 || char.facing === -1 && opp.x <= char.x + 20;
+        const isVerticalInRange = Math.abs(char.y - opp.y) <= 150;
+        if (isInFront && isVerticalInRange && opp.invincibleTimer <= 0) {
+          opp.hp = Math.max(0, opp.hp - action.damagePerHit);
+          opp.state = "hit_stun";
+          opp.stateTime = 0;
+          opp.stateDuration = 20;
+          opp.vx = char.facing * 3.5;
+          this.triggerScreenShake(4.5);
+          this.hitStop = Math.max(this.hitStop, 2);
+          this._triggerHaptic(30);
+          const sparkX = opp.x;
+          const sparkY = opp.y - 70;
+          this.hitSparks.push({
+            type: "super_hit",
+            x: sparkX,
+            y: sparkY,
+            color: action.color,
+            coreRadius: 25,
+            life: 16,
+            maxLife: 16,
+            rays: Array.from({ length: 6 }, (_, i) => ({
+              angle: Math.PI * 2 / 6 * i,
+              len: 26
+            }))
+          });
+          char.comboCount++;
+          char.comboDamage += action.damagePerHit;
+          char.comboResetTimer = 50;
+          this.floatingTexts.push({
+            text: `ULTRA -${action.damagePerHit}`,
+            x: opp.x,
+            y: opp.y - 95 - action.hitsDone % 3 * 16,
+            color: action.color,
+            life: 25
+          });
+          if (opp.hp <= 0 && !this.isOver && !this.isTraining) {
+            this.isOver = true;
+            this.winner = char.id;
+            this.slowMoTimer = 45;
+            this.hitStop = 18;
+            this.triggerScreenShake(16);
+            announcerEngine.announceKO();
+            this._triggerMatchEndStates();
+          }
+        }
+      }
+      if (t >= char.stateDuration) {
+        char.state = char.isGrounded ? "idle" : "jump";
+        char.stateTime = 0;
+        char.currentAction = null;
       }
     }
     // ─── 普攻打擊體系 (站立、下蹲、空中全細節三段判定) ───
@@ -9326,6 +10279,7 @@
       const isCounter = !isBlocked && opp.currentAction && !opp.currentAction.hitChecked;
       if (isCounter) {
         damage = Math.round(damage * 1.25);
+        announcerEngine.announceCounterHit();
       }
       if (char.comboCount > 0) {
         const comboScale = Math.max(0.55, 1 - char.comboCount * 0.08);
@@ -9372,11 +10326,16 @@
         return;
       }
       opp.hp = Math.max(0, opp.hp - damage);
+      char.superMeter = Math.min(char.superMax, (char.superMeter || 0) + 45);
+      opp.superMeter = Math.min(opp.superMax, (opp.superMeter || 0) + 60);
       opp.burstMeter = Math.min(opp.burstMax, opp.burstMeter + Math.round(damage * 0.9));
       char.comboCount++;
       char.comboDamage += damage;
       char.comboResetTimer = 45;
       char.frameAdvantage = isCounter ? 7 : 4;
+      if (char.comboCount === 3 || char.comboCount === 5 || char.comboCount === 7 || char.comboCount === 10) {
+        announcerEngine.announceCombo(char.comboCount);
+      }
       this.hitStop = Math.max(this.hitStop, isCounter ? 6 : damage >= 80 ? 4 : 2);
       this.triggerScreenShake(isCounter ? 6.5 : damage >= 80 ? 5 : 3);
       if (action.knockdown || damage >= 150) {
@@ -9893,6 +10852,471 @@
     }
   };
   var combatEngine = new CombatEngine();
+
+  // js/engine/stage_renderer.js
+  var StageRenderer = class {
+    constructor() {
+      this.timeTick = 0;
+      this.rainParticles = [];
+      this.matrixGlyphs = [];
+      this.clouds = [];
+      this.lightningTimer = 0;
+      this.lightningFlash = 0;
+      this._initRain();
+      this._initMatrixGlyphs();
+      this._initClouds();
+    }
+    _initRain() {
+      this.rainParticles = [];
+      for (let i = 0; i < 90; i++) {
+        this.rainParticles.push({
+          x: Math.random() * 2e3,
+          y: Math.random() * 1e3,
+          speed: 12 + Math.random() * 8,
+          length: 14 + Math.random() * 10
+        });
+      }
+    }
+    _initMatrixGlyphs() {
+      this.matrixGlyphs = [];
+      for (let i = 0; i < 40; i++) {
+        this.matrixGlyphs.push({
+          x: Math.random() * 2e3,
+          y: Math.random() * 800,
+          speed: 2 + Math.random() * 4,
+          size: 10 + Math.random() * 6,
+          char: String.fromCharCode(12448 + Math.floor(Math.random() * 96))
+        });
+      }
+    }
+    _initClouds() {
+      this.clouds = [
+        { x: 100, y: 70, scale: 1.1, speed: 0.18 },
+        { x: 450, y: 110, scale: 0.8, speed: 0.12 },
+        { x: 800, y: 60, scale: 1.3, speed: 0.22 },
+        { x: 1250, y: 95, scale: 0.9, speed: 0.15 }
+      ];
+    }
+    /**
+     * 繪製場景背景與環境
+     */
+    drawStage(ctx, stage, w, h, floorY) {
+      this.timeTick++;
+      if (!stage) return;
+      switch (stage.id) {
+        case "stage_tenkaichi":
+          this._drawTenkaichiStage(ctx, w, h, floorY);
+          break;
+        case "stage_stark_tower":
+          this._drawStarkTowerStage(ctx, w, h, floorY);
+          break;
+        case "stage_namek":
+          this._drawNamekStage(ctx, w, h, floorY);
+          break;
+        case "stage_cyber_matrix":
+        default:
+          this._drawCyberMatrixStage(ctx, w, h, floorY);
+          break;
+      }
+    }
+    // ─── 1. 賽博量子空間 (Cyber Matrix) ───
+    _drawCyberMatrixStage(ctx, w, h, floorY) {
+      const grad = ctx.createLinearGradient(0, 0, 0, floorY);
+      grad.addColorStop(0, "#040714");
+      grad.addColorStop(0.6, "#0a1026");
+      grad.addColorStop(1, "#0e1738");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, w, floorY);
+      ctx.strokeStyle = "rgba(0, 243, 255, 0.08)";
+      ctx.lineWidth = 1;
+      for (let y = 30; y < floorY; y += 35) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+      ctx.fillStyle = "rgba(0, 243, 255, 0.35)";
+      ctx.font = "11px monospace";
+      this.matrixGlyphs.forEach((g) => {
+        g.y += g.speed;
+        if (g.y > floorY) {
+          g.y = -20;
+          g.x = Math.random() * w;
+        }
+        ctx.fillText(g.char, g.x, g.y);
+      });
+      this._drawHoloCube(ctx, w * 0.15, 120, 36, this.timeTick * 0.015, "#00f3ff");
+      this._drawHoloCube(ctx, w * 0.85, 140, 42, -this.timeTick * 0.012, "#ff007f");
+      ctx.fillStyle = "#0a0e1e";
+      ctx.fillRect(0, floorY, w, h - floorY);
+      ctx.strokeStyle = "rgba(0, 243, 255, 0.22)";
+      ctx.lineWidth = 1.5;
+      for (let x = 0; x < w; x += 40) {
+        ctx.beginPath();
+        ctx.moveTo(x, floorY);
+        ctx.lineTo(x + (x - w / 2) * 0.3, h);
+        ctx.stroke();
+      }
+      for (let gy = floorY + 12; gy < h; gy += 24) {
+        ctx.beginPath();
+        ctx.moveTo(0, gy);
+        ctx.lineTo(w, gy);
+        ctx.stroke();
+      }
+      ctx.fillStyle = "rgba(0, 243, 255, 0.85)";
+      ctx.fillRect(0, floorY - 2, w, 3);
+    }
+    _drawHoloCube(ctx, cx, cy, size, angle, color) {
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(angle);
+      ctx.strokeStyle = color;
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 14;
+      ctx.lineWidth = 1.8;
+      ctx.strokeRect(-size / 2, -size / 2, size, size);
+      ctx.beginPath();
+      ctx.moveTo(0, -size * 0.65);
+      ctx.lineTo(size * 0.65, 0);
+      ctx.lineTo(0, size * 0.65);
+      ctx.lineTo(-size * 0.65, 0);
+      ctx.closePath();
+      ctx.stroke();
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath();
+      ctx.arc(0, 0, 3, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+    // ─── 2. 天下第一武道會 (Tenkaichi Budokai) ───
+    _drawTenkaichiStage(ctx, w, h, floorY) {
+      const skyGrad = ctx.createLinearGradient(0, 0, 0, floorY);
+      skyGrad.addColorStop(0, "#1d4ed8");
+      skyGrad.addColorStop(0.45, "#38bdf8");
+      skyGrad.addColorStop(1, "#bae6fd");
+      ctx.fillStyle = skyGrad;
+      ctx.fillRect(0, 0, w, floorY);
+      ctx.fillStyle = "#15803d";
+      ctx.beginPath();
+      ctx.moveTo(0, floorY);
+      ctx.lineTo(0, floorY - 140);
+      ctx.quadraticCurveTo(w * 0.25, floorY - 220, w * 0.5, floorY - 150);
+      ctx.quadraticCurveTo(w * 0.75, floorY - 250, w, floorY - 130);
+      ctx.lineTo(w, floorY);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = "#22c55e";
+      ctx.beginPath();
+      ctx.moveTo(0, floorY);
+      ctx.lineTo(0, floorY - 80);
+      ctx.quadraticCurveTo(w * 0.35, floorY - 160, w * 0.65, floorY - 90);
+      ctx.quadraticCurveTo(w * 0.85, floorY - 140, w, floorY - 70);
+      ctx.lineTo(w, floorY);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+      this.clouds.forEach((c) => {
+        c.x += c.speed;
+        if (c.x > w + 150) c.x = -150;
+        this._drawCloud(ctx, c.x, c.y, c.scale);
+      });
+      const pw = 220;
+      const px = w / 2 - pw / 2;
+      const py = floorY - 110;
+      ctx.fillStyle = "#b91c1c";
+      ctx.beginPath();
+      ctx.moveTo(px - 20, py + 35);
+      ctx.lineTo(w / 2, py);
+      ctx.lineTo(px + pw + 20, py + 35);
+      ctx.lineTo(px + pw, py + 45);
+      ctx.lineTo(px, py + 45);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = "#fef08a";
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+      ctx.fillStyle = "#facc15";
+      ctx.beginPath();
+      ctx.arc(w / 2, py - 4, 8, 0, Math.PI * 2);
+      ctx.fill();
+      this._drawTenkaichiBanner(ctx, w * 0.18, floorY - 160, "\u6B66");
+      this._drawTenkaichiBanner(ctx, w * 0.82, floorY - 160, "\u6B66");
+      ctx.fillStyle = "#d97706";
+      ctx.fillRect(0, floorY, w, h - floorY);
+      ctx.strokeStyle = "#b45309";
+      ctx.lineWidth = 1.5;
+      for (let x = 0; x < w; x += 55) {
+        ctx.beginPath();
+        ctx.moveTo(x, floorY);
+        ctx.lineTo(x, h);
+        ctx.stroke();
+      }
+      for (let gy = floorY + 16; gy < h; gy += 20) {
+        ctx.beginPath();
+        ctx.moveTo(0, gy);
+        ctx.lineTo(w, gy);
+        ctx.stroke();
+      }
+      ctx.fillStyle = "#f8fafc";
+      ctx.fillRect(0, floorY - 4, w, 5);
+      ctx.strokeStyle = "#64748b";
+      ctx.lineWidth = 1;
+      for (let bx = 0; bx < w; bx += 40) {
+        ctx.strokeRect(bx, floorY - 4, 40, 5);
+      }
+    }
+    _drawCloud(ctx, cx, cy, scale) {
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.scale(scale, scale);
+      ctx.beginPath();
+      ctx.arc(0, 0, 24, 0, Math.PI * 2);
+      ctx.arc(22, -6, 20, 0, Math.PI * 2);
+      ctx.arc(42, 2, 18, 0, Math.PI * 2);
+      ctx.arc(-18, 4, 16, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+    _drawTenkaichiBanner(ctx, bx, by, text) {
+      ctx.save();
+      ctx.strokeStyle = "#78350f";
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(bx, by);
+      ctx.lineTo(bx, by + 160);
+      ctx.stroke();
+      const wave = Math.sin(this.timeTick * 0.08) * 6;
+      ctx.fillStyle = "#dc2626";
+      ctx.beginPath();
+      ctx.moveTo(bx, by);
+      ctx.quadraticCurveTo(bx + 35, by + wave, bx + 55, by + 10);
+      ctx.lineTo(bx + 55, by + 85 + wave);
+      ctx.quadraticCurveTo(bx + 25, by + 75, bx, by + 80);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = "#fef08a";
+      ctx.font = 'bold 26px "Noto Sans TC", sans-serif';
+      ctx.textAlign = "center";
+      ctx.fillText(text, bx + 28, by + 50);
+      ctx.restore();
+    }
+    // ─── 3. 斯塔克大樓天台 (Stark Tower Rooftop) ───
+    _drawStarkTowerStage(ctx, w, h, floorY) {
+      const skyGrad = ctx.createLinearGradient(0, 0, 0, floorY);
+      skyGrad.addColorStop(0, "#020617");
+      skyGrad.addColorStop(0.6, "#0f172a");
+      skyGrad.addColorStop(1, "#1e293b");
+      ctx.fillStyle = skyGrad;
+      ctx.fillRect(0, 0, w, floorY);
+      this.lightningTimer++;
+      if (this.lightningTimer > 280 && Math.random() < 0.04) {
+        this.lightningFlash = 4;
+        this.lightningTimer = 0;
+      }
+      if (this.lightningFlash > 0) {
+        this.lightningFlash--;
+        ctx.fillStyle = `rgba(224, 242, 254, ${this.lightningFlash * 0.18})`;
+        ctx.fillRect(0, 0, w, floorY);
+      }
+      this._drawSkyline(ctx, w, floorY);
+      ctx.strokeStyle = "rgba(186, 230, 253, 0.4)";
+      ctx.lineWidth = 1.2;
+      this.rainParticles.forEach((p) => {
+        p.x -= 2.5;
+        p.y += p.speed;
+        if (p.y > floorY) {
+          p.y = -20;
+          p.x = Math.random() * (w + 200);
+        }
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p.x - 4, p.y + p.length);
+        ctx.stroke();
+      });
+      ctx.fillStyle = "#1e293b";
+      ctx.fillRect(0, floorY, w, h - floorY);
+      const logoX = w / 2;
+      const logoY = floorY + 60;
+      ctx.save();
+      ctx.translate(logoX, logoY);
+      ctx.scale(1, 0.45);
+      ctx.strokeStyle = "rgba(56, 189, 248, 0.6)";
+      ctx.lineWidth = 5;
+      ctx.shadowColor = "#00f3ff";
+      ctx.shadowBlur = 18;
+      ctx.beginPath();
+      ctx.arc(0, 0, 65, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.fillStyle = "rgba(56, 189, 248, 0.8)";
+      ctx.font = '900 80px "Rajdhani", "Orbitron", sans-serif';
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("A", 0, 0);
+      ctx.restore();
+      ctx.fillStyle = "#334155";
+      ctx.fillRect(0, floorY - 5, w, 6);
+      for (let lx = 30; lx < w; lx += 90) {
+        const glow = Math.sin(this.timeTick * 0.1 + lx) > 0;
+        ctx.fillStyle = glow ? "#ef4444" : "#7f1d1d";
+        ctx.beginPath();
+        ctx.arc(lx, floorY - 3, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    _drawSkyline(ctx, w, floorY) {
+      const buildings = [
+        { x: 30, w: 85, h: 220 },
+        { x: 130, w: 65, h: 180 },
+        { x: 210, w: 110, h: 260 },
+        { x: 340, w: 75, h: 190 },
+        { x: w * 0.45, w: 130, h: 310 },
+        // 帝國大廈風
+        { x: w * 0.62, w: 90, h: 240 },
+        { x: w * 0.74, w: 80, h: 170 },
+        { x: w * 0.84, w: 120, h: 270 }
+      ];
+      buildings.forEach((b) => {
+        ctx.fillStyle = "#090d16";
+        ctx.fillRect(b.x, floorY - b.h, b.w, b.h);
+        ctx.fillStyle = "rgba(253, 224, 71, 0.5)";
+        for (let wy = floorY - b.h + 18; wy < floorY - 20; wy += 22) {
+          for (let wx = b.x + 10; wx < b.x + b.w - 10; wx += 14) {
+            if ((wx + wy) % 5 !== 0) {
+              ctx.fillRect(wx, wy, 6, 8);
+            }
+          }
+        }
+      });
+    }
+    // ─── 4. 那美克星 (Planet Namek) ───
+    _drawNamekStage(ctx, w, h, floorY) {
+      const skyGrad = ctx.createLinearGradient(0, 0, 0, floorY);
+      skyGrad.addColorStop(0, "#365314");
+      skyGrad.addColorStop(0.5, "#65a30d");
+      skyGrad.addColorStop(1, "#bef264");
+      ctx.fillStyle = skyGrad;
+      ctx.fillRect(0, 0, w, floorY);
+      ctx.fillStyle = "rgba(254, 240, 138, 0.85)";
+      ctx.shadowColor = "#facc15";
+      ctx.shadowBlur = 24;
+      ctx.beginPath();
+      ctx.arc(w * 0.22, 100, 38, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "rgba(167, 243, 208, 0.8)";
+      ctx.shadowColor = "#34d399";
+      ctx.shadowBlur = 16;
+      ctx.beginPath();
+      ctx.arc(w * 0.32, 65, 20, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = "#0f766e";
+      ctx.fillRect(0, floorY - 90, w, 90);
+      ctx.fillStyle = "#0d9488";
+      ctx.beginPath();
+      ctx.moveTo(0, floorY);
+      ctx.lineTo(0, floorY - 130);
+      ctx.lineTo(w * 0.28, floorY - 130);
+      ctx.lineTo(w * 0.32, floorY - 70);
+      ctx.lineTo(w * 0.65, floorY - 70);
+      ctx.lineTo(w * 0.72, floorY - 150);
+      ctx.lineTo(w, floorY - 150);
+      ctx.lineTo(w, floorY);
+      ctx.closePath();
+      ctx.fill();
+      this._drawAjisaTree(ctx, w * 0.12, floorY, 110);
+      this._drawAjisaTree(ctx, w * 0.88, floorY, 125);
+      this._drawAjisaTree(ctx, w * 0.94, floorY, 95);
+      ctx.fillStyle = "#064e3b";
+      ctx.fillRect(0, floorY, w, h - floorY);
+      ctx.strokeStyle = "rgba(52, 211, 153, 0.35)";
+      ctx.lineWidth = 2;
+      for (let rx = 20; rx < w; rx += 70) {
+        ctx.beginPath();
+        ctx.moveTo(rx, floorY);
+        ctx.lineTo(rx + 25, floorY + 30);
+        ctx.lineTo(rx + 15, h);
+        ctx.stroke();
+      }
+      ctx.fillStyle = "rgba(52, 211, 153, 0.9)";
+      ctx.fillRect(0, floorY - 3, w, 4);
+    }
+    _drawAjisaTree(ctx, tx, floorY, height) {
+      ctx.save();
+      ctx.strokeStyle = "#78350f";
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.moveTo(tx, floorY);
+      ctx.lineTo(tx, floorY - height);
+      ctx.stroke();
+      ctx.fillStyle = "#14b8a6";
+      ctx.shadowColor = "#2dd4bf";
+      ctx.shadowBlur = 12;
+      ctx.beginPath();
+      ctx.arc(tx, floorY - height, 26, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#5eead4";
+      ctx.beginPath();
+      ctx.arc(tx - 6, floorY - height - 8, 10, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+    /**
+     * 繪製與場景匹配的主題空中浮空平台
+     */
+    drawPlatforms(ctx, platforms, stage) {
+      if (!platforms || platforms.length === 0) return;
+      const stageId = stage ? stage.id : "stage_cyber_matrix";
+      platforms.forEach((p) => {
+        ctx.save();
+        if (stageId === "stage_tenkaichi") {
+          ctx.fillStyle = "#f8fafc";
+          ctx.strokeStyle = "#ca8a04";
+          ctx.lineWidth = 2.5;
+          if (ctx.roundRect) {
+            ctx.beginPath();
+            ctx.roundRect(p.x, p.y, p.width, p.height, 6);
+            ctx.fill();
+            ctx.stroke();
+          } else {
+            ctx.fillRect(p.x, p.y, p.width, p.height);
+            ctx.strokeRect(p.x, p.y, p.width, p.height);
+          }
+          ctx.fillStyle = "#eab308";
+          ctx.fillRect(p.x + 8, p.y + p.height - 4, p.width - 16, 2);
+        } else if (stageId === "stage_stark_tower") {
+          ctx.fillStyle = "#1e293b";
+          ctx.strokeStyle = "#38bdf8";
+          ctx.lineWidth = 2;
+          ctx.fillRect(p.x, p.y, p.width, p.height);
+          ctx.strokeRect(p.x, p.y, p.width, p.height);
+          ctx.fillStyle = "#00f3ff";
+          ctx.fillRect(p.x + 4, p.y + 2, p.width - 8, 3);
+        } else if (stageId === "stage_namek") {
+          ctx.fillStyle = "#0f766e";
+          ctx.strokeStyle = "#34d399";
+          ctx.lineWidth = 2.5;
+          ctx.shadowColor = "#34d399";
+          ctx.shadowBlur = 10;
+          ctx.fillRect(p.x, p.y, p.width, p.height);
+          ctx.strokeRect(p.x, p.y, p.width, p.height);
+          ctx.fillStyle = "#6ee7b7";
+          ctx.fillRect(p.x + 6, p.y + 3, p.width - 12, 3);
+        } else {
+          ctx.fillStyle = "rgba(11, 17, 32, 0.9)";
+          ctx.strokeStyle = p.color || "#00f3ff";
+          ctx.lineWidth = 2;
+          ctx.shadowColor = p.color || "#00f3ff";
+          ctx.shadowBlur = 12;
+          ctx.fillRect(p.x, p.y, p.width, p.height);
+          ctx.strokeRect(p.x, p.y, p.width, p.height);
+          ctx.fillStyle = p.color || "#00f3ff";
+          ctx.fillRect(p.x, p.y, p.width, 3);
+        }
+        ctx.restore();
+      });
+    }
+  };
+  var stageRenderer = new StageRenderer();
 
   // js/engine/ai.js
   var AiController = class {
@@ -10488,8 +11912,15 @@
       this.loadoutSelection = ["SK-01", "SK-02", "SK-09"];
       this.loadoutTimer = 15;
       this.loadoutInterval = null;
+      this.selectedStageId = "random";
+      this.currentStage = STAGES[0];
+      this.arcadeMode = false;
+      this.arcadeStage = 1;
+      this.arcadeMaxStages = 5;
+      this.arcadeScore = 0;
+      this.arcadeStreakWins = 0;
       this.keys = {};
-      this.mobileInputs = { x: 0, y: 0, punch: false, kick: false, guard: false, skill1: false, skill2: false, skill3: false, burst: false };
+      this.mobileInputs = { x: 0, y: 0, punch: false, kick: false, guard: false, skill1: false, skill2: false, skill3: false, burst: false, superMove: false };
       this.canvas = null;
       this.ctx = null;
       this.pedestalCanvas = null;
@@ -10989,9 +12420,27 @@
       this.matchMode = mode;
       this.aiDifficulty = diff;
       aiController.setDifficulty(diff);
+      if (this.selectedStageId === "random") {
+        this.currentStage = getRandomStage();
+      } else {
+        this.currentStage = getStageById(this.selectedStageId);
+      }
       this.openLoadoutModal(() => {
         this._launchMatch();
       });
+    }
+    startArcadeMode() {
+      this.arcadeMode = true;
+      this.arcadeStage = 1;
+      this.arcadeScore = 0;
+      this.arcadeStreakWins = 0;
+      this.startBattle("arcade", "normal");
+    }
+    nextArcadeStage() {
+      const endModal = document.getElementById("matchEndModal");
+      if (endModal) endModal.classList.remove("active");
+      this.arcadeStage++;
+      this._launchMatch();
     }
     _launchMatch() {
       if (this._battleLoopId) {
@@ -11002,15 +12451,56 @@
       if (battleScreen) battleScreen.classList.add("active");
       const p1Skin = this.getEquippedSkin();
       let p2Skin = SKINS[1];
-      if (this.aiDifficulty === "hard") p2Skin = SKINS[2];
-      if (this.aiDifficulty === "nightmare") p2Skin = SKINS[4];
+      let p2Name = `AI (${this.aiDifficulty.toUpperCase()})`;
+      let p2Diff = this.aiDifficulty;
+      const arcadeBadge = document.getElementById("arcadeStageBadge");
+      if (this.matchMode === "arcade") {
+        if (arcadeBadge) {
+          arcadeBadge.style.display = "block";
+          arcadeBadge.innerHTML = `<i class="fa-solid fa-trophy"></i> STAGE ${this.arcadeStage} / ${this.arcadeMaxStages}`;
+        }
+        if (this.arcadeStage === 1) {
+          p2Skin = SKINS.find((s) => s.id === "skin_spiderman") || SKINS[1];
+          p2Name = "\u7B2C 1 \u95DC\uFF1A\u5F7C\u5F97\u5E15\u514B\u30FB\u8718\u86DB\u4EBA";
+          p2Diff = "normal";
+          this.currentStage = getStageById("stage_stark_tower");
+        } else if (this.arcadeStage === 2) {
+          p2Skin = SKINS.find((s) => s.id === "skin_piccolo") || SKINS[2];
+          p2Name = "\u7B2C 2 \u95DC\uFF1A\u9B54\u65CF\u5927\u5E2B\u30FB\u6BD4\u514B";
+          p2Diff = "hard";
+          this.currentStage = getStageById("stage_namek");
+        } else if (this.arcadeStage === 3) {
+          p2Skin = SKINS.find((s) => s.id === "skin_trunks_future") || SKINS[3];
+          p2Name = "\u7B2C 3 \u95DC\uFF1A\u672A\u4F86\u5E0C\u671B\u30FB\u7279\u5357\u514B\u65AF";
+          p2Diff = "hard";
+          this.currentStage = getStageById("stage_tenkaichi");
+        } else if (this.arcadeStage === 4) {
+          p2Skin = SKINS.find((s) => s.id === "skin_vegeta_ssj") || SKINS[4];
+          p2Name = "\u7B2C 4 \u95DC\uFF1A\u8CFD\u4E9E\u4EBA\u738B\u5B50\u30FB\u9054\u723E";
+          p2Diff = "nightmare";
+          this.currentStage = getStageById("stage_cyber_matrix");
+        } else {
+          p2Skin = SKINS.find((s) => s.id === "skin_thanos") || SKINS.find((s) => s.id === "skin_omega_emperor") || SKINS[5];
+          p2Name = "\u{1F451} \u6700\u7D42\u9B54\u738B\uFF1A\u5B87\u5B99\u9738\u4E3B\u30FB\u85A9\u8AFE\u65AF";
+          p2Diff = "nightmare";
+          this.currentStage = getStageById("stage_stark_tower");
+        }
+        this.aiDifficulty = p2Diff;
+        aiController.setDifficulty(p2Diff);
+      } else {
+        if (arcadeBadge) arcadeBadge.style.display = "none";
+        if (this.aiDifficulty === "hard") p2Skin = SKINS[2];
+        if (this.aiDifficulty === "nightmare") p2Skin = SKINS[4];
+        if (this.matchMode === "training") p2Name = "\u7DF4\u7FD2\u6728\u6A01\u5047\u4EBA";
+        else if (this.matchMode === "local_2p") p2Name = "Player 2";
+      }
       const p1Data = {
         name: saveSystem.currentUser ? saveSystem.currentUser.nickname : "Player 1",
         skin: p1Skin,
         loadout: this.loadoutSelection
       };
       const p2Data = {
-        name: this.matchMode === "training" ? "\u7DF4\u7FD2\u6728\u6A01\u5047\u4EBA" : this.matchMode === "local_2p" ? "Player 2" : `AI (${this.aiDifficulty.toUpperCase()})`,
+        name: p2Name,
         skin: p2Skin,
         loadout: ["SK-01", "SK-02", "SK-09"]
       };
@@ -11019,16 +12509,20 @@
       this._lastFrameTime = 0;
       this._timeAccumulator = 0;
       combatEngine.initMatch(p1Data, p2Data, this.matchMode === "training");
+      if (this.matchMode === "arcade" && this.arcadeStage > 1) {
+        combatEngine.p1.hp = Math.min(combatEngine.p1.maxHp, 650 + 350);
+      }
       this.isFighting = true;
       soundEngine.playUI("fight");
       soundEngine.startBgm();
+      announcerEngine.startRoundIntro(1);
       const p1NameEl = document.getElementById("p1NameDisplay");
       const p2NameEl = document.getElementById("p2NameDisplay");
       const p2RoleTag = document.getElementById("p2RoleTag");
       if (p1NameEl) p1NameEl.textContent = p1Data.name;
       if (p2NameEl) p2NameEl.textContent = p2Data.name;
       if (p2RoleTag) {
-        const p2Text = this.matchMode === "local_2p" ? "2P \u5C0D\u624B" : this.matchMode === "training" ? "\u8A13\u7DF4\u6728\u6A01" : "\u96FB\u8166\u5C0D\u624B / AI";
+        const p2Text = this.matchMode === "local_2p" ? "2P \u5C0D\u624B" : this.matchMode === "training" ? "\u8A13\u7DF4\u6728\u6A01" : this.matchMode === "arcade" ? `\u8857\u6A5F\u5C0D\u624B (STAGE ${this.arcadeStage})` : "\u96FB\u8166\u5C0D\u624B / AI";
         p2RoleTag.innerHTML = `<i class="fa-solid fa-robot"></i> ${p2Text}`;
       }
       this._updateSkillActionBar();
@@ -11051,9 +12545,13 @@
         <i class="fa-solid fa-shield-halved" style="font-size: 20px; color: #38bdf8;"></i>
         <span style="font-size: 10px; font-weight: 900; color: #38bdf8;">[L] \u8B77\u76FE</span>
       </div>
-      <div class="burst-hud-card" id="burstHudBtn">
+      <div class="burst-hud-card" id="burstHudBtn" title="\u53D7\u64CA\u6642\u812B\u8EAB\u7206\u767C [B]">
         <span style="font-size: 11px;">BURST</span>
         <span style="font-size: 9px; opacity: 0.8;">[B]</span>
+      </div>
+      <div class="burst-hud-card" id="superHudBtn" style="background: linear-gradient(135deg, #ffd700, #ff007f); border-color: #ffd700;" title="\u6EFF\u80FD\u91CF\u6216\u6B98\u8840\u6642\u767C\u52D5\u7D42\u6975\u5967\u7FA9 [P]">
+        <span style="font-size: 11px; font-weight: 900; color: #fff;">SUPER</span>
+        <span style="font-size: 9px; opacity: 0.9; color: #ffd700;">[P] \u5967\u7FA9</span>
       </div>
     `;
       const guardBtn = document.getElementById("guardHudBtn");
@@ -11076,6 +12574,24 @@
         guardBtn.ontouchend = (e) => {
           e.preventDefault();
           this.mobileInputs.guard = false;
+        };
+      }
+      const superBtn = document.getElementById("superHudBtn");
+      if (superBtn) {
+        superBtn.onclick = (e) => {
+          e.preventDefault();
+          this.keys["KeyP"] = true;
+          setTimeout(() => {
+            this.keys["KeyP"] = false;
+          }, 80);
+        };
+        superBtn.ontouchstart = (e) => {
+          e.preventDefault();
+          this.mobileInputs.superMove = true;
+        };
+        superBtn.ontouchend = (e) => {
+          e.preventDefault();
+          this.mobileInputs.superMove = false;
         };
       }
       const trainingBar = document.getElementById("trainingToolbar");
@@ -11144,7 +12660,8 @@
         skill1: !!(k["KeyU"] || m.skill1),
         skill2: !!(k["KeyI"] || m.skill2),
         skill3: !!(k["KeyO"] || m.skill3),
-        burst: !!(k["KeyB"] || m.burst)
+        burst: !!(k["KeyB"] || m.burst),
+        superMove: !!(k["KeyP"] || m.superMove)
       };
     }
     _gatherInputsP2() {
@@ -11164,7 +12681,8 @@
         skill1: !!(k["Numpad4"] || k["Digit4"]),
         skill2: !!(k["Numpad5"] || k["Digit5"]),
         skill3: !!(k["Numpad6"] || k["Digit6"]),
-        burst: !!(k["NumpadPlus"] || k["NumpadEnter"] || k["Digit7"])
+        burst: !!(k["NumpadPlus"] || k["NumpadEnter"] || k["Digit7"]),
+        superMove: !!(k["Numpad3"] || k["Digit3"])
       };
     }
     _renderBattleFrame() {
@@ -11172,24 +12690,13 @@
       const ctx = this.ctx;
       const w = this.canvas.width;
       const h = this.canvas.height;
-      ctx.fillStyle = "#050814";
-      ctx.fillRect(0, 0, w, h);
+      stageRenderer.drawStage(ctx, this.currentStage, w, h, combatEngine.floorY);
       ctx.save();
       if (combatEngine.screenShake && combatEngine.screenShake.intensity > 0.1) {
         ctx.translate(combatEngine.screenShake.x, combatEngine.screenShake.y);
       }
       const groundY = combatEngine.floorY;
-      ctx.strokeStyle = "rgba(0, 243, 255, 0.15)";
-      ctx.lineWidth = 1;
-      for (let x = 0; x < w; x += 40) {
-        ctx.beginPath();
-        ctx.moveTo(x, groundY);
-        ctx.lineTo(x, h);
-        ctx.stroke();
-      }
-      ctx.fillStyle = "rgba(0, 243, 255, 0.6)";
-      ctx.fillRect(0, groundY, w, 3);
-      this._drawPlatforms(ctx);
+      stageRenderer.drawPlatforms(ctx, combatEngine.platforms, this.currentStage);
       this._drawFighterFloorRings(ctx, groundY);
       characterRenderer.draw(ctx, combatEngine.p1);
       characterRenderer.draw(ctx, combatEngine.p2);
@@ -11482,7 +12989,43 @@
         ctx.strokeStyle = s.color || "#00f3ff";
         ctx.shadowColor = s.color || "#00f3ff";
         ctx.shadowBlur = 20;
-        if (s.isBeam) {
+        if (s.isSuperBeam) {
+          const beamH = s.height || 80;
+          ctx.fillStyle = s.color;
+          ctx.globalAlpha = 0.35;
+          ctx.fillRect(0, s.y - beamH * 0.75, w, beamH * 1.5);
+          ctx.globalAlpha = 0.85;
+          ctx.fillRect(0, s.y - beamH / 2, w, beamH);
+          ctx.fillStyle = s.coreColor || "#ffffff";
+          ctx.globalAlpha = 0.95;
+          ctx.fillRect(0, s.y - beamH * 0.25, w, beamH * 0.5);
+          const tNow = Date.now() / 60;
+          ctx.strokeStyle = s.coreColor || "#ffffff";
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          for (let lx = 0; lx < w; lx += 25) {
+            const ly = s.y + Math.sin(tNow + lx * 0.05) * (beamH * 0.45);
+            if (lx === 0) ctx.moveTo(lx, ly);
+            else ctx.lineTo(lx, ly);
+          }
+          ctx.stroke();
+        } else if (s.isKO) {
+          const progress = Math.min(1, s.radius / s.maxRadius);
+          ctx.globalAlpha = Math.max(0, 1 - progress);
+          ctx.lineWidth = Math.max(2, (1 - progress) * 14);
+          ctx.strokeStyle = s.color || "#ffd700";
+          ctx.shadowColor = s.color || "#ffd700";
+          ctx.shadowBlur = 35;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+          ctx.stroke();
+          if (progress < 0.4) {
+            ctx.fillStyle = "#ffffff";
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, (1 - progress * 2.5) * 80, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        } else if (s.isBeam) {
           ctx.fillStyle = s.color;
           ctx.fillRect(s.x - s.width / 2, s.y - s.height / 2, s.width, s.height);
         } else {
@@ -11508,6 +13051,7 @@
       if (combatEngine.isOver && !combatEngine.isTraining) {
         this._drawVictoryBanner(ctx, w, h);
       }
+      announcerEngine.draw(ctx, w, h);
     }
     // ─── 打擊爆裂火花與斬芒特效 (Hit Sparks & Impact Rays) ───
     _drawHitSparks(ctx) {
@@ -12007,21 +13551,93 @@
           touchGuardBtn.classList.remove("active");
         }
       }
+      const super1El = document.getElementById("p1SuperFill");
+      const super2El = document.getElementById("p2SuperFill");
+      const superBtn = document.getElementById("superHudBtn");
+      const touchSuperBtn = document.getElementById("touchSuperBtn");
+      const isP1SuperReady = combatEngine.p1.superMeter >= combatEngine.p1.superMax || combatEngine.p1.hp <= 350 && !combatEngine.p1.usedCrisisSuper;
+      if (super1El) {
+        const super1Ratio = isP1SuperReady ? 1 : combatEngine.p1.superMeter / combatEngine.p1.superMax;
+        super1El.style.width = `${Math.min(100, Math.round(super1Ratio * 100))}%`;
+        super1El.style.background = isP1SuperReady ? "linear-gradient(90deg, #ffd700, #ff007f)" : "linear-gradient(90deg, #38bdf8, #818cf8)";
+      }
+      if (super2El) {
+        const super2Ratio = combatEngine.p2.superMeter / combatEngine.p2.superMax;
+        super2El.style.width = `${Math.min(100, Math.round(super2Ratio * 100))}%`;
+      }
+      if (superBtn) {
+        if (isP1SuperReady) {
+          superBtn.style.opacity = "1";
+          superBtn.style.boxShadow = "0 0 16px #ffd700";
+        } else {
+          superBtn.style.opacity = "0.45";
+          superBtn.style.boxShadow = "none";
+        }
+      }
+      if (touchSuperBtn) {
+        touchSuperBtn.style.opacity = isP1SuperReady ? "1" : "0.45";
+      }
     }
     // ─── 對決結束與結算面板彈出 ───
     _showMatchEndModal() {
       soundEngine.stopBgm();
       const won = combatEngine.winner === 1;
-      const isAi = this.matchMode === "ai";
+      const isAi = this.matchMode === "ai" || this.matchMode === "arcade";
       const reward = saveSystem.recordBattleResult(won, this.aiDifficulty, isAi);
       const endModal = document.getElementById("matchEndModal");
       const resultTitle = document.getElementById("matchResultTitle");
       const creditsReward = document.getElementById("matchRewardAmount");
-      if (resultTitle) {
-        resultTitle.textContent = won ? "VICTORY \u6230\u9B25\u52DD\u5229" : "DEFEAT \u6230\u9B25\u843D\u6557";
-        resultTitle.style.color = won ? "#00f3ff" : "#ff007f";
+      const playAgainBtn = document.getElementById("matchPlayAgainBtn");
+      const nextStageBtn = document.getElementById("matchNextStageBtn");
+      if (this.matchMode === "arcade") {
+        if (won) {
+          this.arcadeScore += 18e3 + Math.round(combatEngine.p1.hp * 12);
+          this.arcadeStreakWins++;
+          if (this.arcadeStage < this.arcadeMaxStages) {
+            if (resultTitle) {
+              resultTitle.textContent = `STAGE ${this.arcadeStage} CLEAR!`;
+              resultTitle.style.color = "#ffd700";
+            }
+            if (creditsReward) {
+              creditsReward.innerHTML = `+${reward.gained} \u80FD\u91CF\u5E63<div style="font-size: 13px; color: #00ff88; margin-top: 4px;">\u751F\u547D\u503C\u6062\u5FA9 +350\uFF01\u5373\u5C07\u8FCE\u6230\u7B2C ${this.arcadeStage + 1} \u95DC</div>`;
+            }
+            if (nextStageBtn) nextStageBtn.style.display = "flex";
+            if (playAgainBtn) playAgainBtn.style.display = "none";
+          } else {
+            if (endModal) endModal.classList.remove("active");
+            const trophyModal = document.getElementById("arcadeTrophyModal");
+            const trophyScore = document.getElementById("arcadeTrophyScore");
+            if (trophyScore) trophyScore.textContent = `${this.arcadeScore.toLocaleString()} PTS`;
+            saveSystem.addCredits(2500);
+            soundEngine.playHit("super");
+            if (trophyModal) trophyModal.classList.add("active");
+            this.updateUserHUD();
+            return;
+          }
+        } else {
+          if (resultTitle) {
+            resultTitle.textContent = `STAGE ${this.arcadeStage} FAILED`;
+            resultTitle.style.color = "#ff007f";
+          }
+          if (creditsReward) creditsReward.textContent = `+${reward.gained} \u80FD\u91CF\u5E63 (\u95D6\u95DC\u6B62\u6B65\u65BC\u7B2C ${this.arcadeStage} \u95DC)`;
+          if (nextStageBtn) nextStageBtn.style.display = "none";
+          if (playAgainBtn) {
+            playAgainBtn.style.display = "flex";
+            playAgainBtn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> \u91CD\u8A66\u672C\u95DC';
+          }
+        }
+      } else {
+        if (nextStageBtn) nextStageBtn.style.display = "none";
+        if (playAgainBtn) {
+          playAgainBtn.style.display = "flex";
+          playAgainBtn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> \u518D\u73A9\u4E00\u6B21';
+        }
+        if (resultTitle) {
+          resultTitle.textContent = won ? "VICTORY \u6230\u9B25\u52DD\u5229" : "DEFEAT \u6230\u9B25\u843D\u6557";
+          resultTitle.style.color = won ? "#00f3ff" : "#ff007f";
+        }
+        if (creditsReward) creditsReward.textContent = `+${reward.gained} \u80FD\u91CF\u5E63`;
       }
-      if (creditsReward) creditsReward.textContent = `+${reward.gained} \u80FD\u91CF\u5E63`;
       if (endModal) endModal.classList.add("active");
       this.updateUserHUD();
     }
@@ -12086,6 +13702,35 @@
           this.startBattle("local_2p");
         };
       }
+      const startArcadeBtn = document.getElementById("startArcadeModeBtn");
+      if (startArcadeBtn) {
+        startArcadeBtn.onclick = () => {
+          document.getElementById("modeSelectModal").classList.remove("active");
+          this.startArcadeMode();
+        };
+      }
+      const matchNextBtn = document.getElementById("matchNextStageBtn");
+      if (matchNextBtn) {
+        matchNextBtn.onclick = () => {
+          this.nextArcadeStage();
+        };
+      }
+      const trophyClaimBtn = document.getElementById("arcadeTrophyClaimBtn");
+      if (trophyClaimBtn) {
+        trophyClaimBtn.onclick = () => {
+          const tModal = document.getElementById("arcadeTrophyModal");
+          if (tModal) tModal.classList.remove("active");
+          this.exitBattleToLobby();
+        };
+      }
+      document.querySelectorAll(".stage-select-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".stage-select-btn").forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          this.selectedStageId = btn.dataset.stage;
+          soundEngine.playUI("click");
+        });
+      });
       const trainingBtn = document.getElementById("selectTrainingBtn");
       if (trainingBtn) {
         trainingBtn.onclick = () => {
@@ -12399,6 +14044,7 @@
       bindTouchBtn("touchSkill2Btn", "skill2");
       bindTouchBtn("touchSkill3Btn", "skill3");
       bindTouchBtn("touchBurstBtn", "burst");
+      bindTouchBtn("touchSuperBtn", "superMove");
     }
     _updateJoystick(dx, dy) {
       const dist = Math.hypot(dx, dy);

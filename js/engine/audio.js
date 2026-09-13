@@ -561,6 +561,26 @@ class SoundEngine {
         break;
       }
 
+      case 'super': {
+        // 超必殺爆發充能與天地轟鳴巨響
+        const freqs = [130.81, 196.00, 261.63, 392.00, 523.25];
+        freqs.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(freq * 0.7, t);
+          osc.frequency.exponentialRampToValueAtTime(freq * 1.5, t + 0.35);
+          gain.gain.setValueAtTime(0.35, t);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + 0.9);
+          osc.connect(gain);
+          gain.connect(this.sfxGain);
+          osc.start(t + idx * 0.04);
+          osc.stop(t + 0.9);
+        });
+        this._playNoise(t, 0.45, 1200, 0.6);
+        break;
+      }
+
       case 'ko': {
         // K.O. 勝利號角與長音
         const chords = [220, 277.18, 329.63, 440];

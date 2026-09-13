@@ -6,8 +6,9 @@
  */
 
 import { SKILLS } from '../data/skills.js';
-import { getSkinAttackMeta } from '../data/skins.js';
+import { getSkinAttackMeta, getSkinSuperMeta } from '../data/skins.js';
 import { soundEngine } from './audio.js';
+import { announcerEngine } from './announcer.js';
 
 export class CombatEngine {
   constructor() {
@@ -23,6 +24,8 @@ export class CombatEngine {
     this.floatingTexts = [];
     this.hitSparks = [];
     this.hitStop = 0;
+    this.superFreeze = 0;
+    this.slowMoTimer = 0;
     this.screenShake = { x: 0, y: 0, intensity: 0 };
     this.roundTime = 99;
     this.timerAcc = 0;
@@ -74,6 +77,8 @@ export class CombatEngine {
     this.floatingTexts = [];
     this.hitSparks = [];
     this.hitStop = 0;
+    this.superFreeze = 0;
+    this.slowMoTimer = 0;
     this.screenShake = { x: 0, y: 0, intensity: 0 };
 
     if (isTraining && trainingOpts) {
@@ -107,7 +112,7 @@ export class CombatEngine {
       currentPlatform: null,
       maxHp: 1000,
       hp: 1000,
-      state: 'idle', // idle, walk_fwd, walk_back, jump, crouch, high_guard, low_guard, light_punch, heavy_kick, ranged_attack, skill, hit_stun, knockdown, wakeup
+      state: 'idle', // idle, walk_fwd, walk_back, jump, crouch, high_guard, low_guard, light_punch, heavy_kick, ranged_attack, skill, hit_stun, knockdown, wakeup, super_move
       stateTime: 0,
       stateDuration: 0,
       currentAction: null,
@@ -115,6 +120,11 @@ export class CombatEngine {
       guardStance: 'high', // 'high' 或 'low'
       invincibleTimer: 0,
       rangedCooldown: 0,
+
+      // 終極必殺量表 (Super Gauge - 滿 1000 或殘血逆境覺醒時可發動奧義)
+      superMeter: 300,
+      superMax: 1000,
+      usedCrisisSuper: false,
 
       // 量子逆轉爆發 (Burst)
       burstMeter: 500, // 滿 500 點可施展
@@ -145,6 +155,29 @@ export class CombatEngine {
       this._updateFloatingTexts();
       return;
     }
+
+    // 0. 終極必殺時空凍結 (Super Freeze - 全屏暗幕人物特寫暫停物理推進)
+    if (this.superFreeze > 0) {
+      this.superFreeze--;
+      announcerEngine.update();
+      this._updateFloatingTexts();
+      return;
+    }
+
+    // 0. 終結慢動作特寫 (Dramatic K.O. Slow-Motion - 0.33x 震撼特寫)
+    if (this.slowMoTimer > 0) {
+      this.slowMoTimer--;
+      if (this.slowMoTimer % 3 !== 0) {
+        this._updateHitSparks();
+        this._updateFloatingTexts();
+        this._updateShockwaves();
+        announcerEngine.update();
+        return;
+      }
+    }
+
+    // 推進戰鬥播報語音與動態文字
+    announcerEngine.update();
 
     // 1. 訓練營專屬維護 (即時無冷卻與木樁血量自動回滿)
     if (this.isTraining) {
@@ -209,23 +242,45 @@ export class CombatEngine {
       if (this.p1.hp <= 0 && this.p2.hp <= 0) {
         this.isOver = true;
         this.winner = 0; // 平局
-        soundEngine.playHit('ko');
+        this.slowMoTimer = 45;
+        this.hitStop = 18;
+        this.triggerScreenShake(16);
+        announcerEngine.announceKO();
         this._triggerMatchEndStates();
       } else if (this.p1.hp <= 0) {
         this.isOver = true;
         this.winner = 2;
-        soundEngine.playHit('ko');
+        this.slowMoTimer = 45;
+        this.hitStop = 18;
+        this.triggerScreenShake(16);
+        announcerEngine.announceKO();
         this._triggerMatchEndStates();
       } else if (this.p2.hp <= 0) {
         this.isOver = true;
         this.winner = 1;
-        soundEngine.playHit('ko');
+        this.slowMoTimer = 45;
+        this.hitStop = 18;
+        this.triggerScreenShake(16);
+        announcerEngine.announceKO();
         this._triggerMatchEndStates();
       }
     }
   }
 
   _triggerMatchEndStates() {
+    const targetX = this.winner === 1 ? this.p2.x : (this.winner === 2 ? this.p1.x : (this.p1.x + this.p2.x) / 2);
+    const targetY = this.winner === 1 ? this.p2.y - 60 : (this.winner === 2 ? this.p1.y - 60 : 350);
+    this.shockwaves.push({
+      x: targetX,
+      y: targetY,
+      radius: 10,
+      maxRadius: 420,
+      color: '#ffd700',
+      duration: 50,
+      lineWidth: 8,
+      isKO: true
+    });
+
     if (this.winner === 1) {
       this.p1.state = 'victory';
       this.p1.stateTime = 0;
@@ -420,6 +475,10 @@ export class CombatEngine {
         this._updateAttackAction(char, opp);
         break;
 
+      case 'super_move':
+        this._updateSuperAction(char, opp);
+        break;
+
       case 'hit_stun':
         if (char.stateTime >= char.stateDuration) {
           char.state = 'idle';
@@ -457,6 +516,12 @@ export class CombatEngine {
     // 面向自動校正 (在地面可動時)
     if (char.isGrounded) {
       char.facing = char.x < opp.x ? 1 : -1;
+    }
+
+    // 0. 角色專屬終極必殺大絕招 (Level 3 Super Move - 滿能量或逆境覺醒按 [P] 或 [SUPER])
+    if (input.superMove && (char.superMeter >= char.superMax || (char.hp <= 350 && !char.usedCrisisSuper))) {
+      this._executeSuperMove(char, opp);
+      return;
     }
 
     // 1. 技能觸發 (優先級最高)
@@ -564,6 +629,7 @@ export class CombatEngine {
     char.invincibleTimer = 10; // 前 10 幀全身無敵
 
     soundEngine.playHit('burst');
+    announcerEngine.announceBurst();
     this._triggerHaptic(80);
 
     // 爆發直徑 300 像素金色環形氣浪
@@ -591,6 +657,130 @@ export class CombatEngine {
         color: '#ffd700',
         life: 45
       });
+    }
+  }
+
+  // ─── 角色專屬終極必殺大絕招 (Cinematic Super Moves - 26 外觀各自專屬奧義) ───
+  _executeSuperMove(char, opp) {
+    char.superMeter = 0;
+    if (char.hp <= 350) char.usedCrisisSuper = true;
+
+    const meta = getSkinSuperMeta(char.skin);
+    this.superFreeze = 42; // 時空凍結 42 幀 (全屏暗幕與人物特寫)
+    char.invincibleTimer = 55;
+    char.state = 'super_move';
+    char.stateTime = 0;
+    char.stateDuration = meta.duration || 65;
+    char.vx = 0;
+
+    this.triggerScreenShake(14);
+    soundEngine.playHit('super');
+    this._triggerHaptic(90);
+    announcerEngine.announceSuper(char.skin.name, meta.name, char.skin.themeColor);
+
+    char.currentAction = {
+      id: 'SUPER',
+      type: 'super_move',
+      name: meta.name,
+      meta,
+      hitChecked: false,
+      hitsDone: 0,
+      totalHits: 10,
+      damagePerHit: 22, // 10 hits * 22 = 220 點傷害，對稱公平
+      color: meta.color,
+      coreColor: meta.coreColor,
+      beamWidth: meta.beamWidth
+    };
+  }
+
+  _updateSuperAction(char, opp) {
+    const action = char.currentAction;
+    if (!action) return;
+
+    const t = char.stateTime;
+
+    // 在第 22 幀蓄力完成瞬間生成終極大招全屏衝擊波實體
+    if (t === 22) {
+      this.triggerScreenShake(10);
+      soundEngine.playHit('heavy');
+      this.shockwaves.push({
+        ownerId: char.id,
+        x: char.x + char.facing * (this.arenaWidth / 2),
+        y: char.y - 74,
+        width: this.arenaWidth,
+        height: action.beamWidth || 80,
+        isSuperBeam: true,
+        beamType: action.meta.type,
+        color: action.color,
+        coreColor: action.coreColor,
+        facing: char.facing,
+        duration: 34
+      });
+    }
+
+    // 第 22~50 幀多段連擊 (Multi-Hit 10 次判定)
+    if (t >= 22 && t <= 50 && (t % 3 === 0) && action.hitsDone < action.totalHits) {
+      action.hitsDone++;
+      const isInFront = (char.facing === 1 && opp.x >= char.x - 20) || (char.facing === -1 && opp.x <= char.x + 20);
+      const isVerticalInRange = Math.abs(char.y - opp.y) <= 150;
+
+      if (isInFront && isVerticalInRange && opp.invincibleTimer <= 0) {
+        opp.hp = Math.max(0, opp.hp - action.damagePerHit);
+        opp.state = 'hit_stun';
+        opp.stateTime = 0;
+        opp.stateDuration = 20;
+        opp.vx = char.facing * 3.5;
+
+        // 打擊火花與震屏
+        this.triggerScreenShake(4.5);
+        this.hitStop = Math.max(this.hitStop, 2);
+        this._triggerHaptic(30);
+
+        const sparkX = opp.x;
+        const sparkY = opp.y - 70;
+        this.hitSparks.push({
+          type: 'super_hit',
+          x: sparkX,
+          y: sparkY,
+          color: action.color,
+          coreRadius: 25,
+          life: 16,
+          maxLife: 16,
+          rays: Array.from({ length: 6 }, (_, i) => ({
+            angle: (Math.PI * 2 / 6) * i,
+            len: 26
+          }))
+        });
+
+        char.comboCount++;
+        char.comboDamage += action.damagePerHit;
+        char.comboResetTimer = 50;
+
+        this.floatingTexts.push({
+          text: `ULTRA -${action.damagePerHit}`,
+          x: opp.x,
+          y: opp.y - 95 - (action.hitsDone % 3) * 16,
+          color: action.color,
+          life: 25
+        });
+
+        // 致命一擊檢查
+        if (opp.hp <= 0 && !this.isOver && !this.isTraining) {
+          this.isOver = true;
+          this.winner = char.id;
+          this.slowMoTimer = 45;
+          this.hitStop = 18;
+          this.triggerScreenShake(16);
+          announcerEngine.announceKO();
+          this._triggerMatchEndStates();
+        }
+      }
+    }
+
+    if (t >= char.stateDuration) {
+      char.state = char.isGrounded ? 'idle' : 'jump';
+      char.stateTime = 0;
+      char.currentAction = null;
     }
   }
 
@@ -1410,6 +1600,7 @@ export class CombatEngine {
     const isCounter = !isBlocked && opp.currentAction && !opp.currentAction.hitChecked;
     if (isCounter) {
       damage = Math.round(damage * 1.25);
+      announcerEngine.announceCounterHit();
     }
 
     // 連段傷害遞減修正 (Combo Scaling)
@@ -1471,14 +1662,20 @@ export class CombatEngine {
     // 命中打擊！
     opp.hp = Math.max(0, opp.hp - damage);
 
-    // 充能挨打方的量子爆發計量槽
+    // 充能雙方之終極必殺計量槽 (Super Gauge) 與受擊方的量子爆發計量槽
+    char.superMeter = Math.min(char.superMax, (char.superMeter || 0) + 45);
+    opp.superMeter = Math.min(opp.superMax, (opp.superMeter || 0) + 60);
     opp.burstMeter = Math.min(opp.burstMax, opp.burstMeter + Math.round(damage * 0.9));
 
-    // 連段累加
+    // 連段累加與播報
     char.comboCount++;
     char.comboDamage += damage;
     char.comboResetTimer = 45; // 45 幀內再次命中算連段
     char.frameAdvantage = isCounter ? 7 : 4;   // 破招享有超長有利幀 (+7f)
+
+    if (char.comboCount === 3 || char.comboCount === 5 || char.comboCount === 7 || char.comboCount === 10) {
+      announcerEngine.announceCombo(char.comboCount);
+    }
 
     // 命中頓幀 (Hit Stop) 與震屏 (Screen Shake)
     this.hitStop = Math.max(this.hitStop, isCounter ? 6 : (damage >= 80 ? 4 : 2));

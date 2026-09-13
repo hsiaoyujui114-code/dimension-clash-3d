@@ -794,6 +794,52 @@ export class CharacterRenderer {
         return defaultPose;
       }
 
+      case 'super_move': {
+        // 超必殺奧義發動姿態：
+        // 前半段 (0~22)：深蹲馬步蓄力、能量瘋狂匯聚於胸前與掌心
+        // 後半段 (23~65)：全力向前轟出全屏巨型奧義光柱/斬芒，身軀堅若磐石向前震盪！
+        const isCharging = t < 22;
+        if (isCharging) {
+          defaultPose.torso.y = -68;
+          defaultPose.torso.angle = -0.15; // 身體後縮蓄力
+          defaultPose.frontArm.upperAngle = 0.8;
+          defaultPose.frontArm.foreAngle = 2.1; // 雙手向後收在腰際
+          defaultPose.backArm.upperAngle = 0.7;
+          defaultPose.backArm.foreAngle = 2.0;
+          defaultPose.frontLeg.thighAngle = 0.35;
+          defaultPose.frontLeg.shinAngle = 0.25;
+          defaultPose.backLeg.thighAngle = -0.45;
+          defaultPose.backLeg.shinAngle = 0.4;
+          defaultPose.vfx = {
+            type: 'super_charge',
+            color: char.skin && char.skin.themeColor ? char.skin.themeColor : '#00f3ff',
+            x: 0,
+            y: -74,
+            time: t
+          };
+        } else {
+          defaultPose.torso.y = -72;
+          defaultPose.torso.angle = 0.22; // 身體向前弓步怒轟
+          defaultPose.frontArm.upperAngle = -0.15; // 雙手推向前方
+          defaultPose.frontArm.foreAngle = 0.05;
+          defaultPose.backArm.upperAngle = -0.22;
+          defaultPose.backArm.foreAngle = 0.08;
+          defaultPose.frontLeg.thighAngle = 0.55;
+          defaultPose.frontLeg.shinAngle = 0.45;
+          defaultPose.backLeg.thighAngle = -0.65;
+          defaultPose.backLeg.shinAngle = 0.2;
+          defaultPose.vfx = {
+            type: 'super_blast',
+            color: char.skin && char.skin.themeColor ? char.skin.themeColor : '#00f3ff',
+            action: char.currentAction,
+            x: 52,
+            y: -74,
+            time: t
+          };
+        }
+        return defaultPose;
+      }
+
       default:
         return defaultPose;
     }
@@ -1608,6 +1654,65 @@ export class CharacterRenderer {
       ctx.fillStyle = '#ffd700';
       ctx.beginPath();
       ctx.arc(starX, starY, 4.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    } else if (vfx.type === 'super_charge') {
+      // 終極必殺蓄力匯聚能量光球與向內吸納之光芒粒子
+      const time = vfx.time || 0;
+      const themeCol = vfx.color || '#00f3ff';
+      const rad = 14 + Math.sin(time * 0.3) * 4;
+
+      ctx.save();
+      ctx.shadowColor = themeCol;
+      ctx.shadowBlur = 24;
+
+      // 核心高溫光球
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(vfx.x - 4, vfx.y - 2, rad * 0.6, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = themeCol;
+      ctx.beginPath();
+      ctx.arc(vfx.x - 4, vfx.y - 2, rad, 0, Math.PI * 2);
+      ctx.fill();
+
+      // 向內匯聚的光弧
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+      for (let i = 0; i < 4; i++) {
+        const ang = time * 0.15 + i * (Math.PI / 2);
+        const dist = 28 - (time % 14);
+        ctx.beginPath();
+        ctx.moveTo(vfx.x - 4 + Math.cos(ang) * (dist + 8), vfx.y - 2 + Math.sin(ang) * (dist + 8));
+        ctx.lineTo(vfx.x - 4 + Math.cos(ang) * dist, vfx.y - 2 + Math.sin(ang) * dist);
+        ctx.stroke();
+      }
+      ctx.restore();
+    } else if (vfx.type === 'super_blast') {
+      // 終極必殺怒轟掌心槍口高溫等離子閃焰
+      const time = vfx.time || 0;
+      const themeCol = vfx.color || '#00f3ff';
+
+      ctx.save();
+      ctx.shadowColor = themeCol;
+      ctx.shadowBlur = 32;
+
+      // 爆裂核心衝擊光環
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.arc(vfx.x, vfx.y, 24 + Math.sin(time * 0.4) * 6, -Math.PI / 2, Math.PI / 2);
+      ctx.stroke();
+
+      ctx.fillStyle = themeCol;
+      ctx.beginPath();
+      ctx.arc(vfx.x + 8, vfx.y, 18, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(vfx.x + 8, vfx.y, 10, 0, Math.PI * 2);
       ctx.fill();
 
       ctx.restore();

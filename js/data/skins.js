@@ -836,3 +836,327 @@ export function getSkinAttackMeta(skin, attackType = 'light_punch') {
     vfxType: meta.vfxType
   };
 }
+
+/**
+ * 取得外觀專屬終極必殺技 (Level 3 Super Move Metadata)
+ * 26 款外觀均具備 100% 獨特必殺奧義視覺，傷害值 220 點精確對稱公平
+ */
+export function getSkinSuperMeta(skin) {
+  const id = skin ? skin.id : 'skin_cyber_warrior';
+
+  const supers = {
+    // ── 科技與未來原創系列 (15款) ──
+    skin_cyber_warrior: {
+      name: '量子超弦湮滅刃',
+      title: '量子先鋒・超高頻全息弦刃風暴',
+      type: 'beam',
+      color: '#00f3ff',
+      coreColor: '#ffffff',
+      beamWidth: 75,
+      sound: 'super'
+    },
+    skin_neon_shadow: {
+      name: '暗影櫻落瞬獄殺',
+      title: '暗夜霓虹・八方櫻花次元斬',
+      type: 'slash',
+      color: '#ff007f',
+      coreColor: '#c084fc',
+      beamWidth: 70,
+      sound: 'super'
+    },
+    skin_pulse_enforcer: {
+      name: '脈衝超載審判陣',
+      title: '脈衝執法官・超高壓電磁拘束牢籠',
+      type: 'shockwave',
+      color: '#3b82f6',
+      coreColor: '#60a5fa',
+      beamWidth: 75,
+      sound: 'super'
+    },
+    skin_cosmic_ronin: {
+      name: '星辰居合百花斬',
+      title: '星際浪人・銀河星軌居合奧義',
+      type: 'slash',
+      color: '#a855f7',
+      coreColor: '#f43f5e',
+      beamWidth: 75,
+      sound: 'super'
+    },
+    skin_volt_ranger: {
+      name: '超導雷電狙殺矢',
+      title: '超導巡警・萬伏特磁暴連鎖箭幕',
+      type: 'lightning',
+      color: '#facc15',
+      coreColor: '#ffffff',
+      beamWidth: 75,
+      sound: 'super'
+    },
+    skin_abyssal_ghost: {
+      name: '深淵死域暗影波',
+      title: '深淵幽靈・幽冥暗影波長爆散',
+      type: 'shockwave',
+      color: '#6366f1',
+      coreColor: '#818cf8',
+      beamWidth: 70,
+      sound: 'super'
+    },
+    skin_dark_hacker: {
+      name: '矩陣崩潰代碼流',
+      title: '暗黑黑客・零日漏洞終端強制關閉',
+      type: 'beam',
+      color: '#00ff66',
+      coreColor: '#34d399',
+      beamWidth: 75,
+      sound: 'super'
+    },
+    skin_nano_cyborg: {
+      name: '十億奈米百刃天葬',
+      title: '奈米生化戰警・液態金屬暴風穿刺',
+      type: 'slash',
+      color: '#84cc16',
+      coreColor: '#bef264',
+      beamWidth: 75,
+      sound: 'super'
+    },
+    skin_crimson_tyrant: {
+      name: '地核熔岩超載重轟',
+      title: '赤紅暴君・萬度火山地裂巨轟',
+      type: 'sphere',
+      color: '#ef4444',
+      coreColor: '#f97316',
+      beamWidth: 85,
+      sound: 'super'
+    },
+    skin_cryo_maiden: {
+      name: '絕對零度冰河封神',
+      title: '極寒超導武姬・萬丈鑽石冰魄巨刺',
+      type: 'beam',
+      color: '#38bdf8',
+      coreColor: '#bae6fd',
+      beamWidth: 80,
+      sound: 'super'
+    },
+    skin_void_devourer: {
+      name: '暗物質奇點吞噬',
+      title: '虛空吞噬者・事件視界引力坍縮黑洞',
+      type: 'sphere',
+      color: '#9333ea',
+      coreColor: '#c084fc',
+      beamWidth: 90,
+      sound: 'super'
+    },
+    skin_solar_valkyrie: {
+      name: '熾陽耀斑鳳凰天昇',
+      title: '太陽女武神・萬丈恆星聖火烈焰裁決',
+      type: 'beam',
+      color: '#ff4500',
+      coreColor: '#fbbf24',
+      beamWidth: 90,
+      sound: 'super'
+    },
+    skin_cyber_diva: {
+      name: '狂熱等化器全息暴風',
+      title: '賽博歌姬・音浪共振七彩極光音爆',
+      type: 'shockwave',
+      color: '#14b8a6',
+      coreColor: '#f43f5e',
+      beamWidth: 80,
+      sound: 'super'
+    },
+    skin_archangel_judicator: {
+      name: '天國聖裁・六翼光子聖律',
+      title: '曜白裁決聖使・至純光子審判長矛',
+      type: 'beam',
+      color: '#f8fafc',
+      coreColor: '#38bdf8',
+      beamWidth: 88,
+      sound: 'super'
+    },
+    skin_omega_emperor: {
+      name: '始祖機皇・宇宙金輪核爆',
+      title: '黃金終極機神・九五至尊滅世神威金芒',
+      type: 'sphere',
+      color: '#eab308',
+      coreColor: '#ffffff',
+      beamWidth: 95,
+      sound: 'super'
+    },
+
+    // ── 漫威宇宙經典系列 (6款) ──
+    skin_iron_man: {
+      name: '質子巨砲 UNIBEAM',
+      title: '鋼鐵人・馬克85胸口方舟巨型等離子雷射',
+      type: 'beam',
+      color: '#00f3ff',
+      coreColor: '#ef4444',
+      beamWidth: 85,
+      sound: 'super'
+    },
+    skin_spiderman: {
+      name: '狂暴蛛網巨摔 WEB CYCLONE',
+      title: '蜘蛛人・彼得帕克全屏蛛網狂暴大迴旋',
+      type: 'cyclone',
+      color: '#ffffff',
+      coreColor: '#ef4444',
+      beamWidth: 65,
+      sound: 'super'
+    },
+    skin_captain_america: {
+      name: '汎合金星芒英勇衝擊',
+      title: '美國隊長・自由之盾超音速音爆衝擊',
+      type: 'charge',
+      color: '#38bdf8',
+      coreColor: '#ef4444',
+      beamWidth: 70,
+      sound: 'super'
+    },
+    skin_thor: {
+      name: '雷神天罰・九界神雷',
+      title: '雷神索爾・妙爾尼爾天崩地裂狂雷引',
+      type: 'lightning',
+      color: '#38bdf8',
+      coreColor: '#ffffff',
+      beamWidth: 90,
+      sound: 'super'
+    },
+    skin_thanos: {
+      name: '無限手套・六寶石宇宙射線',
+      title: '薩諾斯・六大無限原石宇宙終焉射線',
+      type: 'infinity',
+      color: '#ffd700',
+      coreColor: '#a855f7',
+      beamWidth: 90,
+      sound: 'super'
+    },
+    skin_hawkeye: {
+      name: '量子神箭・多重爆破獵殺',
+      title: '鷹眼・百步穿楊全屏光子暴風箭陣',
+      type: 'beam',
+      color: '#8b5cf6',
+      coreColor: '#c084fc',
+      beamWidth: 75,
+      sound: 'super'
+    },
+
+    // ── 七龍珠超傳奇系列 (5款) ──
+    skin_goku_ssj: {
+      name: '超・龜派氣功波',
+      title: '孫悟空・超越極限金黃狂暴巨浪龜派氣功',
+      type: 'beam',
+      color: '#00bfff',
+      coreColor: '#fde047',
+      beamWidth: 90,
+      sound: 'super'
+    },
+    skin_vegeta_ssj: {
+      name: '終極閃光 FINAL FLASH',
+      title: '貝吉塔・賽亞人王子全屏黃金爆裂閃光',
+      type: 'beam',
+      color: '#facc15',
+      coreColor: '#ffffff',
+      beamWidth: 90,
+      sound: 'super'
+    },
+    skin_trunks_future: {
+      name: '燃燒之斬 BURNING SLASH',
+      title: '未來特南克斯・希望勇者之劍十字破空斬',
+      type: 'slash',
+      color: '#a855f7',
+      coreColor: '#fde047',
+      beamWidth: 75,
+      sound: 'super'
+    },
+    skin_piccolo: {
+      name: '魔貫光殺砲',
+      title: '比克大魔王・雙螺旋超穿透螺旋光殺砲',
+      type: 'spiral',
+      color: '#84cc16',
+      coreColor: '#f43f5e',
+      beamWidth: 70,
+      sound: 'super'
+    },
+    skin_golden_frieza: {
+      name: '超新星毀滅彈 DEATH BALL',
+      title: '黃金弗利沙・帝皇猩紅巨型毀滅黑彈',
+      type: 'sphere',
+      color: '#ffd700',
+      coreColor: '#ef4444',
+      beamWidth: 95,
+      sound: 'super'
+    },
+
+    // 兼容舊別名
+    skin_ironman: {
+      name: '質子巨砲 UNIBEAM',
+      title: '鋼鐵人・馬克85胸口方舟巨型等離子雷射',
+      type: 'beam',
+      color: '#00f3ff',
+      coreColor: '#ef4444',
+      beamWidth: 85,
+      sound: 'super'
+    },
+    skin_captain: {
+      name: '汎合金星芒英勇衝擊',
+      title: '美國隊長・自由之盾超音速音爆衝擊',
+      type: 'charge',
+      color: '#38bdf8',
+      coreColor: '#ef4444',
+      beamWidth: 70,
+      sound: 'super'
+    },
+    skin_goku: {
+      name: '超・龜派氣功波',
+      title: '孫悟空・超越極限金黃狂暴巨浪龜派氣功',
+      type: 'beam',
+      color: '#00bfff',
+      coreColor: '#fde047',
+      beamWidth: 90,
+      sound: 'super'
+    },
+    skin_vegeta: {
+      name: '終極閃光 FINAL FLASH',
+      title: '貝吉塔・賽亞人王子全屏黃金爆裂閃光',
+      type: 'beam',
+      color: '#facc15',
+      coreColor: '#ffffff',
+      beamWidth: 90,
+      sound: 'super'
+    },
+    skin_trunks: {
+      name: '燃燒之斬 BURNING SLASH',
+      title: '未來特南克斯・希望勇者之劍十字破空斬',
+      type: 'slash',
+      color: '#a855f7',
+      coreColor: '#fde047',
+      beamWidth: 75,
+      sound: 'super'
+    },
+    skin_frieza: {
+      name: '超新星毀滅彈 DEATH BALL',
+      title: '黃金弗利沙・帝皇猩紅巨型毀滅黑彈',
+      type: 'sphere',
+      color: '#ffd700',
+      coreColor: '#ef4444',
+      beamWidth: 95,
+      sound: 'super'
+    }
+  };
+
+  const selected = supers[id] || {
+    name: '量子超能粒子巨砲',
+    title: '量子矩陣・高頻粒子貫通暴擊',
+    type: 'beam',
+    color: skin && skin.themeColor ? skin.themeColor : '#00f3ff',
+    coreColor: '#ffffff',
+    beamWidth: 75,
+    sound: 'super'
+  };
+
+  return {
+    ...selected,
+    damage: 220,
+    startup: 16,
+    duration: 65
+  };
+}
+
