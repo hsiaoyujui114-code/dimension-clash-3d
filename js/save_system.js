@@ -65,6 +65,14 @@ function safeSetItem(key, val) {
   } catch (e) {}
 }
 
+export function getTodayDateString() {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, '0');
+  const d = String(now.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
 export class SaveSystem {
   constructor() {
     this.currentUser = null;
@@ -103,24 +111,25 @@ export class SaveSystem {
       if (raw) {
         const parsed = JSON.parse(raw);
         const defaultStarterSkins = ["skin_cyber_warrior", "skin_neon_shadow", "skin_pulse_enforcer"];
-        const shopOnlyMarvelDB = [
-          "skin_iron_man", "skin_spiderman", "skin_captain_america", "skin_thor", "skin_thanos",
-          "skin_goku_ssj", "skin_vegeta_ssj", "skin_trunks_future", "skin_piccolo", "skin_golden_frieza"
+        const shopOnlyTribute = [
+          "skin_iron_man", "skin_spiderman", "skin_captain_america", "skin_thor", "skin_thanos", "skin_hawkeye",
+          "skin_goku_ssj", "skin_vegeta_ssj", "skin_trunks_future", "skin_piccolo", "skin_golden_frieza",
+          "skin_brawl_shelly", "skin_brawl_colt", "skin_brawl_spike", "skin_brawl_el_primo", "skin_brawl_crow", "skin_brawl_leon"
         ];
 
         for (const email in parsed) {
           if (parsed[email]) {
-            // 確保玩家擁有足夠能量幣 (50,000) 可隨心於商城選購漫威與七龍珠角色
+            // 確保玩家擁有足夠能量幣 (50,000) 可隨心於商城選購漫威、七龍珠與荒野亂鬥角色
             if ((parsed[email].credits || 0) < 30000) {
               parsed[email].credits = 50000;
             }
             if (!Array.isArray(parsed[email].purchasedSkins)) {
               parsed[email].purchasedSkins = [];
             }
-            // 漫威與七龍珠角色必須在商城購買：非購買所得之快取造型移出已擁有名單
+            // 漫威、七龍珠與荒野亂鬥角色必須在商城購買：非購買所得之快取造型移出已擁有名單
             if (Array.isArray(parsed[email].skins)) {
               parsed[email].skins = parsed[email].skins.filter(sid => {
-                if (shopOnlyMarvelDB.includes(sid)) {
+                if (shopOnlyTribute.includes(sid)) {
                   return parsed[email].purchasedSkins.includes(sid);
                 }
                 return true;
@@ -634,7 +643,7 @@ export class SaveSystem {
       return { success: false, reason: "已擁有此造型" };
     }
     if (this.currentUser.credits < price) {
-      return { success: false, reason: "能量幣餘額不足（可隨時點擊上方戰備補給無限制領取 +1,500 幣）" };
+      return { success: false, reason: "能量幣餘額不足（可領取每日戰備補給或進行對戰賺取能量幣）" };
     }
     this.currentUser.credits -= price;
     if (!Array.isArray(this.currentUser.purchasedSkins)) {
@@ -648,6 +657,59 @@ export class SaveSystem {
     this.currentUser.updatedAt = new Date().toISOString();
     this._saveCurrent();
     return { success: true, remaining: this.currentUser.credits };
+  }
+
+  /**
+   * 檢查當天是否可以領取戰備補給 (每日嚴格限領一次)
+   */
+  canClaimDailySupply() {
+    const today = getTodayDateString();
+    if (this.currentUser && this.currentUser.lastDailySupplyDate) {
+      return this.currentUser.lastDailySupplyDate !== today;
+    }
+    const storedDate = safeGetItem("cyberstriker_daily_supply_date");
+    if (storedDate === today) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * 領取每日戰備補給 (當天僅能領取 1 次，拿完隔日 00:00 才能再次領取)
+   */
+  claimDailySupply(amount = 1500) {
+    if (!this.currentUser) return { success: false, reason: "未登入帳號" };
+    const today = getTodayDateString();
+    if (!this.canClaimDailySupply()) {
+      return {
+        success: false,
+        reason: "今日戰備補給已領取完畢！每日僅限領取一次，請於明天再來領取！",
+        nextReset: this.getTimeUntilNextDailyReset()
+      };
+    }
+
+    this.currentUser.credits = (this.currentUser.credits || 0) + amount;
+    this.currentUser.lastDailySupplyDate = today;
+    safeSetItem("cyberstriker_daily_supply_date", today);
+    this._saveCurrent();
+    return {
+      success: true,
+      amount,
+      newBalance: this.currentUser.credits,
+      date: today
+    };
+  }
+
+  /**
+   * 計算距離隔日 00:00:00 重置剩餘時間
+   */
+  getTimeUntilNextDailyReset() {
+    const now = new Date();
+    const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+    const diffMs = tomorrow - now;
+    const hours = Math.floor(diffMs / (1000 * 60 * 60));
+    const mins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+    return `${hours} 小時 ${mins} 分鐘`;
   }
 
   updateLoadout(skillsArray) {

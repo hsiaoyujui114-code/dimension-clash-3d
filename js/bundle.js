@@ -1085,6 +1085,163 @@
         hitEffect: "\u7329\u7D05\u91D1\u8292\u6B7B\u4EA1\u7206\u88C2"
       },
       creator: "Dragon Ball Tribute"
+    },
+    // ── 《荒野亂鬥》傳奇英雄系列 (Brawl Stars Series) ──
+    {
+      id: "skin_brawl_shelly",
+      name: "\u96EA\u8389\u30FB\u6563\u5F48\u7375\u624B",
+      title: "\u8352\u91CE\u5927\u93E2\u5BA2\u30FB\u62DB\u724C\u9730\u5F48\u69CD\u624B",
+      category: "shop",
+      series: "\u8352\u91CE\u4E82\u9B25",
+      price: 2600,
+      isDefault: false,
+      attackStyle: "shotgun",
+      themeColor: "#a855f7",
+      secondaryColor: "#fde047",
+      glowColor: "rgba(168, 85, 247, 0.75)",
+      accentColor: "#3b82f6",
+      armorColor: "#1e3a8a",
+      visorColor: "#fde047",
+      coreColor: "#a855f7",
+      desc: "\u771F\u5BE6\u9084\u539F\u300A\u8352\u91CE\u4E82\u9B25\u300B\u96EA\u8389\uFF01\u62DB\u724C\u7D2B\u8272\u7ACB\u9AD4\u5927\u6372\u9AEE\u3001\u9BAE\u9EC3\u8272\u725B\u4ED4\u9818\u5DFE\u3001\u6230\u8853\u6DF1\u85CD\u80CC\u5FC3\u8207\u5927\u53E3\u5F91\u91D1\u5C6C\u96D9\u7BA1\u6563\u5F48\u69CD\u3002",
+      vfx: {
+        punchTrail: "\u91D1\u9EC3\u6563\u5F48\u706B\u661F\u8207\u65CB\u8F49\u7D2B\u8272\u7375\u624B\u5149\u8ECC",
+        sk1: "\u9AD8\u901F\u91CD\u578B\u6563\u5F48\u7834\u7A7A\u5F48\u5E55",
+        sk2: "\u9730\u5F48\u5F8C\u5EA7\u529B\u5F15\u7206\u6C96\u5929\u8DF3\u8E8D\u8F5F\u64CA",
+        guardShield: "\u91D1\u9EC3\u8B66\u661F\u9632\u79A6\u76FE\u58C1",
+        hitEffect: "\u9EC3\u9285\u5F48\u6BBC\u8207\u91D1\u8272\u706B\u82B1\u788E\u5C51"
+      },
+      creator: "Brawl Stars Tribute"
+    },
+    {
+      id: "skin_brawl_colt",
+      name: "\u67EF\u723E\u7279\u30FB\u96D9\u69CD\u795E\u8B66",
+      title: "\u8352\u91CE\u7B2C\u4E00\u5FEB\u69CD\u624B\u30FB\u96D9\u6301\u5DE6\u8F2A\u8B66\u9577",
+      category: "shop",
+      series: "\u8352\u91CE\u4E82\u9B25",
+      price: 2600,
+      isDefault: false,
+      attackStyle: "dual_guns",
+      themeColor: "#ef4444",
+      secondaryColor: "#38bdf8",
+      glowColor: "rgba(239, 68, 68, 0.75)",
+      accentColor: "#ffd700",
+      armorColor: "#1d4ed8",
+      visorColor: "#38bdf8",
+      coreColor: "#ffd700",
+      desc: "\u771F\u5BE6\u9084\u539F\u300A\u8352\u91CE\u4E82\u9B25\u300B\u67EF\u723E\u7279\uFF01\u9BAE\u7D05\u9AD8\u8073\u6D41\u7DDA\u98DB\u6A5F\u982D\u3001\u6DF1\u85CD\u8B66\u9577\u80CC\u5FC3\u8207\u80F8\u524D\u516D\u89D2\u8B66\u661F\u5FBD\u7AE0\uFF0C\u624B\u6301\u96D9\u67C4\u96D5\u82B1\u9280\u767D\u5DE6\u8F2A\u624B\u69CD\u3002",
+      vfx: {
+        punchTrail: "\u96D9\u6301\u9280\u767D\u5F48\u9053\u5149\u75D5\u3001\u91D1\u8272\u516D\u89D2\u8B66\u661F",
+        sk1: "\u96D9\u6301\u5DE6\u8F2A\u75BE\u901F\u9023\u767C\u5F48\u5E55",
+        sk2: "\u9A30\u7A7A\u8FF4\u65CB\u96D9\u69CD\u9023\u74B0\u5411\u5929\u901F\u5C04",
+        guardShield: "\u96D9\u5DE6\u8F2A\u5168\u606F\u5C01\u9396\u661F\u74B0",
+        hitEffect: "\u9280\u767D\u5F48\u9053\u706B\u661F\u8207\u8B66\u661F\u5149\u8292"
+      },
+      creator: "Brawl Stars Tribute"
+    },
+    {
+      id: "skin_brawl_spike",
+      name: "\u65AF\u6D3E\u514B\u30FB\u50B3\u5947\u4ED9\u4EBA\u638C",
+      title: "\u8352\u91CE\u840C\u9738\u30FB\u523A\u5BA2\u4ED9\u4EBA\u638C",
+      category: "shop",
+      series: "\u8352\u91CE\u4E82\u9B25",
+      price: 2800,
+      isDefault: false,
+      attackStyle: "cactus_spike",
+      themeColor: "#22c55e",
+      secondaryColor: "#ec4899",
+      glowColor: "rgba(34, 197, 94, 0.75)",
+      accentColor: "#fbbf24",
+      armorColor: "#15803d",
+      visorColor: "#ec4899",
+      coreColor: "#22c55e",
+      desc: "\u771F\u5BE6\u9084\u539F\u300A\u8352\u91CE\u4E82\u9B25\u300B\u65AF\u6D3E\u514B\uFF01\u5713\u6EFE\u6EFE\u7FE0\u7DA0\u4ED9\u4EBA\u638C\u3001\u982D\u9802\u76DB\u958B\u7C89\u7D05\u5C0F\u82B1\u3001\u6DF1\u7D2B\u523A\u7E61\u7CBE\u7DFB\u77ED\u80CC\u5FC3\u8207\u5446\u840C\u7D14\u9ED1\u5927\u773C\u775B\u3002",
+      vfx: {
+        punchTrail: "\u7C89\u7D05\u82B1\u74E3\u8207\u7DA0\u8272\u5C16\u523A\u7206\u767C\u5149\u75D5",
+        sk1: "\u65CB\u8F49\u5C16\u523A\u4ED9\u4EBA\u638C\u624B\u96F7\u70B8\u88C2",
+        sk2: "\u62D4\u5730\u800C\u8D77\u4E4B\u6012\u653E\u4ED9\u4EBA\u638C\u5C16\u523A\u82B1\u67F1",
+        guardShield: "\u65CB\u8F49\u5DE8\u5927\u4ED9\u4EBA\u638C\u82B1\u9632\u79A6\u529B\u5834",
+        hitEffect: "\u7C89\u7D05\u82B1\u74E3\u8207\u7FE0\u7DA0\u523A\u91DD\u56DB\u6563"
+      },
+      creator: "Brawl Stars Tribute"
+    },
+    {
+      id: "skin_brawl_el_primo",
+      name: "\u666E\u91CC\u83AB\u30FB\u6454\u89D2\u9738\u738B",
+      title: "\u50B3\u5947\u6454\u89D2\u5DE8\u661F\u30FB\u6D41\u661F\u91CD\u62F3",
+      category: "shop",
+      series: "\u8352\u91CE\u4E82\u9B25",
+      price: 3e3,
+      isDefault: false,
+      attackStyle: "luchador",
+      themeColor: "#2563eb",
+      secondaryColor: "#ffd700",
+      glowColor: "rgba(37, 99, 235, 0.8)",
+      accentColor: "#f59e0b",
+      armorColor: "#1e3a8a",
+      visorColor: "#ffd700",
+      coreColor: "#ffd700",
+      desc: "\u771F\u5BE6\u9084\u539F\u300A\u8352\u91CE\u4E82\u9B25\u300B\u666E\u91CC\u83AB\uFF01\u6E5B\u85CD\u9EC3\u91D1\u58A8\u897F\u54E5\u6454\u89D2\u9762\u5177\u3001\u5065\u78A9\u82F1\u96C4\u80F8\u808C\u9AD4\u9B44\u8207\u91D1\u8272\u51A0\u8ECD\u5DE8\u661F\u91CD\u578B\u6454\u89D2\u91D1\u8170\u5E36\uFF01",
+      vfx: {
+        punchTrail: "\u71B1\u8840\u6454\u89D2\u6D41\u661F\u706B\u7130\u91CD\u62F3\u3001\u51A0\u8ECD\u91D1\u661F",
+        sk1: "\u6D41\u661F\u706B\u62F3\u9023\u74B0\u91CD\u7832\u885D\u64CA\u6CE2",
+        sk2: "\u6454\u89D2\u9738\u738B\u9A30\u7A7A\u98DB\u8EAB\u6D41\u661F\u8098\u64CA",
+        guardShield: "\u6454\u89D2\u9738\u738B\u91D1\u5149\u51A0\u8ECD\u91D1\u9418\u7F69",
+        hitEffect: "\u91D1\u661F\u7480\u74A8\u8207\u70C8\u7130\u885D\u64CA"
+      },
+      creator: "Brawl Stars Tribute"
+    },
+    {
+      id: "skin_brawl_crow",
+      name: "\u9ED1\u9D09\u30FB\u6697\u5F71\u5287\u6BD2\u523A\u5BA2",
+      title: "\u8352\u91CE\u6BD2\u689F\u30FB\u81F4\u547D\u6E21\u9D09\u670B\u514B",
+      category: "shop",
+      series: "\u8352\u91CE\u4E82\u9B25",
+      price: 3200,
+      isDefault: false,
+      attackStyle: "toxic_dagger",
+      themeColor: "#10b981",
+      secondaryColor: "#facc15",
+      glowColor: "rgba(16, 185, 129, 0.8)",
+      accentColor: "#ef4444",
+      armorColor: "#020617",
+      visorColor: "#ef4444",
+      coreColor: "#10b981",
+      desc: "\u771F\u5BE6\u9084\u539F\u300A\u8352\u91CE\u4E82\u9B25\u300B\u9ED1\u9D09\uFF01\u9ED1\u8272\u6A5F\u8ECA\u76AE\u9769\u98A8\u8863\u7ACB\u9818\u3001\u91D1\u9EC3\u92B3\u5229\u91D1\u5C6C\u5F4E\u5599\u3001\u8840\u7D05\u96D9\u773C\u8207\u96D9\u6301\u5287\u6BD2\u7FE1\u7FE0\u98DB\u5200\u3002",
+      vfx: {
+        punchTrail: "\u5287\u6BD2\u7FE1\u7FE0\u6697\u5F71\u9727\u6C23\u3001\u6E21\u9D09\u7FBD\u6BDB\u65AC\u75D5",
+        sk1: "\u4E09\u5411\u5168\u606F\u6DEC\u6BD2\u7FE1\u7FE0\u98DB\u5200\u5C04\u64CA",
+        sk2: "\u5C55\u7FC5\u9A30\u7A7A\u6697\u591C\u6E21\u9D09\u843D\u7FBD\u91CD\u64CA",
+        guardShield: "\u5287\u6BD2\u7FBD\u7FFC\u6697\u591C\u8B77\u58C1",
+        hitEffect: "\u78A7\u7DA0\u5287\u6BD2\u8150\u8755\u5149\u8292"
+      },
+      creator: "Brawl Stars Tribute"
+    },
+    {
+      id: "skin_brawl_leon",
+      name: "\u91CC\u6602\u30FB\u8B8A\u8272\u9F8D\u795E\u96B1\u5BA2",
+      title: "\u8352\u91CE\u795E\u5077\u30FB\u56DB\u91CD\u65CB\u8F49\u98DB\u93E2",
+      category: "shop",
+      series: "\u8352\u91CE\u4E82\u9B25",
+      price: 3200,
+      isDefault: false,
+      attackStyle: "shuriken",
+      themeColor: "#10b981",
+      secondaryColor: "#f43f5e",
+      glowColor: "rgba(16, 185, 129, 0.75)",
+      accentColor: "#38bdf8",
+      armorColor: "#064e3b",
+      visorColor: "#facc15",
+      coreColor: "#10b981",
+      desc: "\u771F\u5BE6\u9084\u539F\u300A\u8352\u91CE\u4E82\u9B25\u300B\u91CC\u6602\uFF01\u9BAE\u7DA0\u8B8A\u8272\u9F8D\u9023\u5E3D\u885B\u8863\u3001\u5DE8\u5927\u8B8A\u8272\u9F8D\u9215\u6263\u96D9\u773C\u3001\u5634\u89D2\u54AC\u8457\u7D05\u767D\u87BA\u65CB\u68D2\u68D2\u7CD6\u3001\u624B\u6301\u56DB\u5203\u65CB\u8F49\u624B\u88CF\u528D\u3002",
+      vfx: {
+        punchTrail: "\u9752\u85CD\u65CB\u8F49\u624B\u88CF\u528D\u5E7B\u5F71\u3001\u7159\u5E55\u6B98\u5F71",
+        sk1: "\u56DB\u91CD\u9023\u74B0\u9AD8\u901F\u98DB\u65CB\u624B\u88CF\u528D\u5F48\u5E55",
+        sk2: "\u795E\u96B1\u9A30\u7A7A\u7A81\u8972\u65CB\u98A8\u8E22",
+        guardShield: "\u8B8A\u8272\u9F8D\u5168\u606F\u5149\u5B78\u96B1\u8EAB\u5C4F\u969C",
+        hitEffect: "\u9752\u85CD\u80FD\u91CF\u98DB\u5203\u661F\u5875"
+      },
+      creator: "Brawl Stars Tribute"
     }
   ];
   function getSkinAttackStyle(skin) {
@@ -1110,7 +1267,13 @@
       skin_golden_frieza: "death_beam",
       skin_pulse_enforcer: "baton",
       skin_neon_shadow: "kunai",
-      skin_solar_valkyrie: "spear"
+      skin_solar_valkyrie: "spear",
+      skin_brawl_shelly: "shotgun",
+      skin_brawl_colt: "dual_guns",
+      skin_brawl_spike: "cactus_spike",
+      skin_brawl_el_primo: "luchador",
+      skin_brawl_crow: "toxic_dagger",
+      skin_brawl_leon: "shuriken"
     };
     return map[skin.id] || "brawler";
   }
@@ -1229,6 +1392,54 @@
         sweepName: "\u5730\u5F71\u7121\u75D5\u30FB\u4E0B\u6BB5\u6697\u8972",
         sound: "sword_slash",
         vfxType: "punch"
+      },
+      shotgun: {
+        lightName: "\u6563\u5F48\u9EDE\u5C04\u30FB\u6025\u901F\u51FA\u819B",
+        heavyName: "\u91CD\u578B\u6563\u5F48\u30FB\u5168\u529F\u7387\u8F5F\u64CA",
+        crouchName: "\u4F4E\u59FF\u4F0F\u5730\u30FB\u8CBC\u5730\u6563\u5F48",
+        sweepName: "\u4F4E\u59FF\u4F0F\u5730\u30FB\u8CBC\u5730\u6563\u5F48\u6383\u5802",
+        sound: "gun_shot",
+        vfxType: "gun_bullet"
+      },
+      dual_guns: {
+        lightName: "\u96D9\u6301\u5DE6\u8F2A\u30FB\u6025\u901F\u9023\u767C",
+        heavyName: "\u8B66\u661F\u96D9\u69CD\u30FB\u65CB\u98A8\u91CD\u7832",
+        crouchName: "\u4E0B\u4F0F\u6ED1\u6B65\u30FB\u4F4E\u4F4D\u901F\u5C04",
+        sweepName: "\u6230\u8853\u6ED1\u6B65\u30FB\u4F4E\u4F4D\u901F\u5C04",
+        sound: "gun_shot",
+        vfxType: "gun_bullet"
+      },
+      cactus_spike: {
+        lightName: "\u4ED9\u4EBA\u638C\u523A\u30FB\u6025\u901F\u98DB\u91DD",
+        heavyName: "\u523A\u7403\u624B\u96F7\u30FB\u5C16\u523A\u7206\u767C",
+        crouchName: "\u4F4E\u4F0F\u523A\u91DD\u30FB\u8CBC\u5730\u7A7F\u523A",
+        sweepName: "\u4F4E\u4F0F\u523A\u91DD\u30FB\u8CBC\u5730\u7A7F\u523A",
+        sound: "punch",
+        vfxType: "punch"
+      },
+      luchador: {
+        lightName: "\u6454\u89D2\u9023\u62F3\u30FB\u71B1\u8840\u91CD\u62F3",
+        heavyName: "\u6D41\u661F\u98DB\u8098\u30FB\u5929\u964D\u9738\u738B\u64CA",
+        crouchName: "\u4E0B\u6BB5\u91CD\u52FE\u30FB\u5730\u52D5\u5C71\u6416",
+        sweepName: "\u4E0B\u6BB5\u91CD\u52FE\u30FB\u5730\u52D5\u6383\u5802",
+        sound: "punch",
+        vfxType: "punch"
+      },
+      toxic_dagger: {
+        lightName: "\u5287\u6BD2\u98DB\u5200\u30FB\u7FE1\u7FE0\u6697\u523A",
+        heavyName: "\u6697\u5F71\u4E09\u5203\u30FB\u81F4\u547D\u6BD2\u7259",
+        crouchName: "\u8CBC\u5730\u6BD2\u5203\u30FB\u4F4E\u4F4D\u6BD2\u523A",
+        sweepName: "\u8CBC\u5730\u6BD2\u5203\u30FB\u4F4E\u4F4D\u6BD2\u523A",
+        sound: "sword_slash",
+        vfxType: "sword_slash_vfx"
+      },
+      shuriken: {
+        lightName: "\u65CB\u8F49\u624B\u88CF\u528D\u30FB\u6025\u901F\u98DB\u64F2",
+        heavyName: "\u56DB\u5203\u7834\u7A7A\u30FB\u65CB\u98A8\u65AC\u64CA",
+        crouchName: "\u4E0B\u4F0F\u5F71\u5203\u30FB\u4F4E\u4F4D\u98DB\u65CB",
+        sweepName: "\u4E0B\u4F0F\u5F71\u5203\u30FB\u4F4E\u4F4D\u98DB\u65CB",
+        sound: "sword_slash",
+        vfxType: "sword_slash_vfx"
       },
       brawler: {
         lightName: "\u523A\u62F3\u6253\u64CA",
@@ -1491,6 +1702,61 @@
         beamWidth: 95,
         sound: "super"
       },
+      // ── 《荒野亂鬥》傳奇英雄系列 (6款) ──
+      skin_brawl_shelly: {
+        name: "\u8D85\u7D1A\u9707\u64BC\u6563\u5F48 SUPER SHELL",
+        title: "\u96EA\u8389\u30FB\u5927\u53E3\u5F91\u5168\u5C4F\u7834\u58DE\u9707\u76EA\u5F48\u5E55",
+        type: "shockwave",
+        color: "#facc15",
+        coreColor: "#a855f7",
+        beamWidth: 85,
+        sound: "super"
+      },
+      skin_brawl_colt: {
+        name: "\u6975\u9650\u5B50\u5F48\u98A8\u66B4 BULLET STORM",
+        title: "\u67EF\u723E\u7279\u30FB\u72C2\u66B4\u96D9\u69CD\u7A7F\u900F\u91D1\u5149\u5B50\u5F48\u98A8\u66B4",
+        type: "beam",
+        color: "#38bdf8",
+        coreColor: "#ffd700",
+        beamWidth: 80,
+        sound: "super"
+      },
+      skin_brawl_spike: {
+        name: "\u5C16\u523A\u4ED9\u4EBA\u638C\u9663 STICK TO 'EM",
+        title: "\u65AF\u6D3E\u514B\u30FB\u5DE8\u578B\u523A\u91DD\u4ED9\u4EBA\u638C\u6012\u653E\u7D50\u754C",
+        type: "sphere",
+        color: "#22c55e",
+        coreColor: "#ec4899",
+        beamWidth: 90,
+        sound: "super"
+      },
+      skin_brawl_el_primo: {
+        name: "\u98DB\u8EAB\u5929\u964D\u91CD\u58D3 FLYING ELBOW",
+        title: "\u666E\u91CC\u83AB\u30FB\u91D1\u8272\u6D41\u661F\u6CF0\u5766\u9707\u64BC\u964D\u81E8",
+        type: "charge",
+        color: "#f59e0b",
+        coreColor: "#ffd700",
+        beamWidth: 85,
+        sound: "super"
+      },
+      skin_brawl_crow: {
+        name: "\u5287\u6BD2\u5929\u964D\u4FEF\u885D SWOOP",
+        title: "\u9ED1\u9D09\u30FB\u6F2B\u5929\u6DEC\u6BD2\u98DB\u5200\u5168\u606F\u66B4\u98A8\u96E8",
+        type: "slash",
+        color: "#10b981",
+        coreColor: "#a7f3d0",
+        beamWidth: 80,
+        sound: "super"
+      },
+      skin_brawl_leon: {
+        name: "\u7159\u9727\u96B1\u8EAB\u7D55\u6BBA SMOKE BOMB",
+        title: "\u91CC\u6602\u30FB\u5168\u5C4F\u7159\u5E55\u77AC\u5F71\u56DB\u91CD\u624B\u88CF\u528D\u7A81\u8972",
+        type: "slash",
+        color: "#34d399",
+        coreColor: "#00f3ff",
+        beamWidth: 78,
+        sound: "super"
+      },
       // 兼容舊別名
       skin_ironman: {
         name: "\u8CEA\u5B50\u5DE8\u7832 UNIBEAM",
@@ -1681,6 +1947,13 @@
     } catch (e) {
     }
   }
+  function getTodayDateString() {
+    const now = /* @__PURE__ */ new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, "0");
+    const d = String(now.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  }
   var SaveSystem = class {
     constructor() {
       this.currentUser = null;
@@ -1716,17 +1989,24 @@
         if (raw) {
           const parsed = JSON.parse(raw);
           const defaultStarterSkins = ["skin_cyber_warrior", "skin_neon_shadow", "skin_pulse_enforcer"];
-          const shopOnlyMarvelDB = [
+          const shopOnlyTribute = [
             "skin_iron_man",
             "skin_spiderman",
             "skin_captain_america",
             "skin_thor",
             "skin_thanos",
+            "skin_hawkeye",
             "skin_goku_ssj",
             "skin_vegeta_ssj",
             "skin_trunks_future",
             "skin_piccolo",
-            "skin_golden_frieza"
+            "skin_golden_frieza",
+            "skin_brawl_shelly",
+            "skin_brawl_colt",
+            "skin_brawl_spike",
+            "skin_brawl_el_primo",
+            "skin_brawl_crow",
+            "skin_brawl_leon"
           ];
           for (const email in parsed) {
             if (parsed[email]) {
@@ -1738,7 +2018,7 @@
               }
               if (Array.isArray(parsed[email].skins)) {
                 parsed[email].skins = parsed[email].skins.filter((sid) => {
-                  if (shopOnlyMarvelDB.includes(sid)) {
+                  if (shopOnlyTribute.includes(sid)) {
                     return parsed[email].purchasedSkins.includes(sid);
                   }
                   return true;
@@ -2206,7 +2486,7 @@
         return { success: false, reason: "\u5DF2\u64C1\u6709\u6B64\u9020\u578B" };
       }
       if (this.currentUser.credits < price) {
-        return { success: false, reason: "\u80FD\u91CF\u5E63\u9918\u984D\u4E0D\u8DB3\uFF08\u53EF\u96A8\u6642\u9EDE\u64CA\u4E0A\u65B9\u6230\u5099\u88DC\u7D66\u7121\u9650\u5236\u9818\u53D6 +1,500 \u5E63\uFF09" };
+        return { success: false, reason: "\u80FD\u91CF\u5E63\u9918\u984D\u4E0D\u8DB3\uFF08\u53EF\u9818\u53D6\u6BCF\u65E5\u6230\u5099\u88DC\u7D66\u6216\u9032\u884C\u5C0D\u6230\u8CFA\u53D6\u80FD\u91CF\u5E63\uFF09" };
       }
       this.currentUser.credits -= price;
       if (!Array.isArray(this.currentUser.purchasedSkins)) {
@@ -2220,6 +2500,55 @@
       this.currentUser.updatedAt = (/* @__PURE__ */ new Date()).toISOString();
       this._saveCurrent();
       return { success: true, remaining: this.currentUser.credits };
+    }
+    /**
+     * 檢查當天是否可以領取戰備補給 (每日嚴格限領一次)
+     */
+    canClaimDailySupply() {
+      const today = getTodayDateString();
+      if (this.currentUser && this.currentUser.lastDailySupplyDate) {
+        return this.currentUser.lastDailySupplyDate !== today;
+      }
+      const storedDate = safeGetItem("cyberstriker_daily_supply_date");
+      if (storedDate === today) {
+        return false;
+      }
+      return true;
+    }
+    /**
+     * 領取每日戰備補給 (當天僅能領取 1 次，拿完隔日 00:00 才能再次領取)
+     */
+    claimDailySupply(amount = 1500) {
+      if (!this.currentUser) return { success: false, reason: "\u672A\u767B\u5165\u5E33\u865F" };
+      const today = getTodayDateString();
+      if (!this.canClaimDailySupply()) {
+        return {
+          success: false,
+          reason: "\u4ECA\u65E5\u6230\u5099\u88DC\u7D66\u5DF2\u9818\u53D6\u5B8C\u7562\uFF01\u6BCF\u65E5\u50C5\u9650\u9818\u53D6\u4E00\u6B21\uFF0C\u8ACB\u65BC\u660E\u5929\u518D\u4F86\u9818\u53D6\uFF01",
+          nextReset: this.getTimeUntilNextDailyReset()
+        };
+      }
+      this.currentUser.credits = (this.currentUser.credits || 0) + amount;
+      this.currentUser.lastDailySupplyDate = today;
+      safeSetItem("cyberstriker_daily_supply_date", today);
+      this._saveCurrent();
+      return {
+        success: true,
+        amount,
+        newBalance: this.currentUser.credits,
+        date: today
+      };
+    }
+    /**
+     * 計算距離隔日 00:00:00 重置剩餘時間
+     */
+    getTimeUntilNextDailyReset() {
+      const now = /* @__PURE__ */ new Date();
+      const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+      const diffMs = tomorrow - now;
+      const hours = Math.floor(diffMs / (1e3 * 60 * 60));
+      const mins = Math.floor(diffMs % (1e3 * 60 * 60) / (1e3 * 60));
+      return `${hours} \u5C0F\u6642 ${mins} \u5206\u9418`;
     }
     updateLoadout(skillsArray) {
       if (!this.currentUser) return;
@@ -7174,6 +7503,1381 @@
   };
   var scifiSkinsRenderer = new SciFiSkinsRenderer();
 
+  // js/engine/brawl_skins_renderer.js
+  var BrawlSkinsRenderer = class {
+    constructor() {
+      this.brawlSkinIds = /* @__PURE__ */ new Set([
+        "skin_brawl_shelly",
+        "skin_brawl_colt",
+        "skin_brawl_spike",
+        "skin_brawl_el_primo",
+        "skin_brawl_crow",
+        "skin_brawl_leon"
+      ]);
+    }
+    isBrawl(skin) {
+      return skin && skin.id && this.brawlSkinIds.has(skin.id);
+    }
+    _safeLinearGrad(ctx, x0, y0, x1, y1, stops, fallbackColor) {
+      if (ctx && typeof ctx.createLinearGradient === "function") {
+        try {
+          const g = ctx.createLinearGradient(x0, y0, x1, y1);
+          if (g && typeof g.addColorStop === "function") {
+            for (const stop of stops) {
+              g.addColorStop(stop[0], stop[1]);
+            }
+            return g;
+          }
+        } catch (e) {
+        }
+      }
+      return fallbackColor;
+    }
+    _safeRadialGrad(ctx, x0, y0, r0, x1, y1, r1, stops, fallbackColor) {
+      if (ctx && typeof ctx.createRadialGradient === "function") {
+        try {
+          const g = ctx.createRadialGradient(x0, y0, r0, x1, y1, r1);
+          if (g && typeof g.addColorStop === "function") {
+            for (const stop of stops) {
+              g.addColorStop(stop[0], stop[1]);
+            }
+            return g;
+          }
+        } catch (e) {
+        }
+      }
+      return fallbackColor;
+    }
+    // ─── 輔助繪圖工具 ───
+    _drawStar(ctx, cx, cy, spikes, outerR, innerR, fillStyle, strokeStyle = null, lineWidth = 1) {
+      let rot = Math.PI / 2 * 3;
+      let x = cx;
+      let y = cy;
+      const step = Math.PI / spikes;
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - outerR);
+      for (let i = 0; i < spikes; i++) {
+        x = cx + Math.cos(rot) * outerR;
+        y = cy + Math.sin(rot) * outerR;
+        ctx.lineTo(x, y);
+        rot += step;
+        x = cx + Math.cos(rot) * innerR;
+        y = cy + Math.sin(rot) * innerR;
+        ctx.lineTo(x, y);
+        rot += step;
+      }
+      ctx.lineTo(cx, cy - outerR);
+      ctx.closePath();
+      if (fillStyle) {
+        ctx.fillStyle = fillStyle;
+        ctx.fill();
+      }
+      if (strokeStyle) {
+        ctx.strokeStyle = strokeStyle;
+        ctx.lineWidth = lineWidth;
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+    _drawEyes(ctx, x, y, size = 6, pupilColor = "#1e1b4b", highlightColor = "#ffffff", isWinking = false) {
+      ctx.save();
+      if (isWinking) {
+        ctx.strokeStyle = pupilColor;
+        ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        ctx.arc(x, y + 1, size * 0.9, Math.PI * 0.1, Math.PI * 0.9);
+        ctx.stroke();
+      } else {
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.ellipse(x, y, size, size * 1.25, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "rgba(0,0,0,0.4)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.fillStyle = pupilColor;
+        ctx.beginPath();
+        ctx.ellipse(x + 1, y, size * 0.65, size * 0.85, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = highlightColor;
+        ctx.beginPath();
+        ctx.arc(x, y - size * 0.4, size * 0.35, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x + size * 0.4, y + size * 0.3, size * 0.18, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+    // ─── 1. 特殊氣場與光環 (Special Brawl Aura) ───
+    drawAura(ctx, char, skin, t) {
+      if (!this.isBrawl(skin)) return;
+      const id = skin.id;
+      ctx.save();
+      switch (id) {
+        case "skin_brawl_shelly": {
+          ctx.shadowColor = "#facc15";
+          ctx.shadowBlur = 15;
+          for (let i = 0; i < 4; i++) {
+            const ang = (t * 0.08 + i * (Math.PI / 2)) % (Math.PI * 2);
+            const r = 28 + Math.sin(t * 0.1 + i) * 6;
+            const px = Math.cos(ang) * r;
+            const py = -45 + Math.sin(ang) * 14;
+            ctx.fillStyle = i % 2 === 0 ? "#facc15" : "#a855f7";
+            ctx.beginPath();
+            ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          break;
+        }
+        case "skin_brawl_colt": {
+          ctx.shadowColor = "#ffd700";
+          ctx.shadowBlur = 16;
+          for (let i = 0; i < 3; i++) {
+            const prog = (t * 0.04 + i * 0.33) % 1;
+            const px = -25 + prog * 50;
+            const py = -10 - prog * 70;
+            const alpha = Math.sin(prog * Math.PI);
+            ctx.globalAlpha = alpha;
+            this._drawStar(ctx, px, py, 6, 4.5, 2.2, "#ffd700");
+          }
+          break;
+        }
+        case "skin_brawl_spike": {
+          ctx.shadowColor = "#ec4899";
+          ctx.shadowBlur = 18;
+          for (let i = 0; i < 4; i++) {
+            const prog = (t * 0.035 + i * 0.25) % 1;
+            const px = Math.sin(t * 0.06 + i * 1.5) * 26;
+            const py = -15 - prog * 65;
+            ctx.globalAlpha = Math.sin(prog * Math.PI) * 0.85;
+            ctx.fillStyle = i % 2 === 0 ? "#f472b6" : "#4ade80";
+            ctx.beginPath();
+            ctx.ellipse(px, py, 3.5, 5, Math.sin(t * 0.1 + i), 0, Math.PI * 2);
+            ctx.fill();
+          }
+          break;
+        }
+        case "skin_brawl_el_primo": {
+          ctx.shadowColor = "#f59e0b";
+          ctx.shadowBlur = 20;
+          for (let i = 0; i < 5; i++) {
+            const prog = (t * 0.05 + i * 0.2) % 1;
+            const px = Math.sin(t * 0.1 + i * 2) * (24 - prog * 8);
+            const py = -prog * 85;
+            ctx.globalAlpha = (1 - prog) * 0.9;
+            this._drawStar(ctx, px, py, 5, 4.5, 2.2, "#fbbf24", "#f59e0b", 0.8);
+          }
+          break;
+        }
+        case "skin_brawl_crow": {
+          ctx.shadowColor = "#10b981";
+          ctx.shadowBlur = 18;
+          for (let i = 0; i < 4; i++) {
+            const prog = (t * 0.045 + i * 0.25) % 1;
+            const px = Math.cos(t * 0.08 + i * 2) * 25;
+            const py = -35 + Math.sin(t * 0.08 + i * 2) * 20;
+            ctx.globalAlpha = Math.sin(prog * Math.PI) * 0.8;
+            ctx.fillStyle = "#10b981";
+            ctx.beginPath();
+            ctx.arc(px, py, 3 + prog * 3, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          break;
+        }
+        case "skin_brawl_leon": {
+          ctx.shadowColor = "#2dd4bf";
+          ctx.shadowBlur = 16;
+          for (let i = 0; i < 3; i++) {
+            const r = 18 + (t * 1.5 + i * 20) % 45;
+            const alpha = Math.max(0, 1 - r / 50);
+            ctx.globalAlpha = alpha * 0.6;
+            ctx.strokeStyle = i % 2 === 0 ? "#10b981" : "#f43f5e";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.ellipse(0, -45, r, r * 0.45, 0, 0, Math.PI * 2);
+            ctx.stroke();
+          }
+          break;
+        }
+      }
+      ctx.restore();
+    }
+    // ─── 2. 角色精緻頭部 (Expressive HD Heads) ───
+    drawHead(ctx, head, skin) {
+      if (!this.isBrawl(skin)) return false;
+      const id = skin.id;
+      ctx.save();
+      ctx.translate(head.x, head.y);
+      ctx.rotate(head.angle);
+      switch (id) {
+        // ══════════════════════════════════════════════════
+        // 1. 雪莉・散彈獵手 (Shelly)
+        // ══════════════════════════════════════════════════
+        case "skin_brawl_shelly": {
+          const hairGrad = this._safeLinearGrad(
+            ctx,
+            -16,
+            -18,
+            16,
+            16,
+            [
+              [0, "#a855f7"],
+              [0.5, "#7e22ce"],
+              [1, "#581c87"]
+            ],
+            "#7e22ce"
+          );
+          ctx.fillStyle = hairGrad;
+          ctx.beginPath();
+          ctx.arc(-10, -5, 12, 0, Math.PI * 2);
+          ctx.arc(-14, 4, 9, 0, Math.PI * 2);
+          ctx.arc(-8, -12, 10, 0, Math.PI * 2);
+          ctx.arc(4, -14, 11, 0, Math.PI * 2);
+          ctx.fill();
+          const skinGrad = this._safeLinearGrad(
+            ctx,
+            0,
+            -10,
+            0,
+            14,
+            [
+              [0, "#fed7aa"],
+              [1, "#fdba74"]
+            ],
+            "#fed7aa"
+          );
+          ctx.fillStyle = skinGrad;
+          ctx.strokeStyle = "#ea580c";
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.moveTo(-10, 2);
+          ctx.quadraticCurveTo(-11, -8, -3, -12);
+          ctx.quadraticCurveTo(8, -12, 12, -4);
+          ctx.quadraticCurveTo(14, 6, 8, 13);
+          ctx.quadraticCurveTo(0, 16, -6, 13);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#9333ea";
+          ctx.beginPath();
+          ctx.moveTo(-6, -12);
+          ctx.quadraticCurveTo(2, -8, 6, -3);
+          ctx.quadraticCurveTo(3, -5, 0, -6);
+          ctx.quadraticCurveTo(-4, -5, -6, -10);
+          ctx.closePath();
+          ctx.fill();
+          this._drawEyes(ctx, 4, 0, 5, "#581c87", "#ffffff");
+          const scarfGrad = this._safeLinearGrad(
+            ctx,
+            -8,
+            8,
+            12,
+            18,
+            [
+              [0, "#fde047"],
+              [1, "#ca8a04"]
+            ],
+            "#fde047"
+          );
+          ctx.fillStyle = scarfGrad;
+          ctx.strokeStyle = "#a16207";
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.moveTo(-8, 9);
+          ctx.quadraticCurveTo(0, 11, 10, 8);
+          ctx.lineTo(12, 13);
+          ctx.lineTo(2, 20);
+          ctx.lineTo(-7, 14);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#fef08a";
+          ctx.beginPath();
+          ctx.arc(3, 14, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+          break;
+        }
+        // ══════════════════════════════════════════════════
+        // 2. 柯爾特・雙槍神警 (Colt)
+        // ══════════════════════════════════════════════════
+        case "skin_brawl_colt": {
+          const pompadourGrad = this._safeLinearGrad(
+            ctx,
+            0,
+            -26,
+            8,
+            0,
+            [
+              [0, "#f87171"],
+              [0.4, "#ef4444"],
+              [1, "#b91c1c"]
+            ],
+            "#ef4444"
+          );
+          ctx.fillStyle = pompadourGrad;
+          ctx.strokeStyle = "#991b1b";
+          ctx.lineWidth = 1.4;
+          ctx.beginPath();
+          ctx.moveTo(-11, -5);
+          ctx.quadraticCurveTo(-14, -18, -4, -22);
+          ctx.quadraticCurveTo(6, -26, 14, -18);
+          ctx.quadraticCurveTo(18, -10, 13, -3);
+          ctx.quadraticCurveTo(8, -8, 2, -10);
+          ctx.quadraticCurveTo(-4, -10, -10, -5);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          ctx.strokeStyle = "rgba(255, 255, 255, 0.6)";
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.moveTo(-2, -20);
+          ctx.quadraticCurveTo(5, -22, 11, -16);
+          ctx.stroke();
+          ctx.fillStyle = "#fed7aa";
+          ctx.strokeStyle = "#ea580c";
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.moveTo(-9, -2);
+          ctx.lineTo(8, -4);
+          ctx.lineTo(13, 2);
+          ctx.lineTo(10, 11);
+          ctx.lineTo(2, 16);
+          ctx.lineTo(-7, 12);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#dc2626";
+          ctx.fillRect(-10, -3, 3, 7);
+          this._drawEyes(ctx, 4, 3, 4.5, "#0284c7", "#ffffff");
+          ctx.strokeStyle = "#b45309";
+          ctx.lineWidth = 1.4;
+          ctx.beginPath();
+          ctx.arc(5, 11, 4, 0.1 * Math.PI, 0.9 * Math.PI);
+          ctx.stroke();
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(4, 10, 3, 2);
+          break;
+        }
+        // ══════════════════════════════════════════════════
+        // 3. 斯派克・傳奇仙人掌 (Spike)
+        // ══════════════════════════════════════════════════
+        case "skin_brawl_spike": {
+          const cactusGrad = this._safeRadialGrad(
+            ctx,
+            -3,
+            -4,
+            2,
+            0,
+            0,
+            16,
+            [
+              [0, "#86efac"],
+              [0.6, "#22c55e"],
+              [1, "#15803d"]
+            ],
+            "#22c55e"
+          );
+          ctx.fillStyle = cactusGrad;
+          ctx.strokeStyle = "#14532d";
+          ctx.lineWidth = 1.6;
+          ctx.beginPath();
+          ctx.arc(0, 0, 15, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#0f172a";
+          const spikes = [
+            { x: -14, y: -4, r: -0.4 },
+            { x: -12, y: 7, r: 0.3 },
+            { x: 13, y: -5, r: 0.5 },
+            { x: 12, y: 6, r: -0.3 },
+            { x: -7, y: -13, r: -0.2 }
+          ];
+          spikes.forEach((s) => {
+            ctx.save();
+            ctx.translate(s.x, s.y);
+            ctx.rotate(s.r);
+            ctx.beginPath();
+            ctx.moveTo(-1.5, 0);
+            ctx.lineTo(0, -4.5);
+            ctx.lineTo(1.5, 0);
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+          });
+          ctx.fillStyle = "#0f172a";
+          ctx.beginPath();
+          ctx.arc(-4, 0, 3.8, 0, Math.PI * 2);
+          ctx.arc(5, 0, 3.8, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.moveTo(0, 5);
+          ctx.lineTo(3, 8);
+          ctx.lineTo(-3, 8);
+          ctx.closePath();
+          ctx.fill();
+          ctx.save();
+          ctx.translate(0, -15);
+          ctx.fillStyle = "#ec4899";
+          for (let p = 0; p < 5; p++) {
+            const pAng = p * Math.PI * 2 / 5;
+            ctx.beginPath();
+            ctx.arc(Math.cos(pAng) * 5, Math.sin(pAng) * 5, 4, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.fillStyle = "#fde047";
+          ctx.beginPath();
+          ctx.arc(0, 0, 3.2, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+          break;
+        }
+        // ══════════════════════════════════════════════════
+        // 4. 普里莫・摔角霸王 (El Primo)
+        // ══════════════════════════════════════════════════
+        case "skin_brawl_el_primo": {
+          const maskGrad = this._safeLinearGrad(
+            ctx,
+            -14,
+            -14,
+            14,
+            14,
+            [
+              [0, "#3b82f6"],
+              [0.5, "#2563eb"],
+              [1, "#1d4ed8"]
+            ],
+            "#2563eb"
+          );
+          ctx.fillStyle = maskGrad;
+          ctx.strokeStyle = "#1e3a8a";
+          ctx.lineWidth = 1.6;
+          ctx.beginPath();
+          ctx.moveTo(-11, 4);
+          ctx.quadraticCurveTo(-15, -6, -11, -14);
+          ctx.quadraticCurveTo(0, -18, 11, -14);
+          ctx.quadraticCurveTo(15, -6, 12, 5);
+          ctx.lineTo(9, 13);
+          ctx.lineTo(-8, 13);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          this._drawStar(ctx, 0, -9, 4, 5.5, 2.4, "#ffd700", "#b45309", 1);
+          ctx.fillStyle = "#ffd700";
+          ctx.strokeStyle = "#d97706";
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.ellipse(-4, -1, 5, 3.5, -0.2, 0, Math.PI * 2);
+          ctx.ellipse(5, -1, 5, 3.5, 0.2, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#ffffff";
+          ctx.beginPath();
+          ctx.arc(-3, -1, 2.2, 0, Math.PI * 2);
+          ctx.arc(4, -1, 2.2, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "#f59e0b";
+          ctx.beginPath();
+          ctx.moveTo(-5, 7);
+          ctx.lineTo(6, 7);
+          ctx.lineTo(4, 15);
+          ctx.lineTo(-3, 15);
+          ctx.closePath();
+          ctx.fill();
+          ctx.strokeStyle = "#78350f";
+          ctx.lineWidth = 1.4;
+          ctx.beginPath();
+          ctx.moveTo(-2, 10);
+          ctx.lineTo(4, 10);
+          ctx.stroke();
+          break;
+        }
+        // ══════════════════════════════════════════════════
+        // 5. 黑鴉・暗影劇毒刺客 (Crow)
+        // ══════════════════════════════════════════════════
+        case "skin_brawl_crow": {
+          ctx.fillStyle = "#0f172a";
+          ctx.strokeStyle = "#1e293b";
+          ctx.lineWidth = 1.4;
+          ctx.beginPath();
+          ctx.moveTo(-7, -2);
+          ctx.lineTo(-14, -10);
+          ctx.lineTo(-8, -12);
+          ctx.lineTo(-12, -20);
+          ctx.lineTo(-3, -16);
+          ctx.lineTo(2, -22);
+          ctx.lineTo(6, -14);
+          ctx.lineTo(12, -6);
+          ctx.lineTo(6, 8);
+          ctx.lineTo(-4, 7);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          const beakGrad = this._safeLinearGrad(
+            ctx,
+            4,
+            -4,
+            18,
+            5,
+            [
+              [0, "#fde047"],
+              [0.6, "#eab308"],
+              [1, "#ca8a04"]
+            ],
+            "#eab308"
+          );
+          ctx.fillStyle = beakGrad;
+          ctx.strokeStyle = "#854d0e";
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.moveTo(5, -4);
+          ctx.quadraticCurveTo(14, -4, 19, 3);
+          ctx.quadraticCurveTo(12, 6, 4, 4);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#713f12";
+          ctx.beginPath();
+          ctx.arc(8, -1, 1, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "#ef4444";
+          ctx.beginPath();
+          ctx.ellipse(2, -3, 4, 3, 0.2, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "#facc15";
+          ctx.beginPath();
+          ctx.arc(2.5, -3, 2.2, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "#020617";
+          ctx.beginPath();
+          ctx.ellipse(3, -3, 1, 2, 0.1, 0, Math.PI * 2);
+          ctx.fill();
+          break;
+        }
+        // ══════════════════════════════════════════════════
+        // 6. 里昂・變色龍神隱客 (Leon)
+        // ══════════════════════════════════════════════════
+        case "skin_brawl_leon": {
+          const hoodGrad = this._safeLinearGrad(
+            ctx,
+            -14,
+            -14,
+            14,
+            14,
+            [
+              [0, "#34d399"],
+              [0.5, "#10b981"],
+              [1, "#059669"]
+            ],
+            "#10b981"
+          );
+          ctx.fillStyle = hoodGrad;
+          ctx.strokeStyle = "#065f46";
+          ctx.lineWidth = 1.6;
+          ctx.beginPath();
+          ctx.moveTo(-11, 4);
+          ctx.quadraticCurveTo(-15, -6, -10, -14);
+          ctx.quadraticCurveTo(0, -17, 10, -14);
+          ctx.quadraticCurveTo(15, -6, 12, 4);
+          ctx.lineTo(8, 14);
+          ctx.lineTo(-7, 14);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#facc15";
+          ctx.strokeStyle = "#ca8a04";
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.arc(-5, -14, 5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#020617";
+          ctx.beginPath();
+          ctx.ellipse(-5, -14, 1.6, 3.8, 0.1, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "#facc15";
+          ctx.strokeStyle = "#ca8a04";
+          ctx.beginPath();
+          ctx.arc(5, -14, 5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#020617";
+          ctx.beginPath();
+          ctx.ellipse(5, -14, 1.6, 3.8, -0.1, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "#064e3b";
+          ctx.beginPath();
+          ctx.arc(0, 0, 10, 0.1 * Math.PI, 0.9 * Math.PI);
+          ctx.fill();
+          ctx.fillStyle = "#fed7aa";
+          ctx.beginPath();
+          ctx.moveTo(-5, 4);
+          ctx.lineTo(6, 4);
+          ctx.lineTo(3, 12);
+          ctx.lineTo(-3, 12);
+          ctx.closePath();
+          ctx.fill();
+          ctx.strokeStyle = "#b45309";
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.arc(1, 7, 3, 0.1 * Math.PI, 0.8 * Math.PI);
+          ctx.stroke();
+          ctx.strokeStyle = "#ffffff";
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.moveTo(3, 8);
+          ctx.lineTo(12, 11);
+          ctx.stroke();
+          ctx.fillStyle = "#f43f5e";
+          ctx.beginPath();
+          ctx.arc(13, 12, 3.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = "#ffffff";
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.arc(13, 12, 2, 0, Math.PI * 1.5);
+          ctx.stroke();
+          break;
+        }
+      }
+      ctx.restore();
+      return true;
+    }
+    // ─── 3. 角色服裝與軀幹 (Detailed Outfits & Torsos) ───
+    drawTorso(ctx, torso, skin, t) {
+      if (!this.isBrawl(skin)) return false;
+      const id = skin.id;
+      ctx.save();
+      ctx.translate(torso.x, torso.y);
+      ctx.rotate(torso.angle);
+      switch (id) {
+        // ══════════════════════════════════════════════════
+        // 1. 雪莉・散彈獵手 (Shelly)
+        // ══════════════════════════════════════════════════
+        case "skin_brawl_shelly": {
+          ctx.fillStyle = "#1e3a8a";
+          ctx.strokeStyle = "#172554";
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.roundRect(-14, -18, 28, 32, 6);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#f8fafc";
+          ctx.beginPath();
+          ctx.moveTo(-7, -18);
+          ctx.lineTo(7, -18);
+          ctx.lineTo(0, -9);
+          ctx.closePath();
+          ctx.fill();
+          ctx.fillStyle = "#78350f";
+          ctx.fillRect(-12, -4, 24, 6);
+          for (let s = 0; s < 4; s++) {
+            const sx = -9 + s * 6;
+            ctx.fillStyle = "#dc2626";
+            ctx.fillRect(sx, -6, 4, 8);
+            ctx.fillStyle = "#fbbf24";
+            ctx.fillRect(sx, 0, 4, 3);
+          }
+          ctx.fillStyle = "#451a03";
+          ctx.fillRect(-15, 14, 30, 8);
+          ctx.fillStyle = "#fbbf24";
+          ctx.strokeStyle = "#b45309";
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.arc(0, 18, 5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          break;
+        }
+        // ══════════════════════════════════════════════════
+        // 2. 柯爾特・雙槍神警 (Colt)
+        // ══════════════════════════════════════════════════
+        case "skin_brawl_colt": {
+          ctx.fillStyle = "#f8fafc";
+          ctx.fillRect(-12, -18, 24, 30);
+          ctx.fillStyle = "#0f172a";
+          ctx.beginPath();
+          ctx.moveTo(-2, -16);
+          ctx.lineTo(2, -16);
+          ctx.lineTo(3, -4);
+          ctx.lineTo(0, -1);
+          ctx.lineTo(-3, -4);
+          ctx.closePath();
+          ctx.fill();
+          ctx.fillStyle = "#1d4ed8";
+          ctx.strokeStyle = "#1e3a8a";
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.moveTo(-13, -18);
+          ctx.lineTo(-4, -18);
+          ctx.lineTo(-2, 14);
+          ctx.lineTo(-13, 14);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(13, -18);
+          ctx.lineTo(4, -18);
+          ctx.lineTo(2, 14);
+          ctx.lineTo(13, 14);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          this._drawStar(ctx, -7, -8, 6, 4.2, 2.2, "#ffd700", "#b45309", 0.8);
+          ctx.fillStyle = "#78350f";
+          ctx.fillRect(-15, 14, 30, 8);
+          this._drawStar(ctx, 0, 18, 5, 5.5, 2.6, "#ffd700", "#b45309", 1);
+          break;
+        }
+        // ══════════════════════════════════════════════════
+        // 3. 斯派克・傳奇仙人掌 (Spike)
+        // ══════════════════════════════════════════════════
+        case "skin_brawl_spike": {
+          const cBodyGrad = this._safeLinearGrad(
+            ctx,
+            0,
+            -18,
+            0,
+            18,
+            [
+              [0, "#22c55e"],
+              [1, "#15803d"]
+            ],
+            "#22c55e"
+          );
+          ctx.fillStyle = cBodyGrad;
+          ctx.strokeStyle = "#14532d";
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.roundRect(-15, -18, 30, 34, 10);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#0f172a";
+          ctx.beginPath();
+          ctx.moveTo(-12, -4);
+          ctx.lineTo(-15, -6);
+          ctx.lineTo(-12, -8);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.moveTo(12, 2);
+          ctx.lineTo(15, 0);
+          ctx.lineTo(12, -2);
+          ctx.fill();
+          ctx.fillStyle = "#7e22ce";
+          ctx.strokeStyle = "#fbbf24";
+          ctx.lineWidth = 1.4;
+          ctx.beginPath();
+          ctx.roundRect(-13, -12, 26, 22, 6);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#ffffff";
+          ctx.beginPath();
+          ctx.arc(0, -4, 2, 0, Math.PI * 2);
+          ctx.arc(0, 3, 2, 0, Math.PI * 2);
+          ctx.fill();
+          break;
+        }
+        // ══════════════════════════════════════════════════
+        // 4. 普里莫・摔角霸王 (El Primo)
+        // ══════════════════════════════════════════════════
+        case "skin_brawl_el_primo": {
+          const skinGrad = this._safeLinearGrad(
+            ctx,
+            0,
+            -18,
+            0,
+            14,
+            [
+              [0, "#f59e0b"],
+              [1, "#d97706"]
+            ],
+            "#f59e0b"
+          );
+          ctx.fillStyle = skinGrad;
+          ctx.strokeStyle = "#92400e";
+          ctx.lineWidth = 1.6;
+          ctx.beginPath();
+          ctx.roundRect(-16, -18, 32, 32, 6);
+          ctx.fill();
+          ctx.stroke();
+          ctx.strokeStyle = "rgba(120, 53, 15, 0.4)";
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.moveTo(-11, -8);
+          ctx.quadraticCurveTo(-5, -4, 0, -8);
+          ctx.quadraticCurveTo(5, -4, 11, -8);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(0, -8);
+          ctx.lineTo(0, 12);
+          ctx.moveTo(-6, 2);
+          ctx.lineTo(6, 2);
+          ctx.moveTo(-5, 8);
+          ctx.lineTo(5, 8);
+          ctx.stroke();
+          ctx.fillStyle = "#1e3a8a";
+          ctx.fillRect(-17, 12, 34, 10);
+          const beltGrad = this._safeLinearGrad(
+            ctx,
+            -10,
+            10,
+            10,
+            22,
+            [
+              [0, "#fde047"],
+              [0.5, "#eab308"],
+              [1, "#ca8a04"]
+            ],
+            "#eab308"
+          );
+          ctx.fillStyle = beltGrad;
+          ctx.strokeStyle = "#78350f";
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.roundRect(-9, 11, 18, 12, 3);
+          ctx.fill();
+          ctx.stroke();
+          this._drawStar(ctx, 0, 17, 5, 4.5, 2.2, "#ef4444", "#ffd700", 0.8);
+          break;
+        }
+        // ══════════════════════════════════════════════════
+        // 5. 黑鴉・暗影劇毒刺客 (Crow)
+        // ══════════════════════════════════════════════════
+        case "skin_brawl_crow": {
+          const leatherGrad = this._safeLinearGrad(
+            ctx,
+            0,
+            -18,
+            0,
+            18,
+            [
+              [0, "#1e293b"],
+              [1, "#020617"]
+            ],
+            "#1e293b"
+          );
+          ctx.fillStyle = leatherGrad;
+          ctx.strokeStyle = "#334155";
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.roundRect(-14, -18, 28, 34, 6);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#0f172a";
+          ctx.beginPath();
+          ctx.moveTo(-14, -18);
+          ctx.lineTo(-4, -10);
+          ctx.lineTo(-12, -4);
+          ctx.closePath();
+          ctx.fill();
+          ctx.beginPath();
+          ctx.moveTo(14, -18);
+          ctx.lineTo(4, -10);
+          ctx.lineTo(12, -4);
+          ctx.closePath();
+          ctx.fill();
+          ctx.strokeStyle = "#94a3b8";
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(0, -10);
+          ctx.lineTo(0, 15);
+          ctx.stroke();
+          ctx.fillStyle = "#f8fafc";
+          ctx.beginPath();
+          ctx.arc(-6, 0, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "#020617";
+          ctx.fillRect(-15, 14, 30, 8);
+          ctx.fillStyle = "#cbd5e1";
+          for (let i = 0; i < 4; i++) {
+            ctx.fillRect(-10 + i * 7, 16, 3, 3);
+          }
+          break;
+        }
+        // ══════════════════════════════════════════════════
+        // 6. 里昂・變色龍神隱客 (Leon)
+        // ══════════════════════════════════════════════════
+        case "skin_brawl_leon": {
+          const hoodieGrad = this._safeLinearGrad(
+            ctx,
+            0,
+            -18,
+            0,
+            18,
+            [
+              [0, "#10b981"],
+              [1, "#047857"]
+            ],
+            "#10b981"
+          );
+          ctx.fillStyle = hoodieGrad;
+          ctx.strokeStyle = "#065f46";
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.roundRect(-14, -18, 28, 32, 6);
+          ctx.fill();
+          ctx.stroke();
+          ctx.strokeStyle = "#facc15";
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(0, -16);
+          ctx.lineTo(0, 14);
+          ctx.stroke();
+          ctx.fillStyle = "#059669";
+          ctx.strokeStyle = "#047857";
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.moveTo(-10, 4);
+          ctx.lineTo(10, 4);
+          ctx.lineTo(12, 13);
+          ctx.lineTo(-12, 13);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#1d4ed8";
+          ctx.fillRect(-14, 14, 28, 8);
+          break;
+        }
+      }
+      ctx.restore();
+      return true;
+    }
+    // ─── 4. 角色手臂與武器道具 (Arms & Signature Weapons) ───
+    drawArm(ctx, arm, skin, layer) {
+      if (!this.isBrawl(skin)) return false;
+      const id = skin.id;
+      const isBack = layer === "backArm";
+      ctx.save();
+      ctx.translate(arm.shoulderX, arm.shoulderY);
+      ctx.rotate(arm.upperAngle);
+      let sleeveColor = "#1e3a8a";
+      let skinColor = "#fed7aa";
+      if (id === "skin_brawl_shelly") {
+        sleeveColor = isBack ? "#172554" : "#1e3a8a";
+        skinColor = "#fed7aa";
+      } else if (id === "skin_brawl_colt") {
+        sleeveColor = "#f8fafc";
+        skinColor = "#fed7aa";
+      } else if (id === "skin_brawl_spike") {
+        sleeveColor = "#22c55e";
+        skinColor = "#15803d";
+      } else if (id === "skin_brawl_el_primo") {
+        sleeveColor = isBack ? "#d97706" : "#f59e0b";
+        skinColor = "#f59e0b";
+      } else if (id === "skin_brawl_crow") {
+        sleeveColor = isBack ? "#020617" : "#1e293b";
+        skinColor = "#0f172a";
+      } else if (id === "skin_brawl_leon") {
+        sleeveColor = isBack ? "#047857" : "#10b981";
+        skinColor = "#fed7aa";
+      }
+      ctx.fillStyle = sleeveColor;
+      ctx.strokeStyle = isBack ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.25)";
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      ctx.roundRect(-4, 0, 8, 22, 4);
+      ctx.fill();
+      ctx.stroke();
+      ctx.translate(0, 20);
+      ctx.rotate(arm.foreAngle);
+      ctx.fillStyle = skinColor;
+      ctx.beginPath();
+      ctx.roundRect(-4.5, 0, 9, 20, 4);
+      ctx.fill();
+      ctx.stroke();
+      if (id === "skin_brawl_shelly") {
+        ctx.fillStyle = "#78350f";
+        ctx.fillRect(-5, 12, 10, 8);
+      } else if (id === "skin_brawl_colt") {
+        ctx.fillStyle = "#475569";
+        ctx.fillRect(-5, 12, 10, 8);
+      } else if (id === "skin_brawl_el_primo") {
+        ctx.fillStyle = "#2563eb";
+        ctx.fillRect(-5.5, 8, 11, 12);
+        ctx.fillStyle = "#ffd700";
+        ctx.fillRect(-5.5, 12, 11, 4);
+      } else if (id === "skin_brawl_crow") {
+        ctx.fillStyle = "#020617";
+        ctx.fillRect(-5, 12, 10, 8);
+        ctx.fillStyle = "#cbd5e1";
+        ctx.fillRect(-3, 14, 2, 2);
+        ctx.fillRect(1, 14, 2, 2);
+      }
+      if (!isBack) {
+        this._drawBrawlWeapon(ctx, id, arm);
+      }
+      ctx.restore();
+      return true;
+    }
+    // 繪製荒野亂鬥標誌性招牌武器
+    _drawBrawlWeapon(ctx, id, arm) {
+      ctx.save();
+      ctx.translate(0, 18);
+      switch (id) {
+        case "skin_brawl_shelly": {
+          ctx.fillStyle = "#92400e";
+          ctx.beginPath();
+          ctx.moveTo(-4, -2);
+          ctx.lineTo(-12, 10);
+          ctx.lineTo(-7, 12);
+          ctx.lineTo(-2, 3);
+          ctx.closePath();
+          ctx.fill();
+          ctx.fillStyle = "#334155";
+          ctx.fillRect(-3, -4, 10, 8);
+          const barrelGrad = this._safeLinearGrad(
+            ctx,
+            6,
+            -5,
+            24,
+            -1,
+            [
+              [0, "#64748b"],
+              [0.5, "#cbd5e1"],
+              [1, "#475569"]
+            ],
+            "#64748b"
+          );
+          ctx.fillStyle = barrelGrad;
+          ctx.fillRect(6, -5, 20, 4);
+          ctx.fillRect(6, -1, 20, 4);
+          ctx.fillStyle = "#fbbf24";
+          ctx.fillRect(23, -7, 3, 2);
+          break;
+        }
+        case "skin_brawl_colt": {
+          ctx.fillStyle = "#f1f5f9";
+          ctx.strokeStyle = "#94a3b8";
+          ctx.lineWidth = 1;
+          ctx.fillRect(2, -4, 18, 5);
+          ctx.fillStyle = "#cbd5e1";
+          ctx.beginPath();
+          ctx.ellipse(4, -1.5, 4, 5, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#fef08a";
+          ctx.beginPath();
+          ctx.moveTo(-1, 0);
+          ctx.lineTo(-6, 9);
+          ctx.lineTo(-2, 10);
+          ctx.lineTo(2, 2);
+          ctx.closePath();
+          ctx.fill();
+          this._drawStar(ctx, -3, 5, 5, 1.8, 0.8, "#ffd700");
+          break;
+        }
+        case "skin_brawl_spike": {
+          ctx.fillStyle = "#22c55e";
+          ctx.strokeStyle = "#14532d";
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.arc(8, 2, 7, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#0f172a";
+          ctx.fillRect(15, 1, 3, 2);
+          ctx.fillRect(8, 9, 2, 3);
+          ctx.fillRect(8, -5, 2, 3);
+          ctx.strokeStyle = "#dc2626";
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(8, -4);
+          ctx.quadraticCurveTo(12, -8, 14, -6);
+          ctx.stroke();
+          ctx.fillStyle = "#fbbf24";
+          ctx.beginPath();
+          ctx.arc(14, -6, 2, 0, Math.PI * 2);
+          ctx.fill();
+          break;
+        }
+        case "skin_brawl_crow": {
+          const bladeGrad = this._safeLinearGrad(
+            ctx,
+            0,
+            -3,
+            18,
+            0,
+            [
+              [0, "#10b981"],
+              [0.6, "#34d399"],
+              [1, "#a7f3d0"]
+            ],
+            "#10b981"
+          );
+          ctx.fillStyle = bladeGrad;
+          ctx.beginPath();
+          ctx.moveTo(2, -3);
+          ctx.lineTo(20, 0);
+          ctx.lineTo(2, 3);
+          ctx.closePath();
+          ctx.fill();
+          ctx.fillStyle = "#10b981";
+          ctx.beginPath();
+          ctx.arc(22, 1, 1.5, 0, Math.PI * 2);
+          ctx.fill();
+          break;
+        }
+        case "skin_brawl_leon": {
+          ctx.save();
+          ctx.translate(6, 2);
+          const rot = Date.now() / 80 % (Math.PI * 2);
+          ctx.rotate(rot);
+          this._drawStar(ctx, 0, 0, 4, 8, 3, "#38bdf8", "#0284c7", 1.2);
+          ctx.fillStyle = "#ffffff";
+          ctx.beginPath();
+          ctx.arc(0, 0, 2, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+          break;
+        }
+      }
+      ctx.restore();
+    }
+    // ─── 5. 角色腿部與戰靴 (Legs & Stylish Footwear) ───
+    drawLimb(ctx, leg, skin, layer) {
+      if (!this.isBrawl(skin)) return false;
+      const id = skin.id;
+      const isBack = layer === "backLeg";
+      ctx.save();
+      ctx.translate(leg.hipX, leg.hipY);
+      ctx.rotate(leg.thighAngle);
+      let pantsColor = "#1d4ed8";
+      let bootColor = "#78350f";
+      if (id === "skin_brawl_shelly") {
+        pantsColor = isBack ? "#1e3a8a" : "#2563eb";
+        bootColor = "#451a03";
+      } else if (id === "skin_brawl_colt") {
+        pantsColor = isBack ? "#0f172a" : "#1e293b";
+        bootColor = "#78350f";
+      } else if (id === "skin_brawl_spike") {
+        pantsColor = "#16a34a";
+        bootColor = "#78350f";
+      } else if (id === "skin_brawl_el_primo") {
+        pantsColor = isBack ? "#1d4ed8" : "#2563eb";
+        bootColor = "#ffd700";
+      } else if (id === "skin_brawl_crow") {
+        pantsColor = isBack ? "#020617" : "#0f172a";
+        bootColor = "#dc2626";
+      } else if (id === "skin_brawl_leon") {
+        pantsColor = isBack ? "#1e40af" : "#2563eb";
+        bootColor = "#fed7aa";
+      }
+      ctx.fillStyle = pantsColor;
+      ctx.strokeStyle = isBack ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.25)";
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      ctx.roundRect(-6, 0, 12, 28, 4);
+      ctx.fill();
+      ctx.stroke();
+      ctx.translate(0, 26);
+      ctx.rotate(leg.shinAngle);
+      ctx.fillStyle = pantsColor;
+      ctx.beginPath();
+      ctx.roundRect(-5, 0, 10, 28, 4);
+      ctx.fill();
+      ctx.stroke();
+      ctx.translate(0, 26);
+      ctx.rotate(leg.footAngle || 0);
+      ctx.fillStyle = bootColor;
+      ctx.beginPath();
+      ctx.roundRect(-5, 0, 18, 10, 4);
+      ctx.fill();
+      ctx.stroke();
+      if (id === "skin_brawl_colt") {
+        ctx.fillStyle = "#cbd5e1";
+        ctx.fillRect(-8, 3, 4, 3);
+      }
+      ctx.restore();
+      return true;
+    }
+    // ─── 6. 專屬幾何防禦盾 (Stylized Guard Shields) ───
+    drawGuardShield(ctx, stance, skin, t) {
+      if (!this.isBrawl(skin)) return false;
+      const id = skin.id;
+      ctx.save();
+      const sy = stance === "low" ? 15 : -35;
+      ctx.translate(28, sy);
+      switch (id) {
+        case "skin_brawl_shelly": {
+          ctx.shadowColor = "#facc15";
+          ctx.shadowBlur = 24;
+          ctx.strokeStyle = "#facc15";
+          ctx.fillStyle = "rgba(250, 204, 21, 0.25)";
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.arc(0, 0, 36, -Math.PI * 0.45, Math.PI * 0.45);
+          ctx.lineTo(-10, 0);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          this._drawStar(ctx, 12, 0, 5, 10, 5, "#fbbf24");
+          break;
+        }
+        case "skin_brawl_colt": {
+          ctx.shadowColor = "#38bdf8";
+          ctx.shadowBlur = 22;
+          ctx.strokeStyle = "#38bdf8";
+          ctx.fillStyle = "rgba(56, 189, 248, 0.22)";
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.ellipse(10, 0, 28, 40, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          this._drawStar(ctx, 10, 0, 6, 12, 6, "#ffd700");
+          break;
+        }
+        case "skin_brawl_spike": {
+          ctx.shadowColor = "#22c55e";
+          ctx.shadowBlur = 26;
+          ctx.strokeStyle = "#22c55e";
+          ctx.fillStyle = "rgba(34, 197, 94, 0.28)";
+          ctx.lineWidth = 3.5;
+          ctx.beginPath();
+          ctx.arc(12, 0, 38, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#ec4899";
+          for (let f = 0; f < 5; f++) {
+            const fa = t * 0.1 + f * Math.PI * 0.4;
+            ctx.beginPath();
+            ctx.arc(12 + Math.cos(fa) * 14, Math.sin(fa) * 14, 6, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          break;
+        }
+        case "skin_brawl_el_primo": {
+          ctx.shadowColor = "#f59e0b";
+          ctx.shadowBlur = 30;
+          ctx.strokeStyle = "#fbbf24";
+          ctx.fillStyle = "rgba(251, 191, 36, 0.3)";
+          ctx.lineWidth = 4;
+          ctx.beginPath();
+          ctx.arc(10, 0, 42, -Math.PI * 0.5, Math.PI * 0.5);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          this._drawStar(ctx, 10, 0, 8, 14, 7, "#ffd700");
+          break;
+        }
+        case "skin_brawl_crow": {
+          ctx.shadowColor = "#10b981";
+          ctx.shadowBlur = 25;
+          ctx.strokeStyle = "#10b981";
+          ctx.fillStyle = "rgba(16, 185, 129, 0.25)";
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.ellipse(10, 0, 24, 42, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          break;
+        }
+        case "skin_brawl_leon": {
+          ctx.shadowColor = "#34d399";
+          ctx.shadowBlur = 24;
+          ctx.strokeStyle = "#34d399";
+          ctx.fillStyle = "rgba(52, 211, 153, 0.25)";
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.roundRect(0, -38, 26, 76, 12);
+          ctx.fill();
+          ctx.stroke();
+          break;
+        }
+      }
+      ctx.restore();
+      return true;
+    }
+    // ─── 7. 專屬打擊攻擊特效 (VFX) ───
+    drawAttackVFX(ctx, vfx, skin) {
+      if (!this.isBrawl(skin)) return false;
+      const id = skin.id;
+      ctx.save();
+      switch (id) {
+        case "skin_brawl_shelly": {
+          ctx.shadowColor = "#facc15";
+          ctx.shadowBlur = 20;
+          ctx.fillStyle = "#fde047";
+          for (let i = 0; i < 7; i++) {
+            const ang = -0.35 + i / 6 * 0.7;
+            const dist = 32 + Math.random() * 25;
+            ctx.beginPath();
+            ctx.arc(Math.cos(ang) * dist + 15, Math.sin(ang) * dist - 30, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.fillStyle = "rgba(250, 204, 21, 0.85)";
+          ctx.beginPath();
+          ctx.ellipse(32, -32, 16, 10, 0, 0, Math.PI * 2);
+          ctx.fill();
+          break;
+        }
+        case "skin_brawl_colt": {
+          ctx.shadowColor = "#60a5fa";
+          ctx.shadowBlur = 18;
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(25, -34, 24, 3);
+          ctx.fillRect(32, -26, 26, 3);
+          ctx.fillStyle = "#ffd700";
+          this._drawStar(ctx, 52, -32, 5, 5, 2, "#ffd700");
+          break;
+        }
+        case "skin_brawl_spike": {
+          ctx.shadowColor = "#22c55e";
+          ctx.shadowBlur = 20;
+          ctx.fillStyle = "#15803d";
+          for (let n = 0; n < 6; n++) {
+            const ang = n * Math.PI / 3;
+            ctx.save();
+            ctx.translate(35 + Math.cos(ang) * 16, -28 + Math.sin(ang) * 16);
+            ctx.rotate(ang);
+            ctx.fillRect(-1.5, 0, 3, 8);
+            ctx.restore();
+          }
+          break;
+        }
+        case "skin_brawl_el_primo": {
+          ctx.shadowColor = "#ef4444";
+          ctx.shadowBlur = 28;
+          ctx.fillStyle = "#f59e0b";
+          ctx.beginPath();
+          ctx.arc(38, -30, 16, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "#ef4444";
+          ctx.beginPath();
+          ctx.arc(42, -30, 11, 0, Math.PI * 2);
+          ctx.fill();
+          this._drawStar(ctx, 42, -30, 5, 8, 4, "#ffffff");
+          break;
+        }
+        case "skin_brawl_crow": {
+          ctx.shadowColor = "#10b981";
+          ctx.shadowBlur = 22;
+          ctx.fillStyle = "#34d399";
+          for (let d = 0; d < 3; d++) {
+            const dy = -40 + d * 10;
+            ctx.beginPath();
+            ctx.moveTo(25, dy);
+            ctx.lineTo(48, dy);
+            ctx.lineTo(25, dy + 3);
+            ctx.closePath();
+            ctx.fill();
+          }
+          break;
+        }
+        case "skin_brawl_leon": {
+          ctx.shadowColor = "#38bdf8";
+          ctx.shadowBlur = 20;
+          this._drawStar(ctx, 42, -30, 4, 12, 4, "#00f3ff");
+          this._drawStar(ctx, 32, -34, 4, 8, 3, "rgba(0, 243, 255, 0.45)");
+          break;
+        }
+      }
+      ctx.restore();
+      return true;
+    }
+  };
+  var brawlSkinsRenderer = new BrawlSkinsRenderer();
+
   // js/engine/character_renderer.js
   var CharacterRenderer = class {
     constructor() {
@@ -7212,6 +8916,7 @@
       }
       const pose = this.calculatePose(state, t, char);
       specialSkinsRenderer.drawAura(ctx, char, skin, t);
+      brawlSkinsRenderer.drawAura(ctx, char, skin, t);
       scifiSkinsRenderer.drawAura(ctx, char, skin, t);
       this.drawLimb(ctx, pose.backLeg, skin, "backLeg");
       this.drawArm(ctx, pose.backArm, skin, "backArm");
@@ -7837,6 +9542,9 @@
       if (specialSkinsRenderer.drawTorso(ctx, torso, skin, t)) {
         return;
       }
+      if (brawlSkinsRenderer.drawTorso(ctx, torso, skin, t)) {
+        return;
+      }
       if (scifiSkinsRenderer.drawTorso(ctx, torso, skin, t)) {
         return;
       }
@@ -7893,6 +9601,10 @@
       ctx.translate(head.x, head.y);
       ctx.rotate(head.angle);
       if (specialSkinsRenderer.drawHead(ctx, head, skin)) {
+        ctx.restore();
+        return;
+      }
+      if (brawlSkinsRenderer.drawHead(ctx, head, skin)) {
         ctx.restore();
         return;
       }
@@ -8043,6 +9755,9 @@
       if (specialSkinsRenderer.drawArm(ctx, arm, skin, layer)) {
         return;
       }
+      if (brawlSkinsRenderer.drawArm(ctx, arm, skin, layer)) {
+        return;
+      }
       ctx.save();
       ctx.translate(arm.shoulderX, arm.shoulderY);
       ctx.rotate(arm.upperAngle);
@@ -8161,6 +9876,9 @@
       if (specialSkinsRenderer.drawLimb(ctx, leg, skin, layer)) {
         return;
       }
+      if (brawlSkinsRenderer.drawLimb(ctx, leg, skin, layer)) {
+        return;
+      }
       ctx.save();
       ctx.translate(leg.hipX, leg.hipY);
       ctx.rotate(leg.thighAngle);
@@ -8192,6 +9910,9 @@
     // ─── 防禦力場護盾渲染 ───
     drawGuardShield(ctx, stance, skin, t) {
       if (specialSkinsRenderer.drawGuardShield(ctx, stance, skin, t)) {
+        return;
+      }
+      if (brawlSkinsRenderer.drawGuardShield(ctx, stance, skin, t)) {
         return;
       }
       if (scifiSkinsRenderer.drawGuardShield(ctx, stance, skin, t)) {
@@ -8238,6 +9959,9 @@
     // ─── 武打 VFX 渲染 (依外觀色彩分離映射) ───
     drawAttackVFX(ctx, vfx, skin) {
       if (specialSkinsRenderer.drawAttackVFX(ctx, vfx, skin)) {
+        return;
+      }
+      if (brawlSkinsRenderer.drawAttackVFX(ctx, vfx, skin)) {
         return;
       }
       ctx.save();
@@ -11956,8 +13680,14 @@
     }
     _resizeCanvas() {
       if (!this.canvas) return;
-      this.canvas.width = window.innerWidth;
-      this.canvas.height = window.innerHeight;
+      const dpr = Math.min(typeof window !== "undefined" && window.devicePixelRatio || 1, 2);
+      this.dpr = dpr;
+      this.logicalWidth = window.innerWidth;
+      this.logicalHeight = window.innerHeight;
+      this.canvas.width = Math.round(window.innerWidth * dpr);
+      this.canvas.height = Math.round(window.innerHeight * dpr);
+      this.canvas.style.width = window.innerWidth + "px";
+      this.canvas.style.height = window.innerHeight + "px";
       combatEngine.arenaWidth = window.innerWidth;
       const newFloorY = Math.max(380, Math.round(window.innerHeight - 130));
       combatEngine.floorY = newFloorY;
@@ -12064,6 +13794,30 @@
         soundEngine.setBgmVolume(u.preferences.bgmVol || 0.4);
         soundEngine.setSfxVolume(u.preferences.sfxVol || 0.8);
         combatEngine.enableHaptics = u.preferences.haptics !== false;
+      }
+      this.updateDailySupplyUI();
+    }
+    updateDailySupplyUI() {
+      const claimRewardBtn = document.getElementById("dailyRewardClaimBtn");
+      if (!claimRewardBtn) return;
+      const canClaim = saveSystem.canClaimDailySupply();
+      if (canClaim) {
+        claimRewardBtn.style.background = "linear-gradient(135deg, #f59e0b, #d97706)";
+        claimRewardBtn.style.color = "#ffffff";
+        claimRewardBtn.style.cursor = "pointer";
+        claimRewardBtn.style.opacity = "1";
+        claimRewardBtn.style.border = "none";
+        claimRewardBtn.innerHTML = '<i class="fa-solid fa-gift"></i> \u9818\u53D6\u6230\u5099\u88DC\u7D66 (+1,500 \u80FD\u91CF\u5E63\u30FB\u6BCF\u65E5\u9650\u9818\u4E00\u6B21)';
+        claimRewardBtn.title = "\u9EDE\u64CA\u9818\u53D6\u4ECA\u65E5\u6230\u5099\u88DC\u7D66 +1,500 \u80FD\u91CF\u5E63";
+      } else {
+        const resetTime = saveSystem.getTimeUntilNextDailyReset();
+        claimRewardBtn.style.background = "#374151";
+        claimRewardBtn.style.color = "#9ca3af";
+        claimRewardBtn.style.cursor = "not-allowed";
+        claimRewardBtn.style.opacity = "0.75";
+        claimRewardBtn.style.border = "1px solid #4b5563";
+        claimRewardBtn.innerHTML = '<i class="fa-solid fa-circle-check" style="color: #10b981;"></i> \u4ECA\u65E5\u6230\u5099\u88DC\u7D66\u5DF2\u9818\u53D6 (\u660E\u65E5\u518D\u4F86)';
+        claimRewardBtn.title = `\u4ECA\u65E5\u6230\u5099\u88DC\u7D66\u5DF2\u9818\u53D6\u5B8C\u7562\uFF01\u8DDD\u96E2\u660E\u65E5 00:00 \u91CD\u7F6E\u9084\u5269 ${resetTime}`;
       }
     }
     updateCloudSyncUI(state, message = "") {
@@ -12203,11 +13957,13 @@
         const isOwned = owned.includes(s.id);
         const isMarvel = s.series === "\u6F2B\u5A01\u5B87\u5B99";
         const isDB = s.series === "\u4E03\u9F8D\u73E0\u8D85";
+        const isBrawl = s.series === "\u8352\u91CE\u4E82\u9B25";
         return `
         <div class="skin-card">
           <div class="skin-header">
             <div>
               <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px;">
+                ${isBrawl ? '<span style="font-size: 10px; font-weight: 800; padding: 1px 6px; border-radius: 4px; background: rgba(168,85,247,0.2); color: #d8b4fe; border: 1px solid #a855f7;">\u{1F335} \u8352\u91CE\u4E82\u9B25</span>' : ""}
                 ${isMarvel ? '<span style="font-size: 10px; font-weight: 800; padding: 1px 6px; border-radius: 4px; background: rgba(239,68,68,0.2); color: #f87171; border: 1px solid #ef4444;">\u{1F9B8} \u6F2B\u5A01\u5B87\u5B99</span>' : ""}
                 ${isDB ? '<span style="font-size: 10px; font-weight: 800; padding: 1px 6px; border-radius: 4px; background: rgba(234,179,8,0.2); color: #fde047; border: 1px solid #eab308;">\u{1F409} \u4E03\u9F8D\u73E0\u8D85</span>' : ""}
                 <span class="skin-name" style="color: ${s.themeColor}">${s.name}</span>
@@ -12688,8 +14444,11 @@
     _renderBattleFrame() {
       if (!this.ctx || !this.canvas) return;
       const ctx = this.ctx;
-      const w = this.canvas.width;
-      const h = this.canvas.height;
+      const dpr = this.dpr || 1;
+      const w = this.logicalWidth || window.innerWidth;
+      const h = this.logicalHeight || window.innerHeight;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
       stageRenderer.drawStage(ctx, this.currentStage, w, h, combatEngine.floorY);
       ctx.save();
       if (combatEngine.screenShake && combatEngine.screenShake.intensity > 0.1) {
@@ -13971,13 +15730,27 @@
       const claimRewardBtn = document.getElementById("dailyRewardClaimBtn");
       if (claimRewardBtn) {
         claimRewardBtn.addEventListener("click", () => {
-          if (saveSystem.currentUser) {
-            saveSystem.currentUser.credits += 1500;
-            saveSystem._saveCurrent();
+          if (!saveSystem.currentUser) return;
+          const res = saveSystem.claimDailySupply(1500);
+          if (res.success) {
             this.updateUserHUD();
+            this.updateDailySupplyUI();
             soundEngine.playUI("equip");
-            alert("\u{1F381} \u6230\u5099\u88DC\u7D66\u9818\u53D6\u6210\u529F\uFF01\u5DF2\u7372\u5F97 +1,500 \u80FD\u91CF\u5E63\uFF08\u7121\u6B21\u6578\u9650\u5236\uFF0C\u96A8\u6642\u53EF\u518D\u6B21\u9818\u53D6\uFF09\uFF01\u5FEB\u53BB\u89E3\u9396\u5FC3\u5100\u7684\u6230\u5C07\u5427\uFF01");
+            alert(`\u{1F381} \u6BCF\u65E5\u6230\u5099\u88DC\u7D66\u9818\u53D6\u6210\u529F\uFF01
+
+\u5DF2\u7372\u5F97 +1,500 \u80FD\u91CF\u5E63\uFF01
+\u7576\u524D\u80FD\u91CF\u5E63\u9918\u984D\uFF1A${res.newBalance.toLocaleString()} \u5E63\u3002
+
+\u26A0\uFE0F \u6BCF\u65E5\u50C5\u9650\u9818\u53D6 1 \u6B21\uFF0C\u660E\u5929 00:00 \u5F8C\u53EF\u518D\u6B21\u9818\u53D6\uFF01\u5FEB\u53BB\u5546\u57CE\u89E3\u9396\u5FC3\u5100\u7684\u82F1\u96C4\u5427\uFF01`);
             this.renderShopCatalog();
+          } else {
+            soundEngine.playUI("error");
+            const resetTime = saveSystem.getTimeUntilNextDailyReset();
+            alert(`\u26A0\uFE0F \u4ECA\u65E5\u6230\u5099\u88DC\u7D66\u5DF2\u9818\u53D6\u5B8C\u7562\uFF01
+
+\u6BCF\u5929\u53EA\u80FD\u9818\u53D6\u4E00\u6B21\u6230\u5099\u88DC\u7D66\uFF0C\u62FF\u5B8C\u5C31\u53EA\u80FD\u7B49\u9694\u5929\u4E86\u3002
+\u8DDD\u96E2\u660E\u5929 00:00 \u91CD\u7F6E\u9084\u5269\uFF1A${resetTime}\u3002
+\u8ACB\u660E\u5929\u518D\u4F86\u9818\u53D6\uFF01`);
           }
         });
       }

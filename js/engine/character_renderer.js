@@ -7,6 +7,7 @@
 
 import { specialSkinsRenderer } from './special_skins_renderer.js';
 import { scifiSkinsRenderer } from './scifi_skins_renderer.js';
+import { brawlSkinsRenderer } from './brawl_skins_renderer.js';
 import { getSkinAttackStyle } from '../data/skins.js';
 
 export class CharacterRenderer {
@@ -53,8 +54,9 @@ export class CharacterRenderer {
     // 計算 12 種姿態骨骼角度
     const pose = this.calculatePose(state, t, char);
 
-    // 0. 專屬特殊角色與科幻戰將氣場光環
+    // 0. 專屬特殊角色、荒野亂鬥英雄與科幻戰將氣場光環
     specialSkinsRenderer.drawAura(ctx, char, skin, t);
+    brawlSkinsRenderer.drawAura(ctx, char, skin, t);
     scifiSkinsRenderer.drawAura(ctx, char, skin, t);
 
     // 1. 繪製後層肢體 (背側手臂、背側腿)
@@ -851,6 +853,9 @@ export class CharacterRenderer {
     if (specialSkinsRenderer.drawTorso(ctx, torso, skin, t)) {
       return;
     }
+    if (brawlSkinsRenderer.drawTorso(ctx, torso, skin, t)) {
+      return;
+    }
     if (scifiSkinsRenderer.drawTorso(ctx, torso, skin, t)) {
       return;
     }
@@ -921,6 +926,10 @@ export class CharacterRenderer {
     ctx.rotate(head.angle);
 
     if (specialSkinsRenderer.drawHead(ctx, head, skin)) {
+      ctx.restore();
+      return;
+    }
+    if (brawlSkinsRenderer.drawHead(ctx, head, skin)) {
       ctx.restore();
       return;
     }
@@ -1117,6 +1126,9 @@ export class CharacterRenderer {
     if (specialSkinsRenderer.drawArm(ctx, arm, skin, layer)) {
       return;
     }
+    if (brawlSkinsRenderer.drawArm(ctx, arm, skin, layer)) {
+      return;
+    }
 
     ctx.save();
     ctx.translate(arm.shoulderX, arm.shoulderY);
@@ -1262,6 +1274,9 @@ export class CharacterRenderer {
     if (specialSkinsRenderer.drawLimb(ctx, leg, skin, layer)) {
       return;
     }
+    if (brawlSkinsRenderer.drawLimb(ctx, leg, skin, layer)) {
+      return;
+    }
 
     ctx.save();
     ctx.translate(leg.hipX, leg.hipY);
@@ -1304,6 +1319,9 @@ export class CharacterRenderer {
   // ─── 防禦力場護盾渲染 ───
   drawGuardShield(ctx, stance, skin, t) {
     if (specialSkinsRenderer.drawGuardShield(ctx, stance, skin, t)) {
+      return;
+    }
+    if (brawlSkinsRenderer.drawGuardShield(ctx, stance, skin, t)) {
       return;
     }
     if (scifiSkinsRenderer.drawGuardShield(ctx, stance, skin, t)) {
@@ -1358,6 +1376,9 @@ export class CharacterRenderer {
   // ─── 武打 VFX 渲染 (依外觀色彩分離映射) ───
   drawAttackVFX(ctx, vfx, skin) {
     if (specialSkinsRenderer.drawAttackVFX(ctx, vfx, skin)) {
+      return;
+    }
+    if (brawlSkinsRenderer.drawAttackVFX(ctx, vfx, skin)) {
       return;
     }
 

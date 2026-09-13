@@ -96,8 +96,15 @@ class CyberStrikerApp {
 
   _resizeCanvas() {
     if (!this.canvas) return;
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
+    const dpr = Math.min((typeof window !== 'undefined' && window.devicePixelRatio) || 1, 2);
+    this.dpr = dpr;
+    this.logicalWidth = window.innerWidth;
+    this.logicalHeight = window.innerHeight;
+    this.canvas.width = Math.round(window.innerWidth * dpr);
+    this.canvas.height = Math.round(window.innerHeight * dpr);
+    this.canvas.style.width = window.innerWidth + 'px';
+    this.canvas.style.height = window.innerHeight + 'px';
+
     // 戰鬥擂台寬度與高度全面自適應螢幕，無任何被擋住的不可抵達區域
     combatEngine.arenaWidth = window.innerWidth;
     const newFloorY = Math.max(380, Math.round(window.innerHeight - 130));
@@ -228,6 +235,32 @@ class CyberStrikerApp {
       soundEngine.setBgmVolume(u.preferences.bgmVol || 0.4);
       soundEngine.setSfxVolume(u.preferences.sfxVol || 0.8);
       combatEngine.enableHaptics = u.preferences.haptics !== false;
+    }
+
+    this.updateDailySupplyUI();
+  }
+
+  updateDailySupplyUI() {
+    const claimRewardBtn = document.getElementById('dailyRewardClaimBtn');
+    if (!claimRewardBtn) return;
+    const canClaim = saveSystem.canClaimDailySupply();
+    if (canClaim) {
+      claimRewardBtn.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
+      claimRewardBtn.style.color = '#ffffff';
+      claimRewardBtn.style.cursor = 'pointer';
+      claimRewardBtn.style.opacity = '1';
+      claimRewardBtn.style.border = 'none';
+      claimRewardBtn.innerHTML = '<i class="fa-solid fa-gift"></i> 領取戰備補給 (+1,500 能量幣・每日限領一次)';
+      claimRewardBtn.title = '點擊領取今日戰備補給 +1,500 能量幣';
+    } else {
+      const resetTime = saveSystem.getTimeUntilNextDailyReset();
+      claimRewardBtn.style.background = '#374151';
+      claimRewardBtn.style.color = '#9ca3af';
+      claimRewardBtn.style.cursor = 'not-allowed';
+      claimRewardBtn.style.opacity = '0.75';
+      claimRewardBtn.style.border = '1px solid #4b5563';
+      claimRewardBtn.innerHTML = '<i class="fa-solid fa-circle-check" style="color: #10b981;"></i> 今日戰備補給已領取 (明日再來)';
+      claimRewardBtn.title = `今日戰備補給已領取完畢！距離明日 00:00 重置還剩 ${resetTime}`;
     }
   }
 
@@ -387,12 +420,14 @@ class CyberStrikerApp {
       const isOwned = owned.includes(s.id);
       const isMarvel = s.series === '漫威宇宙';
       const isDB = s.series === '七龍珠超';
+      const isBrawl = s.series === '荒野亂鬥';
 
       return `
         <div class="skin-card">
           <div class="skin-header">
             <div>
               <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px;">
+                ${isBrawl ? '<span style="font-size: 10px; font-weight: 800; padding: 1px 6px; border-radius: 4px; background: rgba(168,85,247,0.2); color: #d8b4fe; border: 1px solid #a855f7;">🌵 荒野亂鬥</span>' : ''}
                 ${isMarvel ? '<span style="font-size: 10px; font-weight: 800; padding: 1px 6px; border-radius: 4px; background: rgba(239,68,68,0.2); color: #f87171; border: 1px solid #ef4444;">🦸 漫威宇宙</span>' : ''}
                 ${isDB ? '<span style="font-size: 10px; font-weight: 800; padding: 1px 6px; border-radius: 4px; background: rgba(234,179,8,0.2); color: #fde047; border: 1px solid #eab308;">🐉 七龍珠超</span>' : ''}
                 <span class="skin-name" style="color: ${s.themeColor}">${s.name}</span>
@@ -952,8 +987,13 @@ class CyberStrikerApp {
   _renderBattleFrame() {
     if (!this.ctx || !this.canvas) return;
     const ctx = this.ctx;
-    const w = this.canvas.width;
-    const h = this.canvas.height;
+    const dpr = this.dpr || 1;
+    const w = this.logicalWidth || window.innerWidth;
+    const h = this.logicalHeight || window.innerHeight;
+
+    // 清除畫布並重設高解析度縮放矩陣
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
 
     // 1. 繪製多主題經典戰鬥場景 (Multi-Themed Battle Stage: 天下第一武道會、斯塔克大樓天台、那美克星、賽博矩陣)
     stageRenderer.drawStage(ctx, this.currentStage, w, h, combatEngine.floorY);
@@ -2497,17 +2537,22 @@ class CyberStrikerApp {
       });
     });
 
-    // 戰備補給領取按鈕（無次數限制隨時可領）
+    // 戰備補給領取按鈕（嚴格每日限領一次）
     const claimRewardBtn = document.getElementById('dailyRewardClaimBtn');
     if (claimRewardBtn) {
       claimRewardBtn.addEventListener('click', () => {
-        if (saveSystem.currentUser) {
-          saveSystem.currentUser.credits += 1500;
-          saveSystem._saveCurrent();
+        if (!saveSystem.currentUser) return;
+        const res = saveSystem.claimDailySupply(1500);
+        if (res.success) {
           this.updateUserHUD();
+          this.updateDailySupplyUI();
           soundEngine.playUI('equip');
-          alert('🎁 戰備補給領取成功！已獲得 +1,500 能量幣（無次數限制，隨時可再次領取）！快去解鎖心儀的戰將吧！');
+          alert(`🎁 每日戰備補給領取成功！\n\n已獲得 +1,500 能量幣！\n當前能量幣餘額：${res.newBalance.toLocaleString()} 幣。\n\n⚠️ 每日僅限領取 1 次，明天 00:00 後可再次領取！快去商城解鎖心儀的英雄吧！`);
           this.renderShopCatalog();
+        } else {
+          soundEngine.playUI('error');
+          const resetTime = saveSystem.getTimeUntilNextDailyReset();
+          alert(`⚠️ 今日戰備補給已領取完畢！\n\n每天只能領取一次戰備補給，拿完就只能等隔天了。\n距離明天 00:00 重置還剩：${resetTime}。\n請明天再來領取！`);
         }
       });
     }

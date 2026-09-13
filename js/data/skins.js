@@ -664,6 +664,164 @@ export const SKINS = [
       hitEffect: '猩紅金芒死亡爆裂'
     },
     creator: 'Dragon Ball Tribute'
+  },
+
+  // ── 《荒野亂鬥》傳奇英雄系列 (Brawl Stars Series) ──
+  {
+    id: 'skin_brawl_shelly',
+    name: '雪莉・散彈獵手',
+    title: '荒野大鏢客・招牌霰彈槍手',
+    category: 'shop',
+    series: '荒野亂鬥',
+    price: 2600,
+    isDefault: false,
+    attackStyle: 'shotgun',
+    themeColor: '#a855f7',
+    secondaryColor: '#fde047',
+    glowColor: 'rgba(168, 85, 247, 0.75)',
+    accentColor: '#3b82f6',
+    armorColor: '#1e3a8a',
+    visorColor: '#fde047',
+    coreColor: '#a855f7',
+    desc: '真實還原《荒野亂鬥》雪莉！招牌紫色立體大捲髮、鮮黃色牛仔領巾、戰術深藍背心與大口徑金屬雙管散彈槍。',
+    vfx: {
+      punchTrail: '金黃散彈火星與旋轉紫色獵手光軌',
+      sk1: '高速重型散彈破空彈幕',
+      sk2: '霰彈後座力引爆沖天跳躍轟擊',
+      guardShield: '金黃警星防禦盾壁',
+      hitEffect: '黃銅彈殼與金色火花碎屑'
+    },
+    creator: 'Brawl Stars Tribute'
+  },
+  {
+    id: 'skin_brawl_colt',
+    name: '柯爾特・雙槍神警',
+    title: '荒野第一快槍手・雙持左輪警長',
+    category: 'shop',
+    series: '荒野亂鬥',
+    price: 2600,
+    isDefault: false,
+    attackStyle: 'dual_guns',
+    themeColor: '#ef4444',
+    secondaryColor: '#38bdf8',
+    glowColor: 'rgba(239, 68, 68, 0.75)',
+    accentColor: '#ffd700',
+    armorColor: '#1d4ed8',
+    visorColor: '#38bdf8',
+    coreColor: '#ffd700',
+    desc: '真實還原《荒野亂鬥》柯爾特！鮮紅高聳流線飛機頭、深藍警長背心與胸前六角警星徽章，手持雙柄雕花銀白左輪手槍。',
+    vfx: {
+      punchTrail: '雙持銀白彈道光痕、金色六角警星',
+      sk1: '雙持左輪疾速連發彈幕',
+      sk2: '騰空迴旋雙槍連環向天速射',
+      guardShield: '雙左輪全息封鎖星環',
+      hitEffect: '銀白彈道火星與警星光芒'
+    },
+    creator: 'Brawl Stars Tribute'
+  },
+  {
+    id: 'skin_brawl_spike',
+    name: '斯派克・傳奇仙人掌',
+    title: '荒野萌霸・刺客仙人掌',
+    category: 'shop',
+    series: '荒野亂鬥',
+    price: 2800,
+    isDefault: false,
+    attackStyle: 'cactus_spike',
+    themeColor: '#22c55e',
+    secondaryColor: '#ec4899',
+    glowColor: 'rgba(34, 197, 94, 0.75)',
+    accentColor: '#fbbf24',
+    armorColor: '#15803d',
+    visorColor: '#ec4899',
+    coreColor: '#22c55e',
+    desc: '真實還原《荒野亂鬥》斯派克！圓滾滾翠綠仙人掌、頭頂盛開粉紅小花、深紫刺繡精緻短背心與呆萌純黑大眼睛。',
+    vfx: {
+      punchTrail: '粉紅花瓣與綠色尖刺爆發光痕',
+      sk1: '旋轉尖刺仙人掌手雷炸裂',
+      sk2: '拔地而起之怒放仙人掌尖刺花柱',
+      guardShield: '旋轉巨大仙人掌花防禦力場',
+      hitEffect: '粉紅花瓣與翠綠刺針四散'
+    },
+    creator: 'Brawl Stars Tribute'
+  },
+  {
+    id: 'skin_brawl_el_primo',
+    name: '普里莫・摔角霸王',
+    title: '傳奇摔角巨星・流星重拳',
+    category: 'shop',
+    series: '荒野亂鬥',
+    price: 3000,
+    isDefault: false,
+    attackStyle: 'luchador',
+    themeColor: '#2563eb',
+    secondaryColor: '#ffd700',
+    glowColor: 'rgba(37, 99, 235, 0.8)',
+    accentColor: '#f59e0b',
+    armorColor: '#1e3a8a',
+    visorColor: '#ffd700',
+    coreColor: '#ffd700',
+    desc: '真實還原《荒野亂鬥》普里莫！湛藍黃金墨西哥摔角面具、健碩英雄胸肌體魄與金色冠軍巨星重型摔角金腰帶！',
+    vfx: {
+      punchTrail: '熱血摔角流星火焰重拳、冠軍金星',
+      sk1: '流星火拳連環重砲衝擊波',
+      sk2: '摔角霸王騰空飛身流星肘擊',
+      guardShield: '摔角霸王金光冠軍金鐘罩',
+      hitEffect: '金星璀璨與烈焰衝擊'
+    },
+    creator: 'Brawl Stars Tribute'
+  },
+  {
+    id: 'skin_brawl_crow',
+    name: '黑鴉・暗影劇毒刺客',
+    title: '荒野毒梟・致命渡鴉朋克',
+    category: 'shop',
+    series: '荒野亂鬥',
+    price: 3200,
+    isDefault: false,
+    attackStyle: 'toxic_dagger',
+    themeColor: '#10b981',
+    secondaryColor: '#facc15',
+    glowColor: 'rgba(16, 185, 129, 0.8)',
+    accentColor: '#ef4444',
+    armorColor: '#020617',
+    visorColor: '#ef4444',
+    coreColor: '#10b981',
+    desc: '真實還原《荒野亂鬥》黑鴉！黑色機車皮革風衣立領、金黃銳利金屬彎喙、血紅雙眼與雙持劇毒翡翠飛刀。',
+    vfx: {
+      punchTrail: '劇毒翡翠暗影霧氣、渡鴉羽毛斬痕',
+      sk1: '三向全息淬毒翡翠飛刀射擊',
+      sk2: '展翅騰空暗夜渡鴉落羽重擊',
+      guardShield: '劇毒羽翼暗夜護壁',
+      hitEffect: '碧綠劇毒腐蝕光芒'
+    },
+    creator: 'Brawl Stars Tribute'
+  },
+  {
+    id: 'skin_brawl_leon',
+    name: '里昂・變色龍神隱客',
+    title: '荒野神偷・四重旋轉飛鏢',
+    category: 'shop',
+    series: '荒野亂鬥',
+    price: 3200,
+    isDefault: false,
+    attackStyle: 'shuriken',
+    themeColor: '#10b981',
+    secondaryColor: '#f43f5e',
+    glowColor: 'rgba(16, 185, 129, 0.75)',
+    accentColor: '#38bdf8',
+    armorColor: '#064e3b',
+    visorColor: '#facc15',
+    coreColor: '#10b981',
+    desc: '真實還原《荒野亂鬥》里昂！鮮綠變色龍連帽衛衣、巨大變色龍鈕扣雙眼、嘴角咬著紅白螺旋棒棒糖、手持四刃旋轉手裏劍。',
+    vfx: {
+      punchTrail: '青藍旋轉手裏劍幻影、煙幕殘影',
+      sk1: '四重連環高速飛旋手裏劍彈幕',
+      sk2: '神隱騰空突襲旋風踢',
+      guardShield: '變色龍全息光學隱身屏障',
+      hitEffect: '青藍能量飛刃星塵'
+    },
+    creator: 'Brawl Stars Tribute'
   }
 ];
 
@@ -691,7 +849,13 @@ export function getSkinAttackStyle(skin) {
     skin_golden_frieza: 'death_beam',
     skin_pulse_enforcer: 'baton',
     skin_neon_shadow: 'kunai',
-    skin_solar_valkyrie: 'spear'
+    skin_solar_valkyrie: 'spear',
+    skin_brawl_shelly: 'shotgun',
+    skin_brawl_colt: 'dual_guns',
+    skin_brawl_spike: 'cactus_spike',
+    skin_brawl_el_primo: 'luchador',
+    skin_brawl_crow: 'toxic_dagger',
+    skin_brawl_leon: 'shuriken'
   };
   return map[skin.id] || 'brawler';
 }
@@ -812,6 +976,54 @@ export function getSkinAttackMeta(skin, attackType = 'light_punch') {
       sweepName: '地影無痕・下段暗襲',
       sound: 'sword_slash',
       vfxType: 'punch'
+    },
+    shotgun: {
+      lightName: '散彈點射・急速出膛',
+      heavyName: '重型散彈・全功率轟擊',
+      crouchName: '低姿伏地・貼地散彈',
+      sweepName: '低姿伏地・貼地散彈掃堂',
+      sound: 'gun_shot',
+      vfxType: 'gun_bullet'
+    },
+    dual_guns: {
+      lightName: '雙持左輪・急速連發',
+      heavyName: '警星雙槍・旋風重砲',
+      crouchName: '下伏滑步・低位速射',
+      sweepName: '戰術滑步・低位速射',
+      sound: 'gun_shot',
+      vfxType: 'gun_bullet'
+    },
+    cactus_spike: {
+      lightName: '仙人掌刺・急速飛針',
+      heavyName: '刺球手雷・尖刺爆發',
+      crouchName: '低伏刺針・貼地穿刺',
+      sweepName: '低伏刺針・貼地穿刺',
+      sound: 'punch',
+      vfxType: 'punch'
+    },
+    luchador: {
+      lightName: '摔角連拳・熱血重拳',
+      heavyName: '流星飛肘・天降霸王擊',
+      crouchName: '下段重勾・地動山搖',
+      sweepName: '下段重勾・地動掃堂',
+      sound: 'punch',
+      vfxType: 'punch'
+    },
+    toxic_dagger: {
+      lightName: '劇毒飛刀・翡翠暗刺',
+      heavyName: '暗影三刃・致命毒牙',
+      crouchName: '貼地毒刃・低位毒刺',
+      sweepName: '貼地毒刃・低位毒刺',
+      sound: 'sword_slash',
+      vfxType: 'sword_slash_vfx'
+    },
+    shuriken: {
+      lightName: '旋轉手裏劍・急速飛擲',
+      heavyName: '四刃破空・旋風斬擊',
+      crouchName: '下伏影刃・低位飛旋',
+      sweepName: '下伏影刃・低位飛旋',
+      sound: 'sword_slash',
+      vfxType: 'sword_slash_vfx'
     },
     brawler: {
       lightName: '刺拳打擊',
@@ -1082,6 +1294,62 @@ export function getSkinSuperMeta(skin) {
       color: '#ffd700',
       coreColor: '#ef4444',
       beamWidth: 95,
+      sound: 'super'
+    },
+
+    // ── 《荒野亂鬥》傳奇英雄系列 (6款) ──
+    skin_brawl_shelly: {
+      name: '超級震撼散彈 SUPER SHELL',
+      title: '雪莉・大口徑全屏破壞震盪彈幕',
+      type: 'shockwave',
+      color: '#facc15',
+      coreColor: '#a855f7',
+      beamWidth: 85,
+      sound: 'super'
+    },
+    skin_brawl_colt: {
+      name: '極限子彈風暴 BULLET STORM',
+      title: '柯爾特・狂暴雙槍穿透金光子彈風暴',
+      type: 'beam',
+      color: '#38bdf8',
+      coreColor: '#ffd700',
+      beamWidth: 80,
+      sound: 'super'
+    },
+    skin_brawl_spike: {
+      name: "尖刺仙人掌陣 STICK TO 'EM",
+      title: '斯派克・巨型刺針仙人掌怒放結界',
+      type: 'sphere',
+      color: '#22c55e',
+      coreColor: '#ec4899',
+      beamWidth: 90,
+      sound: 'super'
+    },
+    skin_brawl_el_primo: {
+      name: '飛身天降重壓 FLYING ELBOW',
+      title: '普里莫・金色流星泰坦震撼降臨',
+      type: 'charge',
+      color: '#f59e0b',
+      coreColor: '#ffd700',
+      beamWidth: 85,
+      sound: 'super'
+    },
+    skin_brawl_crow: {
+      name: '劇毒天降俯衝 SWOOP',
+      title: '黑鴉・漫天淬毒飛刀全息暴風雨',
+      type: 'slash',
+      color: '#10b981',
+      coreColor: '#a7f3d0',
+      beamWidth: 80,
+      sound: 'super'
+    },
+    skin_brawl_leon: {
+      name: '煙霧隱身絕殺 SMOKE BOMB',
+      title: '里昂・全屏煙幕瞬影四重手裏劍突襲',
+      type: 'slash',
+      color: '#34d399',
+      coreColor: '#00f3ff',
+      beamWidth: 78,
       sound: 'super'
     },
 
